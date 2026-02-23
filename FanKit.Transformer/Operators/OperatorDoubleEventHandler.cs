@@ -1,0 +1,4 @@
+﻿namespace FanKit.Transformer.Operators
+{
+    public delegate void OperatorDoubleEventHandler(double x1, double y1, double x2, double y2);
+}
