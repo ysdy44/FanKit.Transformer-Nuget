@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanKit.Transformer", "FanKi
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FanKit.Transformer.Sample.Shared", "FanKit.Transformer.Sample.Shared\FanKit.Transformer.Sample.Shared.shproj", "{78D33F6F-71C2-41C6-9E89-F2EAC6F54E73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanKit.Transformer.TestApp", "FanKit.Transformer.TestApp\FanKit.Transformer.TestApp.csproj", "{8F08653D-5E17-4F2D-9412-5945D18322E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,11 +19,18 @@ Global
 		{1FBB459B-77B7-415A-8885-9337C01F1584}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FBB459B-77B7-415A-8885-9337C01F1584}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FBB459B-77B7-415A-8885-9337C01F1584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F08653D-5E17-4F2D-9412-5945D18322E4}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{8F08653D-5E17-4F2D-9412-5945D18322E4}.Debug|Any CPU.Build.0 = Debug|x64
+		{8F08653D-5E17-4F2D-9412-5945D18322E4}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{8F08653D-5E17-4F2D-9412-5945D18322E4}.Release|Any CPU.ActiveCfg = Release|x64
+		{8F08653D-5E17-4F2D-9412-5945D18322E4}.Release|Any CPU.Build.0 = Release|x64
+		{8F08653D-5E17-4F2D-9412-5945D18322E4}.Release|Any CPU.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		FanKit.Transformer.Sample.Shared\FanKit.Transformer.Sample.Shared.projitems*{78d33f6f-71c2-41c6-9e89-f2eac6f54e73}*SharedItemsImports = 13
+		FanKit.Transformer.Sample.Shared\FanKit.Transformer.Sample.Shared.projitems*{8f08653d-5e17-4f2d-9412-5945d18322e4}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
