@@ -1,0 +1,17 @@
+﻿namespace FanKit.Transformer
+{
+    public enum QuadrilateralChannelKind : byte
+    {
+        LeftTopX = Constants.LeftTopX,
+        LeftTopY = Constants.LeftTopY,
+
+        RightTopX = Constants.RightTopX,
+        RightTopY = Constants.RightTopY,
+
+        LeftBottomX = Constants.LeftBottomX,
+        LeftBottomY = Constants.LeftBottomY,
+
+        RightBottomX = Constants.RightBottomX,
+        RightBottomY = Constants.RightBottomY,
+    }
+}
