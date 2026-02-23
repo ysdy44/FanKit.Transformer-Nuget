@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>78d33f6f-71c2-41c6-9e89-f2eac6f54e73</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>FanKit.Transformer.Sample.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\BezierType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\IndicatorColumnKind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\IndicatorPointKind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\IndicatorRowKind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes12.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes123.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes12345.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes13.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes1345.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ToolType0.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ToolType1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ToolType2.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Images\avatar.jpg" />
+  </ItemGroup>
+</Project>
