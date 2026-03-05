@@ -10,7 +10,7 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         public int Count;
-        public IndicatorSizeType SizeType;
+        public SizeType SizeType;
         public Bounds SourceBounds;
 
         // Step 1. Transformer
@@ -98,7 +98,7 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.Count = 0;
-            this.SizeType = IndicatorSizeType.Empty;
+            this.SizeType = SizeType.Empty;
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -112,7 +112,7 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.Count = 1;
-            this.SizeType = IndicatorSizeType.Point;
+            this.SizeType = SizeType.Point;
 
             // Step 1. Transformer
             this.Point.StartingPoint = this.Point.Point = point;
@@ -129,7 +129,7 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.Count = 1;
-            this.SizeType = IndicatorSizeType.Panel;
+            this.SizeType = SizeType.Panel;
 
             // Step 1. Transformer
             this.Panel.StartingTriangle = this.Panel.Triangle = triangle;

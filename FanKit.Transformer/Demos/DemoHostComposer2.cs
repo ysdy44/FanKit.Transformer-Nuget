@@ -15,27 +15,27 @@ namespace FanKit.Transformer.Demos
         {
             switch (this.SizeType)
             {
-                case IndicatorSizeType.Empty:
+                case SizeType.Empty:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.Point:
+                case SizeType.Point:
                     this.ActualPoint = this.Point.Point;
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.RowLine:
+                case SizeType.RowLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.Line.Point0, this.Line.Point1);
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.ColumnLine:
+                case SizeType.ColumnLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.Line.Point0, this.Line.Point1);
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.Panel:
+                case SizeType.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = new Box2(this.Panel.Triangle);
@@ -52,27 +52,27 @@ namespace FanKit.Transformer.Demos
         {
             switch (this.SizeType)
             {
-                case IndicatorSizeType.Empty:
+                case SizeType.Empty:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.Point:
+                case SizeType.Point:
                     this.ActualPoint = matrix.Transform(this.Point.Point);
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.RowLine:
+                case SizeType.RowLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.Line.Point0, this.Line.Point1, matrix);
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.ColumnLine:
+                case SizeType.ColumnLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.Line.Point0, this.Line.Point1, matrix);
                     this.ActualBox = default;
                     break;
-                case IndicatorSizeType.Panel:
+                case SizeType.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = new Box2(this.Panel.Triangle, matrix);

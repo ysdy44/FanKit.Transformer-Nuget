@@ -150,7 +150,7 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.Count = 1;
-            this.SizeType = IndicatorSizeType.Panel;
+            this.SizeType = SizeType.Panel;
             this.SourceBounds = source;
 
             // Step 1. Transformer
@@ -318,15 +318,15 @@ namespace FanKit.Transformer.Transforms
             {
                 case 0:
                     // Step 0. Initialize
-                    this.SizeType = IndicatorSizeType.Empty;
+                    this.SizeType = SizeType.Empty;
                     break;
                 case 1:
                     // Step 0. Initialize
-                    this.SizeType = IndicatorSizeType.Panel;
+                    this.SizeType = SizeType.Panel;
                     break;
                 default:
                     // Step 0. Initialize
-                    this.SizeType = IndicatorSizeType.Panel;
+                    this.SizeType = SizeType.Panel;
                     //this.SourceBounds = new Bounds(items);
 
                     // Step 1. Transformer

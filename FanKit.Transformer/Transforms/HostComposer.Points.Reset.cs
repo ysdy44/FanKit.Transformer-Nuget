@@ -24,17 +24,17 @@ namespace FanKit.Transformer.Transforms
             {
                 case 0:
                     // Step 0. Initialize
-                    this.SizeType = IndicatorSizeType.Empty;
+                    this.SizeType = SizeType.Empty;
                     break;
                 case 1:
                     // Step 0. Initialize
-                    this.SizeType = IndicatorSizeType.Point;
+                    this.SizeType = SizeType.Point;
                     break;
                 default:
                     // Step 0. Initialize
                     this.SizeType = this.SourceBounds.IsWidthZero ?
-                        this.SourceBounds.IsHeightZero ? IndicatorSizeType.Point : IndicatorSizeType.ColumnLine :
-                        this.SourceBounds.IsHeightZero ? IndicatorSizeType.RowLine : IndicatorSizeType.Panel;
+                        this.SourceBounds.IsHeightZero ? SizeType.Point : SizeType.ColumnLine :
+                        this.SourceBounds.IsHeightZero ? SizeType.RowLine : SizeType.Panel;
                     break;
             }
 
@@ -43,7 +43,7 @@ namespace FanKit.Transformer.Transforms
 
             switch (this.SizeType)
             {
-                case IndicatorSizeType.Empty:
+                case SizeType.Empty:
                     // Step 0. Initialize
                     this.SourceBounds = Bounds.Infinity;
 
@@ -57,7 +57,7 @@ namespace FanKit.Transformer.Transforms
                     // Step 4. Host
                     this.Host = Matrix3x2.Identity;
                     break;
-                case IndicatorSizeType.Point:
+                case SizeType.Point:
                     // Step 0. Initialize
                     //this.SourceBounds = Bounds.Empty;
 
@@ -72,7 +72,7 @@ namespace FanKit.Transformer.Transforms
                     // Step 4. Host
                     this.Host = Matrix3x2.Identity;
                     break;
-                case IndicatorSizeType.RowLine:
+                case SizeType.RowLine:
                     // Step 0. Initialize
                     //this.SourceBounds = Bounds.Empty;
 
@@ -88,7 +88,7 @@ namespace FanKit.Transformer.Transforms
                     // Step 4. Host
                     this.Host = Matrix3x2.Identity;
                     break;
-                case IndicatorSizeType.ColumnLine:
+                case SizeType.ColumnLine:
                     // Step 0. Initialize
                     //this.SourceBounds = Bounds.Empty;
 
@@ -104,7 +104,7 @@ namespace FanKit.Transformer.Transforms
                     // Step 4. Host
                     this.Host = Matrix3x2.Identity;
                     break;
-                case IndicatorSizeType.Panel:
+                case SizeType.Panel:
                     //this.SourceBounds = Bounds.Empty;
 
                     // Step 1. Transformer
