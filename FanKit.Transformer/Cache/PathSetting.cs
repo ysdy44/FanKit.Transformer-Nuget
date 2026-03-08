@@ -50,7 +50,7 @@ namespace FanKit.Transformer.Cache
                         default: Mode = CheckState.AllChecked; break;
                     }
                     break;
-                //case 1: this.Mode =  VexsCheckState.AllChecked; break;
+                //case 1: this.Mode = CheckState.AllChecked; break;
                 default:
                     switch (checks)
                     {

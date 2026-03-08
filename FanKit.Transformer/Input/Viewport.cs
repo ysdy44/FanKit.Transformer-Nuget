@@ -2,28 +2,6 @@
 
 namespace FanKit.Transformer.Input
 {
-    /* 
-     * ExtentHeight
-     * 获取包含盘区垂直大小的一个值。
-     * 
-     * ExtentWidth
-     * 获取包含盘区水平大小的值。
-     * 
-     * 
-     * ScrollableHeight
-     * 获取一个值，该值表示可滚动的内容元素的垂直大小。
-     * 
-     * ScrollableWidth
-     * 获取一个值，该值表示可滚动的内容元素的水平大小。
-     * 
-     * 
-     * ViewportHeight
-     * 获取包含内容视区垂直大小的值。 
-     * 
-     * ViewportWidth
-     * 获取包含内容视区水平大小的值。
-     * */
-
     public struct Viewport
     {
         // Canvas

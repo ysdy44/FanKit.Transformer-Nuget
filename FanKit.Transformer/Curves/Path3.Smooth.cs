@@ -1,5 +1,4 @@
-﻿using FanKit.Transformer.Curves;
-using FanKit.Transformer.Mathematics;
+﻿using FanKit.Transformer.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;

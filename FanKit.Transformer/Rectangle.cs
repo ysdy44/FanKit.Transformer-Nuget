@@ -180,14 +180,6 @@ namespace FanKit.Transformer
             M31 = this.X,
             M32 = this.Y,
         };
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector4 ToIdentity() => new Vector4
-        {
-            X = 1f / this.Width,
-            Y = 1f / this.Height,
-            Z = -this.X / this.Width,
-            W = -this.Y / this.Height,
-        };
 
         public bool Contains(Vector2 point)
             => point.X > this.X
