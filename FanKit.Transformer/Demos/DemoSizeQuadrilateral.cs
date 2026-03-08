@@ -10,25 +10,13 @@ namespace FanKit.Transformer.Demos
         public Matrix4x4 ActualMatrix;
         public Box0 ActualBox;
 
-        public DemoSizeQuadrilateral(SizeSource source, Quadrilateral quad)
+        public DemoSizeQuadrilateral(float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
-            this.Source = source;
-            this.Quadrilateral = quad;
-            this.Reset();
+            this.UpdateAll(sourceWidth, sourceHeight, destination);
         }
-        public DemoSizeQuadrilateral(SizeSource source, Matrix4x4 matrix)
+        public DemoSizeQuadrilateral(float sourceWidth, float sourceHeight, Matrix4x4 matrix)
         {
-            this.Source = source;
-            this.Matrix = matrix;
-
-            FreeTransformedSize size = new FreeTransformedSize(source.Width, source.Height, matrix);
-            this.Quadrilateral = new Quadrilateral
-            {
-                LeftTop = size.LeftTop,
-                RightTop = size.RightTop,
-                LeftBottom = size.LeftBottom,
-                RightBottom = size.RightBottom,
-            };
+            this.Initialize(sourceWidth, sourceHeight, matrix);
         }
 
         public void ResetCanvas()

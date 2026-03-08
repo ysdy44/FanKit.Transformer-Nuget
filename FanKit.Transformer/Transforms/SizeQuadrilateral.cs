@@ -10,7 +10,9 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         //public int Count;
-        public SizeSource Source;
+        public float SourceWidth;
+        public float SourceHeight;
+        public SizeMatrix SourceNormalize;
 
         // Step 1. Transformer
         FreeTransformedSize TransformedBounds;
@@ -47,7 +49,7 @@ namespace FanKit.Transformer.Transforms
 
         void Find()
         {
-            this.DestNorm = this.Source.ToPerspMatrix(this.Quadrilateral);
+            this.DestNorm = this.SourceNormalize.ToPerspMatrix(this.Quadrilateral);
             this.Matrix = this.DestNorm;
             //this.Invert()
         }
@@ -60,10 +62,13 @@ namespace FanKit.Transformer.Transforms
         }
          */
 
-        public void Initialize(SizeSource source)
+        #region Quadrilaterals.Initialize
+        public void Initialize(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = Matrix4x4.Identity;
@@ -74,13 +79,15 @@ namespace FanKit.Transformer.Transforms
 
             // Step 1. Transformer
             this.TransformedBounds = default;
-            this.StartingQuadrilateral = this.Quadrilateral = new Quadrilateral(this.Source.Width, this.Source.Height);
+            this.StartingQuadrilateral = this.Quadrilateral = new Quadrilateral(this.SourceWidth, this.SourceHeight);
         }
 
-        public void Initialize(SizeSource source, Matrix4x4 matrix)
+        public void Initialize(float sourceWidth, float sourceHeight, Matrix4x4 matrix)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = matrix;
@@ -90,27 +97,32 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix3x2.Identity;
 
             // Step 1. Transformer
-            this.TransformedBounds = new FreeTransformedSize(this.Source.Width, this.Source.Height, this.Matrix);
+            this.TransformedBounds = new FreeTransformedSize(this.SourceWidth, this.SourceHeight, this.Matrix);
             this.StartingQuadrilateral = this.Quadrilateral = this.TransformedBounds.ToQuadrilateral();
         }
 
-        public void Extend(SizeSource source)
+        public void Extend(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
 
             // Step 1. Transformer
-            this.TransformedBounds = new FreeTransformedSize(this.Source.Width, this.Source.Height, this.Matrix);
+            this.TransformedBounds = new FreeTransformedSize(this.SourceWidth, this.SourceHeight, this.Matrix);
             this.StartingQuadrilateral = this.Quadrilateral = this.TransformedBounds.ToQuadrilateral();
         }
 
-        public void Reset()
+        public void UpdateSource(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            //this.Count = 0;
+            //this.Count = 1;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -120,13 +132,13 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix3x2.Identity;
         }
 
-        public void Reset(Quadrilateral quad)
+        public void UpdateDestination(Quadrilateral destination)
         {
             // Step 0. Initialize
             //this.Count = 1;
 
             // Step 1. Transformer
-            this.StartingQuadrilateral = this.Quadrilateral = quad;
+            this.StartingQuadrilateral = this.Quadrilateral = destination;
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -135,6 +147,26 @@ namespace FanKit.Transformer.Transforms
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
         }
+
+        public void UpdateAll(float sourceWidth, float sourceHeight, Quadrilateral destination)
+        {
+            // Step 0. Initialize
+            //this.Count = 1;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
+
+            // Step 1. Transformer
+            this.StartingQuadrilateral = this.Quadrilateral = destination;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix3x2.Identity;
+        }
+        #endregion
 
         #region Quadrilaterals.FreeTransform
         /*
@@ -171,7 +203,7 @@ namespace FanKit.Transformer.Transforms
             this.Matrix = this.StartingMatrix * this.Host;
             //this.Invert();
         }
-        public void Rotate(IIndicator indicator, IndicatorMode mode, Vector2 point, float stepFrequency = float.NaN)
+        public void Rotate(IIndicator indicator, BoxMode mode, Vector2 point, float stepFrequency = float.NaN)
         {
             this.Radians = this.Controller.ToRadians(point, stepFrequency);
 

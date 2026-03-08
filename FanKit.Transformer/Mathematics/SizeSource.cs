@@ -4,35 +4,21 @@ using System.Runtime.CompilerServices;
 namespace FanKit.Transformer.Mathematics
 {
     // 1x2
-    public readonly struct SizeSource
+    public struct SizeMatrix
     {
-        public readonly float Width;
-        public readonly float Height;
-
-        public readonly float X;
-        public readonly float Y;
+        public float X;
+        public float Y;
 
         #region Constructors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SizeSource(float width, float height)
+        public SizeMatrix(float width, float height)
         {
-            Width = width;
-            Height = height;
-
-            X = 1f / Width;
-            Y = 1f / Height;
+            X = 1f / width;
+            Y = 1f / height;
         }
         #endregion Constructors
 
         #region Public instance methods
-        #endregion Public instance methods
-
-        #region Public Static Methods
-        #endregion Public Static Methods
-
-        #region Public Static Operators
-        #endregion Public Static Operators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public PerspSizeMatrix3x3 ToPerspMatrix(Quadrilateral quad) => new PerspSizeMatrix3x3(this, quad);
 
@@ -95,5 +81,12 @@ namespace FanKit.Transformer.Mathematics
             M31 = destNorm.M31,
             M32 = destNorm.M32
         };
+        #endregion Public instance methods
+
+        #region Public Static Methods
+        #endregion Public Static Methods
+
+        #region Public Static Operators
+        #endregion Public Static Operators
     }
 }

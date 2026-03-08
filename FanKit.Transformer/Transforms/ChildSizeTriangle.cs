@@ -10,7 +10,9 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         //public int Count;
-        public SizeSource Source;
+        public float SourceWidth;
+        public float SourceHeight;
+        public SizeMatrix SourceNormalize;
 
         // Step 1. Transformer
         //TransformedBounds TransformedBounds;
@@ -48,7 +50,7 @@ namespace FanKit.Transformer.Transforms
         void Find()
         {
             this.DestNorm = this.Triangle.Normalize();
-            this.Matrix = this.Source.Affine(this.DestNorm);
+            this.Matrix = this.SourceNormalize.Affine(this.DestNorm);
             //this.Invert();
         }
 
@@ -60,10 +62,13 @@ namespace FanKit.Transformer.Transforms
         }
          */
 
-        public void Initialize(SizeSource source)
+        #region Triangles.Initialize
+        public void Initialize(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = Matrix3x2.Identity;
@@ -74,13 +79,15 @@ namespace FanKit.Transformer.Transforms
 
             // Step 1. Transformer
             //this.TransformedBounds = default;
-            this.StartingTriangle = this.Triangle = new Triangle(this.Source.Width, this.Source.Height);
+            this.StartingTriangle = this.Triangle = new Triangle(this.SourceWidth, this.SourceHeight);
         }
 
-        public void Initialize(SizeSource source, Matrix3x2 matrix)
+        public void Initialize(float sourceWidth, float sourceHeight, Matrix3x2 matrix)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = matrix;
@@ -91,26 +98,31 @@ namespace FanKit.Transformer.Transforms
 
             // Step 1. Transformer
             //this.TransformedBounds = default;
-            this.StartingTriangle = this.Triangle = new Triangle(this.Source.Width, this.Source.Height, this.Matrix);
+            this.StartingTriangle = this.Triangle = new Triangle(this.SourceWidth, this.SourceHeight, this.Matrix);
         }
 
-        public void Extend(SizeSource source)
+        public void Extend(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
 
             // Step 1. Transformer
             //this.TransformedBounds = default;
-            this.StartingTriangle = this.Triangle = new Triangle(this.Source.Width, this.Source.Height, this.Matrix);
+            this.StartingTriangle = this.Triangle = new Triangle(this.SourceWidth, this.SourceHeight, this.Matrix);
         }
 
-        public void Reset()
+        public void UpdateSource(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            //this.Count = 0;
+            //this.Count = 1;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -120,13 +132,13 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix3x2.Identity;
         }
 
-        public void Reset(Triangle triangle)
+        public void UpdateDestination(Triangle destination)
         {
             // Step 0. Initialize
             //this.Count = 1;
 
             // Step 1. Transformer
-            this.StartingTriangle = this.Triangle = triangle;
+            this.StartingTriangle = this.Triangle = destination;
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -135,6 +147,26 @@ namespace FanKit.Transformer.Transforms
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
         }
+
+        public void UpdateAll(float sourceWidth, float sourceHeight, Triangle destination)
+        {
+            // Step 0. Initialize
+            //this.Count = 1;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
+
+            // Step 1. Transformer
+            this.StartingTriangle = this.Triangle = destination;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix3x2.Identity;
+        }
+        #endregion
 
         #region Triangles.Set
         public void SetTranslation(Vector2 translate)

@@ -10,7 +10,9 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         //public int Count;
-        public SizeSource Source;
+        public float SourceWidth;
+        public float SourceHeight;
+        public SizeMatrix SourceNormalize;
 
         // Step 1. Transformer
         //Bounds TransformedBounds;
@@ -48,7 +50,7 @@ namespace FanKit.Transformer.Transforms
         void Find()
         {
             this.DestNorm = this.Bounds.Normalize();
-            this.Matrix = this.Source.Map(this.DestNorm);
+            this.Matrix = this.SourceNormalize.Map(this.DestNorm);
             //this.Invert();
         }
 
@@ -60,10 +62,13 @@ namespace FanKit.Transformer.Transforms
         }
          */
 
-        public void Initialize(SizeSource source)
+        #region Bounds.Initialize
+        public void Initialize(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = Matrix2x2.Identity;
@@ -74,13 +79,15 @@ namespace FanKit.Transformer.Transforms
 
             // Step 1. Transformer
             //this.TransformedBounds = default;
-            this.StartingBounds = this.Bounds = new Bounds(this.Source.Width, this.Source.Height);
+            this.StartingBounds = this.Bounds = new Bounds(this.SourceWidth, this.SourceHeight);
         }
 
-        public void Initialize(SizeSource source, Matrix2x2 matrix)
+        public void Initialize(float sourceWidth, float sourceHeight, Matrix2x2 matrix)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = matrix;
@@ -90,27 +97,32 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix2x2.Identity;
 
             // Step 1. Transformer
-            //this.TransformedBounds = default;
-            this.StartingBounds = this.Bounds = new Bounds(this.Source.Width, this.Source.Height, this.Matrix);
+            Bounds TransformedBounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
+            this.StartingBounds = this.Bounds = TransformedBounds;
         }
 
-        public void Extend(SizeSource source)
+        public void Extend(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            this.Source = source;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 4. Host
             this.Host = Matrix2x2.Identity;
 
             // Step 1. Transformer
-            //this.TransformedBounds = default;
-            this.StartingBounds = this.Bounds = new Bounds(this.Source.Width, this.Source.Height, this.Matrix);
+            Bounds TransformedBounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
+            this.StartingBounds = this.Bounds = TransformedBounds;
         }
 
-        public void Reset()
+        public void UpdateSource(float sourceWidth, float sourceHeight)
         {
             // Step 0. Initialize
-            //this.Count = 0;
+            //this.Count = 1;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -120,7 +132,7 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix2x2.Identity;
         }
 
-        public void Reset(Bounds bounds)
+        public void UpdateDestination(Bounds bounds)
         {
             // Step 0. Initialize
             //this.Count = 1;
@@ -135,6 +147,26 @@ namespace FanKit.Transformer.Transforms
             // Step 4. Host
             this.Host = Matrix2x2.Identity;
         }
+
+        public void UpdateAll(float sourceWidth, float sourceHeight, Bounds destination)
+        {
+            // Step 0. Initialize
+            //this.Count = 1;
+            this.SourceWidth = sourceWidth;
+            this.SourceHeight = sourceHeight;
+            this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
+
+            // Step 1. Transformer
+            this.StartingBounds = this.Bounds = destination;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix2x2.Identity;
+        }
+        #endregion
 
         #region Bounds.Set
         public void SetTranslation(Vector2 translate)

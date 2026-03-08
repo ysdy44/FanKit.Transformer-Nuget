@@ -48,7 +48,12 @@ namespace FanKit.Transformer.Mathematics
         public Matrix3x2 InvAffine(Rectangle destRect)
             => can ? Math.Transform(inv, destRect) : destRect.ToMatrix3x2();
 
-        public Matrix3x2 InvAffine(Matrix2x2 destRect)
-            => can ? Math.Transform(inv, destRect) : destRect.ToMatrix3x2();
+        public Matrix3x2 InvAffine(Matrix2x2 destNorm)
+            => can ? Math.Transform(inv, destNorm) : destNorm.ToMatrix3x2();
+
+        // -------------------- 3x2_3x2 -------------------- // 
+
+        public Matrix3x2 BidiAffine(Matrix3x2 destNorm)
+            => can ? inv * destNorm : destNorm;
     }
 }

@@ -10,17 +10,13 @@ namespace FanKit.Transformer.Demos
         public Matrix3x2 ActualMatrix;
         public Box2 ActualBox;
 
-        public DemoSizeTriangle2(SizeSource source, Triangle triangle)
+        public DemoSizeTriangle2(float sourceWidth, float sourceHeight, Triangle destination)
         {
-            this.Source = source;
-            this.Triangle = triangle;
-            this.Reset();
+            this.UpdateAll(sourceWidth, sourceHeight, destination);
         }
-        public DemoSizeTriangle2(SizeSource source, Matrix3x2 matrix)
+        public DemoSizeTriangle2(float sourceWidth, float sourceHeight, Matrix3x2 matrix)
         {
-            this.Source = source;
-            this.Matrix = matrix;
-            this.Triangle = new Triangle(source.Width, source.Height, matrix);
+            this.Initialize(sourceWidth, sourceHeight, matrix);
         }
 
         public void ResetCanvas()

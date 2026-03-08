@@ -1,5 +1,5 @@
 ﻿using FanKit.Transformer.Indicators;
-using FanKit.Transformer.Transforms;
+using System.Numerics;
 
 namespace FanKit.Transformer.Transforms
 {
@@ -10,10 +10,39 @@ namespace FanKit.Transformer.Transforms
             return Indicator.ToTransformerSizeType(this.Count, kind);
         }
 
+        public void Reset()
+        {
+            // Step 0. Initialize
+            this.Count = 0;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            //this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix3x2.Identity;
+        }
+
+        public void Reset(Triangle triangle)
+        {
+            // Step 0. Initialize
+            this.Count = 1;
+
+            // Step 1. Transformer
+            this.StartingTriangle = this.Triangle = triangle;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            //this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix3x2.Identity;
+        }
+
         public void Reset(ChildRectTriangle item) => this.Reset(item.SourceBounds, item.Triangle, item.Matrix);
         public void Reset(ChildSizeTriangle item)
         {
-            Bounds bounds = new Bounds(item.Source.Width, item.Source.Height);
+            Bounds bounds = new Bounds(item.SourceWidth, item.SourceHeight);
             this.Reset(bounds, item.Triangle, item.Matrix);
         }
         public void Reset(InvertibleRectTriangle item) => this.Reset(item.SourceBounds, item.Triangle, item.Matrix);
@@ -24,7 +53,7 @@ namespace FanKit.Transformer.Transforms
         public void Reset(RectTriangle item) => this.Reset(item.SourceBounds, item.Triangle, item.Matrix);
         public void Reset(SizeTriangle item)
         {
-            Bounds bounds = new Bounds(item.Source.Width, item.Source.Height);
+            Bounds bounds = new Bounds(item.SourceWidth, item.SourceHeight);
             this.Reset(bounds, item.Triangle, item.Matrix);
         }
     }

@@ -16,17 +16,17 @@ namespace FanKit.Transformer.Mathematics
         internal readonly float m24;
 
         #region Constructors
-        internal PerspSizeMatrix3x3(SizeSource src, Quadrilateral quad)
+        internal PerspSizeMatrix3x3(SizeMatrix srcNorm, Quadrilateral quad)
         {
             dst = new SparseMatrix3x3(quad);
 
             // First row
-            m11 = src.X * dst.sx;
-            m14 = src.X * dst.rx;
+            m11 = srcNorm.X * dst.sx;
+            m14 = srcNorm.X * dst.rx;
 
             // Second row
-            m22 = src.Y * dst.sy;
-            m24 = src.Y * dst.ry;
+            m22 = srcNorm.Y * dst.sy;
+            m24 = srcNorm.Y * dst.ry;
         }
         #endregion Constructors
 

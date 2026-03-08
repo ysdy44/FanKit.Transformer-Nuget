@@ -59,45 +59,14 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_3x2 -------------------- // 
 
+        public static Matrix3x2 Affine(SizeMatrix srcNorm, Matrix3x2 destNorm)
+            => srcNorm.Affine(destNorm);
+
         public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Triangle dest)
-        {
-            Matrix3x2 destNorm = dest.Normalize();
-
-            return new Matrix3x2
-            {
-                // First row
-                M11 = destNorm.M11 / sourceWidth,
-                M12 = destNorm.M12 / sourceWidth,
-
-                // Second row
-                M21 = destNorm.M21 / sourceHeight,
-                M22 = destNorm.M22 / sourceHeight,
-
-                // Third row
-                M31 = destNorm.M31,
-                M32 = destNorm.M32
-            };
-        }
+            => new SizeMatrix(sourceWidth, sourceHeight).Affine(dest.Normalize());
 
         public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Quadrilateral dest)
-        {
-            Matrix3x2 destNorm = dest.Normalize();
-
-            return new Matrix3x2
-            {
-                // First row
-                M11 = destNorm.M11 / sourceWidth,
-                M12 = destNorm.M12 / sourceWidth,
-
-                // Second row
-                M21 = destNorm.M21 / sourceHeight,
-                M22 = destNorm.M22 / sourceHeight,
-
-                // Third row
-                M31 = destNorm.M31,
-                M32 = destNorm.M32
-            };
-        }
+            => new SizeMatrix(sourceWidth, sourceHeight).Affine(dest.Normalize());
 
         // -------------------- 2x2_2x2 -------------------- // 
 
@@ -249,7 +218,7 @@ namespace FanKit.Transformer.Mathematics
         // -------------------- 1x2_3x3 -------------------- // 
 
         public static Matrix4x4 Persp(float sourceWidth, float sourceHeight, Quadrilateral dest)
-            => new SizeSource(sourceWidth, sourceHeight).ToPerspMatrix(dest);
+            => new PerspSizeMatrix3x3(new SizeMatrix(sourceWidth, sourceHeight), dest);
 
         // -------------------- 2x2_3x3 -------------------- // 
 

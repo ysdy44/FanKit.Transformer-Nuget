@@ -58,93 +58,12 @@ namespace FanKit.Transformer.Transforms
             this.Host = this.HostSourceNorm.Map(this.HostDestNorm);
         }
 
-        /*
-        public void Initialize(Bounds source)
-        {
-            // Step 0. Initialize
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix = Matrix2x2.Identity;
-            //this.InverseMatrix = Matrix2x2.Identity;
-
-            // Step 4. Host
-            this.Host = Matrix2x2.Identity;
-
-            // Step 1. Transformer
-            this.TransformedBounds = default;
-            this.StartingBounds = this.Bounds = this.SourceBounds;
-        }
-
-        public void Initialize(Bounds source, Matrix2x2 matrix)
-        {
-            // Step 0. Initialize
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix = matrix;
-            //this.Invert();
-
-            // Step 4. Host
-            this.Host = Matrix2x2.Identity;
-
-            // Step 1. Transformer
-            this.TransformedBounds = new TransformedBounds(this.SourceBounds, this.Matrix);
-            this.StartingBounds = this.Bounds = this.TransformedBounds.ToBounds();
-        }
-
-        public void Extend(Bounds source)
-        {
-            // Step 0. Initialize
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-        
-            // Step 4. Host
-            this.Host = Matrix2x2.Identity;
-
-            // Step 1. Transformer
-            this.TransformedBounds = new TransformedBounds(this.SourceBounds, this.Matrix);
-            this.StartingBounds = this.Bounds = this.TransformedBounds;
-        }
-         */
-
-        public void Reset()
-        {
-            // Step 0. Initialize
-            this.Count = 0;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            //this.Find();
-
-            // Step 4. Host
-            this.Host = Matrix2x2.Identity;
-        }
-
-        public void Reset(Bounds bounds)
-        {
-            // Step 0. Initialize
-            this.Count = 1;
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds = bounds;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            //this.Find();
-
-            // Step 4. Host
-            this.Host = Matrix2x2.Identity;
-        }
-
         #region Bounds.Reset
         public void Reset(Bounds source, Bounds bounds, Matrix2x2 matrix)
         {
             // Step 0. Initialize
             this.Count = 1;
-            //this.SizeType = SizeType.Panel;
+            //this.SizeType = IndicatorSizeType.Crop;
             this.SourceBounds = source;
 
             // Step 1. Transformer
@@ -312,15 +231,15 @@ namespace FanKit.Transformer.Transforms
             {
                 case 0:
                     // Step 0. Initialize
-                    //this.SizeType = SizeType.Empty;
+                    //this.SizeType = IndicatorSizeType.Empty;
                     break;
                 case 1:
                     // Step 0. Initialize
-                    //this.SizeType = SizeType.Panel;
+                    //this.SizeType = IndicatorSizeType.Crop;
                     break;
                 default:
                     // Step 0. Initialize
-                    //this.SizeType = SizeType.Panel;
+                    //this.SizeType = IndicatorSizeType.Crop;
                     //this.SourceBounds = new Bounds(items);
 
                     // Step 1. Transformer

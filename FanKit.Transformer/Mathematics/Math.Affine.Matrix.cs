@@ -6,11 +6,7 @@ namespace FanKit.Transformer.Mathematics
     partial class Math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 ToIdentity(float sourceWidth, float sourceHeight) => new Vector2
-        {
-            X = 1f / sourceWidth,
-            Y = 1f / sourceHeight,
-        };
+        public static SizeMatrix Normalize(float sourceWidth, float sourceHeight) => new SizeMatrix(sourceWidth, sourceHeight);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 ToIdentity(float sourceX, float sourceY, float sourceWidth, float sourceHeight) => new Vector4
@@ -80,10 +76,10 @@ namespace FanKit.Transformer.Mathematics
         // New Method
         public static Matrix3x2 FindHomography(float sourceWidth, float sourceHeight, Quadrilateral dest)
         {
-            SizeSource src = new SizeSource(sourceWidth, sourceHeight);
+            SizeMatrix srcNorm = new SizeMatrix(sourceWidth, sourceHeight);
             Matrix3x2 dstNorm = dest.Normalize();
 
-            return src.Affine(dstNorm);
+            return Affine(srcNorm, dstNorm);
         }
 
         // Old Method
@@ -107,8 +103,8 @@ namespace FanKit.Transformer.Mathematics
         // New Method
         public static Matrix4x4 FindHomography3D(float sourceWidth, float sourceHeight, Quadrilateral dest)
         {
-            SizeSource src = new SizeSource(sourceWidth, sourceHeight);
-            PerspSizeMatrix3x3 dst = src.ToPerspMatrix(dest);
+            SizeMatrix srcNorm = new SizeMatrix(sourceWidth, sourceHeight);
+            PerspSizeMatrix3x3 dst = new PerspSizeMatrix3x3(srcNorm, dest);
 
             return dst;
         }

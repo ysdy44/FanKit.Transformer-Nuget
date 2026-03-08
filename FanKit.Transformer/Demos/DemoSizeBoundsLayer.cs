@@ -11,17 +11,13 @@ namespace FanKit.Transformer.Demos
         public Matrix3x2 ActualMatrix;
         public Box0 ActualBox;
 
-        public DemoSizeBoundsLayer(SizeSource source, Bounds bounds)
+        public DemoSizeBoundsLayer(float sourceWidth, float sourceHeight, Bounds destination)
         {
-            this.Source = source;
-            this.Bounds = bounds;
-            this.Reset();
+            this.UpdateAll(sourceWidth, sourceHeight, destination);
         }
-        public DemoSizeBoundsLayer(SizeSource source, Matrix2x2 matrix)
+        public DemoSizeBoundsLayer(float sourceWidth, float sourceHeight, Matrix2x2 matrix)
         {
-            this.Source = source;
-            this.Matrix = matrix;
-            this.Bounds = new Bounds(source.Width, source.Height, matrix);
+            this.Initialize(sourceWidth, sourceHeight, matrix);
         }
 
         public void RectChoose(Bounds bounds)
