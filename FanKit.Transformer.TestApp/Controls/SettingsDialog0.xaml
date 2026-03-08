@@ -1,0 +1,181 @@
+﻿<UserControl
+    x:Class="FanKit.Transformer.TestApp.SettingsDialog0"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:FanKit.Transformer.TestApp"
+    mc:Ignorable="d"
+    d:DesignWidth="400"
+    d:DesignHeight="400"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Bottom"
+    Margin="12,12,12,68"
+    >
+
+    <FrameworkElement.Resources>
+        <local:BoolToVisibleConverter x:Key="B2V"/>
+    </FrameworkElement.Resources>
+
+    <ScrollViewer Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+        <Canvas Margin="18,12" Width="570" Height="254">
+
+            <!--Left-->
+            <!--#region Left-->
+            <Border Width="200" Height="32">
+                <TextBlock VerticalAlignment="Center" Text="Mouse"/>
+            </Border>
+            <Grid Canvas.Top="32" Width="200" Height="56" BorderThickness="2,0" BorderBrush="DodgerBlue">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="24"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="12,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="Left Button"/>
+                <Border Grid.Column="1" IsHitTestVisible="False" Margin="12,0" CornerRadius="12" Height="24" BorderThickness="1" BorderBrush="OrangeRed" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Margin="12,0" Foreground="OrangeRed">
+                        Single
+                    </TextBlock>
+                </Border>
+
+                <TextBlock Grid.Row="2" Margin="12,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="Right Button"/>
+                <Border Grid.Column="1" Grid.Row="2" IsHitTestVisible="False" Margin="12,0" CornerRadius="12" Height="24" BorderThickness="1" BorderBrush="Orange" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Margin="12,0" Foreground="Orange">
+                        Right
+                    </TextBlock>
+                </Border>
+
+            </Grid>
+
+            <Border Canvas.Top="88" Width="200" Height="32">
+                <TextBlock VerticalAlignment="Center" Text="Touch"/>
+            </Border>
+            <Grid Canvas.Top="120" Width="200" Height="32" BorderThickness="2,0" BorderBrush="DodgerBlue">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="12,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="Single Fingle"/>
+                <ComboBox x:Name="TouchModeComboBox" Grid.Column="1" Padding="12,0,0,0" SelectedIndex="1" HorizontalAlignment="Stretch" BorderThickness="1">
+
+                    <ComboBoxItem Padding="12,8">
+                        Disable
+                    </ComboBoxItem>
+
+                    <!--SingleFinger-->
+                    <ComboBoxItem x:Name="TouchModeComboBoxItem1">
+                        <Border IsHitTestVisible="False" CornerRadius="12" Height="24" BorderThickness="1" BorderBrush="OrangeRed" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock Margin="12,0" Foreground="OrangeRed">
+                                Single
+                            </TextBlock>
+                        </Border>
+                    </ComboBoxItem>
+
+                    <!--RightButton-->
+                    <ComboBoxItem x:Name="TouchModeComboBoxItem2">
+                        <Border IsHitTestVisible="False" CornerRadius="12" Height="24" BorderThickness="1" BorderBrush="Orange" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock Margin="12,0" Foreground="Orange">
+                                Right
+                            </TextBlock>
+                        </Border>
+                    </ComboBoxItem>
+
+                </ComboBox>
+
+            </Grid>
+            <!--#endregion Left-->
+
+            <StackPanel Canvas.Top="184">
+                <TextBlock FontSize="28" Text="Settings"/>
+                <TextBlock Text="Events"/>
+            </StackPanel>
+
+            <!--Center-->
+            <!--#region Center-->
+            <Path StrokeThickness="1" Stroke="Red">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="178,44">
+                            <BezierSegment Point1="272,44" Point2="368,12" Point3="446,12"/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+            <Path StrokeThickness="1" Stroke="Red" Visibility="{x:Bind TouchModeComboBoxItem1.IsSelected, Mode=OneWay, Converter={StaticResource B2V}}">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="190,136">
+                            <BezierSegment Point1="272,136" Point2="368,12" Point3="446,12"/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+
+            <Path StrokeThickness="1" Stroke="Orange">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="178,76">
+                            <BezierSegment Point1="272,76" Point2="368,76" Point3="446,76"/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+            <Path StrokeThickness="1" Stroke="Orange" Visibility="{x:Bind TouchModeComboBoxItem2.IsSelected, Mode=OneWay, Converter={StaticResource B2V}}">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="190,136">
+                            <BezierSegment Point1="272,136" Point2="368,76" Point3="446,76"/>
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+
+            <!--#endregion Center-->
+
+            <!--Right-->
+            <!--#region Right-->
+            <Border Canvas.Left="440" Width="130" Height="56" BorderThickness="2,0,0,0" BorderBrush="OrangeRed">
+                <Grid Margin="4,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="32"/>
+                    </Grid.RowDefinitions>
+                    <Border IsHitTestVisible="False" CornerRadius="12" Height="24" BorderThickness="1" BorderBrush="OrangeRed" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Margin="12,0" Foreground="OrangeRed">
+                            Single
+                        </TextBlock>
+                    </Border>
+                    <RadioButton Grid.Row="1" GroupName="Left" IsChecked="True" Content="Edit"/>
+                </Grid>
+            </Border>
+
+            <Border Canvas.Left="440" Canvas.Top="64" Width="130" Height="56" BorderThickness="2,0,0,0" BorderBrush="Orange">
+                <Grid Margin="4,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="32"/>
+                    </Grid.RowDefinitions>
+                    <Border IsHitTestVisible="False" CornerRadius="12" Height="24" BorderThickness="1" BorderBrush="Orange" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Margin="12,0" Foreground="Orange">
+                            Right
+                        </TextBlock>
+                    </Border>
+                    <RadioButton Grid.Row="1" GroupName="Right" IsChecked="True" Content="Move"/>
+                </Grid>
+            </Border>
+            <!--#endregion Right-->
+
+        </Canvas>
+    </ScrollViewer>
+</UserControl>

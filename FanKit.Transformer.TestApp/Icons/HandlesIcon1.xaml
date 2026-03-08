@@ -1,0 +1,47 @@
+﻿<Canvas
+    x:Class="FanKit.Transformer.TestApp.HandlesIcon1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="400"
+    d:DesignHeight="400"
+    >
+
+    <!--Contains-->
+    <Rectangle Canvas.Left="27" Canvas.Top="19" Width="72" Height="44" StrokeThickness="2" Stroke="DeepSkyBlue"/>
+
+    <!--Corner4-->
+    <Ellipse Opacity="0.2" Canvas.Left="22" Canvas.Top="13" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="92" Canvas.Top="13" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="92" Canvas.Top="55" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="22" Canvas.Top="55" Width="12" Height="12" Fill="Black"/>
+
+    <Ellipse Canvas.Left="23" Canvas.Top="14" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="93" Canvas.Top="14" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="93" Canvas.Top="56" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="23" Canvas.Top="56" Width="10" Height="10" Fill="White"/>
+
+    <Ellipse Canvas.Left="24" Canvas.Top="15" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="94" Canvas.Top="15" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="94" Canvas.Top="57" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="24" Canvas.Top="57" Width="8" Height="8" Fill="DeepSkyBlue"/>
+
+    <!--Side4-->
+    <Ellipse Opacity="0.2" Canvas.Left="22" Canvas.Top="35" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="58" Canvas.Top="13" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="92" Canvas.Top="35" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="58" Canvas.Top="55" Width="12" Height="12" Fill="Black"/>
+
+    <Ellipse Canvas.Left="23" Canvas.Top="36" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="59" Canvas.Top="14" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="93" Canvas.Top="36" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="59" Canvas.Top="56" Width="10" Height="10" Fill="White"/>
+
+    <Ellipse Canvas.Left="24" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="60" Canvas.Top="15" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="94" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="60" Canvas.Top="57" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    
+</Canvas>

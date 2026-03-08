@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="FanKit.Transformer.TestApp.TopBar1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:FanKit.Transformer.TestApp"
+    mc:Ignorable="d"
+    d:DesignWidth="400"
+    d:DesignHeight="400"
+    Margin="8"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Top"
+    >
+
+    <ListBox
+        x:Name="ToolListBox"
+        SelectedIndex="1"
+        ScrollViewer.VerticalScrollMode="Disabled"
+        ScrollViewer.HorizontalScrollMode="Enabled"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+        Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+        >
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ListBoxItem Content="Move Node"/>
+        <ListBoxItem Content="Transform Node"/>
+    </ListBox>
+</UserControl>

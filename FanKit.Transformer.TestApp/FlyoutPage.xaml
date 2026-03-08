@@ -1,0 +1,214 @@
+﻿<Page
+    x:Class="FanKit.Transformer.TestApp.FlyoutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FanKit.Transformer.TestApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
+
+    <FrameworkElement.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="DismissBrush" Color="#21000000"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="DismissBrush" Color="#55000000"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
+
+    <Grid>
+
+        <Rectangle IsHitTestVisible="False" Margin="12" RadiusX="12" RadiusY="12" StrokeThickness="2" Stroke="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+
+        <StackPanel Margin="20" Spacing="4" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="TopButton" HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}">
+                Top Flyout
+            </Button>
+            <Button x:Name="BottomButton" HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}">
+                Bottom Flyout
+            </Button>
+            <TextBlock Margin="4,0" FontSize="28" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center">
+                ArrowFlyout
+            </TextBlock>
+            <Button x:Name="FixedButton" HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}">
+                Fixed Flyout
+            </Button>
+        </StackPanel>
+
+        <StackPanel Margin="20" Spacing="4" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Button x:Name="LeftTopButton" Style="{StaticResource AccentButtonStyle}">
+                Top Flyout
+            </Button>
+            <Button x:Name="LeftBottomButton" Style="{StaticResource AccentButtonStyle}">
+                Bottom Flyout
+            </Button>
+        </StackPanel>
+
+        <StackPanel Margin="20" Spacing="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button x:Name="TopLeftButton" Style="{StaticResource AccentButtonStyle}">
+                Left Flyout
+            </Button>
+            <Button x:Name="TopRightButton" Style="{StaticResource AccentButtonStyle}">
+                Right Flyout
+            </Button>
+        </StackPanel>
+
+
+        <StackPanel Margin="20" Spacing="4" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button x:Name="RightTopButton" Style="{StaticResource AccentButtonStyle}">
+                Top Flyout
+            </Button>
+            <Button x:Name="RightBottomButton" Style="{StaticResource AccentButtonStyle}">
+                Bottom Flyout
+            </Button>
+        </StackPanel>
+
+        <StackPanel Margin="20" Spacing="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button x:Name="BottomLeftButton" Style="{StaticResource AccentButtonStyle}">
+                Left Flyout
+            </Button>
+            <Button x:Name="BottomRightButton" Style="{StaticResource AccentButtonStyle}">
+                Right Flyout
+            </Button>
+        </StackPanel>
+
+
+        <Canvas x:Name="Canvas">
+
+            <Rectangle   
+                x:Name="DismissRectangle"
+                Fill="{ThemeResource DismissBrush}"
+                Visibility="Collapsed"
+                />
+
+            <Border
+                x:Name="TargetBorder"
+                BorderThickness="1"
+                BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                Visibility="Collapsed"
+                >
+                <TextBlock x:Name="TargetTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!--Text-->
+                </TextBlock>
+            </Border>
+
+            <Path
+                x:Name="Path"
+                StrokeThickness="1"
+                Stroke="{ThemeResource SystemControlBackgroundAccentBrush}"
+                Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                Visibility="Collapsed"
+                >
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigure x:Name="PathFigure" IsClosed="True">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment x:Name="Line0"/>
+                                        <BezierSegment x:Name="Bezier0"/>
+                                        <BezierSegment x:Name="Bezier1"/>
+                                        <LineSegment x:Name="Line1"/>
+                                        <ArcSegment x:Name="Arc0" SweepDirection="Clockwise"/>
+                                        <LineSegment x:Name="Line2"/>
+                                        <ArcSegment x:Name="Arc1" SweepDirection="Clockwise"/>
+                                        <LineSegment x:Name="Line3"/>
+                                        <ArcSegment x:Name="Arc2" SweepDirection="Clockwise"/>
+                                        <LineSegment x:Name="Line4"/>
+                                        <ArcSegment x:Name="Arc3" SweepDirection="Clockwise"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+
+            <Grid
+                x:Name="ContentPresenter"
+                ColumnSpacing="4"
+                RowSpacing="4"
+                Visibility="Collapsed"
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="Button7" Content="7" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button x:Name="Button8" Grid.Column="1" Content="8" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button x:Name="Button9" Grid.Column="2" Content="9" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button
+                    x:Name="ButtonDelete"
+                    Grid.Column="3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource AccentButtonStyle}" 
+                    >
+                    <SymbolIcon Symbol="Back"/>
+                </Button>
+
+                <Button x:Name="Button4" Grid.Row="1" Content="4" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button x:Name="Button5" Grid.Column="1" Grid.Row="1" Content="5" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button x:Name="Button6" Grid.Column="2" Grid.Row="1" Content="6" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button
+                    x:Name="ButtonClear"
+                    Grid.Column="3"
+                    Grid.Row="1"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource ButtonRevealStyle}"
+                    >
+                    <SymbolIcon Symbol="Delete"/>
+                </Button>
+
+                <Button x:Name="Button1" Grid.Row="2" Content="1" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button x:Name="Button2" Grid.Column="1" Grid.Row="2" Content="2" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button x:Name="Button3" Grid.Column="2" Grid.Row="2" Content="3" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button
+                    x:Name="ButtonCancel"
+                    Visibility="Collapsed"
+                    Grid.Column="2"
+                    Grid.Row="3"
+                    Content="Cancel"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource ButtonRevealStyle}"
+                    />
+
+                <Button x:Name="Button0" Grid.ColumnSpan="2" Grid.Row="3" Content="0" FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button x:Name="ButtonDot" Grid.Column="3" Grid.Row="2" Content="." FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button
+                    x:Name="ButtonOK"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="3"
+                    Content="OK"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource AccentButtonStyle}"
+                    />
+
+            </Grid>
+
+        </Canvas>
+    </Grid>
+
+</Page>

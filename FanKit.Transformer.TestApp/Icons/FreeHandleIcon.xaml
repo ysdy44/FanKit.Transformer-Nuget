@@ -1,0 +1,38 @@
+﻿<Canvas
+    x:Class="FanKit.Transformer.TestApp.FreeHandleIcon"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="400"
+    d:DesignHeight="400"
+    >
+
+    <!--Contains-->
+    <Polygon StrokeThickness="2" Stroke="DeepSkyBlue">
+        <Polygon.Points>
+            36,22
+            90,14
+            90,68
+            36,60
+        </Polygon.Points>
+    </Polygon>
+
+    <!--Corner4-->
+    <Ellipse Opacity="0.2" Canvas.Left="30" Canvas.Top="16" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="84" Canvas.Top="8" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="30" Canvas.Top="54" Width="12" Height="12" Fill="Black"/>
+    <Ellipse Opacity="0.2" Canvas.Left="84" Canvas.Top="62" Width="12" Height="12" Fill="Black"/>
+
+    <Ellipse Canvas.Left="31" Canvas.Top="17" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="85" Canvas.Top="9" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="31" Canvas.Top="55" Width="10" Height="10" Fill="White"/>
+    <Ellipse Canvas.Left="85" Canvas.Top="63" Width="10" Height="10" Fill="White"/>
+
+    <Ellipse Canvas.Left="32" Canvas.Top="18" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="86" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="32" Canvas.Top="56" Width="8" Height="8" Fill="DeepSkyBlue"/>
+    <Ellipse Canvas.Left="86" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
+
+</Canvas>

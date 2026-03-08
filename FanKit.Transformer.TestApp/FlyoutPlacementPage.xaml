@@ -1,0 +1,183 @@
+﻿<Page
+    x:Class="FanKit.Transformer.TestApp.FlyoutPlacementPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FanKit.Transformer.TestApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
+
+    <FrameworkElement.Resources>
+        <CollectionViewSource x:Name="Collection" IsSourceGrouped="True">
+            <CollectionViewSource.Source>
+                <local:FlyoutPlacementGroupingList/>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+    </FrameworkElement.Resources>
+
+    <SplitView PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="265" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <SplitView.Pane>
+            <ScrollViewer>
+                <StackPanel Margin="0,12,12,12">
+
+                    <Border Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <StackPanel>
+
+                            <!--Flyout-->
+                            <Border Height="32" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                <TextBlock Margin="14,0" VerticalAlignment="Center">
+                                    Flyout
+                                </TextBlock>
+                            </Border>
+
+                            <Slider x:Name="Slider0" Margin="12,2" >
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Arrow Height
+                                        <Run Text="{x:Bind Slider0.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            <Slider x:Name="Slider1" Margin="12,2" >
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Arrow Width
+                                        <Run Text="{x:Bind Slider1.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            <Slider x:Name="Slider2" Margin="12,2" >
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Corner Radius
+                                        <Run Text="{x:Bind Slider2.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            <Slider x:Name="Slider3" Margin="12,2" >
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Content Margin
+                                        <Run Text="{x:Bind Slider3.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            <Slider x:Name="Slider4" Margin="12,2" >
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Bounds Padding
+                                        <Run Text="{x:Bind Slider4.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+
+                        </StackPanel>
+                    </Border>
+
+                    <Rectangle Height="12"/>
+
+                    <Border Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <StackPanel>
+
+                            <!--Priority-->
+                            <Border Height="32" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                <TextBlock Margin="14,0" VerticalAlignment="Center">
+                                    PlacementPriority
+                                </TextBlock>
+                            </Border>
+                            <ListView 
+                                x:Name="ListView"
+                                SelectionMode="Single"
+                                IsItemClickEnabled="True"
+                                ItemsSource="{x:Bind Collection.View}"
+                                >
+                                <ItemsControl.GroupStyle>
+                                    <GroupStyle/>
+                                </ItemsControl.GroupStyle>
+                            </ListView>
+
+                        </StackPanel>
+                    </Border>
+
+                    <Rectangle Height="12"/>
+
+                    <Border Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <StackPanel>
+                            
+                            <!--Fixed-->
+                            <Border Height="32" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                <TextBlock Margin="14,0" VerticalAlignment="Center">
+                                    Fixed Horizontal Alignment
+                                </TextBlock>
+                            </Border>
+                            <ListView
+                                x:Name="XListView"
+                                SelectionMode="Single"
+                                IsItemClickEnabled="True"
+                                />
+
+                        </StackPanel>
+                    </Border>
+
+                    <Rectangle Height="12"/>
+
+                    <Border Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <StackPanel>
+                            <!--Fixed-->
+                            <Border Height="32" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                <TextBlock Margin="14,0" VerticalAlignment="Center">
+                                    Fixed Vertical Alignment
+                                </TextBlock>
+                            </Border>
+                            <ListView
+                                x:Name="YListView"
+                                SelectionMode="Single"
+                                IsItemClickEnabled="True"
+                                />
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </SplitView.Pane>
+
+        <Canvas x:Name="Canvas" Background="{ThemeResource SystemControlBackgroundChromeBlackMediumBrush}">
+
+            <!--Margin-->
+            <Rectangle x:Name="BoundsPadding" IsHitTestVisible="False" RadiusX="12" RadiusY="12" StrokeThickness="2" Stroke="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+
+            <!--Flyout-->
+            <Rectangle
+                x:Name="Body"
+                IsHitTestVisible="False"
+                RadiusX="{x:Bind Slider2.Value, Mode=OneWay}"
+                RadiusY="{x:Bind Slider2.Value, Mode=OneWay}"
+                StrokeThickness="2"
+                Stroke="DodgerBlue"
+                />
+
+            <Polyline x:Name="Tail" IsHitTestVisible="False" StrokeThickness="2" Stroke="Red">
+                <Polyline.Points>
+                    0,0
+                    0,0
+                    0,0
+                </Polyline.Points>
+            </Polyline>
+
+            <!--Content-->
+            <Rectangle x:Name="content" IsHitTestVisible="False" StrokeThickness="2" Stroke="Gold"/>
+
+            <!--Target-->
+            <Border x:Name="Target" Canvas.Left="200" Canvas.Top="200" ManipulationMode="All" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                <Button Margin="32" Style="{StaticResource AccentButtonStyle}">
+                    Move it
+                </Button>
+            </Border>
+
+        </Canvas>
+    </SplitView>
+</Page>
