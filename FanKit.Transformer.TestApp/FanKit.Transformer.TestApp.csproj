@@ -119,10 +119,354 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BoundsBoxPage.xaml.cs">
+      <DependentUpon>BoundsBoxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BoundsPage.xaml.cs">
+      <DependentUpon>BoundsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BoxPage.xaml.cs">
+      <DependentUpon>BoxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasCrop0Page.cs" />
+    <Compile Include="CanvasCrop1Page.cs" />
+    <Compile Include="CanvasCrop2Page.cs" />
+    <Compile Include="CanvasCrop3Page.cs" />
+    <Compile Include="CanvasCrops0Page.cs" />
+    <Compile Include="CanvasCrops1Page.cs" />
+    <Compile Include="CanvasCrops2Page.cs" />
+    <Compile Include="CanvasCrops3Page.cs" />
+    <Compile Include="CanvasCurve0Page.cs" />
+    <Compile Include="CanvasCurve1Page.cs" />
+    <Compile Include="CanvasCurve2Page.cs" />
+    <Compile Include="CanvasCurve3Page.cs" />
+    <Compile Include="CanvasCurves0Page.cs" />
+    <Compile Include="CanvasCurves1Page.cs" />
+    <Compile Include="CanvasCurves2Page.cs" />
+    <Compile Include="CanvasCurves3Page.cs" />
+    <Compile Include="CanvasDouble0Page.cs" />
+    <Compile Include="CanvasDouble1Page.cs" />
+    <Compile Include="CanvasDouble2Page.cs" />
+    <Compile Include="CanvasDouble3Page.cs" />
+    <Compile Include="CanvasDual0Page.xaml.cs">
+      <DependentUpon>CanvasDual0Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasDual1Page.xaml.cs">
+      <DependentUpon>CanvasDual1Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasDual2Page.xaml.cs">
+      <DependentUpon>CanvasDual2Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasDual3Page.xaml.cs">
+      <DependentUpon>CanvasDual3Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasFreeTransform0Page.cs" />
+    <Compile Include="CanvasFreeTransform1Page.cs" />
+    <Compile Include="CanvasFreeTransform2Page.cs" />
+    <Compile Include="CanvasFreeTransform3Page.cs" />
+    <Compile Include="CanvasLine0Page.cs" />
+    <Compile Include="CanvasLine1Page.cs" />
+    <Compile Include="CanvasLine2Page.cs" />
+    <Compile Include="CanvasLine3Page.cs" />
+    <Compile Include="CanvasPerspectiveCrop0Page.cs" />
+    <Compile Include="CanvasPerspectiveCrop1Page.cs" />
+    <Compile Include="CanvasPerspectiveCrop2Page.cs" />
+    <Compile Include="CanvasPerspectiveCrop3Page.cs" />
+    <Compile Include="CanvasPolyline0Page.cs" />
+    <Compile Include="CanvasPolyline1Page.cs" />
+    <Compile Include="CanvasPolyline2Page.cs" />
+    <Compile Include="CanvasPolyline3Page.cs" />
+    <Compile Include="CanvasPolylines0Page.cs" />
+    <Compile Include="CanvasPolylines1Page.cs" />
+    <Compile Include="CanvasPolylines2Page.cs" />
+    <Compile Include="CanvasPolylines3Page.cs" />
+    <Compile Include="CanvasSingle0Page.cs" />
+    <Compile Include="CanvasSingle1Page.cs" />
+    <Compile Include="CanvasSingle2Page.cs" />
+    <Compile Include="CanvasSingle3Page.cs" />
+    <Compile Include="CanvasSole0Page.xaml.cs">
+      <DependentUpon>CanvasSole0Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasSole1Page.xaml.cs">
+      <DependentUpon>CanvasSole1Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasSole2Page.xaml.cs">
+      <DependentUpon>CanvasSole2Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasSole3Page.xaml.cs">
+      <DependentUpon>CanvasSole3Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasSolo0Page.xaml.cs">
+      <DependentUpon>CanvasSolo0Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasSolo1Page.xaml.cs">
+      <DependentUpon>CanvasSolo1Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasSolo2Page.xaml.cs">
+      <DependentUpon>CanvasSolo2Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasSolo3Page.xaml.cs">
+      <DependentUpon>CanvasSolo3Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CanvasTransform0Page.cs" />
+    <Compile Include="CanvasTransform1Page.cs" />
+    <Compile Include="CanvasTransform2Page.cs" />
+    <Compile Include="CanvasTransform3Page.cs" />
+    <Compile Include="CanvasTransforms0Page.cs" />
+    <Compile Include="CanvasTransforms1Page.cs" />
+    <Compile Include="CanvasTransforms2Page.cs" />
+    <Compile Include="CanvasTransforms3Page.cs" />
+    <Compile Include="CarouselPage.xaml.cs">
+      <DependentUpon>CarouselPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CarouselsPage.xaml.cs">
+      <DependentUpon>CarouselsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClosestBezierPage.xaml.cs">
+      <DependentUpon>ClosestBezierPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CombineBoundsPage.xaml.cs">
+      <DependentUpon>CombineBoundsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CombinePathPage.xaml.cs">
+      <DependentUpon>CombinePathPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContainsBoundsPage.xaml.cs">
+      <DependentUpon>ContainsBoundsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnimatePad.xaml.cs">
+      <DependentUpon>AnimatePad.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BottomBar0.xaml.cs">
+      <DependentUpon>BottomBar0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BottomBar1.xaml.cs">
+      <DependentUpon>BottomBar1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BottomBar2.xaml.cs">
+      <DependentUpon>BottomBar2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BottomBar3.xaml.cs">
+      <DependentUpon>BottomBar3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CanvasHub0.xaml.cs">
+      <DependentUpon>CanvasHub0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CanvasHub12.xaml.cs">
+      <DependentUpon>CanvasHub12.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CanvasHub3.xaml.cs">
+      <DependentUpon>CanvasHub3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FreeTransformPanel.xaml.cs">
+      <DependentUpon>FreeTransformPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NodeMenu.xaml.cs">
+      <DependentUpon>NodeMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SettingsDialog0.xaml.cs">
+      <DependentUpon>SettingsDialog0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SettingsDialog12.xaml.cs">
+      <DependentUpon>SettingsDialog12.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SettingsDialog3.xaml.cs">
+      <DependentUpon>SettingsDialog3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox1.xaml.cs">
+      <DependentUpon>ToolBox1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox2.xaml.cs">
+      <DependentUpon>ToolBox2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox3.xaml.cs">
+      <DependentUpon>ToolBox3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox4.xaml.cs">
+      <DependentUpon>ToolBox4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox5.xaml.cs">
+      <DependentUpon>ToolBox5.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox6.xaml.cs">
+      <DependentUpon>ToolBox6.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox7.xaml.cs">
+      <DependentUpon>ToolBox7.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox8.xaml.cs">
+      <DependentUpon>ToolBox8.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToolBox9.xaml.cs">
+      <DependentUpon>ToolBox9.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TopBar0.xaml.cs">
+      <DependentUpon>TopBar0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TopBar1.xaml.cs">
+      <DependentUpon>TopBar1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TopBar2.xaml.cs">
+      <DependentUpon>TopBar2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TouchPad.xaml.cs">
+      <DependentUpon>TouchPad.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TransformPanel.xaml.cs">
+      <DependentUpon>TransformPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConvertPage.xaml.cs">
+      <DependentUpon>ConvertPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CropPage.cs" />
+    <Compile Include="CropsPage.cs" />
+    <Compile Include="Curve0Page.cs" />
+    <Compile Include="Curve1Page.cs" />
+    <Compile Include="Curve2Page.cs" />
+    <Compile Include="Curve3Page.cs" />
+    <Compile Include="Curves0Page.cs" />
+    <Compile Include="Curves1Page.cs" />
+    <Compile Include="Curves2Page.cs" />
+    <Compile Include="Curves3Page.cs" />
+    <Compile Include="DualPage.xaml.cs">
+      <DependentUpon>DualPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\CanvasDrawingSessionExtensions.cs" />
+    <Compile Include="Extensions\PathBuilder.cs" />
+    <Compile Include="Extensions\WindowsFoundationExtensions.cs" />
+    <Compile Include="FlyoutPage.xaml.cs">
+      <DependentUpon>FlyoutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FlyoutPlacementPage.xaml.cs">
+      <DependentUpon>FlyoutPlacementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FreeTransformPage.cs" />
+    <Compile Include="HomographyPage.xaml.cs">
+      <DependentUpon>HomographyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\CanvasIcon0.xaml.cs">
+      <DependentUpon>CanvasIcon0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\CanvasIcon1.xaml.cs">
+      <DependentUpon>CanvasIcon1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\CanvasIcon2.xaml.cs">
+      <DependentUpon>CanvasIcon2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\CanvasIcon3.xaml.cs">
+      <DependentUpon>CanvasIcon3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\FreeHandleIcon.xaml.cs">
+      <DependentUpon>FreeHandleIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandleIcon0.xaml.cs">
+      <DependentUpon>HandleIcon0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandleIcon1.xaml.cs">
+      <DependentUpon>HandleIcon1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandleIcon2.xaml.cs">
+      <DependentUpon>HandleIcon2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandleIcon3.xaml.cs">
+      <DependentUpon>HandleIcon3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandlesIcon0.xaml.cs">
+      <DependentUpon>HandlesIcon0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandlesIcon1.xaml.cs">
+      <DependentUpon>HandlesIcon1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandlesIcon2.xaml.cs">
+      <DependentUpon>HandlesIcon2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\HandlesIcon3.xaml.cs">
+      <DependentUpon>HandlesIcon3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\LineHandleIcon0.xaml.cs">
+      <DependentUpon>LineHandleIcon0.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\LineHandleIcon1.xaml.cs">
+      <DependentUpon>LineHandleIcon1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\LineHandleIcon2.xaml.cs">
+      <DependentUpon>LineHandleIcon2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\LineHandleIcon3.xaml.cs">
+      <DependentUpon>LineHandleIcon3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\ThreeBoxs.xaml.cs">
+      <DependentUpon>ThreeBoxs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InsertCurvePage.xaml.cs">
+      <DependentUpon>InsertCurvePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InsertPolylinePage.xaml.cs">
+      <DependentUpon>InsertPolylinePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Line0Page.cs" />
+    <Compile Include="Line1Page.cs" />
+    <Compile Include="Line2Page.cs" />
+    <Compile Include="Line3Page.cs" />
+    <Compile Include="LineLinePage.xaml.cs">
+      <DependentUpon>LineLinePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MoveCurvePage.xaml.cs">
+      <DependentUpon>MoveCurvePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MovePolylinePage.xaml.cs">
+      <DependentUpon>MovePolylinePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Operator\CanvasOperator1.cs" />
+    <Compile Include="Operator\CanvasOperator2.cs" />
+    <Compile Include="Operator\CanvasOperator3.cs" />
+    <Compile Include="PerspectiveCropPage.cs" />
+    <Compile Include="Polyline0Page.cs" />
+    <Compile Include="Polyline1Page.cs" />
+    <Compile Include="Polyline2Page.cs" />
+    <Compile Include="Polyline3Page.cs" />
+    <Compile Include="Polylines0Page.cs" />
+    <Compile Include="Polylines1Page.cs" />
+    <Compile Include="Polylines2Page.cs" />
+    <Compile Include="Polylines3Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuadrilateralPage.xaml.cs">
+      <DependentUpon>QuadrilateralPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RectanglePage.xaml.cs">
+      <DependentUpon>RectanglePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScrollerPage.xaml.cs">
+      <DependentUpon>ScrollerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SolePage.xaml.cs">
+      <DependentUpon>SolePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SoloPage.xaml.cs">
+      <DependentUpon>SoloPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplitBezierPage.xaml.cs">
+      <DependentUpon>SplitBezierPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Transform0Page.cs" />
+    <Compile Include="Transform1Page.cs" />
+    <Compile Include="Transform2Page.cs" />
+    <Compile Include="Transform3Page.cs" />
+    <Compile Include="Transforms0Page.cs" />
+    <Compile Include="Transforms1Page.cs" />
+    <Compile Include="Transforms2Page.cs" />
+    <Compile Include="Transforms3Page.cs" />
+    <Compile Include="TriangleBoxPage.xaml.cs">
+      <DependentUpon>TriangleBoxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrianglePage.xaml.cs">
+      <DependentUpon>TrianglePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BoolToVisibleConverter.cs" />
+    <Compile Include="UI\MatrixHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -144,7 +488,343 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="BoundsBoxPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BoundsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BoxPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasDual0Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasDual1Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasDual2Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasDual3Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSole0Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSole1Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSole2Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSole3Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSolo0Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSolo1Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSolo2Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CanvasSolo3Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CarouselPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CarouselsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ClosestBezierPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CombineBoundsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CombinePathPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContainsBoundsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\AnimatePad.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\BottomBar0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\BottomBar1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\BottomBar2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\BottomBar3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CanvasHub0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CanvasHub12.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CanvasHub3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\FreeTransformPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\NodeMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsDialog0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsDialog12.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsDialog3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox5.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox6.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox7.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox8.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ToolBox9.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TopBar0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TopBar1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TopBar2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TouchPad.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TransformPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConvertPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DualPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FlyoutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FlyoutPlacementPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HomographyPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\CanvasIcon0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\CanvasIcon1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\CanvasIcon2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\CanvasIcon3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\FreeHandleIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandleIcon0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandleIcon1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandleIcon2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandleIcon3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandlesIcon0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandlesIcon1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandlesIcon2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\HandlesIcon3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\LineHandleIcon0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\LineHandleIcon1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\LineHandleIcon2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\LineHandleIcon3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\ThreeBoxs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InsertCurvePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InsertPolylinePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LineLinePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MoveCurvePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MovePolylinePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuadrilateralPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RectanglePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScrollerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SolePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SoloPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplitBezierPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TriangleBoxPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TrianglePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -163,6 +843,7 @@
       <Name>FanKit.Transformer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\FanKit.Transformer.Sample.Shared\FanKit.Transformer.Sample.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
