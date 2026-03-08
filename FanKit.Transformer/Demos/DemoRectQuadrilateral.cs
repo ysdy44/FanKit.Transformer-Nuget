@@ -10,27 +10,13 @@ namespace FanKit.Transformer.Demos
         public Matrix4x4 ActualMatrix;
         public Box0 ActualBox;
 
-        public DemoRectQuadrilateral(Bounds source, Quadrilateral quad)
+        public DemoRectQuadrilateral(Bounds source, Quadrilateral destination)
         {
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-            this.Quadrilateral = quad;
-            this.Reset();
+            this.UpdateAll(source, destination);
         }
         public DemoRectQuadrilateral(Bounds source, Matrix4x4 matrix)
         {
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-            this.Matrix = matrix;
-
-            FreeTransformedRectangle rect = new FreeTransformedRectangle(this.Source.Rect, matrix);
-            this.Quadrilateral = new Quadrilateral
-            {
-                LeftTop = rect.LeftTop,
-                RightTop = rect.RightTop,
-                LeftBottom = rect.LeftBottom,
-                RightBottom = rect.RightBottom,
-            };
+            this.Initialize(source, matrix);
         }
 
         public void ResetCanvas()

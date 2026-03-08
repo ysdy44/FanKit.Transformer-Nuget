@@ -11,7 +11,8 @@ namespace FanKit.Transformer.Transforms
         // Step 0. Initialize
         //public int Count;
         public Bounds SourceBounds;
-        public RectSource Source;
+        public Rectangle SourceRect;
+        public RectMatrix SourceNormalize;
 
         // Step 1. Transformer
         TransformedBounds TransformedBounds;
@@ -49,7 +50,7 @@ namespace FanKit.Transformer.Transforms
         void Find()
         {
             this.DestNorm = this.Triangle.Normalize();
-            this.Matrix = this.Source.Affine(this.DestNorm);
+            this.Matrix = this.SourceNormalize.Affine(this.DestNorm);
             //this.Invert();
         }
 
@@ -61,11 +62,13 @@ namespace FanKit.Transformer.Transforms
         }
          */
 
+        #region Triangles.Initialize
         public void Initialize(Bounds source)
         {
             // Step 0. Initialize
             this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = Matrix3x2.Identity;
@@ -83,7 +86,8 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = matrix;
@@ -101,7 +105,8 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
@@ -111,10 +116,13 @@ namespace FanKit.Transformer.Transforms
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
 
-        public void Reset()
+        public void UpdateSource(Bounds source)
         {
             // Step 0. Initialize
-            //this.Count = 0;
+            //this.Count = 1;
+            this.SourceBounds = source;
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -123,14 +131,14 @@ namespace FanKit.Transformer.Transforms
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
         }
-
-        public void Reset(Triangle triangle)
+        
+        public void UpdateDestination(Triangle destination)
         {
             // Step 0. Initialize
             //this.Count = 1;
 
             // Step 1. Transformer
-            this.StartingTriangle = this.Triangle = triangle;
+            this.StartingTriangle = this.Triangle = destination;
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -139,6 +147,26 @@ namespace FanKit.Transformer.Transforms
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
         }
+
+        public void UpdateAll(Bounds source, Triangle destination)
+        {
+            // Step 0. Initialize
+            //this.Count = 1;
+            this.SourceBounds = source;
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
+
+            // Step 1. Transformer
+            this.StartingTriangle = this.Triangle = destination;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix3x2.Identity;
+        }
+        #endregion
 
         #region Triangles.Set
         public void SetTranslation(Vector2 translate)

@@ -11,26 +11,13 @@ namespace FanKit.Transformer.Demos
         public Matrix3x2 ActualMatrix;
         public Box0 ActualBox;
 
-        public DemoRectTriangleLayer(Bounds source, Triangle triangle)
+        public DemoRectTriangleLayer(Bounds source, Triangle destination)
         {
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-            this.Triangle = triangle;
-            this.Reset();
+            this.UpdateAll(source, destination);
         }
         public DemoRectTriangleLayer(Bounds source, Matrix3x2 matrix)
         {
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-            this.Matrix = matrix;
-
-            TransformedRectangle rect = new TransformedRectangle(this.Source.Rect, matrix);
-            this.Triangle = new Triangle
-            {
-                LeftTop = rect.LeftTop,
-                RightTop = rect.RightTop,
-                LeftBottom = rect.LeftBottom,
-            };
+            this.Initialize(source, matrix);
         }
 
         public void RectChoose(Bounds bounds)

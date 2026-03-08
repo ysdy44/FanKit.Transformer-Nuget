@@ -9,13 +9,10 @@ namespace FanKit.Transformer.Mathematics
         public static SizeMatrix Normalize(float sourceWidth, float sourceHeight) => new SizeMatrix(sourceWidth, sourceHeight);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 ToIdentity(float sourceX, float sourceY, float sourceWidth, float sourceHeight) => new Vector4
-        {
-            X = 1f / sourceWidth,
-            Y = 1f / sourceHeight,
-            Z = -sourceX / sourceWidth,
-            W = -sourceY / sourceHeight,
-        };
+        public static RectMatrix Normalize(float sourceX, float sourceY, float sourceWidth, float sourceHeight) => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static RectMatrix Normalize(this Rectangle rect) => new RectMatrix(rect);
 
         public static Matrix4x4 ToMatrix3x3(this Matrix3x2 source) => new Matrix4x4
         {
@@ -58,19 +55,19 @@ namespace FanKit.Transformer.Mathematics
         // New Method
         public static Matrix3x2 FindHomography(Rectangle source, Quadrilateral dest)
         {
-            RectSource src = new RectSource(source);
+            RectMatrix srcNorm = new RectMatrix(source);
             Matrix3x2 dstNorm = dest.Normalize();
 
-            return src.Affine(dstNorm);
+            return Affine(srcNorm, dstNorm);
         }
 
         // New Method
         public static Matrix3x2 FindHomography(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
         {
-            RectSource src = new RectSource(sourceX, sourceY, sourceWidth, sourceHeight);
+            RectMatrix srcNorm = new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
             Matrix3x2 dstNorm = dest.Normalize();
 
-            return src.Affine(dstNorm);
+            return srcNorm.Affine(dstNorm);
         }
 
         // New Method
@@ -85,8 +82,8 @@ namespace FanKit.Transformer.Mathematics
         // Old Method
         public static Matrix4x4 FindHomography3D(Rectangle source, Quadrilateral dest)
         {
-            RectSource src = new RectSource(source);
-            PerspRectMatrix3x3 dst = src.ToPerspMatrix(dest);
+            RectMatrix srcNorm = new RectMatrix(source);
+            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, dest);
 
             return dst;
         }
@@ -94,8 +91,8 @@ namespace FanKit.Transformer.Mathematics
         // Old Method
         public static Matrix4x4 FindHomography3D(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
         {
-            RectSource src = new RectSource(sourceX, sourceY, sourceWidth, sourceHeight);
-            PerspRectMatrix3x3 dst = src.ToPerspMatrix(dest);
+            RectMatrix srcNorm = new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
+            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, dest);
 
             return dst;
         }

@@ -4,59 +4,34 @@ using System.Runtime.CompilerServices;
 namespace FanKit.Transformer.Mathematics
 {
     // 2x2
-    public readonly struct RectSource
+    public struct RectMatrix
     {
-        public readonly Rectangle Rect;
-
-        public readonly float X;
-        public readonly float Y;
-        public readonly float Z;
-        public readonly float W;
+        public float X;
+        public float Y;
+        public float Z;
+        public float W;
 
         #region Constructors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public RectSource(float x, float y, float width, float height)
+        public RectMatrix(float x, float y, float width, float height)
         {
-            Rect = new Rectangle(x, y, width, height);
-
-            X = 1f / Rect.Width;
-            Y = 1f / Rect.Height;
-            Z = -Rect.X / Rect.Width;
-            W = -Rect.Y / Rect.Height;
+            X = 1f / width;
+            Y = 1f / height;
+            Z = -x / width;
+            W = -y / height;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public RectSource(Rectangle rect)
+        public RectMatrix(Rectangle rect)
         {
-            Rect = rect;
-
-            X = 1f / Rect.Width;
-            Y = 1f / Rect.Height;
-            Z = -Rect.X / Rect.Width;
-            W = -Rect.Y / Rect.Height;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public RectSource(Bounds bounds)
-        {
-            Rect = new Rectangle(bounds);
-
-            X = 1f / Rect.Width;
-            Y = 1f / Rect.Height;
-            Z = -Rect.X / Rect.Width;
-            W = -Rect.Y / Rect.Height;
+            X = 1f / rect.Width;
+            Y = 1f / rect.Height;
+            Z = -rect.X / rect.Width;
+            W = -rect.Y / rect.Height;
         }
         #endregion Constructors
 
         #region Public instance methods
-        #endregion Public instance methods
-
-        #region Public Static Methods
-        #endregion Public Static Methods
-
-        #region Public Static Operators
-        #endregion Public Static Operators
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public PerspRectMatrix3x3 ToPerspMatrix(Quadrilateral quad) => new PerspRectMatrix3x3(this, quad);
 
@@ -100,5 +75,12 @@ namespace FanKit.Transformer.Mathematics
             M31 = Z * destNorm.M11 + W * destNorm.M21 + destNorm.M31,
             M32 = Z * destNorm.M12 + W * destNorm.M22 + destNorm.M32
         };
+        #endregion Public instance methods
+
+        #region Public Static Methods
+        #endregion Public Static Methods
+
+        #region Public Static Operators
+        #endregion Public Static Operators
     }
 }

@@ -10,20 +10,13 @@ namespace FanKit.Transformer.Demos
         public Matrix3x2 ActualMatrix;
         public Box1 ActualBox;
 
-        public DemoRectBounds(Bounds source, Bounds bounds)
+        public DemoRectBounds(Bounds source, Bounds destination)
         {
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-            this.Bounds = bounds;
-            this.Reset();
+            this.UpdateAll(source, destination);
         }
         public DemoRectBounds(Bounds source, Matrix2x2 matrix)
         {
-            this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
-            this.Matrix = matrix;
-
-            this.Bounds = new Bounds(this.Source.Rect, matrix);
+            this.Initialize(source, matrix);
         }
 
         public void ResetCanvas()

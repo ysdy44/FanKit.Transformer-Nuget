@@ -21,39 +21,22 @@ namespace FanKit.Transformer.Mathematics
         internal readonly float m44;
 
         #region Constructors
-        public PerspRectMatrix3x3(Vector4 src, Quadrilateral quad)
+        public PerspRectMatrix3x3(RectMatrix srcNorm, Quadrilateral quad)
         {
             dst = new SparseMatrix3x3(quad);
 
             // First row
-            m11 = src.X * dst.sx;
-            m14 = src.X * dst.rx;
+            m11 = srcNorm.X * dst.sx;
+            m14 = srcNorm.X * dst.rx;
 
             // Second row
-            m22 = src.Y * dst.sy;
-            m24 = src.Y * dst.ry;
+            m22 = srcNorm.Y * dst.sy;
+            m24 = srcNorm.Y * dst.ry;
 
             // Fourth row
-            m41 = src.Z * dst.sx;
-            m42 = src.W * dst.sy;
-            m44 = src.Z * dst.rx + src.W * dst.ry + 1f;
-        }
-        public PerspRectMatrix3x3(RectSource src, Quadrilateral quad)
-        {
-            dst = new SparseMatrix3x3(quad);
-
-            // First row
-            m11 = src.X * dst.sx;
-            m14 = src.X * dst.rx;
-
-            // Second row
-            m22 = src.Y * dst.sy;
-            m24 = src.Y * dst.ry;
-
-            // Fourth row
-            m41 = src.Z * dst.sx;
-            m42 = src.W * dst.sy;
-            m44 = src.Z * dst.rx + src.W * dst.ry + 1f;
+            m41 = srcNorm.Z * dst.sx;
+            m42 = srcNorm.W * dst.sy;
+            m44 = srcNorm.Z * dst.rx + srcNorm.W * dst.ry + 1f;
         }
         #endregion Constructors
 

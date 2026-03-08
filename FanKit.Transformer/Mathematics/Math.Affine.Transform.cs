@@ -100,114 +100,26 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 2x2_3x2 -------------------- // 
 
+        public static Matrix3x2 Affine(RectMatrix srcNorm, Matrix3x2 destNorm)
+            => srcNorm.Affine(destNorm);
+
         public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Triangle dest)
-        {
-            Matrix3x2 destNorm = dest.Normalize();
-
-            float x = destNorm.M11 / sourceWidth;
-            float y = destNorm.M12 / sourceWidth;
-            float w = destNorm.M21 / sourceHeight;
-            float z = destNorm.M22 / sourceHeight;
-
-            return new Matrix3x2
-            {
-                // First row
-                M11 = x,
-                M12 = y,
-
-                // Second row
-                M21 = w,
-                M22 = z,
-
-                // Third row
-                M31 = destNorm.M31 - sourceX * x - sourceY * w,
-                M32 = destNorm.M32 - sourceX * y - sourceY * z,
-            };
-        }
+            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(dest.Normalize());
 
         public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
-        {
-            Matrix3x2 destNorm = dest.Normalize();
-
-            float x = destNorm.M11 / sourceWidth;
-            float y = destNorm.M12 / sourceWidth;
-            float w = destNorm.M21 / sourceHeight;
-            float z = destNorm.M22 / sourceHeight;
-
-            return new Matrix3x2
-            {
-                // First row
-                M11 = x,
-                M12 = y,
-
-                // Second row
-                M21 = w,
-                M22 = z,
-
-                // Third row
-                M31 = destNorm.M31 - sourceX * x - sourceY * w,
-                M32 = destNorm.M32 - sourceX * y - sourceY * z,
-            };
-        }
+            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(dest.Normalize());
 
         public static Matrix3x2 Affine(Rectangle source, Triangle dest)
-        {
-            Matrix3x2 destNorm = dest.Normalize();
-
-            float x = destNorm.M11 / source.Width;
-            float y = destNorm.M12 / source.Width;
-            float w = destNorm.M21 / source.Height;
-            float z = destNorm.M22 / source.Height;
-
-            return new Matrix3x2
-            {
-                // First row
-                M11 = x,
-                M12 = y,
-
-                // Second row
-                M21 = w,
-                M22 = z,
-
-                // Third row
-                M31 = destNorm.M31 - source.X * x - source.Y * w,
-                M32 = destNorm.M32 - source.X * y - source.Y * z,
-            };
-        }
+            => new RectMatrix(source).Affine(dest.Normalize());
 
         public static Matrix3x2 Affine(Rectangle source, Quadrilateral dest)
-        {
-            Matrix3x2 destNorm = dest.Normalize();
-
-            float x = destNorm.M11 / source.Width;
-            float y = destNorm.M12 / source.Width;
-            float w = destNorm.M21 / source.Height;
-            float z = destNorm.M22 / source.Height;
-
-            return new Matrix3x2
-            {
-                // First row
-                M11 = x,
-                M12 = y,
-
-                // Second row
-                M21 = w,
-                M22 = z,
-
-                // Third row
-                M31 = destNorm.M31 - source.X * x - source.Y * w,
-                M32 = destNorm.M32 - source.X * y - source.Y * z,
-            };
-        }
+            => new RectMatrix(source).Affine(dest.Normalize());
 
         // -------------------- 3x2_1x2 -------------------- // 
 
         // -------------------- 3x2_2x2 -------------------- // 
 
         // -------------------- 3x2_3x2 -------------------- // 
-
-        public static Matrix3x2 BidiAffine(this InvertibleMatrix3x2 sourceNorm, Matrix3x2 destNorm)
-            => sourceNorm.can ? sourceNorm.inv * destNorm : destNorm;
 
         public static Matrix3x2 BidiAffine(Triangle source, Triangle dest)
             => source.ToInvertibleMatrix().BidiAffine(dest.Normalize());
@@ -223,9 +135,9 @@ namespace FanKit.Transformer.Mathematics
         // -------------------- 2x2_3x3 -------------------- // 
 
         public static Matrix4x4 Persp(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
-            => new PerspRectMatrix3x3(ToIdentity(sourceX, sourceY, sourceWidth, sourceHeight), dest);
+            => new PerspRectMatrix3x3(new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight), dest);
 
         public static Matrix4x4 Persp(this Rectangle source, Quadrilateral dest)
-            => new PerspRectMatrix3x3(source.ToIdentity(), dest);
+            => new PerspRectMatrix3x3(new RectMatrix(source), dest);
     }
 }

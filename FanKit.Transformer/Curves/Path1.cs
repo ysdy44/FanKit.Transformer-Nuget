@@ -1,28 +1,29 @@
-﻿using FanKit.Transformer.Indicators;
+﻿using FanKit.Transformer.Cache;
 using FanKit.Transformer.Mathematics;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using FanKit.Transformer.Cache;
+using System.Linq;
 using System;
+using FanKit.Transformer.Indicators;
 
 namespace FanKit.Transformer.Curves
 {
-    public partial class Path1
+    public partial class Path1 : IGetFigure
     {
         // Step 0. Initialize
         //public int Count;
         public Bounds SourceBounds;
         private Bounds b;
-        public RectSource Source; // Come from RawBox 
+        public Rectangle SourceRect;
+        public RectMatrix SourceNormalize;
 
         // Step 1. Transformer
         TransformedBounds TransformedBounds;
         public Triangle StartingTriangle;
-        public Triangle Triangle; // Come from MapBox
+        public Triangle Triangle;
 
         // Step 2. Homography Matrix
-        //Matrix3x2 DestNorm; // Temp of Find
+        //Matrix3x2 DestNorm;
 
         // Step 3. Matrix
         //public Matrix3x2 StartingMatrix;
@@ -53,7 +54,7 @@ namespace FanKit.Transformer.Curves
         void Find()
         {
             this.DestNorm = this.Triangle.Normalize();
-            this.Matrix = this.Source.Affine(this.DestNorm);
+            this.Matrix = this.SourceNormalize.Affine(this.DestNorm);
             this.Invert();
         }
          */
@@ -66,40 +67,7 @@ namespace FanKit.Transformer.Curves
         }
          */
 
-        //public void Initialize(SizeSource source)
-        //{
-        //    // Step 0. Initialize
-        //    this.Source = source;
-
-        //    // Step 3. Matrix
-        //    this.StartingMatrix = this.Matrix = Matrix3x2.Identity;
-        //    //this.InverseMatrix = Matrix3x2.Identity;
-
-        //    // Step 4. Host
-        //    this.Host = Matrix3x2.Identity;
-
-        //    // Step 1. Transformer
-        //    //this.TransformedBounds = default;
-        //    this.StartingTriangle = this.Triangle = new Triangle(this.Source.Width, this.Source.Height);
-        //}
-
-        //public void Initialize(SizeSource source, Matrix3x2 matrix)
-        //{
-        //    // Step 0. Initialize
-        //    this.Source = source;
-
-        //    // Step 3. Matrix
-        //    this.StartingMatrix = this.Matrix = matrix;
-        //    //this.Invert();
-
-        //    // Step 4. Host
-        //    this.Host = Matrix3x2.Identity;
-
-        //    // Step 1. Transformer
-        //    //this.TransformedBounds = default;
-        //    this.StartingTriangle = this.Triangle = new Triangle(this.Source.Width, this.Source.Height, this.Matrix);
-        //}
-
+        #region Triangles.Initialize
         private void Extend()
         {
             this.SourceBounds = Bounds.Infinity;
@@ -125,7 +93,8 @@ namespace FanKit.Transformer.Curves
         private void EndExtend()
         {
             // Step 0. Initialize
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
@@ -165,7 +134,7 @@ namespace FanKit.Transformer.Curves
             this.Host = Matrix3x2.Identity;
         }
 
-        //*
+        ///*
         //public void Reset(IEnumerable<IGetTriangle> items)
         //{
         //    this.Count = 0;
@@ -204,6 +173,7 @@ namespace FanKit.Transformer.Curves
         //    }
         //}
         // */
+        #endregion
 
         #region Triangles.SelectedItems
         public bool IsClosed;
@@ -211,6 +181,9 @@ namespace FanKit.Transformer.Curves
         public List<Segment1> Data;
 
         public PathSetting Setting { get; } = new PathSetting();
+        public int Count => this.Data.Count;
+        public int GetChecksCount() => this.Data.Count(GetIsChecked);
+        private static bool GetIsChecked(Segment1 item) => item.IsChecked;
 
         public Path1(List<Segment1> items)
         {
@@ -221,7 +194,8 @@ namespace FanKit.Transformer.Curves
             this.Extend();
 
             // Step 0. Initialize
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 1. Transformer
             this.TransformedBounds = new TransformedBounds(this.SourceBounds);
@@ -411,7 +385,7 @@ namespace FanKit.Transformer.Curves
             indicator.ChangeAll(this.Triangle, mode);
         }
 
-        //public void SetWidthSelectedItems(IIndicator indicator, IndicatorMode mode, float value, bool keepRatio)
+        //public void SetWidthSelectedItems(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         //{
         //    // Step 1. Transformer
         //    this.StartingTriangle = this.Triangle;
@@ -427,7 +401,7 @@ namespace FanKit.Transformer.Curves
 
         //    indicator.ChangeXYWH(this.Triangle, mode);
         //}
-        //public void SetHeightSelectedItems(IIndicator indicator, IndicatorMode mode, float value, bool keepRatio)
+        //public void SetHeightSelectedItems(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         //{
         //    // Step 1. Transformer
         //    this.StartingTriangle = this.Triangle;
@@ -444,7 +418,7 @@ namespace FanKit.Transformer.Curves
         //    indicator.ChangeXYWH(this.Triangle, mode);
         //}
 
-        //public void SetRotationSelectedItems(IIndicator indicator, IndicatorMode mode, float rotationAngleInDegrees)
+        //public void SetRotationSelectedItems(IIndicator indicator, BoxMode mode, float rotationAngleInDegrees)
         //{
         //    // Step 4. Host
         //    this.Host = indicator.CreateRotation(rotationAngleInDegrees);
@@ -460,7 +434,7 @@ namespace FanKit.Transformer.Curves
 
         //    indicator.ChangeXYWHRS(this.Triangle, mode);
         //}
-        //public void SetSkewSelectedItems(IIndicator indicator, IndicatorMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
+        //public void SetSkewSelectedItems(IIndicator indicator, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
         //{
         //    // Step 1. Transformer
         //    this.StartingTriangle = this.Triangle;
@@ -925,7 +899,7 @@ namespace FanKit.Transformer.Curves
             indicator.ChangeAll(this.Triangle, mode);
         }
 
-        //public void SetWidth(IIndicator indicator, IndicatorMode mode, float value, bool keepRatio)
+        //public void SetWidth(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         //{
         //    // Step 1. Transformer
         //    this.StartingTriangle = this.Triangle;
@@ -941,7 +915,7 @@ namespace FanKit.Transformer.Curves
 
         //    indicator.ChangeXYWH(this.Triangle, mode);
         //}
-        //public void SetHeight(IIndicator indicator, IndicatorMode mode, float value, bool keepRatio)
+        //public void SetHeight(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         //{
         //    // Step 1. Transformer
         //    this.StartingTriangle = this.Triangle;
@@ -958,7 +932,7 @@ namespace FanKit.Transformer.Curves
         //    indicator.ChangeXYWH(this.Triangle, mode);
         //}
 
-        //public void SetRotation(IIndicator indicator, IndicatorMode mode, float rotationAngleInDegrees)
+        //public void SetRotation(IIndicator indicator, BoxMode mode, float rotationAngleInDegrees)
         //{
         //    // Step 4. Host
         //    this.Host = indicator.CreateRotation(rotationAngleInDegrees);
@@ -974,7 +948,7 @@ namespace FanKit.Transformer.Curves
 
         //    indicator.ChangeXYWHRS(this.Triangle, mode);
         //}
-        //public void SetSkew(IIndicator indicator, IndicatorMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
+        //public void SetSkew(IIndicator indicator, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
         //{
         //    // Step 1. Transformer
         //    this.StartingTriangle = this.Triangle;

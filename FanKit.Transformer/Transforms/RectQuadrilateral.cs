@@ -11,7 +11,8 @@ namespace FanKit.Transformer.Transforms
         // Step 0. Initialize
         //public int Count;
         public Bounds SourceBounds;
-        public RectSource Source;
+        public Rectangle SourceRect;
+        public RectMatrix SourceNormalize;
 
         // Step 1. Transformer
         FreeTransformedBounds TransformedBounds;
@@ -48,7 +49,7 @@ namespace FanKit.Transformer.Transforms
 
         void Find()
         {
-            this.DestNorm = this.Source.ToPerspMatrix(this.Quadrilateral);
+            this.DestNorm = this.SourceNormalize.ToPerspMatrix(this.Quadrilateral);
             this.Matrix = this.DestNorm;
             //this.Invert()
         }
@@ -61,11 +62,13 @@ namespace FanKit.Transformer.Transforms
         }
          */
 
+        #region Quadrilaterals.Initialize
         public void Initialize(Bounds source)
         {
             // Step 0. Initialize
             this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = Matrix4x4.Identity;
@@ -83,7 +86,8 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 3. Matrix
             this.StartingMatrix = this.Matrix = matrix;
@@ -101,7 +105,8 @@ namespace FanKit.Transformer.Transforms
         {
             // Step 0. Initialize
             this.SourceBounds = source;
-            this.Source = new RectSource(this.SourceBounds);
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
@@ -111,10 +116,13 @@ namespace FanKit.Transformer.Transforms
             this.StartingQuadrilateral = this.Quadrilateral = this.TransformedBounds.ToQuadrilateral();
         }
 
-        public void Reset()
+        public void UpdateSource(Bounds source)
         {
             // Step 0. Initialize
-            //this.Count = 0;
+            //this.Count = 1;
+            this.SourceBounds = source;
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -124,13 +132,13 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix3x2.Identity;
         }
 
-        public void Reset(Quadrilateral quad)
+        public void UpdateDestination(Quadrilateral destination)
         {
             // Step 0. Initialize
             //this.Count = 1;
 
             // Step 1. Transformer
-            this.StartingQuadrilateral = this.Quadrilateral = quad;
+            this.StartingQuadrilateral = this.Quadrilateral = destination;
 
             // Step 2. Homography Matrix
             // Step 3. Matrix
@@ -139,6 +147,26 @@ namespace FanKit.Transformer.Transforms
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
         }
+
+        public void UpdateAll(Bounds source, Quadrilateral destination)
+        {
+            // Step 0. Initialize
+            //this.Count = 1;
+            this.SourceBounds = source;
+            this.SourceRect = new Rectangle(this.SourceBounds);
+            this.SourceNormalize = new RectMatrix(this.SourceRect);
+
+            // Step 1. Transformer
+            this.StartingQuadrilateral = this.Quadrilateral = destination;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix3x2.Identity;
+        }
+        #endregion
 
         #region Quadrilaterals.FreeTransform
         /*
@@ -175,7 +203,7 @@ namespace FanKit.Transformer.Transforms
             this.Matrix = this.StartingMatrix * this.Host;
             //this.Invert();
         }
-        public void Rotate(IIndicator indicator, IndicatorMode mode, Vector2 point, float stepFrequency = float.NaN)
+        public void Rotate(IIndicator indicator, BoxMode mode, Vector2 point, float stepFrequency = float.NaN)
         {
             this.Radians = this.Controller.ToRadians(point, stepFrequency);
 
