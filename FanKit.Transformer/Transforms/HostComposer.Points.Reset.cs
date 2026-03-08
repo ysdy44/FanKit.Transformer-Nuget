@@ -6,6 +6,23 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostComposer
     {
+        public void Reset(Vector2 point)
+        {
+            // Step 0. Initialize
+            this.Count = 1;
+            this.SizeType = SizeType.Point;
+
+            // Step 1. Transformer
+            this.Point.StartingPoint = this.Point.Point = point;
+
+            // Step 2. Homography Matrix
+            // Step 3. Matrix
+            //this.Find();
+
+            // Step 4. Host
+            this.Host = Matrix3x2.Identity;
+        }
+
         public void Extend(Node segment) { this.Count++; this.Ex(segment.Point); }
 
         public void Extend(Polylines.Segment0 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point); } }
