@@ -14,20 +14,11 @@ namespace FanKit.Transformer.Demos
 
         public DemoQuadrilateralRect(float destWidth, float destHeight)
         {
-            this.DestinationWidth = destWidth;
-            this.DestinationHeight = destHeight;
-            this.Quadrilateral = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
-
-            this.Matrix = Matrix4x4.Identity;
+            this.Initialize(destWidth, destHeight);
         }
-
-        public DemoQuadrilateralRect(float destWidth, float destHeight, Quadrilateral quad)
+        public DemoQuadrilateralRect(float destWidth, float destHeight, Quadrilateral source)
         {
-            this.DestinationWidth = destWidth;
-            this.DestinationHeight = destHeight;
-            this.Quadrilateral = quad;
-
-            this.Find();
+            this.UpdateAll(destWidth, destHeight, source);
         }
 
         public void ResetCanvas()

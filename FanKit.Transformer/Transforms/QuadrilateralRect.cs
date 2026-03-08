@@ -37,19 +37,41 @@ namespace FanKit.Transformer.Transforms
             this.Matrix = m;
         }
 
-        public void Reset()
+        #region Quadrilaterals.Initialize
+        public void Initialize(float destWidth, float destHeight)
         {
+            this.DestinationWidth = destWidth;
+            this.DestinationHeight = destHeight;
             this.Quadrilateral = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
 
             this.Matrix = Matrix4x4.Identity;
         }
 
-        public void Reset(Quadrilateral quad)
+        public void UpdateSource(Quadrilateral source)
         {
-            this.Quadrilateral = quad;
+            this.Quadrilateral = source;
 
             this.Find();
         }
+
+        public void UpdateDestination(float destWidth, float destHeight)
+        {
+            this.DestinationWidth = destWidth;
+            this.DestinationHeight = destHeight;
+
+            this.Find();
+        }
+
+        public void UpdateAll(float destWidth, float destHeight, Quadrilateral source)
+        {
+            this.DestinationWidth = destWidth;
+            this.DestinationHeight = destHeight;
+
+            this.Quadrilateral = source;
+
+            this.Find();
+        }
+        #endregion
 
         #region Quadrilaterals.FreeTransform
         public void CacheFreeTransform(FreeTransformMode mode)
