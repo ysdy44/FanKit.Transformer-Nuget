@@ -902,7 +902,7 @@ namespace FanKit.Transformer.Indicators
             vls = default;
             vl = t.Bottom - t.Top;
 
-            STC4();
+            STC4(); // Crop
 
             if (width != hl)
             {
@@ -1026,7 +1026,7 @@ namespace FanKit.Transformer.Indicators
             vls = vx * vx + vy * vy;
             vl = (float)System.Math.Sqrt(vls);
 
-            STC4();
+            STC5(); // Transform
 
             if (width != hl)
             {
@@ -1467,7 +1467,7 @@ namespace FanKit.Transformer.Indicators
             vls = vx * vx + vy * vy;
             vl = (float)System.Math.Sqrt(vls);
 
-            STC4();
+            STC5(); // Transform
 
             if (width != hl)
             {

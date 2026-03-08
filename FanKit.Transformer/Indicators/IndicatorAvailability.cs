@@ -1,4 +1,5 @@
 ﻿using System;
+using static FanKit.Transformer.Indicators.IndicatorAvailability;
 
 namespace FanKit.Transformer.Indicators
 {
@@ -13,7 +14,7 @@ namespace FanKit.Transformer.Indicators
         HeightHasValue = 8,
         RotationHasValue = 16,
         SkewHasValue = 32,
-        Unavailable = 47,
+        Unavailable = XHasValue | YHasValue | WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue,
 
         XValue = 64,
         YValue = 128,
@@ -21,48 +22,61 @@ namespace FanKit.Transformer.Indicators
         HeightValue = 512,
         RotationValue = 1024,
         SkewValue = 2048,
-        Available = 3055,
+        Available = XHasValue | YHasValue | WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue | XValue | YValue | WidthValue | HeightValue | RotationValue | SkewValue,
     }
 
     partial class Indicator
     {
         // 1
-        const IndicatorAvailability Empty = (IndicatorAvailability)63;
-        const IndicatorAvailability Point = (IndicatorAvailability)255;
-        const IndicatorAvailability RowLine = (IndicatorAvailability)1535;
-        const IndicatorAvailability ColumnLine = (IndicatorAvailability)1791;
-        const IndicatorAvailability Panel = (IndicatorAvailability)4095;
+        const IndicatorAvailability Empty = Unavailable;
+        const IndicatorAvailability Point = Unavailable | XValue | YValue;
+        const IndicatorAvailability RowLine = Unavailable | XValue | YValue | WidthValue | RotationValue;
+        const IndicatorAvailability ColumnLine = Unavailable | XValue | YValue | HeightValue | RotationValue;
+        const IndicatorAvailability Crop = Unavailable | XValue | YValue | WidthValue | HeightValue;
+        const IndicatorAvailability Transform = Available;
 
         // 2
         const IndicatorAvailability Empty2Empty = 0;
-        const IndicatorAvailability Empty2Point = (IndicatorAvailability)195;
-        const IndicatorAvailability Empty2RowLine = (IndicatorAvailability)1495;
-        const IndicatorAvailability Empty2ColumnLine = (IndicatorAvailability)1755;
-        const IndicatorAvailability Empty2Panel = (IndicatorAvailability)4095;
+        const IndicatorAvailability Empty2Point = XHasValue | YHasValue | XValue | YValue;
+        const IndicatorAvailability Empty2RowLine = XHasValue | YHasValue | WidthHasValue | RotationHasValue | XValue | YValue | WidthValue | RotationValue;
+        const IndicatorAvailability Empty2ColumnLine = XHasValue | YHasValue | HeightHasValue | RotationHasValue | XValue | YValue | HeightValue | RotationValue;
+        const IndicatorAvailability Empty2Crop = XHasValue | YHasValue | WidthHasValue | HeightHasValue | XValue | YValue | WidthValue | HeightValue;
+        const IndicatorAvailability Empty2Transform = Available;
 
-        const IndicatorAvailability Point2Empty = (IndicatorAvailability)3;
+        const IndicatorAvailability Point2Empty = XHasValue | YHasValue;
         const IndicatorAvailability Point2Point = 0;
-        const IndicatorAvailability Point2RowLine = (IndicatorAvailability)1300;
-        const IndicatorAvailability Point2ColumnLine = (IndicatorAvailability)1560;
-        const IndicatorAvailability Point2Panel = (IndicatorAvailability)3900;
+        const IndicatorAvailability Point2RowLine = WidthHasValue | RotationHasValue | WidthValue | RotationValue;
+        const IndicatorAvailability Point2ColumnLine = HeightHasValue | RotationHasValue | HeightValue | RotationValue;
+        const IndicatorAvailability Point2Crop = WidthHasValue | HeightHasValue | WidthValue | HeightValue;
+        const IndicatorAvailability Point2Transform = WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue | WidthValue | HeightValue | RotationValue | SkewValue;
 
-        const IndicatorAvailability RowLine2Empty = (IndicatorAvailability)23;
-        const IndicatorAvailability RowLine2Point = (IndicatorAvailability)20;
+        const IndicatorAvailability RowLine2Empty = XHasValue | YHasValue | WidthHasValue | RotationHasValue;
+        const IndicatorAvailability RowLine2Point = WidthHasValue | RotationHasValue;
         const IndicatorAvailability RowLine2RowLine = 0;
-        const IndicatorAvailability RowLine2ColumnLine = (IndicatorAvailability)524;
-        const IndicatorAvailability RowLine2Panel = (IndicatorAvailability)2600;
+        const IndicatorAvailability RowLine2ColumnLine = WidthHasValue | HeightHasValue | HeightValue;
+        const IndicatorAvailability RowLine2Crop = HeightHasValue | RotationHasValue | HeightValue;
+        const IndicatorAvailability RowLine2Transform = HeightHasValue | SkewHasValue | HeightValue | SkewValue;
 
-        const IndicatorAvailability ColumnLine2Empty = (IndicatorAvailability)27;
-        const IndicatorAvailability ColumnLine2Point = (IndicatorAvailability)24;
-        const IndicatorAvailability ColumnLine2RowLine = (IndicatorAvailability)268;
+        const IndicatorAvailability ColumnLine2Empty = XHasValue | YHasValue | HeightHasValue | RotationHasValue;
+        const IndicatorAvailability ColumnLine2Point = HeightHasValue | RotationHasValue;
+        const IndicatorAvailability ColumnLine2RowLine = WidthHasValue | HeightHasValue | WidthValue;
         const IndicatorAvailability ColumnLine2ColumnLine = 0;
-        const IndicatorAvailability ColumnLine2Panel = (IndicatorAvailability)2340;
+        const IndicatorAvailability ColumnLine2Crop = WidthHasValue | RotationHasValue | WidthValue;
+        const IndicatorAvailability ColumnLine2Transform = WidthHasValue | SkewHasValue | WidthValue | SkewValue;
 
-        const IndicatorAvailability Panel2Empty = (IndicatorAvailability)63;
-        const IndicatorAvailability Panel2Point = (IndicatorAvailability)60;
-        const IndicatorAvailability Panel2RowLine = (IndicatorAvailability)40;
-        const IndicatorAvailability Panel2ColumnLine = (IndicatorAvailability)36;
-        const IndicatorAvailability Panel2Panel = 0;
+        const IndicatorAvailability Crop2Empty = XHasValue | YHasValue | WidthHasValue | HeightHasValue;
+        const IndicatorAvailability Crop2Point = WidthHasValue | HeightHasValue;
+        const IndicatorAvailability Crop2RowLine = HeightHasValue | RotationHasValue | RotationValue;
+        const IndicatorAvailability Crop2ColumnLine = WidthHasValue | RotationHasValue | RotationValue;
+        const IndicatorAvailability Crop2Crop = 0;
+        const IndicatorAvailability Crop2Transform = RotationHasValue | SkewHasValue | RotationValue | SkewValue;
+
+        const IndicatorAvailability Transform2Empty = Unavailable;
+        const IndicatorAvailability Transform2Point = WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue;
+        const IndicatorAvailability Transform2RowLine = HeightHasValue | SkewHasValue;
+        const IndicatorAvailability Transform2ColumnLine = WidthHasValue | SkewHasValue;
+        const IndicatorAvailability Transform2Crop = RotationHasValue | SkewHasValue;
+        const IndicatorAvailability Transform2Transform = 0;
 
         public static IndicatorAvailability ToAvailability(IndicatorSizeType sizeType)
         {
@@ -72,7 +86,8 @@ namespace FanKit.Transformer.Indicators
                 case IndicatorSizeType.Point: return Point;
                 case IndicatorSizeType.RowLine: return RowLine;
                 case IndicatorSizeType.ColumnLine: return ColumnLine;
-                case IndicatorSizeType.Panel: return Panel;
+                case IndicatorSizeType.Crop: return Crop;
+                case IndicatorSizeType.Transform: return Transform;
                 default: return Empty;
             }
         }
@@ -88,7 +103,8 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return Empty2Point;
                         case IndicatorSizeType.RowLine: return Empty2RowLine;
                         case IndicatorSizeType.ColumnLine: return Empty2ColumnLine;
-                        case IndicatorSizeType.Panel: return Empty2Panel;
+                        case IndicatorSizeType.Crop: return Empty2Crop;
+                        case IndicatorSizeType.Transform: return Empty2Transform;
                         default: return Empty;
                     }
                 case IndicatorSizeType.Point:
@@ -98,7 +114,8 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return Point2Point;
                         case IndicatorSizeType.RowLine: return Point2RowLine;
                         case IndicatorSizeType.ColumnLine: return Point2ColumnLine;
-                        case IndicatorSizeType.Panel: return Point2Panel;
+                        case IndicatorSizeType.Crop: return Point2Crop;
+                        case IndicatorSizeType.Transform: return Point2Transform;
                         default: return Empty;
                     }
                 case IndicatorSizeType.RowLine:
@@ -108,7 +125,8 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return RowLine2Point;
                         case IndicatorSizeType.RowLine: return RowLine2RowLine;
                         case IndicatorSizeType.ColumnLine: return RowLine2ColumnLine;
-                        case IndicatorSizeType.Panel: return RowLine2Panel;
+                        case IndicatorSizeType.Crop: return RowLine2Crop;
+                        case IndicatorSizeType.Transform: return RowLine2Transform;
                         default: return Empty;
                     }
                 case IndicatorSizeType.ColumnLine:
@@ -118,17 +136,30 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return ColumnLine2Point;
                         case IndicatorSizeType.RowLine: return ColumnLine2RowLine;
                         case IndicatorSizeType.ColumnLine: return ColumnLine2ColumnLine;
-                        case IndicatorSizeType.Panel: return ColumnLine2Panel;
+                        case IndicatorSizeType.Crop: return ColumnLine2Crop;
+                        case IndicatorSizeType.Transform: return ColumnLine2Transform;
                         default: return Empty;
                     }
-                case IndicatorSizeType.Panel:
+                case IndicatorSizeType.Crop:
                     switch (newSizeType)
                     {
-                        case IndicatorSizeType.Empty: return Panel2Empty;
-                        case IndicatorSizeType.Point: return Panel2Point;
-                        case IndicatorSizeType.RowLine: return Panel2RowLine;
-                        case IndicatorSizeType.ColumnLine: return Panel2ColumnLine;
-                        case IndicatorSizeType.Panel: return Panel2Panel;
+                        case IndicatorSizeType.Empty: return Crop2Empty;
+                        case IndicatorSizeType.Point: return Crop2Point;
+                        case IndicatorSizeType.RowLine: return Crop2RowLine;
+                        case IndicatorSizeType.ColumnLine: return Crop2ColumnLine;
+                        case IndicatorSizeType.Crop: return Crop2Crop;
+                        case IndicatorSizeType.Transform: return Crop2Transform;
+                        default: return Empty;
+                    }
+                case IndicatorSizeType.Transform:
+                    switch (newSizeType)
+                    {
+                        case IndicatorSizeType.Empty: return Transform2Empty;
+                        case IndicatorSizeType.Point: return Transform2Point;
+                        case IndicatorSizeType.RowLine: return Transform2RowLine;
+                        case IndicatorSizeType.ColumnLine: return Transform2ColumnLine;
+                        case IndicatorSizeType.Crop: return Transform2Crop;
+                        case IndicatorSizeType.Transform: return Transform2Transform;
                         default: return Empty;
                     }
                 default: return Empty;
