@@ -20,6 +20,13 @@ namespace FanKit.Transformer.Mathematics
             }
         }
 
+        public Coordinate(Vector2 translate, float scaleFactor)
+        {
+            Translate = translate;
+            ScaleFactor = scaleFactor;
+            InverseScaleFactor = 1f / ScaleFactor;
+        }
+
         //public static Coordinate Animation(Coordinate form, Coordinate to, float amout)
         public Coordinate(Coordinate form, Coordinate to, float amout)
         {
