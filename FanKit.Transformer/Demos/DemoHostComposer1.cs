@@ -38,7 +38,7 @@ namespace FanKit.Transformer.Demos
                 case SizeType.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
-                    this.ActualBox = new Box1(this.Panel.Triangle);
+                    this.ActualBox = new Box1(this.Panel.Destination);
                     break;
                 default:
                     this.ActualPoint = default;
@@ -75,7 +75,7 @@ namespace FanKit.Transformer.Demos
                 case SizeType.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
-                    this.ActualBox = new Box1(this.Panel.Triangle, matrix);
+                    this.ActualBox = new Box1(this.Panel.Destination, matrix);
                     break;
                 default:
                     this.ActualPoint = default;

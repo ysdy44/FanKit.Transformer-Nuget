@@ -23,28 +23,28 @@ namespace FanKit.Transformer.Demos
         {
             this.ActualMatrix = Matrix4x4.Identity;
 
-            this.ActualBox = new Box0(this.Quadrilateral);
+            this.ActualBox = new Box0(this.Destination);
         }
 
         public void UpdateCanvas()
         {
-            this.ActualMatrix = this.Matrix;
+            this.ActualMatrix = this.HomographyMatrix;
 
-            this.ActualBox = new Box0(this.Quadrilateral);
+            this.ActualBox = new Box0(this.Destination);
         }
 
         public void ResetCanvas(ICanvasMatrix matrix)
         {
             this.ActualMatrix = matrix.Matrix.ToMatrix3x3();
 
-            this.ActualBox = new Box0(this.Quadrilateral, matrix);
+            this.ActualBox = new Box0(this.Destination, matrix);
         }
 
         public void UpdateCanvas(ICanvasMatrix matrix)
         {
-            this.ActualMatrix = Math.Transform(this.Matrix, matrix.Matrix);
+            this.ActualMatrix = Math.Transform(this.HomographyMatrix, matrix.Matrix);
 
-            this.ActualBox = new Box0(this.Quadrilateral, matrix);
+            this.ActualBox = new Box0(this.Destination, matrix);
         }
     }
 }

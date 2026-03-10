@@ -24,15 +24,15 @@ namespace FanKit.Transformer.Demos
         public void ResetCanvas()
         {
             this.ActualDestinationMatrix = Matrix4x4.Identity;
-            this.ActualSourceBox = new Box0(this.Quadrilateral);
+            this.ActualSourceBox = new Box0(this.Source);
 
             this.ActualDestBox = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
         }
 
         public void UpdateCanvas()
         {
-            this.ActualDestinationMatrix = this.Matrix;
-            this.ActualSourceBox = new Box0(this.Quadrilateral);
+            this.ActualDestinationMatrix = this.HomographyMatrix;
+            this.ActualSourceBox = new Box0(this.Source);
 
             this.ActualDestBox = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
         }
@@ -40,15 +40,15 @@ namespace FanKit.Transformer.Demos
         public void ResetCanvas(ICanvasMatrix matrix)
         {
             this.ActualDestinationMatrix = matrix.Matrix.ToMatrix3x3();
-            this.ActualSourceBox = new Box0(this.Quadrilateral, matrix);
+            this.ActualSourceBox = new Box0(this.Source, matrix);
 
             this.ActualDestBox = new Quadrilateral(this.DestinationWidth, this.DestinationHeight, matrix.Matrix);
         }
 
         public void UpdateCanvas(ICanvasMatrix matrix)
         {
-            this.ActualDestinationMatrix = Math.Transform(this.Matrix, matrix.Matrix);
-            this.ActualSourceBox = new Box0(this.Quadrilateral, matrix);
+            this.ActualDestinationMatrix = Math.Transform(this.HomographyMatrix, matrix.Matrix);
+            this.ActualSourceBox = new Box0(this.Source, matrix);
 
             this.ActualDestBox = new Quadrilateral(this.DestinationWidth, this.DestinationHeight, matrix.Matrix);
         }

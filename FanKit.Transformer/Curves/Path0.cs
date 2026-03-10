@@ -12,23 +12,26 @@ namespace FanKit.Transformer.Curves
     {
         // Step 0. Initialize
         //public int Count;
-        public Bounds SourceBounds;
-        private Bounds b;
-        public Rectangle SourceRect;
-        public RectMatrix SourceNormalize;
+        public Bounds SourceBounds { get; private set; }
+        Bounds b;
+        public Rectangle SourceRect { get; private set; }
+        //RectMatrix SourceNormalize;
 
         // Step 1. Transformer
         TransformedBounds TransformedBounds;
-        public Triangle StartingTriangle;
-        public Triangle Triangle;
+        Triangle StartingTriangle;
+        Triangle Triangle;
 
         // Step 2. Homography Matrix
         //Matrix3x2 DestNorm;
+        public Triangle Destination => this.Triangle;
 
         // Step 3. Matrix
-        //public Matrix3x2 StartingMatrix;
-        //public Matrix3x2 Matrix;
-        //public Matrix3x2 InverseMatrix;
+        //Matrix3x2 StartingMatrix;
+        //Matrix3x2 Matrix;
+        //Matrix3x2 InverseMatrix;
+        //public Matrix3x2 HomographyMatrix => this.Matrix;
+        //public Matrix3x2 HomographyInverseMatrix => this.InverseMatrix;
 
         // Step 4. Host
         //InvertibleMatrix3x2 HostSourceNorm;
@@ -95,7 +98,7 @@ namespace FanKit.Transformer.Curves
         {
             // Step 0. Initialize
             this.SourceRect = new Rectangle(this.SourceBounds);
-            this.SourceNormalize = new RectMatrix(this.SourceRect);
+            //this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 4. Host
             this.Host = Matrix3x2.Identity;
@@ -196,7 +199,7 @@ namespace FanKit.Transformer.Curves
 
             // Step 0. Initialize
             this.SourceRect = new Rectangle(this.SourceBounds);
-            this.SourceNormalize = new RectMatrix(this.SourceRect);
+            //this.SourceNormalize = new RectMatrix(this.SourceRect);
 
             // Step 1. Transformer
             this.TransformedBounds = new TransformedBounds(this.SourceBounds);

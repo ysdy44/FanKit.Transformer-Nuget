@@ -18,16 +18,19 @@ namespace FanKit.Transformer.Transforms
 
             // Step 1. Transformer
             //TransformedBounds TransformedBounds;
-            public Triangle StartingTriangle;
-            public Triangle Triangle;
+            internal Triangle StartingTriangle;
+            internal Triangle Triangle;
 
             // Step 2. Homography Matrix
             //Matrix3x2 DestNorm;
+            public Triangle Destination => this.Triangle;
 
             // Step 3. Matrix
-            //public Matrix3x2 StartingMatrix;
-            //public Matrix3x2 Matrix;
-            //public Matrix3x2 InverseMatrix;
+            //Matrix3x2 StartingMatrix;
+            //Matrix3x2 Matrix;
+            //Matrix3x2 InverseMatrix;
+            //public Matrix3x2 HomographyMatrix => this.Matrix;
+            //public Matrix3x2 HomographyInverseMatrix => this.InverseMatrix;
 
             // Step 4. Host
             InvertibleMatrix3x2 HostSourceNorm;
@@ -40,7 +43,7 @@ namespace FanKit.Transformer.Transforms
 
             readonly HostComposer Host;
 
-            public ComposerTriangle(HostComposer host)
+            internal ComposerTriangle(HostComposer host)
             {
                 this.Host = host;
             }

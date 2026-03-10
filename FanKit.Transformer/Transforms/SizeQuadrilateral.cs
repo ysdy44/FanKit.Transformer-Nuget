@@ -10,30 +10,32 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         //public int Count;
-        public float SourceWidth;
-        public float SourceHeight;
-        public SizeMatrix SourceNormalize;
+        public float SourceWidth { get; private set; }
+        public float SourceHeight { get; private set; }
+        SizeMatrix SourceNormalize;
 
         // Step 1. Transformer
         FreeTransformedSize TransformedBounds;
-        public Quadrilateral StartingQuadrilateral;
-        public Quadrilateral Quadrilateral;
+        Quadrilateral StartingQuadrilateral;
+        Quadrilateral Quadrilateral;
 
         // Step 2. Homography Matrix
         PerspSizeMatrix3x3 DestNorm;
+        public Quadrilateral Destination => this.Quadrilateral;
 
         // Step 3. Matrix
-        public Matrix4x4 StartingMatrix;
-        public Matrix4x4 Matrix;
+        Matrix4x4 StartingMatrix;
+        Matrix4x4 Matrix;
         //public Matrix4x4 InverseMatrix;
+        public Matrix4x4 HomographyMatrix => this.Matrix;
 
         // Step 4. Host
         //InvertibleMatrix3x2 HostSourceNorm;
         //Matrix3x2 HostDestNorm;
         Matrix3x2 Host;
-        //float HostTranslateX => this.Host.M31;
-        //float HostTranslateY => this.Host.M32;
-        //Matrix3x2 HostMatrix => this.Host;
+        //float TranslationX => this.Host.M31;
+        //float TranslationY => this.Host.M32;
+        //Matrix3x2 TransformMatrix => this.Host;
 
         // Step 6. Controller
         FreeTransformController Controller;

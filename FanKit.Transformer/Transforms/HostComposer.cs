@@ -9,9 +9,9 @@ namespace FanKit.Transformer.Transforms
     public partial class HostComposer
     {
         // Step 0. Initialize
-        public int Count;
-        public SizeType SizeType;
-        public Bounds SourceBounds;
+        public int Count { get; private set; }
+        public SizeType SizeType { get; private set; }
+        Bounds SourceBounds;
 
         // Step 1. Transformer
 
@@ -19,15 +19,17 @@ namespace FanKit.Transformer.Transforms
         //Matrix3x2 DestNorm;
 
         // Step 3. Matrix
-        //public Matrix3x2 StartingMatrix;
-        //public Matrix3x2 Matrix;
-        //public Matrix3x2 InverseMatrix;
+        //Matrix3x2 StartingMatrix;
+        //Matrix3x2 Matrix;
+        //Matrix3x2 InverseMatrix;
+        //public Matrix3x2 HomographyMatrix => this.Matrix;
+        //public Matrix3x2 HomographyInverseMatrix => this.InverseMatrix;
 
         // Step 4. Host
         Matrix3x2 Host;
-        public float HostTranslateX => this.Host.M31;
-        public float HostTranslateY => this.Host.M32;
-        public Matrix3x2 HostMatrix => this.Host;
+        public float TranslationX => this.Host.M31;
+        public float TranslationY => this.Host.M32;
+        public Matrix3x2 TransformMatrix => this.Host;
 
         // Step 6. Controller
 

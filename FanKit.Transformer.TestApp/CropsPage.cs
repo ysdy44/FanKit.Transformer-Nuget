@@ -119,7 +119,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Bounds, e);
+            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Destination, e);
 
             this.ParameterPanel.Apply += (s, e) =>
             {
@@ -181,7 +181,7 @@ namespace FanKit.Transformer.TestApp
                 {
                     drawingSession.DrawImage(new Transform2DEffect
                     {
-                        TransformMatrix = item.Matrix.ToMatrix3x2(),
+                        TransformMatrix = item.HomographyMatrix.ToMatrix3x2(),
                         Source = this.Bitmap,
                     });
                 }
@@ -276,7 +276,7 @@ namespace FanKit.Transformer.TestApp
             foreach (Layer item in this.Layers)
             {
                 if (item.IsSelected)
-                    item.Translate(this.Cropper.HostTranslateX, this.Cropper.HostTranslateY);
+                    item.Translate(this.Cropper.TranslationX, this.Cropper.TranslationY);
             }
         }
         private void Transform()
@@ -284,7 +284,7 @@ namespace FanKit.Transformer.TestApp
             foreach (Layer item in this.Layers)
             {
                 if (item.IsSelected)
-                    item.Transform(this.Cropper.HostMatrix);
+                    item.Transform(this.Cropper.TransformMatrix);
             }
         }
         private void RectChooses()
@@ -321,7 +321,7 @@ namespace FanKit.Transformer.TestApp
                                 this.Cropper.Reset(item);
                                 break;
                             default:
-                                this.Cropper.Extend(item.Bounds);
+                                this.Cropper.Extend(item.Destination);
                                 break;
                         }
                     }
@@ -331,7 +331,7 @@ namespace FanKit.Transformer.TestApp
                 switch (this.Cropper.Count)
                 {
                     case 0: this.Indicator.ClearAll(); break;
-                    default: this.Indicator.ChangeAll(this.Cropper.Bounds, this.ParameterPanel.Mode); break;
+                    default: this.Indicator.ChangeAll(this.Cropper.Destination, this.ParameterPanel.Mode); break;
                 }
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
@@ -447,7 +447,7 @@ namespace FanKit.Transformer.TestApp
                                 item.CacheTranslation(); // Single Translation 1
                                 this.Mode = BoxContainsNodeMode.Contains;
 
-                                this.Cropper.Reset(item.Bounds);  // Single Translation 2
+                                this.Cropper.Reset(item.Destination);  // Single Translation 2
                             }
                         }
                         else
@@ -698,7 +698,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Cropper.Bounds);
+                            item.UpdateDestination(this.Cropper.Destination);
                         }
                     }
                     break;
@@ -711,7 +711,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Cropper.Bounds);
+                            item.UpdateDestination(this.Cropper.Destination);
                         }
                     }
                     break;
@@ -722,7 +722,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Cropper.Bounds);
+                            item.UpdateDestination(this.Cropper.Destination);
                         }
                     }
                     break;
@@ -733,7 +733,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Cropper.Bounds);
+                            item.UpdateDestination(this.Cropper.Destination);
                         }
                     }
                     break;
@@ -770,7 +770,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.SetTransform(this.Cropper.HostMatrix);
+                            item.SetTransform(this.Cropper.TransformMatrix);
                         }
                     }
                     break;
@@ -781,7 +781,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.SetTransform(this.Cropper.HostMatrix);
+                            item.SetTransform(this.Cropper.TransformMatrix);
                         }
                     }
                     break;

@@ -156,7 +156,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Composer.Panel.Triangle, e);
+            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Composer.Panel.Destination, e);
             this.ParameterPanel.RowModeChanged += (s, e) => this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, e);
             this.ParameterPanel.ColumnModeChanged += (s, e) => this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, e);
 
@@ -323,11 +323,11 @@ namespace FanKit.Transformer.TestApp
         }
         private void TranslateSelectedItems()
         {
-            this.Layer.TranslateSelectedItems(this.Composer.HostTranslateX, this.Composer.HostTranslateY);
+            this.Layer.TranslateSelectedItems(this.Composer.TranslationX, this.Composer.TranslationY);
         }
         private void TransformSelectedItems()
         {
-            this.Layer.TransformSelectedItems(this.Composer.HostMatrix);
+            this.Layer.TransformSelectedItems(this.Composer.TransformMatrix);
         }
         private void RectChooseItems()
         {
@@ -338,15 +338,15 @@ namespace FanKit.Transformer.TestApp
         #region SetTransformSelectedItems
         private void SetTranslationXSelectedItems()
         {
-            this.Layer.SetTranslationXSelectedItems(this.Composer.HostTranslateX);
+            this.Layer.SetTranslationXSelectedItems(this.Composer.TranslationX);
         }
         private void SetTranslationYSelectedItems()
         {
-            this.Layer.SetTranslationYSelectedItems(this.Composer.HostTranslateY);
+            this.Layer.SetTranslationYSelectedItems(this.Composer.TranslationY);
         }
         private void SetTransformSelectedItems()
         {
-            this.Layer.SetTransformSelectedItems(this.Composer.HostMatrix);
+            this.Layer.SetTransformSelectedItems(this.Composer.TransformMatrix);
         }
         #endregion
 
@@ -372,7 +372,7 @@ namespace FanKit.Transformer.TestApp
                     case SizeType.Point: this.Indicator.ChangeAll(this.Composer.Point.Point); break;
                     case SizeType.RowLine: this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, this.ParameterPanel.RowMode); break;
                     case SizeType.ColumnLine: this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, this.ParameterPanel.ColumnMode); break;
-                    case SizeType.Panel: this.Indicator.ChangeAll(this.Composer.Panel.Triangle, this.ParameterPanel.Mode); break;
+                    case SizeType.Panel: this.Indicator.ChangeAll(this.Composer.Panel.Destination, this.ParameterPanel.Mode); break;
                     default: break;
                 }
                 this.ParameterPanel.UpdateAll(this.Indicator);
@@ -1054,7 +1054,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         this.Composer.Point.Translate(this.Indicator, this.StartingPoint, this.Point);
 
-                        this.Layer.SetTranslation(this.Composer.HostTranslateX, this.Composer.HostTranslateY, this.Composer.Point.Point, this.Indexer.Index);
+                        this.Layer.SetTranslation(this.Composer.TranslationX, this.Composer.TranslationY, this.Composer.Point.Point, this.Indexer.Index);
 
                         this.Invalidate(InvalidateModes.None
                             | InvalidateModes.UpdateLayers

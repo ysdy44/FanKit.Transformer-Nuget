@@ -117,7 +117,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Transformer.Triangle, e);
+            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Transformer.Destination, e);
 
             this.ParameterPanel.Apply += (s, e) =>
             {
@@ -179,7 +179,7 @@ namespace FanKit.Transformer.TestApp
                 {
                     drawingSession.DrawImage(new Transform2DEffect
                     {
-                        TransformMatrix = item.Matrix,
+                        TransformMatrix = item.HomographyMatrix,
                         Source = this.Bitmap,
                     });
                 }
@@ -274,7 +274,7 @@ namespace FanKit.Transformer.TestApp
             foreach (Layer item in this.Layers)
             {
                 if (item.IsSelected)
-                    item.Translate(this.Transformer.HostTranslateX, this.Transformer.HostTranslateY);
+                    item.Translate(this.Transformer.TranslationX, this.Transformer.TranslationY);
             }
         }
         private void Transform()
@@ -282,7 +282,7 @@ namespace FanKit.Transformer.TestApp
             foreach (Layer item in this.Layers)
             {
                 if (item.IsSelected)
-                    item.Transform(this.Transformer.HostMatrix);
+                    item.Transform(this.Transformer.TransformMatrix);
             }
         }
         private void RectChooses()
@@ -319,7 +319,7 @@ namespace FanKit.Transformer.TestApp
                                 this.Transformer.Reset(item);
                                 break;
                             default:
-                                this.Transformer.Extend(item.Triangle);
+                                this.Transformer.Extend(item.Destination);
                                 break;
                         }
                     }
@@ -329,7 +329,7 @@ namespace FanKit.Transformer.TestApp
                 switch (this.Transformer.Count)
                 {
                     case 0: this.Indicator.ClearAll(); break;
-                    default: this.Indicator.ChangeAll(this.Transformer.Triangle, this.ParameterPanel.Mode); break;
+                    default: this.Indicator.ChangeAll(this.Transformer.Destination, this.ParameterPanel.Mode); break;
                 }
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
@@ -445,7 +445,7 @@ namespace FanKit.Transformer.TestApp
                                 item.CacheTranslation(); // Single Translation 1
                                 this.Mode = BoxContainsNodeMode.Contains;
 
-                                this.Transformer.Reset(item.Triangle);  // Single Translation 2
+                                this.Transformer.Reset(item.Destination);  // Single Translation 2
                             }
                         }
                         else
@@ -698,7 +698,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Transformer.Triangle);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -711,7 +711,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Transformer.Triangle);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -722,7 +722,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Transformer.Triangle);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -733,7 +733,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Transformer.Triangle);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -744,7 +744,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Transformer.Triangle);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -755,7 +755,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.UpdateDestination(this.Transformer.Triangle);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -792,7 +792,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.SetTransform(this.Transformer.HostMatrix);
+                            item.SetTransform(this.Transformer.TransformMatrix);
                         }
                     }
                     break;
@@ -803,7 +803,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.SetTransform(this.Transformer.HostMatrix);
+                            item.SetTransform(this.Transformer.TransformMatrix);
                         }
                     }
                     break;
@@ -814,7 +814,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.SetTransform(this.Transformer.HostMatrix);
+                            item.SetTransform(this.Transformer.TransformMatrix);
                         }
                     }
                     break;
@@ -825,7 +825,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.SetTransform(this.Transformer.HostMatrix);
+                            item.SetTransform(this.Transformer.TransformMatrix);
                         }
                     }
                     break;

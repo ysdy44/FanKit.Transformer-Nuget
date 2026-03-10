@@ -67,7 +67,7 @@ namespace FanKit.Transformer.TestApp
                 QuadrilateralChannelKind kind = e;
                 float value = this.ParameterPanel.Value;
 
-                this.FreeTransformer.UpdateDestination(this.FreeTransformer.Quadrilateral.MoveChannel(kind, value));
+                this.FreeTransformer.UpdateDestination(this.FreeTransformer.Destination.MoveChannel(kind, value));
 
                 this.Invalidate(InvalidateModes.None
                     //| InvalidateModes.UpdateLayers
@@ -92,7 +92,7 @@ namespace FanKit.Transformer.TestApp
             float height = (float)this.Bitmap.Size.Height;
             this.FreeTransformer.UpdateSource(width, height);
 
-            this.ParameterPanel.UpdateAll(this.FreeTransformer.Quadrilateral);
+            this.ParameterPanel.UpdateAll(this.FreeTransformer.Destination);
 
             this.Invalidate(InvalidateModes.None
                 //| InvalidateModes.InitCanvas
@@ -120,7 +120,7 @@ namespace FanKit.Transformer.TestApp
             {
                 drawingSession.DrawImage(new Transform3DEffect
                 {
-                    TransformMatrix = this.FreeTransformer.Matrix,
+                    TransformMatrix = this.FreeTransformer.HomographyMatrix,
                     Source = this.Bitmap,
                 });
             }
@@ -209,7 +209,7 @@ namespace FanKit.Transformer.TestApp
                 case BoxContainsNodeMode.Contains:
                     this.FreeTransformer.Translate(this.StartingPoint, this.Point);
 
-                    this.ParameterPanel.UpdateAll(this.FreeTransformer.Quadrilateral);
+                    this.ParameterPanel.UpdateAll(this.FreeTransformer.Destination);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers
@@ -222,7 +222,7 @@ namespace FanKit.Transformer.TestApp
                     else
                         this.FreeTransformer.MovePoint(this.Point);
 
-                    this.ParameterPanel.Update(this.FreeTransformer.Quadrilateral, this.FreeTransformer.PointKind);
+                    this.ParameterPanel.Update(this.FreeTransformer.Destination, this.FreeTransformer.PointKind);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers

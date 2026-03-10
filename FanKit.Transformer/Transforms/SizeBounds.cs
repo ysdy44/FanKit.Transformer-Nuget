@@ -11,30 +11,33 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         //public int Count;
-        public float SourceWidth;
-        public float SourceHeight;
-        public SizeMatrix SourceNormalize;
+        public float SourceWidth { get; private set; }
+        public float SourceHeight { get; private set; }
+        SizeMatrix SourceNormalize;
 
         // Step 1. Transformer
         //Bounds TransformedBounds;
-        public Bounds StartingBounds;
-        public Bounds Bounds;
+        Bounds StartingBounds;
+        Bounds Bounds;
 
         // Step 2. Homography Matrix
         Matrix2x2 DestNorm;
+        public Bounds Destination => this.Bounds;
 
         // Step 3. Matrix
-        public Matrix2x2 StartingMatrix;
-        public Matrix2x2 Matrix;
+        Matrix2x2 StartingMatrix;
+        Matrix2x2 Matrix;
         //public Matrix2x2 InverseMatrix;
+        public Matrix2x2 HomographyMatrix => this.Matrix;
+        //public Matrix2x2 HomographyInverseMatrix => this.InverseMatrix;
 
         // Step 4. Host
         //InvertibleMatrix2x2 HostSourceNorm;
         //Matrix2x2 HostDestNorm;
         Matrix2x2 Host;
-        public float HostTranslateX => this.Host.TranslateX;
-        public float HostTranslateY => this.Host.TranslateY;
-        public Matrix2x2 HostMatrix => this.Host;
+        public float TranslationX => this.Host.TranslateX;
+        public float TranslationY => this.Host.TranslateY;
+        public Matrix2x2 TransformMatrix => this.Host;
 
         // Step 6. Controller
         CropController Controller;

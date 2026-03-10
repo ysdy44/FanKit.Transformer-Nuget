@@ -11,31 +11,34 @@ namespace FanKit.Transformer.Polylines
     {
         // Step 0. Initialize
         //public int Count;
-        public Bounds SourceBounds;
-        public Rectangle SourceRect;
-        public RectMatrix SourceNormalize;
+        public Bounds SourceBounds { get; private set; }
+        public Rectangle SourceRect { get; private set; }
+        RectMatrix SourceNormalize;
 
         // Step 1. Transformer
         TransformedBounds TransformedBounds;
-        public Triangle StartingTriangle;
-        public Triangle Triangle; 
+        Triangle StartingTriangle;
+        Triangle Triangle;
 
         // Step 2. Homography Matrix
         Matrix3x2 DestNorm;
+        public Triangle Destination => this.Triangle;
 
         // Step 3. Matrix
-        public Matrix3x2 StartingMatrix;
-        public Matrix3x2 Matrix;
-        public Matrix3x2 InverseMatrix;
+        Matrix3x2 StartingMatrix;
+        Matrix3x2 Matrix;
+        Matrix3x2 InverseMatrix;
+        public Matrix3x2 HomographyMatrix => this.Matrix;
+        public Matrix3x2 HomographyInverseMatrix => this.InverseMatrix;
 
         // Step 4. Host
         //InvertibleMatrix3x2 HostSourceNorm;
         //Matrix3x2 HostDestNorm;
         Matrix3x2 Host;
-        public float HostTranslateX => this.Host.M31;
-        public float HostTranslateY => this.Host.M32;
-        public Matrix3x2 HostMatrix => this.Host;
-
+        public float TranslationX => this.Host.M31;
+        public float TranslationY => this.Host.M32;
+        public Matrix3x2 TransformMatrix => this.Host;
+        
         // Step 6. Controller
         //TransformController Controller;
 
@@ -68,10 +71,7 @@ namespace FanKit.Transformer.Polylines
         }
         private void Extend(Vector2 point)
         {
-            if (this.SourceBounds.Left > point.X) this.SourceBounds.Left = point.X;
-            if (this.SourceBounds.Top > point.Y) this.SourceBounds.Top = point.Y;
-            if (this.SourceBounds.Right < point.X) this.SourceBounds.Right = point.X;
-            if (this.SourceBounds.Bottom < point.Y) this.SourceBounds.Bottom = point.Y;
+            this.SourceBounds = Bounds.Union(this.SourceBounds, point);
         }
         private void EndExtend()
         {
@@ -546,7 +546,7 @@ namespace FanKit.Transformer.Polylines
                     Segment3 item = figure.Data[i];
                     if (item.IsChecked)
                     {
-                        Vector2 p = new Vector2(item.Raw.X + this.HostTranslateX, item.Raw.Y + this.HostTranslateY);
+                        Vector2 p = new Vector2(item.Raw.X + this.TranslationX, item.Raw.Y + this.TranslationY);
                         figure.Data[i] = new Segment3
                         {
                             IsChecked = true,
@@ -577,7 +577,7 @@ namespace FanKit.Transformer.Polylines
                     Segment3 item = figure.Data[i];
                     if (item.IsChecked)
                     {
-                        Vector2 p = Vector2.Transform(item.Map, this.HostMatrix);
+                        Vector2 p = Vector2.Transform(item.Map, this.TransformMatrix);
                         figure.Data[i] = new Segment3
                         {
                             IsChecked = true,
@@ -809,7 +809,7 @@ namespace FanKit.Transformer.Polylines
                     Segment3 item = figure.Data[i];
                     if (item.IsChecked)
                     {
-                        Vector2 p = Math.Translate(item.Starting, this.HostTranslateX, this.HostTranslateY);
+                        Vector2 p = Math.Translate(item.Starting, this.TranslationX, this.TranslationY);
                         figure.Data[i] = new Segment3
                         {
                             IsChecked = true,
@@ -840,7 +840,7 @@ namespace FanKit.Transformer.Polylines
                     Segment3 item = figure.Data[i];
                     if (item.IsChecked)
                     {
-                        Vector2 p = Vector2.Transform(item.Starting, this.HostMatrix);
+                        Vector2 p = Vector2.Transform(item.Starting, this.TransformMatrix);
                         figure.Data[i] = new Segment3
                         {
                             IsChecked = true,

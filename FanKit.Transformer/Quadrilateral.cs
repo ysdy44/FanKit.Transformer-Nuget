@@ -224,12 +224,12 @@ namespace FanKit.Transformer
         //public Controllers.Controller CacheTransform(TransformMode mode) => new Controllers.Controller(this, mode);
         //public Controllers.Controller CacheRotation(Vector2 point) => new Controllers.Controller(this, point);
 
-        //public Controllers.FreeController CacheFreeTransform(FreeTransformMode mode) => new Controllers.FreeController(this, mode, 8f);
+        //public Controllers.FreeTransformController CacheFreeTransform(FreeTransformMode mode) => new Controllers.FreeTransformController(this, mode, 8f);
 
         //public Quadrilateral Transform(Controllers.Controller controller, Vector2 point, bool keepRatio, bool centeredScaling) => controller.Transform(this, point, keepRatio, centeredScaling);
 
-        //public Quadrilateral MovePoint(Controllers.FreeController controller, Vector2 point) => controller.MovePoint(this, point);
-        //public Quadrilateral MovePointOfConvexQuadrilateral(Controllers.FreeController controller, Vector2 point) => controller.MovePointOfConvexQuadrilateral(this, point);
+        //public Quadrilateral MovePoint(Controllers.FreeTransformController controller, Vector2 point) => controller.MovePoint(this, point);
+        //public Quadrilateral MovePointOfConvexQuadrilateral(Controllers.FreeTransformController controller, Vector2 point) => controller.MovePointOfConvexQuadrilateral(this, point);
 
         public Quadrilateral Expand(Quadrilateral expander) => new Quadrilateral
         {

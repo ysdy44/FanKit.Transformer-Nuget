@@ -23,12 +23,12 @@ namespace FanKit.Transformer.Demos
 
         public void RectChoose(Bounds bounds)
         {
-            this.IsSelected = bounds.Contains(this.Triangle);
+            this.IsSelected = bounds.Contains(this.Destination);
         }
 
         public void UpdateCanvas()
         {
-            this.ActualBox = new Box0(this.Triangle);
+            this.ActualBox = new Box0(this.Destination);
         }
     }
 }

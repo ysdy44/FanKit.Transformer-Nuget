@@ -25,13 +25,13 @@ namespace FanKit.Transformer.Demos
 
         public void RectChoose(Bounds bounds)
         {
-            this.IsSelected = bounds.Contains(this.Triangle);
+            this.IsSelected = bounds.Contains(this.Destination);
         }
 
         public void UpdateCanvas()
         {
             this.ActualStrokeWidth = this.StrokeWidth;
-            this.ActualBox = new Box0(this.Triangle);
+            this.ActualBox = new Box0(this.Destination);
 
             foreach (Figure3 figure in this.Data)
             {
@@ -57,7 +57,7 @@ namespace FanKit.Transformer.Demos
         public void UpdateCanvas(ICanvasMatrix matrix)
         {
             this.ActualStrokeWidth = matrix.Scale(this.StrokeWidth);
-            this.ActualBox = new Box0(this.Triangle, matrix);
+            this.ActualBox = new Box0(this.Destination, matrix);
 
             foreach (Figure3 figure in this.Data)
             {

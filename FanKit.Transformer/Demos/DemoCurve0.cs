@@ -18,7 +18,7 @@ namespace FanKit.Transformer.Demos
 
         public void UpdateCanvas()
         {
-            this.ActualBox = new Box0(this.Triangle);
+            this.ActualBox = new Box0(this.Destination);
         }
     }
 }

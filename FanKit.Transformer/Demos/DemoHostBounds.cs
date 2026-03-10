@@ -15,7 +15,7 @@ namespace FanKit.Transformer.Demos
                     this.ActualBox = default;
                     break;
                 default:
-                    this.ActualBox = new Box1(this.Bounds);
+                    this.ActualBox = new Box1(this.Destination);
                     break;
             }
         }
@@ -28,7 +28,7 @@ namespace FanKit.Transformer.Demos
                     this.ActualBox = default;
                     break;
                 default:
-                    this.ActualBox = new Box1(this.Bounds, matrix);
+                    this.ActualBox = new Box1(this.Destination, matrix);
                     break;
             }
         }

@@ -11,7 +11,7 @@ namespace FanKit.Transformer.Transforms
             // Step 0. Initialize
 
             // Step 1. Transformer
-            public Vector2 StartingPoint;
+            internal Vector2 StartingPoint;
 
             public Vector2 Point;
 
@@ -25,7 +25,7 @@ namespace FanKit.Transformer.Transforms
 
             readonly HostComposer Host;
 
-            public ComposerPoint(HostComposer host)
+            internal ComposerPoint(HostComposer host)
             {
                 this.Host = host;
             }

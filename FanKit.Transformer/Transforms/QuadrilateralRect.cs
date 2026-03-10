@@ -9,17 +9,19 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         //public int Count;
-        public float DestinationWidth;
-        public float DestinationHeight;
+        public float DestinationWidth { get; private set; }
+        public float DestinationHeight { get; private set; }
 
         // Step 1. Transformer
-        public Quadrilateral StartingQuadrilateral;
-        public Quadrilateral Quadrilateral;
+        Quadrilateral StartingQuadrilateral;
+        Quadrilateral Quadrilateral;
+        public Quadrilateral Source => this.Quadrilateral;
 
         // Step 3. Matrix
-        public Matrix4x4 StartingMatrix;
-        public Matrix4x4 Matrix;
+        //Matrix4x4 StartingMatrix;
+        Matrix4x4 Matrix;
         //public Matrix4x4 InverseMatrix;
+        public Matrix4x4 HomographyMatrix => this.Matrix;
 
         // Step 4. Host
         //InvertibleMatrix3x2 HostSource;
@@ -77,7 +79,7 @@ namespace FanKit.Transformer.Transforms
         public void CacheFreeTransform(FreeTransformMode mode)
         {
             this.StartingQuadrilateral = this.Quadrilateral;
-            this.StartingMatrix = this.Matrix;
+            //this.StartingMatrix = this.Matrix;
 
             this.Host = Matrix3x2.Identity;
 
@@ -107,7 +109,7 @@ namespace FanKit.Transformer.Transforms
         public void CacheTranslation()
         {
             this.StartingQuadrilateral = this.Quadrilateral;
-            this.StartingMatrix = this.Matrix;
+            //this.StartingMatrix = this.Matrix;
 
             //this.HostSourceNorm = this.StartingQuadrilateral.ToInvertibleMatrix();
             this.Host = Matrix3x2.Identity;
@@ -116,7 +118,7 @@ namespace FanKit.Transformer.Transforms
         public void CacheTransform()
         {
             this.StartingQuadrilateral = this.Quadrilateral;
-            this.StartingMatrix = this.Matrix;
+            //this.StartingMatrix = this.Matrix;
 
             //this.HostSourceNorm = this.StartingQuadrilateral.ToInvertibleMatrix();
             this.Host = Matrix3x2.Identity;

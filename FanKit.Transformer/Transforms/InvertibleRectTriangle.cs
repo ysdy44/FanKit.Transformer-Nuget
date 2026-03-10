@@ -10,30 +10,33 @@ namespace FanKit.Transformer.Transforms
     {
         // Step 0. Initialize
         //public int Count;
-        public Bounds SourceBounds;
-        public Rectangle SourceRect;
-        public RectMatrix SourceNormalize;
+        public Bounds SourceBounds { get; private set; }
+        public Rectangle SourceRect { get; private set; }
+        RectMatrix SourceNormalize;
 
         // Step 1. Transformer
         TransformedBounds TransformedBounds;
-        public Triangle StartingTriangle;
-        public Triangle Triangle;
+        Triangle StartingTriangle;
+        Triangle Triangle;
 
         // Step 2. Homography Matrix
         Matrix3x2 DestNorm;
+        public Triangle Destination => this.Triangle;
 
         // Step 3. Matrix
-        public Matrix3x2 StartingMatrix;
-        public Matrix3x2 Matrix;
-        public Matrix3x2 InverseMatrix;
+        Matrix3x2 StartingMatrix;
+        Matrix3x2 Matrix;
+        Matrix3x2 InverseMatrix;
+        public Matrix3x2 HomographyMatrix => this.Matrix;
+        public Matrix3x2 HomographyInverseMatrix => this.InverseMatrix;
 
         // Step 4. Host
         //InvertibleMatrix3x2 HostSourceNorm;
         //Matrix3x2 HostDestNorm;
         Matrix3x2 Host;
-        //float HostTranslateX => this.Host.M31;
-        //float HostTranslateY => this.Host.M32;
-        //Matrix3x2 HostMatrix => this.Host;
+        //float TranslationX => this.Host.M31;
+        //float TranslationY => this.Host.M32;
+        //Matrix3x2 TransformMatrix => this.Host;
 
         // Step 6. Controller
         //TransformController Controller;

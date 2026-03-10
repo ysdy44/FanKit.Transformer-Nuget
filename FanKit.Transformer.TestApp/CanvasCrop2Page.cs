@@ -88,7 +88,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Bounds, e);
+            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Destination, e);
 
             this.ParameterPanel.Apply += (s, e) =>
             {
@@ -137,7 +137,7 @@ namespace FanKit.Transformer.TestApp
             {
                 drawingSession.DrawImage(new Transform2DEffect
                 {
-                    TransformMatrix = this.Cropper.Matrix.ToMatrix3x2(),
+                    TransformMatrix = this.Cropper.HomographyMatrix.ToMatrix3x2(),
                     Source = this.Bitmap,
                 });
             }
@@ -187,7 +187,7 @@ namespace FanKit.Transformer.TestApp
 
             if (modes.HasFlag(InvalidateModes.InitIndicator))
             {
-                this.Indicator.ChangeAll(this.Cropper.Bounds, this.ParameterPanel.Mode);
+                this.Indicator.ChangeAll(this.Cropper.Destination, this.ParameterPanel.Mode);
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
 

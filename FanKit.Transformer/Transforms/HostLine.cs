@@ -13,8 +13,8 @@ namespace FanKit.Transformer.Transforms
         // Step 0. Initialize'
 
         // Step 1. Transformer
-        public Vector2 StartingPoint0;
-        public Vector2 StartingPoint1;
+        Vector2 StartingPoint0;
+        Vector2 StartingPoint1;
 
         public Vector2 Point0;
         public Vector2 Point1;
@@ -27,9 +27,9 @@ namespace FanKit.Transformer.Transforms
         LineMatrix HostSourceNorm;
         PinchMatrix3x2 HostDestNorm;
         Matrix3x2 Host;
-        public float HostTranslateX => this.Host.M31;
-        public float HostTranslateY => this.Host.M32;
-        public Matrix3x2 HostMatrix => this.Host;
+        public float TranslationX => this.Host.M31;
+        public float TranslationY => this.Host.M32;
+        public Matrix3x2 TransformMatrix => this.Host;
 
         // Step 6. Controller
         Vector2 Diff;

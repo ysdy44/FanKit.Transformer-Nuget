@@ -25,7 +25,7 @@ namespace FanKit.Transformer.Demos
         public void UpdateCanvas()
         {
             this.ActualStrokeWidth = this.StrokeWidth;
-            this.ActualBox = new Box0(this.Triangle);
+            this.ActualBox = new Box0(this.Destination);
 
             for (int i = 0; i < this.Data.Count; i++)
             {
@@ -46,7 +46,7 @@ namespace FanKit.Transformer.Demos
         public void UpdateCanvas(ICanvasMatrix matrix)
         {
             this.ActualStrokeWidth = matrix.Scale(this.StrokeWidth);
-            this.ActualBox = new Box0(this.Triangle, matrix);
+            this.ActualBox = new Box0(this.Destination, matrix);
 
             for (int i = 0; i < this.Data.Count; i++)
             {
