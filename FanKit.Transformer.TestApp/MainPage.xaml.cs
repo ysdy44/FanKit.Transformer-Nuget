@@ -359,6 +359,7 @@ namespace FanKit.Transformer.TestApp
                 new Kvp("CombineBounds", "Combine Bounds", typeof(CombineBoundsPage)),
                 new Kvp("ContainsBounds", "Contains Bounds", typeof(ContainsBoundsPage)),
                 new Kvp("CombinePath", "Combine Path", typeof(CombinePathPage)),
+                new Kvp("SvgPath", "SVG Path", typeof(SvgPathPage)),
                 default,
                 new Kvp("Carousel", "Carousel", typeof(CarouselPage)),
                 new Kvp("Carousels", "Carousels", typeof(CarouselsPage)),

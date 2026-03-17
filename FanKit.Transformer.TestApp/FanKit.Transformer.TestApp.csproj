@@ -332,6 +332,7 @@
       <DependentUpon>DualPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\CanvasDrawingSessionExtensions.cs" />
+    <Compile Include="Extensions\CanvasPath.cs" />
     <Compile Include="Extensions\PathBuilder.cs" />
     <Compile Include="Extensions\WindowsFoundationExtensions.cs" />
     <Compile Include="FlyoutPage.xaml.cs">
@@ -450,6 +451,9 @@
     </Compile>
     <Compile Include="SplitBezierPage.xaml.cs">
       <DependentUpon>SplitBezierPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SvgPathPage.xaml.cs">
+      <DependentUpon>SvgPathPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Transform0Page.cs" />
     <Compile Include="Transform1Page.cs" />
@@ -817,6 +821,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SplitBezierPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SvgPathPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

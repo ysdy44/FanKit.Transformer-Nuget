@@ -2830,6 +2830,20 @@
                             </StackPanel>
                         </Button>
 
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                SvgPath
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Border IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <TextBlock FontSize="32" Foreground="DeepSkyBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        &lt;SVG&gt;
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock Text="Svg Path" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
                     </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">

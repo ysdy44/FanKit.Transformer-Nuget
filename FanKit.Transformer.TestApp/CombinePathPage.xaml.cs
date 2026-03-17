@@ -13,55 +13,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace FanKit.Transformer.TestApp
 {
-    public class CombinePath : List<List<Node>>, ICanvasPathReceiver
-    {
-        PathReceiver Receiver;
-
-        public void BeginFigure(Vector2 startPoint, CanvasFigureFill figureFill)
-        {
-            this.Add(new List<Node>());
-            this.Receiver = new PathReceiver(startPoint);
-        }
-
-        public void AddArc(Vector2 endPoint, float radiusX, float radiusY, float rotationAngle, CanvasSweepDirection sweepDirection, CanvasArcSize arcSize) { }
-
-        public void AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint)
-        {
-            this.Last().Add(this.Receiver.CubicBezier(controlPoint1, controlPoint2, endPoint));
-            this.Receiver = this.Receiver.ToCubicBezier(controlPoint1, controlPoint2, endPoint);
-        }
-
-        public void AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint)
-        {
-            this.Last().Add(this.Receiver.QuadraticBezier(controlPoint, endPoint));
-            this.Receiver = this.Receiver.ToQuadraticBezier(controlPoint, endPoint);
-        }
-
-        public void AddLine(Vector2 endPoint)
-        {
-            this.Last().Add(this.Receiver.Line(endPoint));
-            this.Receiver = this.Receiver.ToLine(endPoint);
-        }
-
-        public void SetFilledRegionDetermination(CanvasFilledRegionDetermination filledRegionDetermination) { }
-
-        public void SetSegmentOptions(CanvasFigureSegmentOptions figureSegmentOptions) { }
-
-        public void EndFigure(CanvasFigureLoop figureLoop)
-        {
-            switch (figureLoop)
-            {
-                case CanvasFigureLoop.Open:
-                    break;
-                case CanvasFigureLoop.Closed:
-                    this.Last().Add(this.Receiver.EndFigure());
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     public sealed partial class CombinePathPage : Page
     {
         // Source
@@ -78,9 +29,9 @@ namespace FanKit.Transformer.TestApp
         CanvasGeometry Curve1;
         CanvasGeometry Curve;
 
-        readonly CombinePath Path0 = new CombinePath();
-        readonly CombinePath Path1 = new CombinePath();
-        readonly CombinePath Path = new CombinePath();
+        readonly CanvasPath Path0 = new CanvasPath();
+        readonly CanvasPath Path1 = new CanvasPath();
+        readonly CanvasPath Path = new CanvasPath();
 
         readonly Matrix3x2 Offset = Matrix3x2.CreateTranslation(412f, 0f);
 
