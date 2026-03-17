@@ -37,9 +37,9 @@ namespace FanKit.Transformer.Curves
         //InvertibleMatrix3x2 HostSourceNorm;
         //Matrix3x2 HostDestNorm;
         Matrix3x2 Host;
-        public float HostTranslateX => this.Host.M31;
-        public float HostTranslateY => this.Host.M32;
-        public Matrix3x2 HostMatrix => this.Host;
+        public float TranslationX => this.Host.M31;
+        public float TranslationY => this.Host.M32;
+        public Matrix3x2 TransformMatrix => this.Host;
 
         // Step 6. Controller
         //TransformController Controller;
@@ -465,7 +465,7 @@ namespace FanKit.Transformer.Curves
                 {
                     has = true;
 
-                    Node p = Node.Translate(item.Point, this.HostTranslateX, this.HostTranslateY);
+                    Node p = Node.Translate(item.Point, this.TranslationX, this.TranslationY);
                     this.Data[i] = new Segment1
                     {
                         IsChecked = true,
@@ -497,7 +497,7 @@ namespace FanKit.Transformer.Curves
                 {
                     has = true;
 
-                    Node p = Node.Transform(item.Point, this.HostMatrix);
+                    Node p = Node.Transform(item.Point, this.TransformMatrix);
                     this.Data[i] = new Segment1
                     {
                         IsChecked = true,
@@ -715,7 +715,7 @@ namespace FanKit.Transformer.Curves
                 {
                     has = true;
 
-                    Node p = Node.Translate(item.Starting, this.HostTranslateX, this.HostTranslateY);
+                    Node p = Node.Translate(item.Starting, this.TranslationX, this.TranslationY);
                     this.Data[i] = new Segment1
                     {
                         IsChecked = true,
@@ -747,7 +747,7 @@ namespace FanKit.Transformer.Curves
                 {
                     has = true;
 
-                    Node p = Node.Transform(item.Starting, this.HostMatrix);
+                    Node p = Node.Transform(item.Starting, this.TransformMatrix);
                     this.Data[i] = new Segment1
                     {
                         IsChecked = true,
