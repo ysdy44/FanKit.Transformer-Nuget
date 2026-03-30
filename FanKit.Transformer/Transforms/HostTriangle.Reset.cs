@@ -1,4 +1,7 @@
-﻿using FanKit.Transformer.Indicators;
+﻿using FanKit.Transformer.Controllers;
+using FanKit.Transformer.Indicators;
+using FanKit.Transformer.Mathematics;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace FanKit.Transformer.Transforms
@@ -12,31 +15,18 @@ namespace FanKit.Transformer.Transforms
 
         public void Reset()
         {
-            // Step 0. Initialize
             this.Count = 0;
 
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            //this.Find();
-
-            // Step 4. Host
-            this.Host = Matrix3x2.Identity;
+            this.Host.Matrix = Matrix3x2.Identity;
         }
 
-        public void Reset(Triangle triangle)
+        public void Reset(Triangle destination)
         {
-            // Step 0. Initialize
             this.Count = 1;
 
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle = triangle;
+            this.Panel.StartingTriangle = this.Panel.Triangle = destination;
 
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            //this.Find();
-
-            // Step 4. Host
-            this.Host = Matrix3x2.Identity;
+            this.Host.Matrix = Matrix3x2.Identity;
         }
 
         public void Reset(ChildRectTriangle item) => this.Reset(item.SourceBounds, item.Destination, item.HomographyMatrix);
