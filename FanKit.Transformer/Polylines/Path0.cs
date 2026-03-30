@@ -1,72 +1,24 @@
 ﻿using FanKit.Transformer.Cache;
+using FanKit.Transformer.Compute;
 using FanKit.Transformer.Indicators;
 using FanKit.Transformer.Mathematics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Segment = FanKit.Transformer.Polylines.Segment0;
 
 namespace FanKit.Transformer.Polylines
 {
-    public partial class Path0 : IGetFigure
+    public partial class Path0 : PathTriangle, IGetFigure
     {
-        // Step 0. Initialize
-        //public int Count;
         public Bounds SourceBounds { get; private set; }
         public Rectangle SourceRect { get; private set; }
-        //RectMatrix SourceNormalize;
 
-        // Step 1. Transformer
-        TransformedBounds TransformedBounds;
-        Triangle StartingTriangle;
-        Triangle Triangle;
         public Triangle Destination => this.Triangle;
 
-        // Step 2. Homography Matrix
-        //Matrix3x2 DestNorm;
-
-        // Step 3. Matrix
-        //Matrix3x2 StartingMatrix;
-        //Matrix3x2 Matrix;
-        //Matrix3x2 InverseMatrix;
-        //public Matrix3x2 HomographyMatrix => this.Matrix;
-        //public Matrix3x2 HomographyInverseMatrix => this.InverseMatrix;
-
-        // Step 4. Host
-        //InvertibleMatrix3x2 HostSourceNorm;
-        //Matrix3x2 HostDestNorm;
-        Matrix3x2 Host;
         public float TranslationX => this.Host.M31;
         public float TranslationY => this.Host.M32;
         public Matrix3x2 TransformMatrix => this.Host;
-
-        // Step 6. Controller
-        //TransformController Controller;
-
-        //ControllerRadians Radians;
-
-        /*
-        void Invert()
-        {
-            Matrix3x2.Invert(this.Matrix, out this.InverseMatrix);
-        }
-         */
-
-        /*
-        void Find()
-        {
-            this.DestNorm = this.Triangle.Normalize();
-            this.Matrix = this.Source.Affine(this.DestNorm);
-            this.Invert();
-        }
-         */
-
-        /*
-        void FindHomography()
-        {
-            this.HostDestNorm = this.Triangle.Normalize();
-            this.Host = this.HostSourceNorm * this.HostDestNorm;
-        }
-         */
 
         #region Triangles.Initialize
         private void BeginExtend()
@@ -79,109 +31,36 @@ namespace FanKit.Transformer.Polylines
         }
         private void EndExtend()
         {
-            // Step 0. Initialize
             this.SourceRect = new Rectangle(this.SourceBounds);
-            //this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            // Step 4. Host
             this.Host = Matrix3x2.Identity;
 
-            // Step 1. Transformer
             this.TransformedBounds = new TransformedBounds(this.SourceBounds);
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
 
-        /*
-        public void Reset()
+        public void Reset(Triangle destination)
         {
-            // Step 0. Initialize
-            //this.Count = 0;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            this.Host = Matrix3x2.Identity;
+            this.RT(destination);
         }
-         */
-
-        public void Reset(Triangle triangle)
-        {
-            // Step 0. Initialize
-            //this.Count = 1;
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle = triangle;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            //this.Find();
-            //this.RawToMap();
-
-            // Step 4. Host
-            this.Host = Matrix3x2.Identity;
-        }
-
-        /*
-        public void Reset(IEnumerable<IGetTriangle> items)
-        {
-            this.Count = 0;
-
-            foreach (IGetTriangle item in items)
-            {
-                if (item.HasTriangle())
-                {
-                    if (this.Count == 0)
-                        this.StartingTriangle = this.Triangle = item.GetTriangle();
-
-                    this.Count++;
-                }
-            }
-
-            switch (this.Count)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                default:
-                    // Step 0. Initialize
-                    this.SourceBounds = new Bounds(items);
-
-                    // Step 1. Transformer
-                    this.StartingTriangle = this.Triangle = new Triangle(this.SourceBounds);
-
-                    // Step 2. Homography Matrix
-                    // Step 3. Matrix
-                    //this.Find();
-
-                    // Step 4. Host
-                    this.Host = Matrix3x2.Identity;
-                    break;
-            }
-        }
-         */
         #endregion
 
         #region Triangles.SelectedItems
         public bool IsClosed;
 
-        public List<Segment0> Data;
+        public List<Segment> Data;
 
         public PathSetting Setting { get; } = new PathSetting();
         public int Count => this.Data.Count;
         public int GetChecksCount() => this.Data.Count(GetIsChecked);
-        private static bool GetIsChecked(Segment0 item) => item.IsChecked;
+        private static bool GetIsChecked(Segment item) => item.IsChecked;
 
-        public Path0(List<Segment0> items)
+        public Path0(List<Segment> items)
         {
             this.Data = items;
-            //this.Matrix = Matrix3x2.Identity;
-            //this.InverseMatrix = Matrix3x2.Identity;
 
             this.BeginExtend();
-            foreach (Segment0 item in this.Data)
+            foreach (Segment item in this.Data)
             {
                 this.Extend(item.Point);
             }
@@ -191,7 +70,7 @@ namespace FanKit.Transformer.Polylines
         public void Complete()
         {
             this.BeginExtend();
-            foreach (Segment0 item in this.Data)
+            foreach (Segment item in this.Data)
             {
                 this.Extend(item.Point);
             }
@@ -202,13 +81,13 @@ namespace FanKit.Transformer.Polylines
         {
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
 
                 if (item.IsChecked)
                 {
                     if (index != i)
                     {
-                        this.Data[i] = new Segment0
+                        this.Data[i] = new Segment
                         {
                             IsChecked = false,
                             // C# 9.0 : var a = item with { ... }
@@ -223,7 +102,7 @@ namespace FanKit.Transformer.Polylines
                 {
                     if (index == i)
                     {
-                        this.Data[i] = new Segment0
+                        this.Data[i] = new Segment
                         {
                             IsChecked = true,
                             // C# 9.0 : var a = item with { ... }
@@ -234,27 +113,6 @@ namespace FanKit.Transformer.Polylines
                         };
                     }
                 }
-                /*
-                    else
-                    {
-                        for (int i = 0; i < figure.Data.Count; i++)
-                        {
-                            Segment item = figure.Data[i];
-                            if (item.IsChecked)
-                            {
-                                figure.Data[i] = new Segment
-                                {
-                                    IsChecked = false,
-                                    // C# 9.0 : var a = item with { ... }
-
-                                    //IsChecked = item.IsChecked,
-                                    Starting = item.Starting,
-                                    Point = item.Point,
-                                };
-                            }
-                        }
-                    }
-                 */
             }
         }
 
@@ -262,11 +120,11 @@ namespace FanKit.Transformer.Polylines
         {
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
 
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment0
+                    this.Data[i] = new Segment
                     {
                         IsChecked = false,
                         // C# 9.0 : var a = item with { ... }
@@ -283,13 +141,13 @@ namespace FanKit.Transformer.Polylines
         {
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
 
                 if (bounds.ContainsPoint(item.Point))
                 {
                     if (item.IsChecked is false)
                     {
-                        this.Data[i] = new Segment0
+                        this.Data[i] = new Segment
                         {
                             IsChecked = true,
                             // C# 9.0 : var a = item with { ... }
@@ -304,7 +162,7 @@ namespace FanKit.Transformer.Polylines
                 {
                     if (item.IsChecked)
                     {
-                        this.Data[i] = new Segment0
+                        this.Data[i] = new Segment
                         {
                             IsChecked = false,
                             // C# 9.0 : var a = item with { ... }
@@ -317,163 +175,55 @@ namespace FanKit.Transformer.Polylines
                 }
             }
         }
-
-        /*
-        public void RawToMap()
-        {
-            for (int i = 0; i < this.Data.Count; i++)
-            {
-                Segment0 item = this.Data[i];
-                this.Data[i] = new Segment0
-                {
-                    // C# 9.0 : var a = item with { ... }
-
-                    IsChecked = item.IsChecked,
-                    Starting = item.Starting,
-                    Point = item.Point,
-                };
-            }
-
-            // Step 1. Transformer
-            this.TransformedBounds = new TransformedBounds(this.SourceBounds);
-            this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
-        }
-         */
         #endregion
 
         #region Triangles.SelectedItems.Set
         public void SetTranslationSelectedItems(Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            this.TranslateRaw();
+            this.STSI0(translate);
         }
         public void SetTranslationSelectedItems(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            this.TranslateRaw();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.STSI1(indicator, mode, translate);
         }
 
         public void SetTranslationXSelectedItems(float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            this.TranslateRaw();
+            this.STXSI0(translateX);
         }
         public void SetTranslationXSelectedItems(IIndicator indicator, BoxMode mode, float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            this.TranslateRaw();
-            indicator.ChangeX(this.Triangle, mode);
+            this.STXSI1(indicator, mode, translateX);
         }
 
         public void SetTranslationYSelectedItems(float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            this.TranslateRaw();
+            this.STYSI0(translateY);
         }
         public void SetTranslationYSelectedItems(IIndicator indicator, BoxMode mode, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            this.TranslateRaw();
-            indicator.ChangeY(this.Triangle, mode);
+            this.STYSI1(indicator, mode, translateY);
         }
 
         public void SetTransformSelectedItems(Matrix3x2 matrix)
         {
-            this.Host = matrix;
-
-            this.TransformMap();
+            this.SFSI0(matrix);
         }
         public void SetTransformSelectedItems(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
         {
-            this.Host = matrix;
-
-            this.TransformMap();
-            indicator.ChangeAll(this.Triangle, mode);
+            this.SFSI1(indicator, mode, matrix);
         }
 
-        //public void SetWidthSelectedItems(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
-        //{
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = indicator.CreateWidth(this.StartingTriangle, mode, value, keepRatio);
-
-        //    // Step 2. Homography Matrix
-        //    // Step 3. Matrix
-        //    this.Find();
-
-        //    // Step 4. Host
-        //    //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-        //    //this.FindHomography();
-
-        //    indicator.ChangeXYWH(this.Triangle, mode);
-        //}
-        //public void SetHeightSelectedItems(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
-        //{
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = indicator.CreateHeight(this.StartingTriangle, mode, value, keepRatio);
-
-        //    // Step 2. Homography Matrix
-        //    // Step 3. Matrix
-        //    this.Find();
-
-        //    // Step 4. Host
-        //    //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-        //    //this.FindHomography();
-
-        //    indicator.ChangeXYWH(this.Triangle, mode);
-        //}
-
-        //public void SetRotationSelectedItems(IIndicator indicator, BoxMode mode, float rotationAngleInDegrees)
-        //{
-        //    // Step 4. Host
-        //    this.Host = indicator.CreateRotation(rotationAngleInDegrees);
-
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-
-        //    // Step 3. Matrix
-        //    this.StartingMatrix = this.Matrix;
-        //    this.Matrix = this.StartingMatrix * this.Host;
-        //    //this.Invert();
-
-        //    indicator.ChangeXYWHRS(this.Triangle, mode);
-        //}
-        //public void SetSkewSelectedItems(IIndicator indicator, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
-        //{
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = indicator.CreateSkew(this.StartingTriangle, mode, skewAngleInDegrees, minimum, maximum);
-
-        //    // Step 2. Homography Matrix
-        //    // Step 3. Matrix
-        //    this.Find();
-
-        //    // Step 4. Host
-        //    //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-        //    //this.FindHomography();
-
-        //    indicator.ChangeXYWHRS(this.Triangle, mode);
-        //}
-
-        private void TranslateRaw()
+        internal override void TranslateRaw()
         {
             this.BeginExtend();
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = new Vector2(item.Point.X + this.TranslationX, item.Point.Y + this.TranslationY);
-                    this.Data[i] = new Segment0
+                    this.Data[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -489,16 +239,16 @@ namespace FanKit.Transformer.Polylines
             this.EndExtend();
         }
 
-        private void TransformMap()
+        internal override void TransformMap()
         {
             this.BeginExtend();
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = Vector2.Transform(item.Point, this.TransformMatrix);
-                    this.Data[i] = new Segment0
+                    this.Data[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -516,35 +266,29 @@ namespace FanKit.Transformer.Polylines
         #endregion
 
         #region Triangles.SelectedItems.Set.Index
-        public void SetTranslation(float translateX, float translateY, Vector2 point, int index)
-        {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            SI(point, index);
-        }
-        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index)
-        {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            SI(point, index);
-            indicator.ChangeXY(this.Triangle, mode);
-        }
-
         public void SetTranslation(Vector2 translate, Vector2 point, int index)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            SI(point, index);
+            this.ST0(translate, point, index);
         }
         public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int index)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            SI(point, index);
-            indicator.ChangeXY(this.Triangle, mode);
+            this.ST1(indicator, mode, translate, point, index);
         }
 
-        private void SI(Vector2 point, int index)
+        public void SetTranslation(float translateX, float translateY, Vector2 point, int index)
         {
-            Segment0 segment = this.Data[index];
+            this.STXY0(translateX, translateY, point, index);
+        }
+        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index)
+        {
+            this.STXY1(indicator, mode, translateX, translateY, point, index);
+        }
 
-            this.Data[index] = new Segment0
+        internal override void SI(Vector2 point, int index)
+        {
+            Segment segment = this.Data[index];
+
+            this.Data[index] = new Segment
             {
                 IsChecked = true,
                 Point = point,
@@ -556,7 +300,7 @@ namespace FanKit.Transformer.Polylines
             };
 
             this.BeginExtend();
-            foreach (Segment0 item in this.Data)
+            foreach (Segment item in this.Data)
             {
                 this.Extend(item.Point);
             }
@@ -567,101 +311,72 @@ namespace FanKit.Transformer.Polylines
         #region Triangles.SelectedItems.Transform
         public void CacheTranslationSelectedItems()
         {
-            this.CacheRaw();
-
-            this.Host = Matrix3x2.Identity;
+            this.CTSI();
         }
 
         public void CacheTransformSelectedItems()
         {
-            this.CacheMap();
-
-            this.Host = Matrix3x2.Identity;
+            this.CFSI();
         }
 
         public void TranslateSelectedItems(Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.TranslateStarting();
+            this.TDSI0(startingPoint, point);
         }
         public void TranslateSelectedItems(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.TranslateStarting();
-            indicator.ChangeXY(this.Triangle, mode);
-        }
-
-        public void TranslateSelectedItems(float translateX, float translateY)
-        {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-
-            this.TranslateStarting();
-        }
-        public void TranslateSelectedItems(IIndicator indicator, BoxMode mode, float translateX, float translateY)
-        {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-
-            this.TranslateStarting();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TDSI1(indicator, mode, startingPoint, point);
         }
 
         public void TranslateSelectedItems(Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            this.TranslateStarting();
+            this.TSI0(translate);
         }
         public void TranslateSelectedItems(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
+            this.TSI1(indicator, mode, translate);
+        }
 
-            this.TranslateStarting();
-            indicator.ChangeXY(this.Triangle, mode);
+        public void TranslateSelectedItems(float translateX, float translateY)
+        {
+            this.TXYSI0(translateX, translateY);
+        }
+        public void TranslateSelectedItems(IIndicator indicator, BoxMode mode, float translateX, float translateY)
+        {
+            this.TXYSI1(indicator, mode, translateX, translateY);
         }
 
         public void TranslateXSelectedItems(float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            this.TranslateStarting();
+            this.TXSI0(translateX);
         }
         public void TranslateXSelectedItems(IIndicator indicator, BoxMode mode, float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            this.TranslateStarting();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TXSI1(indicator, mode, translateX);
         }
 
         public void TranslateYSelectedItems(float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            this.TranslateStarting();
+            this.TYSI0(translateY);
         }
         public void TranslateYSelectedItems(IIndicator indicator, BoxMode mode, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            this.TranslateStarting();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TYSI1(indicator, mode, translateY);
         }
 
         public void TransformSelectedItems(Matrix3x2 matrix)
         {
-            this.Host = matrix;
-
-            this.TransformStarting();
+            this.FSI(matrix);
         }
 
-        private void CacheRaw()
+        internal override void CacheRaw()
         {
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment0
+                    this.Data[i] = new Segment
                     {
                         IsChecked = true,
                         Starting = item.Point,
@@ -675,14 +390,14 @@ namespace FanKit.Transformer.Polylines
             }
         }
 
-        private void CacheMap()
+        internal override void CacheMap()
         {
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment0
+                    this.Data[i] = new Segment
                     {
                         IsChecked = true,
                         Starting = item.Point,
@@ -696,16 +411,16 @@ namespace FanKit.Transformer.Polylines
             }
         }
 
-        private void TranslateStarting()
+        internal override void TranslateStarting()
         {
             this.BeginExtend();
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = Math.Translate(item.Starting, this.TranslationX, this.TranslationY);
-                    this.Data[i] = new Segment0
+                    this.Data[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -721,16 +436,16 @@ namespace FanKit.Transformer.Polylines
             this.EndExtend();
         }
 
-        private void TransformStarting()
+        internal override void TransformStarting()
         {
             this.BeginExtend();
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 item = this.Data[i];
+                Segment item = this.Data[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = Vector2.Transform(item.Starting, this.TransformMatrix);
-                    this.Data[i] = new Segment0
+                    this.Data[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -750,319 +465,100 @@ namespace FanKit.Transformer.Polylines
         #region Triangles.Set
         public void SetTranslation(Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Translate(this.StartingTriangle, this.Host.M31, this.Host.M32);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
-            //this.Invert();
-            //this.RawToMap();
+            this.ST0(translate);
         }
         public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Translate(this.StartingTriangle, this.Host.M31, this.Host.M32);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
-            //this.Invert();
-            //this.RawToMap();
-
-            indicator.ChangeXY(this.Triangle, mode);
+            this.ST1(indicator, mode, translate);
         }
 
         public void SetTranslationX(float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateX(this.StartingTriangle, this.Host.M31);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
-            //this.Invert();
-            //this.RawToMap();
+            this.STX0(translateX);
         }
         public void SetTranslationX(IIndicator indicator, BoxMode mode, float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateX(this.StartingTriangle, this.Host.M31);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
-            //this.Invert();
-            //this.RawToMap();
-
-            indicator.ChangeX(this.Triangle, mode);
+            this.STX1(indicator, mode, translateX);
         }
 
         public void SetTranslationY(float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateY(this.StartingTriangle, this.Host.M32);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
-            //this.Invert();
-            //this.RawToMap();
+            this.STY0(translateY);
         }
         public void SetTranslationY(IIndicator indicator, BoxMode mode, float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateY(this.StartingTriangle, this.Host.M32);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
-            //this.Invert();
-            //this.RawToMap();
-
-            indicator.ChangeY(this.Triangle, mode);
+            this.STY1(indicator, mode, translateY);
         }
 
         public void SetTransform(Matrix3x2 matrix)
         {
-            // Step 4. Host
-            this.Host = matrix;
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-            //this.RawToMap();
+            this.SF0(matrix);
         }
         public void SetTransform(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
         {
-            // Step 4. Host
-            this.Host = matrix;
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-            //this.RawToMap();
-
-            indicator.ChangeAll(this.Triangle, mode);
+            this.SF1(indicator, mode, matrix);
         }
-
-        //public void SetWidth(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
-        //{
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = indicator.CreateWidth(this.StartingTriangle, mode, value, keepRatio);
-
-        //    // Step 2. Homography Matrix
-        //    // Step 3. Matrix
-        //    this.Find();
-
-        //    // Step 4. Host
-        //    //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-        //    //this.FindHomography();
-
-        //    indicator.ChangeXYWH(this.Triangle, mode);
-        //}
-        //public void SetHeight(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
-        //{
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = indicator.CreateHeight(this.StartingTriangle, mode, value, keepRatio);
-
-        //    // Step 2. Homography Matrix
-        //    // Step 3. Matrix
-        //    this.Find();
-
-        //    // Step 4. Host
-        //    //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-        //    //this.FindHomography();
-
-        //    indicator.ChangeXYWH(this.Triangle, mode);
-        //}
-
-        //public void SetRotation(IIndicator indicator, BoxMode mode, float rotationAngleInDegrees)
-        //{
-        //    // Step 4. Host
-        //    this.Host = indicator.CreateRotation(rotationAngleInDegrees);
-
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-
-        //    // Step 3. Matrix
-        //    this.StartingMatrix = this.Matrix;
-        //    this.Matrix = this.StartingMatrix * this.Host;
-        //    //this.Invert();
-
-        //    indicator.ChangeXYWHRS(this.Triangle, mode);
-        //}
-        //public void SetSkew(IIndicator indicator, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
-        //{
-        //    // Step 1. Transformer
-        //    this.StartingTriangle = this.Triangle;
-        //    this.Triangle = indicator.CreateSkew(this.StartingTriangle, mode, skewAngleInDegrees, minimum, maximum);
-
-        //    // Step 2. Homography Matrix
-        //    // Step 3. Matrix
-        //    this.Find();
-
-        //    // Step 4. Host
-        //    //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-        //    //this.FindHomography();
-
-        //    indicator.ChangeXYWHRS(this.Triangle, mode);
-        //}
         #endregion
 
         #region Triangles.Transform
         public void CacheTranslation()
         {
-            this.StartingTriangle = this.Triangle;
-            //this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
+            this.CT();
         }
 
         public void CacheTransform()
         {
-            this.StartingTriangle = this.Triangle;
-            //this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
+            this.CF();
         }
 
         public void Translate(Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
-            //this.RawToMap();
+            this.TD0(startingPoint, point);
         }
         public void Translate(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
-            //this.RawToMap();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TD1(indicator, mode, startingPoint, point);
         }
 
         public void Translate(Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
-            //this.RawToMap();
+            this.T0(translate);
         }
         public void Translate(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
-            //this.RawToMap();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.T1(indicator, mode, translate);
         }
 
         public void Translate(float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
-            //this.RawToMap();
+            this.TXY0(translateX, translateY);
         }
         public void Translate(IIndicator indicator, BoxMode mode, float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
-            //this.RawToMap();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TXY1(indicator, mode, translateX, translateY);
         }
 
         public void TranslateX(float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
-            //this.RawToMap();
+            this.TX0(translateX);
         }
         public void TranslateX(IIndicator indicator, BoxMode mode, float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
-            //this.RawToMap();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TX1(indicator, mode, translateX);
         }
 
         public void TranslateY(float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
-            //this.RawToMap();
+            this.TY0(translateY);
         }
         public void TranslateY(IIndicator indicator, BoxMode mode, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
-            //this.RawToMap();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TY1(indicator, mode, translateY);
         }
 
         public void Transform(Matrix3x2 matrix)
         {
-            this.Host = matrix;
-
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-            //this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-            //this.RawToMap();
-        }
-
-        private void T()
-        {
-            this.Triangle = Triangle.Translate(this.StartingTriangle, this.Host.M31, this.Host.M32);
-            //this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
-            //this.Invert();
-        }
-        private void TX()
-        {
-            this.Triangle = Triangle.TranslateX(this.StartingTriangle, this.Host.M31);
-            //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
-            //this.Invert();
-        }
-        private void TY()
-        {
-            this.Triangle = Triangle.TranslateY(this.StartingTriangle, this.Host.M32);
-            //this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
-            //this.Invert();
+            this.F(matrix);
         }
         #endregion
     }
