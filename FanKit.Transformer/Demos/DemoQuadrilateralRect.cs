@@ -5,20 +5,20 @@ using System.Numerics;
 
 namespace FanKit.Transformer.Demos
 {
-    public class DemoQuadrilateralRect : QuadrilateralRect
+    public class DemoQuadrilateralSize : QuadrilateralSize
     {
         public Matrix4x4 ActualDestinationMatrix;
         public Box0 ActualSourceBox;
 
         public Quadrilateral ActualDestBox;
 
-        public DemoQuadrilateralRect(float destWidth, float destHeight)
+        public DemoQuadrilateralSize(float destinationWidth, float destinationHeight)
         {
-            this.Initialize(destWidth, destHeight);
+            this.Initialize(destinationWidth, destinationHeight);
         }
-        public DemoQuadrilateralRect(float destWidth, float destHeight, Quadrilateral source)
+        public DemoQuadrilateralSize(float destinationWidth, float destinationHeight, Quadrilateral source)
         {
-            this.UpdateAll(destWidth, destHeight, source);
+            this.UpdateAll(destinationWidth, destinationHeight, source);
         }
 
         public void ResetCanvas()

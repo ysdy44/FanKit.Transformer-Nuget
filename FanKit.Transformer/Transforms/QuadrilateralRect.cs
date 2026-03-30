@@ -1,11 +1,11 @@
 ﻿using FanKit.Transformer.Controllers;
 using FanKit.Transformer.Mathematics;
-using System.Numerics;
 using FanKit.Transformer.Indicators;
+using System.Numerics;
 
 namespace FanKit.Transformer.Transforms
 {
-    public partial class QuadrilateralRect : PerspRect
+    public partial class QuadrilateralSize : PerspRect
     {
         // Step 0. Initialize
         //public int Count;
@@ -40,10 +40,10 @@ namespace FanKit.Transformer.Transforms
         }
 
         #region Quadrilaterals.Initialize
-        public void Initialize(float destWidth, float destHeight)
+        public void Initialize(float destinationWidth, float destinationHeight)
         {
-            this.DestinationWidth = destWidth;
-            this.DestinationHeight = destHeight;
+            this.DestinationWidth = destinationWidth;
+            this.DestinationHeight = destinationHeight;
             this.Quadrilateral = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
 
             this.Matrix = Matrix4x4.Identity;
@@ -56,18 +56,18 @@ namespace FanKit.Transformer.Transforms
             this.Find();
         }
 
-        public void UpdateDestination(float destWidth, float destHeight)
+        public void UpdateDestination(float destinationWidth, float destinationHeight)
         {
-            this.DestinationWidth = destWidth;
-            this.DestinationHeight = destHeight;
+            this.DestinationWidth = destinationWidth;
+            this.DestinationHeight = destinationHeight;
 
             this.Find();
         }
 
-        public void UpdateAll(float destWidth, float destHeight, Quadrilateral source)
+        public void UpdateAll(float destinationWidth, float destinationHeight, Quadrilateral source)
         {
-            this.DestinationWidth = destWidth;
-            this.DestinationHeight = destHeight;
+            this.DestinationWidth = destinationWidth;
+            this.DestinationHeight = destinationHeight;
 
             this.Quadrilateral = source;
 

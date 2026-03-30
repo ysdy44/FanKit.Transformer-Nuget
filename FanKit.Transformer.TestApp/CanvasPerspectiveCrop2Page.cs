@@ -21,7 +21,7 @@ using BoxContainsNodeMode = FanKit.Transformer.Cache.BoxContainsNodeMode0;
 namespace FanKit.Transformer.TestApp
 {
     /// <summary>
-    /// <see cref="DemoQuadrilateralRect"/>
+    /// <see cref="DemoQuadrilateralSize"/>
     /// </summary>
     public sealed partial class CanvasPerspectiveCrop2Page : CanvasDual2Page
     {
@@ -40,10 +40,10 @@ namespace FanKit.Transformer.TestApp
 
         // FreeTransformer
         BoxContainsNodeMode Mode;
-        readonly DemoQuadrilateralRect FreeTransformer = new DemoQuadrilateralRect
+        readonly DemoQuadrilateralSize FreeTransformer = new DemoQuadrilateralSize
         (
-            destWidth: W,
-            destHeight: H,
+            destinationWidth: W,
+            destinationHeight: H,
             source: new Quadrilateral
             {
                 LeftTop = new Vector2(X, Y),
