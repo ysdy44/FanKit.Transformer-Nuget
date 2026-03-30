@@ -1,4 +1,5 @@
 ﻿using FanKit.Transformer.Mathematics;
+using FanKit.Transformer.Transforms;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.Geometry;
@@ -519,7 +520,7 @@ namespace FanKit.Transformer.TestApp
         readonly Vector2[] RightPoints = new Vector2[4];
 
         // Homography
-        readonly PerspQuadrilateral T = new PerspQuadrilateral();
+        readonly InvertiblePerspQuadrilateral T = new InvertiblePerspQuadrilateral();
         CanvasBitmap Bitmap;
 
         public override void InitializeDestination(float width, float height)
@@ -603,7 +604,7 @@ namespace FanKit.Transformer.TestApp
 
         public override Vector2 TransformPoint(Vector2 point)
         {
-            return Mathematics.Math.Transform(point, this.T.m);
+            return Mathematics.Math.Transform(point, this.T.HomographyMatrix);
         }
     }
 
@@ -625,7 +626,7 @@ namespace FanKit.Transformer.TestApp
         Matrix3x2 RightMatrix;
 
         // Homography
-        readonly PerspRect T = new PerspRect();
+        readonly InvertiblePerspectiveRect T = new InvertiblePerspectiveRect();
         CanvasBitmap Bitmap;
 
         public override void InitializeDestination(float width, float height)
@@ -704,7 +705,7 @@ namespace FanKit.Transformer.TestApp
 
         public override Vector2 TransformPoint(Vector2 point)
         {
-            return Mathematics.Math.Transform(point, this.T.m);
+            return Mathematics.Math.Transform(point, this.T.HomographyMatrix);
         }
     }
 }
