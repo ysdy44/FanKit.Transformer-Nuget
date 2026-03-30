@@ -24,45 +24,45 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_2x2 -------------------- // 
 
-        public Matrix2x2 Map(Rectangle dest) => new Matrix2x2
+        public Matrix2x2 Map(Rectangle destination) => new Matrix2x2
         {
             // First row
-            ScaleX = X * dest.Width,
+            ScaleX = X * destination.Width,
 
             // Second row
-            ScaleY = Y * dest.Height,
+            ScaleY = Y * destination.Height,
 
             // Third row
-            TranslateX = dest.X,
-            TranslateY = dest.Y
+            TranslateX = destination.X,
+            TranslateY = destination.Y
         };
 
-        public Matrix2x2 Map(Matrix2x2 dest) => new Matrix2x2
+        public Matrix2x2 Map(Matrix2x2 destination) => new Matrix2x2
         {
             // First row
-            ScaleX = X * dest.ScaleX,
+            ScaleX = X * destination.ScaleX,
 
             // Second row
-            ScaleY = Y * dest.ScaleY,
+            ScaleY = Y * destination.ScaleY,
 
             // Third row
-            TranslateX = dest.TranslateX,
-            TranslateY = dest.TranslateY
+            TranslateX = destination.TranslateX,
+            TranslateY = destination.TranslateY
         };
 
-        public Matrix3x2 Map(float destX, float destY, float destWidth, float destHeight) => new Matrix3x2
+        public Matrix3x2 Map(float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix3x2
         {
             // First row
-            M11 = X * destWidth,
+            M11 = X * destinationWidth,
             M12 = 0f,
 
             // Second row
             M21 = 0f,
-            M22 = Y * destHeight,
+            M22 = Y * destinationHeight,
 
             // Third row
-            M31 = destX,
-            M32 = destY
+            M31 = destinationX,
+            M32 = destinationY
         };
 
         // -------------------- 1x2_3x2 -------------------- // 

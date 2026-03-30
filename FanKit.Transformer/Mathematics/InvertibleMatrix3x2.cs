@@ -40,8 +40,8 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 3x2_1x2 -------------------- // 
 
-        public Matrix3x2 InvAffine(float destWidth, float destHeight)
-            => can ? Math.Scale(inv, destWidth, destHeight) : Math.Affine(destWidth, destHeight);
+        public Matrix3x2 InvAffine(float destinationWidth, float destinationHeight)
+            => can ? Math.Scale(inv, destinationWidth, destinationHeight) : Math.Affine(destinationWidth, destinationHeight);
 
         // -------------------- 3x2_2x2 -------------------- //
 

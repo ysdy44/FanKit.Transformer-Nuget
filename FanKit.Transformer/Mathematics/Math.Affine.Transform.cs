@@ -27,34 +27,34 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_2x2 -------------------- // 
 
-        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, Rectangle dest) => new Matrix3x2
+        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, Rectangle destination) => new Matrix3x2
         {
             // First row
-            M11 = dest.Width / sourceWidth,
+            M11 = destination.Width / sourceWidth,
             M12 = 0f,
 
             // Second row
             M21 = 0f,
-            M22 = dest.Height / sourceHeight,
+            M22 = destination.Height / sourceHeight,
 
             // Third row
-            M31 = dest.X,
-            M32 = dest.Y
+            M31 = destination.X,
+            M32 = destination.Y
         };
 
-        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, float destX, float destY, float destWidth, float destHeight) => new Matrix3x2
+        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix3x2
         {
             // First row
-            M11 = destWidth / sourceWidth,
+            M11 = destinationWidth / sourceWidth,
             M12 = 0f,
 
             // Second row
             M21 = 0f,
-            M22 = destHeight / sourceHeight,
+            M22 = destinationHeight / sourceHeight,
 
             // Third row
-            M31 = destX,
-            M32 = destY
+            M31 = destinationX,
+            M32 = destinationY
         };
 
         // -------------------- 1x2_3x2 -------------------- // 
@@ -62,39 +62,39 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 Affine(SizeMatrix srcNorm, Matrix3x2 destNorm)
             => srcNorm.Affine(destNorm);
 
-        public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Triangle dest)
-            => new SizeMatrix(sourceWidth, sourceHeight).Affine(dest.Normalize());
+        public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Triangle destination)
+            => new SizeMatrix(sourceWidth, sourceHeight).Affine(destination.Normalize());
 
-        public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Quadrilateral dest)
-            => new SizeMatrix(sourceWidth, sourceHeight).Affine(dest.Normalize());
+        public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Quadrilateral destination)
+            => new SizeMatrix(sourceWidth, sourceHeight).Affine(destination.Normalize());
 
         // -------------------- 2x2_2x2 -------------------- // 
 
-        public static Matrix2x2 Map(float sourceX, float sourceY, float sourceWidth, float sourceHeight, float destX, float destY, float destWidth, float destHeight)
+        public static Matrix2x2 Map(float sourceX, float sourceY, float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight)
         {
-            float sx = destWidth / sourceWidth;
-            float sy = destHeight / sourceHeight;
+            float sx = destinationWidth / sourceWidth;
+            float sy = destinationHeight / sourceHeight;
 
             return new Matrix2x2
             {
                 ScaleX = sx,
                 ScaleY = sy,
-                TranslateX = destX - sourceX * sx,
-                TranslateY = destY - sourceY * sy,
+                TranslateX = destinationX - sourceX * sx,
+                TranslateY = destinationY - sourceY * sy,
             };
         }
 
-        public static Matrix2x2 Map(this Matrix2x2 source, Matrix2x2 dest)
+        public static Matrix2x2 Map(this Matrix2x2 source, Matrix2x2 destination)
         {
-            float sx = dest.ScaleX / source.ScaleX;
-            float sy = dest.ScaleY / source.ScaleY;
+            float sx = destination.ScaleX / source.ScaleX;
+            float sy = destination.ScaleY / source.ScaleY;
 
             return new Matrix2x2
             {
                 ScaleX = sx,
                 ScaleY = sy,
-                TranslateX = dest.TranslateX - source.TranslateX * sx,
-                TranslateY = dest.TranslateY - source.TranslateY * sy,
+                TranslateX = destination.TranslateX - source.TranslateX * sx,
+                TranslateY = destination.TranslateY - source.TranslateY * sy,
             };
         }
 
@@ -103,17 +103,17 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 Affine(RectMatrix srcNorm, Matrix3x2 destNorm)
             => srcNorm.Affine(destNorm);
 
-        public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Triangle dest)
-            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(dest.Normalize());
+        public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Triangle destination)
+            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(destination.Normalize());
 
-        public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
-            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(dest.Normalize());
+        public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
+            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(destination.Normalize());
 
-        public static Matrix3x2 Affine(Rectangle source, Triangle dest)
-            => new RectMatrix(source).Affine(dest.Normalize());
+        public static Matrix3x2 Affine(Rectangle source, Triangle destination)
+            => new RectMatrix(source).Affine(destination.Normalize());
 
-        public static Matrix3x2 Affine(Rectangle source, Quadrilateral dest)
-            => new RectMatrix(source).Affine(dest.Normalize());
+        public static Matrix3x2 Affine(Rectangle source, Quadrilateral destination)
+            => new RectMatrix(source).Affine(destination.Normalize());
 
         // -------------------- 3x2_1x2 -------------------- // 
 
@@ -121,23 +121,23 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 3x2_3x2 -------------------- // 
 
-        public static Matrix3x2 BidiAffine(Triangle source, Triangle dest)
-            => source.ToInvertibleMatrix().BidiAffine(dest.Normalize());
+        public static Matrix3x2 BidiAffine(Triangle source, Triangle destination)
+            => source.ToInvertibleMatrix().BidiAffine(destination.Normalize());
 
-        public static Matrix3x2 BidiAffine(Triangle source, Quadrilateral dest)
-            => source.ToInvertibleMatrix().BidiAffine(dest.Normalize());
+        public static Matrix3x2 BidiAffine(Triangle source, Quadrilateral destination)
+            => source.ToInvertibleMatrix().BidiAffine(destination.Normalize());
 
         // -------------------- 1x2_3x3 -------------------- // 
 
-        public static Matrix4x4 Persp(float sourceWidth, float sourceHeight, Quadrilateral dest)
-            => new PerspSizeMatrix3x3(new SizeMatrix(sourceWidth, sourceHeight), dest);
+        public static Matrix4x4 Persp(float sourceWidth, float sourceHeight, Quadrilateral destination)
+            => new PerspSizeMatrix3x3(new SizeMatrix(sourceWidth, sourceHeight), destination);
 
         // -------------------- 2x2_3x3 -------------------- // 
 
-        public static Matrix4x4 Persp(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
-            => new PerspRectMatrix3x3(new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight), dest);
+        public static Matrix4x4 Persp(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
+            => new PerspRectMatrix3x3(new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight), destination);
 
-        public static Matrix4x4 Persp(this Rectangle source, Quadrilateral dest)
-            => new PerspRectMatrix3x3(new RectMatrix(source), dest);
+        public static Matrix4x4 Persp(this Rectangle source, Quadrilateral destination)
+            => new PerspRectMatrix3x3(new RectMatrix(source), destination);
     }
 }

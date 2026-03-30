@@ -44,64 +44,64 @@ namespace FanKit.Transformer.Mathematics
         public static InvertibleMatrix3x2 ToInvertibleMatrix(this Quadrilateral quad) => new InvertibleMatrix3x2(quad);
 
         // Old Method
-        public static Matrix3x2 FindHomography(Quadrilateral source, Quadrilateral dest)
+        public static Matrix3x2 FindHomography(Quadrilateral source, Quadrilateral destination)
         {
             InvertibleMatrix3x2 src = source.ToInvertibleMatrix();
-            Matrix3x2 dstNorm = dest.Normalize();
+            Matrix3x2 dstNorm = destination.Normalize();
 
             return src.BidiAffine(dstNorm);
         }
 
         // New Method
-        public static Matrix3x2 FindHomography(Rectangle source, Quadrilateral dest)
+        public static Matrix3x2 FindHomography(Rectangle source, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(source);
-            Matrix3x2 dstNorm = dest.Normalize();
+            Matrix3x2 dstNorm = destination.Normalize();
 
             return Affine(srcNorm, dstNorm);
         }
 
         // New Method
-        public static Matrix3x2 FindHomography(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
+        public static Matrix3x2 FindHomography(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
-            Matrix3x2 dstNorm = dest.Normalize();
+            Matrix3x2 dstNorm = destination.Normalize();
 
             return srcNorm.Affine(dstNorm);
         }
 
         // New Method
-        public static Matrix3x2 FindHomography(float sourceWidth, float sourceHeight, Quadrilateral dest)
+        public static Matrix3x2 FindHomography(float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             SizeMatrix srcNorm = new SizeMatrix(sourceWidth, sourceHeight);
-            Matrix3x2 dstNorm = dest.Normalize();
+            Matrix3x2 dstNorm = destination.Normalize();
 
             return Affine(srcNorm, dstNorm);
         }
 
         // Old Method
-        public static Matrix4x4 FindHomography3D(Rectangle source, Quadrilateral dest)
+        public static Matrix4x4 FindHomography3D(Rectangle source, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(source);
-            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, dest);
+            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, destination);
 
             return dst;
         }
 
         // Old Method
-        public static Matrix4x4 FindHomography3D(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral dest)
+        public static Matrix4x4 FindHomography3D(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
-            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, dest);
+            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, destination);
 
             return dst;
         }
 
         // New Method
-        public static Matrix4x4 FindHomography3D(float sourceWidth, float sourceHeight, Quadrilateral dest)
+        public static Matrix4x4 FindHomography3D(float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             SizeMatrix srcNorm = new SizeMatrix(sourceWidth, sourceHeight);
-            PerspSizeMatrix3x3 dst = new PerspSizeMatrix3x3(srcNorm, dest);
+            PerspSizeMatrix3x3 dst = new PerspSizeMatrix3x3(srcNorm, destination);
 
             return dst;
         }
