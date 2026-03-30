@@ -156,9 +156,9 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Composer.Panel.Destination, e);
-            this.ParameterPanel.RowModeChanged += (s, e) => this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, e);
-            this.ParameterPanel.ColumnModeChanged += (s, e) => this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, e);
+            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Composer.PanelDestination, e);
+            this.ParameterPanel.RowModeChanged += (s, e) => this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, e);
+            this.ParameterPanel.ColumnModeChanged += (s, e) => this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, e);
 
             this.ParameterPanel.Apply += (s, e) =>
             {
@@ -380,10 +380,10 @@ namespace FanKit.Transformer.TestApp
                 switch (this.Composer.SizeType)
                 {
                     case SizeType.Empty: this.Indicator.ClearAll(); break;
-                    case SizeType.Point: this.Indicator.ChangeAll(this.Composer.Point.Point); break;
-                    case SizeType.RowLine: this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, this.ParameterPanel.RowMode); break;
-                    case SizeType.ColumnLine: this.Indicator.ChangeAll(this.Composer.Line.Point0, this.Composer.Line.Point1, this.ParameterPanel.ColumnMode); break;
-                    case SizeType.Panel: this.Indicator.ChangeAll(this.Composer.Panel.Destination, this.ParameterPanel.Mode); break;
+                    case SizeType.Point: this.Indicator.ChangeAll(this.Composer.PointPoint); break;
+                    case SizeType.RowLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.RowMode); break;
+                    case SizeType.ColumnLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.ColumnMode); break;
+                    case SizeType.Panel: this.Indicator.ChangeAll(this.Composer.PanelDestination, this.ParameterPanel.Mode); break;
                     default: break;
                 }
                 this.ParameterPanel.UpdateAll(this.Indicator);
@@ -430,12 +430,12 @@ namespace FanKit.Transformer.TestApp
             switch (this.LineMode)
             {
                 case LineContainsNodeMode.None: this.CacheSingle3(); break;
-                case LineContainsNodeMode.Handle0: this.Composer.Line.CacheElongation0(); break;
-                case LineContainsNodeMode.Handle1: this.Composer.Line.CacheElongation1(); break;
-                case LineContainsNodeMode.Handle: this.Composer.Line.CacheRotation(this.StartingPosition); break;
-                case LineContainsNodeMode.Center: this.Composer.Line.CacheTranslation(); break;
-                case LineContainsNodeMode.Point0: this.Composer.Line.CacheMovement(); break;
-                case LineContainsNodeMode.Point1: this.Composer.Line.CacheMovement(); break;
+                case LineContainsNodeMode.Handle0: this.Composer.LineCacheElongation0(); break;
+                case LineContainsNodeMode.Handle1: this.Composer.LineCacheElongation1(); break;
+                case LineContainsNodeMode.Handle: this.Composer.LineCacheRotation(this.StartingPosition); break;
+                case LineContainsNodeMode.Center: this.Composer.LineCacheTranslation(); break;
+                case LineContainsNodeMode.Point0: this.Composer.LineCacheMovement(); break;
+                case LineContainsNodeMode.Point1: this.Composer.LineCacheMovement(); break;
                 default: break;
             }
         }
@@ -448,7 +448,7 @@ namespace FanKit.Transformer.TestApp
                     this.Single3();
                     break;
                 case LineContainsNodeMode.Handle0:
-                    this.Composer.Line.ElongatePoint0(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
+                    this.Composer.LineElongatePoint0(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -458,7 +458,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Handle1:
-                    this.Composer.Line.ElongatePoint1(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
+                    this.Composer.LineElongatePoint1(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -469,9 +469,9 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case LineContainsNodeMode.Handle:
                     if (this.HasStepFrequency)
-                        this.Composer.Line.Rotate(this.Indicator, this.ParameterPanel.RowMode, this.Position, StepFrequency);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.RowMode, this.Position, StepFrequency);
                     else
-                        this.Composer.Line.Rotate(this.Indicator, this.ParameterPanel.RowMode, this.Position);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.RowMode, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -481,7 +481,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Center:
-                    this.Composer.Line.Translate(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
+                    this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
 
                     this.TranslateSelectedItems();
 
@@ -491,7 +491,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point0:
-                    this.Composer.Line.MovePoint0(this.Indicator, this.ParameterPanel.RowMode, this.Position);
+                    this.Composer.LineMovePoint0(this.Indicator, this.ParameterPanel.RowMode, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -501,7 +501,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point1:
-                    this.Composer.Line.MovePoint1(this.Indicator, this.ParameterPanel.RowMode, this.Position);
+                    this.Composer.LineMovePoint1(this.Indicator, this.ParameterPanel.RowMode, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -523,7 +523,7 @@ namespace FanKit.Transformer.TestApp
                     this.Single3();
                     break;
                 case LineContainsNodeMode.Handle0:
-                    this.Composer.Line.ElongatePoint0(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
+                    this.Composer.LineElongatePoint0(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -533,7 +533,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Handle1:
-                    this.Composer.Line.ElongatePoint1(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
+                    this.Composer.LineElongatePoint1(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -544,9 +544,9 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case LineContainsNodeMode.Handle:
                     if (this.HasStepFrequency)
-                        this.Composer.Line.Rotate(this.Indicator, this.ParameterPanel.ColumnMode, this.Position, StepFrequency);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.ColumnMode, this.Position, StepFrequency);
                     else
-                        this.Composer.Line.Rotate(this.Indicator, this.ParameterPanel.ColumnMode, this.Position);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.ColumnMode, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -556,7 +556,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Center:
-                    this.Composer.Line.Translate(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
+                    this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
 
                     this.TranslateSelectedItems();
 
@@ -566,7 +566,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point0:
-                    this.Composer.Line.MovePoint0(this.Indicator, this.ParameterPanel.ColumnMode, this.Position);
+                    this.Composer.LineMovePoint0(this.Indicator, this.ParameterPanel.ColumnMode, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -576,7 +576,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point1:
-                    this.Composer.Line.MovePoint1(this.Indicator, this.ParameterPanel.ColumnMode, this.Position);
+                    this.Composer.LineMovePoint1(this.Indicator, this.ParameterPanel.ColumnMode, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -640,28 +640,28 @@ namespace FanKit.Transformer.TestApp
             {
                 case BoxContainsNodeMode.None: this.CacheSingle3(); break;
                 // Multiple Translation 2
-                case BoxContainsNodeMode.Contains: this.Composer.Panel.CacheTranslation(); break;
+                case BoxContainsNodeMode.Contains: this.Composer.PanelCacheTranslation(); break;
 
                 // Multiple Transform 2
                 case BoxContainsNodeMode.HandleLeftTop:
                 case BoxContainsNodeMode.HandleRightTop:
                 case BoxContainsNodeMode.HandleLeftBottom:
-                case BoxContainsNodeMode.HandleRightBottom: this.Composer.Panel.CacheRotation(this.StartingPosition); break;
+                case BoxContainsNodeMode.HandleRightBottom: this.Composer.PanelCacheRotation(this.StartingPosition); break;
 
-                case BoxContainsNodeMode.HandleLeft: this.Composer.Panel.CacheTransform(TransformMode.SkewLeft); break;
-                case BoxContainsNodeMode.HandleTop: this.Composer.Panel.CacheTransform(TransformMode.SkewTop); break;
-                case BoxContainsNodeMode.HandleRight: this.Composer.Panel.CacheTransform(TransformMode.SkewRight); break;
-                case BoxContainsNodeMode.HandleBottom: this.Composer.Panel.CacheTransform(TransformMode.SkewBottom); break;
+                case BoxContainsNodeMode.HandleLeft: this.Composer.PanelCacheTransform(TransformMode.SkewLeft); break;
+                case BoxContainsNodeMode.HandleTop: this.Composer.PanelCacheTransform(TransformMode.SkewTop); break;
+                case BoxContainsNodeMode.HandleRight: this.Composer.PanelCacheTransform(TransformMode.SkewRight); break;
+                case BoxContainsNodeMode.HandleBottom: this.Composer.PanelCacheTransform(TransformMode.SkewBottom); break;
 
-                case BoxContainsNodeMode.CenterLeft: this.Composer.Panel.CacheTransform(TransformMode.ScaleLeft); break;
-                case BoxContainsNodeMode.CenterTop: this.Composer.Panel.CacheTransform(TransformMode.ScaleTop); break;
-                case BoxContainsNodeMode.CenterRight: this.Composer.Panel.CacheTransform(TransformMode.ScaleRight); break;
-                case BoxContainsNodeMode.CenterBottom: this.Composer.Panel.CacheTransform(TransformMode.ScaleBottom); break;
+                case BoxContainsNodeMode.CenterLeft: this.Composer.PanelCacheTransform(TransformMode.ScaleLeft); break;
+                case BoxContainsNodeMode.CenterTop: this.Composer.PanelCacheTransform(TransformMode.ScaleTop); break;
+                case BoxContainsNodeMode.CenterRight: this.Composer.PanelCacheTransform(TransformMode.ScaleRight); break;
+                case BoxContainsNodeMode.CenterBottom: this.Composer.PanelCacheTransform(TransformMode.ScaleBottom); break;
 
-                case BoxContainsNodeMode.LeftTop: this.Composer.Panel.CacheTransform(TransformMode.ScaleLeftTop); break;
-                case BoxContainsNodeMode.RightTop: this.Composer.Panel.CacheTransform(TransformMode.ScaleRightTop); break;
-                case BoxContainsNodeMode.LeftBottom: this.Composer.Panel.CacheTransform(TransformMode.ScaleLeftBottom); break;
-                case BoxContainsNodeMode.RightBottom: this.Composer.Panel.CacheTransform(TransformMode.ScaleRightBottom); break;
+                case BoxContainsNodeMode.LeftTop: this.Composer.PanelCacheTransform(TransformMode.ScaleLeftTop); break;
+                case BoxContainsNodeMode.RightTop: this.Composer.PanelCacheTransform(TransformMode.ScaleRightTop); break;
+                case BoxContainsNodeMode.LeftBottom: this.Composer.PanelCacheTransform(TransformMode.ScaleLeftBottom); break;
+                case BoxContainsNodeMode.RightBottom: this.Composer.PanelCacheTransform(TransformMode.ScaleRightBottom); break;
                 default: break;
             }
         }
@@ -674,7 +674,7 @@ namespace FanKit.Transformer.TestApp
                     this.Single3();
                     break;
                 case BoxContainsNodeMode.Contains:
-                    this.Composer.Panel.Translate(this.Indicator, this.ParameterPanel.Mode, this.StartingPosition, this.Position);
+                    this.Composer.PanelTranslate(this.Indicator, this.ParameterPanel.Mode, this.StartingPosition, this.Position);
 
                     this.TranslateSelectedItems();
 
@@ -688,9 +688,9 @@ namespace FanKit.Transformer.TestApp
                 case BoxContainsNodeMode.HandleLeftBottom:
                 case BoxContainsNodeMode.HandleRightBottom:
                     if (this.HasStepFrequency)
-                        this.Composer.Panel.Rotate(this.Indicator, this.ParameterPanel.Mode, this.Position, StepFrequency);
+                        this.Composer.PanelRotate(this.Indicator, this.ParameterPanel.Mode, this.Position, StepFrequency);
                     else
-                        this.Composer.Panel.Rotate(this.Indicator, this.ParameterPanel.Mode, this.Position);
+                        this.Composer.PanelRotate(this.Indicator, this.ParameterPanel.Mode, this.Position);
 
                     this.TransformSelectedItems();
 
@@ -703,7 +703,7 @@ namespace FanKit.Transformer.TestApp
                 case BoxContainsNodeMode.HandleTop:
                 case BoxContainsNodeMode.HandleRight:
                 case BoxContainsNodeMode.HandleBottom:
-                    this.Composer.Panel.TransformSkew(this.Indicator, this.ParameterPanel.Mode, this.Position, this.NodeKeepRatio, this.NodeCenteredScaling);
+                    this.Composer.PanelTransformSkew(this.Indicator, this.ParameterPanel.Mode, this.Position, this.NodeKeepRatio, this.NodeCenteredScaling);
 
                     this.TransformSelectedItems();
 
@@ -713,7 +713,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 default:
-                    this.Composer.Panel.TransformSize(this.Indicator, this.ParameterPanel.Mode, this.Position, this.NodeKeepRatio, this.NodeCenteredScaling);
+                    this.Composer.PanelTransformSize(this.Indicator, this.ParameterPanel.Mode, this.Position, this.NodeKeepRatio, this.NodeCenteredScaling);
 
                     this.TransformSelectedItems();
 
@@ -1004,16 +1004,16 @@ namespace FanKit.Transformer.TestApp
                         case SizeType.Empty:
                             break;
                         case SizeType.Point:
-                            this.Composer.Point.CacheTranslation();
+                            this.Composer.PointCacheTranslation();
                             break;
                         case SizeType.RowLine:
-                            this.Composer.Line.CacheTranslation();
+                            this.Composer.LineCacheTranslation();
                             break;
                         case SizeType.ColumnLine:
-                            this.Composer.Line.CacheTranslation();
+                            this.Composer.LineCacheTranslation();
                             break;
                         case SizeType.Panel:
-                            this.Composer.Panel.CacheTranslation();
+                            this.Composer.PanelCacheTranslation();
                             break;
                         default:
                             break;
@@ -1066,9 +1066,9 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case SegmentMode.PointWithoutChecked:
                     {
-                        this.Composer.Point.Translate(this.Indicator, this.StartingPosition, this.Position);
+                        this.Composer.PointTranslate(this.Indicator, this.StartingPosition, this.Position);
 
-                        this.Layer.SetTranslation(this.Composer.TranslationX, this.Composer.TranslationY, this.Composer.Point.Point, this.Indexer.Index);
+                        this.Layer.SetTranslation(this.Composer.TranslationX, this.Composer.TranslationY, this.Composer.PointPoint, this.Indexer.Index);
 
                         this.Invalidate(InvalidateModes.None
                             | InvalidateModes.UpdateLayers
@@ -1082,16 +1082,16 @@ namespace FanKit.Transformer.TestApp
                         case SizeType.Empty:
                             break;
                         case SizeType.Point:
-                            this.Composer.Point.Translate(this.Indicator, this.StartingPosition, this.Position);
+                            this.Composer.PointTranslate(this.Indicator, this.StartingPosition, this.Position);
                             break;
                         case SizeType.RowLine:
-                            this.Composer.Line.Translate(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
+                            this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.RowMode, this.StartingPosition, this.Position);
                             break;
                         case SizeType.ColumnLine:
-                            this.Composer.Line.Translate(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
+                            this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPosition, this.Position);
                             break;
                         case SizeType.Panel:
-                            this.Composer.Panel.Translate(this.Indicator, this.ParameterPanel.Mode, this.StartingPosition, this.Position);
+                            this.Composer.PanelTranslate(this.Indicator, this.ParameterPanel.Mode, this.StartingPosition, this.Position);
                             break;
                         default:
                             break;
@@ -1270,7 +1270,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         float translateX = value - this.Indicator.X;
 
-                        this.Composer.Point.SetTranslationX(this.Indicator, translateX);
+                        this.Composer.PointSetTranslationX(this.Indicator, translateX);
 
                         this.SetTranslationXSelectedItems();
                     }
@@ -1279,7 +1279,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         float translateY = value - this.Indicator.Y;
 
-                        this.Composer.Point.SetTranslationY(this.Indicator, translateY);
+                        this.Composer.PointSetTranslationY(this.Indicator, translateY);
 
                         this.SetTranslationYSelectedItems();
                     }
@@ -1290,7 +1290,7 @@ namespace FanKit.Transformer.TestApp
 
                         float translateX = value - this.Indicator.X;
 
-                        this.Composer.Line.SetTranslationX(this.Indicator, mode, translateX);
+                        this.Composer.LineSetTranslationX(this.Indicator, mode, translateX);
 
                         this.SetTranslationXSelectedItems();
                     }
@@ -1301,7 +1301,7 @@ namespace FanKit.Transformer.TestApp
 
                         float translateY = value - this.Indicator.Y;
 
-                        this.Composer.Line.SetTranslationY(this.Indicator, mode, translateY);
+                        this.Composer.LineSetTranslationY(this.Indicator, mode, translateY);
 
                         this.SetTranslationYSelectedItems();
                     }
@@ -1310,7 +1310,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         RowLineMode mode = this.ParameterPanel.RowMode;
 
-                        this.Composer.Line.SetWidth(this.Indicator, mode, value);
+                        this.Composer.LineSetWidth(this.Indicator, mode, value);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1319,7 +1319,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         RowLineMode mode = this.ParameterPanel.RowMode;
 
-                        this.Composer.Line.SetRotation(this.Indicator, mode, value);
+                        this.Composer.LineSetRotation(this.Indicator, mode, value);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1330,7 +1330,7 @@ namespace FanKit.Transformer.TestApp
 
                         float translateX = value - this.Indicator.X;
 
-                        this.Composer.Line.SetTranslationX(this.Indicator, mode, translateX);
+                        this.Composer.LineSetTranslationX(this.Indicator, mode, translateX);
 
                         this.SetTranslationXSelectedItems();
                     }
@@ -1341,7 +1341,7 @@ namespace FanKit.Transformer.TestApp
 
                         float translateY = value - this.Indicator.Y;
 
-                        this.Composer.Line.SetTranslationY(this.Indicator, mode, translateY);
+                        this.Composer.LineSetTranslationY(this.Indicator, mode, translateY);
 
                         this.SetTranslationYSelectedItems();
                     }
@@ -1350,7 +1350,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         ColumnLineMode mode = this.ParameterPanel.ColumnMode;
 
-                        this.Composer.Line.SetHeight(this.Indicator, mode, value);
+                        this.Composer.LineSetHeight(this.Indicator, mode, value);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1359,7 +1359,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         ColumnLineMode mode = this.ParameterPanel.ColumnMode;
 
-                        this.Composer.Line.SetRotation(this.Indicator, mode, value);
+                        this.Composer.LineSetRotation(this.Indicator, mode, value);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1370,7 +1370,7 @@ namespace FanKit.Transformer.TestApp
 
                         float translateX = value - this.Indicator.X;
 
-                        this.Composer.Panel.SetTranslationX(this.Indicator, mode, translateX);
+                        this.Composer.PanelSetTranslationX(this.Indicator, mode, translateX);
 
                         this.SetTranslationXSelectedItems();
                     }
@@ -1381,7 +1381,7 @@ namespace FanKit.Transformer.TestApp
 
                         float translateY = value - this.Indicator.Y;
 
-                        this.Composer.Panel.SetTranslationY(this.Indicator, mode, translateY);
+                        this.Composer.PanelSetTranslationY(this.Indicator, mode, translateY);
 
                         this.SetTranslationYSelectedItems();
                     }
@@ -1390,7 +1390,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
-                        this.Composer.Panel.SetWidth(this.Indicator, mode, value, this.NodeKeepRatio);
+                        this.Composer.PanelSetWidth(this.Indicator, mode, value, this.NodeKeepRatio);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1399,7 +1399,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
-                        this.Composer.Panel.SetHeight(this.Indicator, mode, value, this.NodeKeepRatio);
+                        this.Composer.PanelSetHeight(this.Indicator, mode, value, this.NodeKeepRatio);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1408,7 +1408,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
-                        this.Composer.Panel.SetRotation(this.Indicator, mode, value);
+                        this.Composer.PanelSetRotation(this.Indicator, mode, value);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1417,7 +1417,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
-                        this.Composer.Panel.SetSkew(this.Indicator, mode, value);
+                        this.Composer.PanelSetSkew(this.Indicator, mode, value);
 
                         this.SetTransformSelectedItems();
                     }
@@ -1474,7 +1474,7 @@ namespace FanKit.Transformer.TestApp
 
             if (this.PointMode)
             {
-                this.Composer.Point.CacheTranslation();
+                this.Composer.PointCacheTranslation();
 
                 this.CacheTranslationSelectedItems();
             }
@@ -1488,7 +1488,7 @@ namespace FanKit.Transformer.TestApp
         {
             if (this.PointMode)
             {
-                this.Composer.Point.Translate(this.Indicator, this.StartingPosition, this.Position);
+                this.Composer.PointTranslate(this.Indicator, this.StartingPosition, this.Position);
 
                 this.TranslateSelectedItems();
 

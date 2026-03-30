@@ -58,7 +58,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            //this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Composer.Panel.Triangle, e);
+            //this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Composer.PanelTriangle, e);
             this.ParameterPanel.RowModeChanged += (s, e) => this.Indicator.ChangeAll(this.Linear.Point0, this.Linear.Point1, e);
             //this.ParameterPanel.ColumnModeChanged += (s, e) => this.Indicator.ChangeAll(this.Linear.Point0, this.Linear.Point1, e);
 

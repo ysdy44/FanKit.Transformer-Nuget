@@ -6,215 +6,86 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostComposer
     {
-        public partial class ComposerPoint
-        {
-            // Step 0. Initialize
-
-            // Step 1. Transformer
-            internal Vector2 StartingPoint;
-
-            public Vector2 Point;
-
-            // Step 2. Homography Matrix
-
-            // Step 3. Matrix
-
-            // Step 4. Host
-
-            // Step 6. Controller
-
-            readonly HostComposer Host;
-
-            internal ComposerPoint(HostComposer host)
-            {
-                this.Host = host;
-            }
-        }
+        public Vector2 PointPoint => this.Point.Point;
 
         #region Points.Set
-        partial class ComposerPoint
+        public void PointSetTranslation(Vector2 translate)
         {
-            public void SetTranslation(Vector2 translate)
-            {
-                // Step 4. Host
-                this.Host.Host = Matrix3x2.CreateTranslation(translate);
+            this.Point.ST0(translate);
+        }
+        public void PointSetTranslation(IIndicator indicator, Vector2 translate)
+        {
+            this.Point.ST1(indicator, translate);
+        }
 
-                // Step 1. Transformer
-                this.StartingPoint = this.Point;
-                this.Point = Math.Translate(this.StartingPoint, this.Host.Host.M31, this.Host.Host.M32);
+        public void PointSetTranslationX(float translateX)
+        {
+            this.Point.STX0(translateX);
+        }
+        public void PointSetTranslationX(IIndicator indicator, float translateX)
+        {
+            this.Point.STX1(indicator, translateX);
+        }
 
-                // Step 3. Matrix
-                //this.StartingMatrix = this.Matrix;
-                //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.Host.M31);
-                //this.Invert();
-            }
-            public void SetTranslation(IIndicator indicator, Vector2 translate)
-            {
-                // Step 4. Host
-                this.Host.Host = Matrix3x2.CreateTranslation(translate);
-
-                // Step 1. Transformer
-                this.StartingPoint = this.Point;
-                this.Point = Math.Translate(this.StartingPoint, this.Host.Host.M31, this.Host.Host.M32);
-
-                // Step 3. Matrix
-                //this.StartingMatrix = this.Matrix;
-                //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.Host.M31);
-                //this.Invert();
-
-                indicator.ChangeAll(this.Point);
-            }
-
-            public void SetTranslationX(float translateX)
-            {
-                // Step 4. Host
-                this.Host.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-                // Step 1. Transformer
-                this.StartingPoint = this.Point;
-                this.Point = Math.TranslateX(this.StartingPoint, this.Host.Host.M31);
-
-                // Step 3. Matrix
-                //this.StartingMatrix = this.Matrix;
-                //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.Host.M31);
-                //this.Invert();
-            }
-            public void SetTranslationX(IIndicator indicator, float translateX)
-            {
-                // Step 4. Host
-                this.Host.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-                // Step 1. Transformer
-                this.StartingPoint = this.Point;
-                this.Point = Math.TranslateX(this.StartingPoint, this.Host.Host.M31);
-
-                // Step 3. Matrix
-                //this.StartingMatrix = this.Matrix;
-                //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.Host.M31);
-                //this.Invert();
-
-                indicator.ChangeAll(this.Point);
-            }
-
-            public void SetTranslationY(float translateY)
-            {
-                // Step 4. Host
-                this.Host.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-                // Step 1. Transformer
-                this.StartingPoint = this.Point;
-                this.Point = Math.TranslateY(this.StartingPoint, this.Host.Host.M32);
-
-                // Step 3. Matrix
-                //this.StartingMatrix = this.Matrix;
-                //this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.Host.M32);
-                //this.Invert();
-            }
-            public void SetTranslationY(IIndicator indicator, float translateY)
-            {
-                // Step 4. Host
-                this.Host.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-                // Step 1. Transformer
-                this.StartingPoint = this.Point;
-                this.Point = Math.TranslateY(this.StartingPoint, this.Host.Host.M32);
-
-                // Step 3. Matrix
-                //this.StartingMatrix = this.Matrix;
-                //this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.Host.M32);
-                //this.Invert();
-
-                indicator.ChangeAll(this.Point);
-            }
+        public void PointSetTranslationY(float translateY)
+        {
+            this.Point.STY0(translateY);
+        }
+        public void PointSetTranslationY(IIndicator indicator, float translateY)
+        {
+            this.Point.STY1(indicator, translateY);
         }
         #endregion
 
         #region Points.Transform
-        partial class ComposerPoint
+        public void PointCacheTranslation()
         {
-            public void CacheTranslation()
-            {
-                this.StartingPoint = this.Point;
-            }
+            this.Point.CT();
+        }
 
-            public void Translate(Vector2 startingPoint, Vector2 point)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-                this.T();
-            }
-            public void Translate(IIndicator indicator, Vector2 startingPoint, Vector2 point)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-                this.T();
-                indicator.ChangeAll(this.Point);
-            }
+        public void PointTranslate(Vector2 startingPoint, Vector2 point)
+        {
+            this.Point.TD0(startingPoint, point);
+        }
+        public void PointTranslate(IIndicator indicator, Vector2 startingPoint, Vector2 point)
+        {
+            this.Point.TD1(indicator, startingPoint, point);
+        }
 
-            public void Translate(Vector2 translate)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(translate);
-                this.T();
-            }
-            public void Translate(IIndicator indicator, Vector2 translate)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(translate);
-                this.T();
-                indicator.ChangeAll(this.Point);
-            }
+        public void PointTranslate(Vector2 translate)
+        {
+            this.Point.T0(translate);
+        }
+        public void PointTranslate(IIndicator indicator, Vector2 translate)
+        {
+            this.Point.T1(indicator, translate);
+        }
 
-            public void Translate(float translateX, float translateY)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-                this.T();
-            }
-            public void Translate(IIndicator indicator, float translateX, float translateY)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-                this.T();
-                indicator.ChangeAll(this.Point);
-            }
+        public void PointTranslate(float translateX, float translateY)
+        {
+            this.Point.TXY0(translateX, translateY);
+        }
+        public void PointTranslate(IIndicator indicator, float translateX, float translateY)
+        {
+            this.Point.TXY1(indicator, translateX, translateY);
+        }
 
-            public void TranslateX(float translateX)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-                this.TX();
-            }
-            public void TranslateX(IIndicator indicator, float translateX)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-                this.TX();
-                indicator.ChangeAll(this.Point);
-            }
+        public void PointTranslateX(float translateX)
+        {
+            this.Point.TX0(translateX);
+        }
+        public void PointTranslateX(IIndicator indicator, float translateX)
+        {
+            this.Point.TX1(indicator, translateX);
+        }
 
-            public void TranslateY(float translateY)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(0f, translateY);
-                this.TY();
-            }
-            public void TranslateY(IIndicator indicator, float translateY)
-            {
-                this.Host.Host = Matrix3x2.CreateTranslation(0f, translateY);
-                this.TY();
-                indicator.ChangeAll(this.Point);
-            }
-
-            private void T()
-            {
-                this.Point = new Vector2(this.StartingPoint.X + this.Host.Host.M31, this.StartingPoint.Y + this.Host.Host.M32);
-                //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.Host.M31, this.Host.Host.M32);
-                //this.Invert();
-            }
-            private void TX()
-            {
-                this.Point = new Vector2(this.StartingPoint.X + this.Host.Host.M31, this.StartingPoint.Y);
-                //this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.Host.M31, 0f);
-                //this.Invert();
-            }
-            private void TY()
-            {
-                this.Point = new Vector2(this.StartingPoint.X, this.StartingPoint.Y + this.Host.Host.M32);
-                //this.Matrix = Math.TranslateX(this.StartingMatrix, 0f, this.Host.Host.M32);
-                //this.Invert();
-            }
+        public void PointTranslateY(float translateY)
+        {
+            this.Point.TY0(translateY);
+        }
+        public void PointTranslateY(IIndicator indicator, float translateY)
+        {
+            this.Point.TY1(indicator, translateY);
         }
         #endregion
     }

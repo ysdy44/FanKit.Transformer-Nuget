@@ -21,24 +21,24 @@ namespace FanKit.Transformer.Demos
                     this.ActualBox = default;
                     break;
                 case SizeType.Point:
-                    this.ActualPoint = this.Point.Point;
+                    this.ActualPoint = this.PointPoint;
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
                 case SizeType.RowLine:
                     this.ActualPoint = default;
-                    this.ActualLine = new Line1(this.Line.Point0, this.Line.Point1);
+                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1);
                     this.ActualBox = default;
                     break;
                 case SizeType.ColumnLine:
                     this.ActualPoint = default;
-                    this.ActualLine = new Line1(this.Line.Point0, this.Line.Point1);
+                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1);
                     this.ActualBox = default;
                     break;
                 case SizeType.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
-                    this.ActualBox = new Box1(this.Panel.Destination);
+                    this.ActualBox = new Box1(this.PanelDestination);
                     break;
                 default:
                     this.ActualPoint = default;
@@ -58,24 +58,24 @@ namespace FanKit.Transformer.Demos
                     this.ActualBox = default;
                     break;
                 case SizeType.Point:
-                    this.ActualPoint = matrix.Transform(this.Point.Point);
+                    this.ActualPoint = matrix.Transform(this.PointPoint);
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
                 case SizeType.RowLine:
                     this.ActualPoint = default;
-                    this.ActualLine = new Line1(this.Line.Point0, this.Line.Point1, matrix);
+                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1, matrix);
                     this.ActualBox = default;
                     break;
                 case SizeType.ColumnLine:
                     this.ActualPoint = default;
-                    this.ActualLine = new Line1(this.Line.Point0, this.Line.Point1, matrix);
+                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1, matrix);
                     this.ActualBox = default;
                     break;
                 case SizeType.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
-                    this.ActualBox = new Box1(this.Panel.Destination, matrix);
+                    this.ActualBox = new Box1(this.PanelDestination, matrix);
                     break;
                 default:
                     this.ActualPoint = default;
