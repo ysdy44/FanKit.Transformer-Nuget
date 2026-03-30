@@ -1,173 +1,101 @@
-﻿using FanKit.Transformer.Controllers;
+﻿using FanKit.Transformer.Compute;
+using FanKit.Transformer.Controllers;
 using FanKit.Transformer.Indicators;
 using FanKit.Transformer.Mathematics;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
 namespace FanKit.Transformer.Transforms
 {
-    public partial class RectTriangle
+    public partial class RectTriangle : AffineTriangle2
     {
-        // Step 0. Initialize
-        //public int Count;
         public Bounds SourceBounds { get; private set; }
         public Rectangle SourceRect { get; private set; }
         RectMatrix SourceNormalize;
 
-        // Step 1. Transformer
         TransformedBounds TransformedBounds;
-        Triangle StartingTriangle;
-        Triangle Triangle;
 
-        // Step 2. Homography Matrix
-        Matrix3x2 DestNorm;
         public Triangle Destination => this.Triangle;
 
-        // Step 3. Matrix
-        Matrix3x2 StartingMatrix;
-        Matrix3x2 Matrix;
-        //Matrix3x2 InverseMatrix;
         public Matrix3x2 HomographyMatrix => this.Matrix;
-        //public Matrix3x2 HomographyInverseMatrix => this.InverseMatrix;
 
-        // Step 4. Host
-        //InvertibleMatrix3x2 HostSourceNorm;
-        //Matrix3x2 HostDestNorm;
-        Matrix3x2 Host;
         public float TranslationX => this.Host.M31;
         public float TranslationY => this.Host.M32;
         public Matrix3x2 TransformMatrix => this.Host;
 
-        // Step 6. Controller
-        TransformController Controller;
-
-        ControllerRadians Radians;
-
-        /*
-        void Invert()
-        {
-            Matrix3x2.Invert(this.Matrix, out this.InverseMatrix);
-        }
-         */
-
-        void Find()
+        internal override void Find()
         {
             this.DestNorm = this.Triangle.Normalize();
             this.Matrix = this.SourceNormalize.Affine(this.DestNorm);
-            //this.Invert();
         }
-
-        /*
-        void FindHomography()
-        {
-            this.HostDestNorm = this.Triangle.Normalize();
-            this.Host = this.HostSourceNorm * this.HostDestNorm;
-        }
-         */
 
         #region Triangles.Initialize
         public void Initialize(Bounds source)
         {
-            // Step 0. Initialize
             this.SourceBounds = source;
             this.SourceRect = new Rectangle(this.SourceBounds);
             this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            // Step 3. Matrix
             this.StartingMatrix = this.Matrix = Matrix3x2.Identity;
-            //this.InverseMatrix = Matrix3x2.Identity;
 
-            // Step 4. Host
             this.Host = Matrix3x2.Identity;
 
-            // Step 1. Transformer
             this.TransformedBounds = default;
             this.StartingTriangle = this.Triangle = new Triangle(this.SourceBounds);
         }
 
         public void Initialize(Bounds source, Matrix3x2 matrix)
         {
-            // Step 0. Initialize
             this.SourceBounds = source;
             this.SourceRect = new Rectangle(this.SourceBounds);
             this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            // Step 3. Matrix
             this.StartingMatrix = this.Matrix = matrix;
-            //this.Invert();
 
-            // Step 4. Host
             this.Host = Matrix3x2.Identity;
 
-            // Step 1. Transformer
             this.TransformedBounds = new TransformedBounds(this.SourceBounds, this.Matrix);
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
 
         public void Extend(Bounds source)
         {
-            // Step 0. Initialize
             this.SourceBounds = source;
             this.SourceRect = new Rectangle(this.SourceBounds);
             this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            // Step 4. Host
             this.Host = Matrix3x2.Identity;
 
-            // Step 1. Transformer
             this.TransformedBounds = new TransformedBounds(this.SourceBounds, this.Matrix);
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
 
         public void UpdateSource(Bounds source)
         {
-            // Step 0. Initialize
-            //this.Count = 1;
             this.SourceBounds = source;
             this.SourceRect = new Rectangle(this.SourceBounds);
             this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
             this.Find();
 
-            // Step 4. Host
             this.Host = Matrix3x2.Identity;
         }
 
         public void UpdateDestination(Triangle destination)
         {
-            // Step 0. Initialize
-            //this.Count = 1;
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle = destination;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            this.Host = Matrix3x2.Identity;
+            this.UD(destination);
         }
 
         public void UpdateAll(Bounds source, Triangle destination)
         {
-            // Step 0. Initialize
-            //this.Count = 1;
             this.SourceBounds = source;
             this.SourceRect = new Rectangle(this.SourceBounds);
             this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            // Step 1. Transformer
             this.StartingTriangle = this.Triangle = destination;
 
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
             this.Find();
 
-            // Step 4. Host
             this.Host = Matrix3x2.Identity;
         }
         #endregion
@@ -175,383 +103,157 @@ namespace FanKit.Transformer.Transforms
         #region Triangles.Set
         public void SetTranslation(Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Translate(this.StartingTriangle, this.Host.M31, this.Host.M32);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
-            //this.Invert();
+            this.ST0(translate);
         }
         public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Translate(this.StartingTriangle, this.Host.M31, this.Host.M32);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
-            //this.Invert();
-
-            indicator.ChangeXY(this.Triangle, mode);
+            this.ST1(indicator, mode, translate);
         }
 
         public void SetTranslationX(float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateX(this.StartingTriangle, this.Host.M31);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
-            //this.Invert();
+            this.STX0(translateX);
         }
         public void SetTranslationX(IIndicator indicator, BoxMode mode, float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateX(this.StartingTriangle, this.Host.M31);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
-            //this.Invert();
-
-            indicator.ChangeX(this.Triangle, mode);
+            this.STX1(indicator, mode, translateX);
         }
 
         public void SetTranslationY(float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateY(this.StartingTriangle, this.Host.M32);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
-            //this.Invert();
+            this.STY0(translateY);
         }
         public void SetTranslationY(IIndicator indicator, BoxMode mode, float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.TranslateY(this.StartingTriangle, this.Host.M32);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
-            //this.Invert();
-
-            indicator.ChangeY(this.Triangle, mode);
+            this.STY1(indicator, mode, translateY);
         }
 
         public void SetTransform(Matrix3x2 matrix)
         {
-            // Step 4. Host
-            this.Host = matrix;
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
+            this.SF0(matrix);
         }
         public void SetTransform(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
         {
-            // Step 4. Host
-            this.Host = matrix;
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-
-            indicator.ChangeAll(this.Triangle, mode);
+            this.SF1(indicator, mode, matrix);
         }
 
         public void SetWidth(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         {
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = indicator.CreateWidth(this.StartingTriangle, mode, value, keepRatio);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            //this.FindHomography();
-
-            indicator.ChangeXYWH(this.Triangle, mode);
+            this.SW(indicator, mode, value, keepRatio);
         }
         public void SetHeight(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         {
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = indicator.CreateHeight(this.StartingTriangle, mode, value, keepRatio);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            //this.FindHomography();
-
-            indicator.ChangeXYWH(this.Triangle, mode);
+            this.SH(indicator, mode, value, keepRatio);
         }
 
         public void SetRotation(IIndicator indicator, BoxMode mode, float rotationAngleInDegrees)
         {
-            // Step 4. Host
-            this.Host = indicator.CreateRotation(rotationAngleInDegrees);
-
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-
-            indicator.ChangeXYWHRS(this.Triangle, mode);
+            this.SR(indicator, mode, rotationAngleInDegrees);
         }
         public void SetSkew(IIndicator indicator, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
         {
-            // Step 1. Transformer
-            this.StartingTriangle = this.Triangle;
-            this.Triangle = indicator.CreateSkew(this.StartingTriangle, mode, skewAngleInDegrees, minimum, maximum);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            //this.FindHomography();
-
-            indicator.ChangeXYWHRS(this.Triangle, mode);
+            this.SS(indicator, mode, skewAngleInDegrees, minimum, maximum);
         }
         #endregion
 
         #region Triangles.Transform
         public void CacheTranslation()
         {
-            this.StartingTriangle = this.Triangle;
-            this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
+            this.CT();
         }
 
         public void CacheTransform()
         {
-            this.StartingTriangle = this.Triangle;
-            this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
+            this.CF();
         }
 
         public void Translate(Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
+            this.TD0(startingPoint, point);
         }
         public void Translate(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TD1(indicator, mode, startingPoint, point);
         }
 
         public void Translate(Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
+            this.T0(translate);
         }
         public void Translate(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.T1(indicator, mode, translate);
         }
 
         public void Translate(float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
+            this.TXY0(translateX, translateY);
         }
         public void Translate(IIndicator indicator, BoxMode mode, float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TXY1(indicator, mode, translateX, translateY);
         }
 
         public void TranslateX(float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
+            this.TX0(translateX);
         }
         public void TranslateX(IIndicator indicator, BoxMode mode, float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TX1(indicator, mode, translateX);
         }
 
         public void TranslateY(float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
+            this.TY0(translateY);
         }
         public void TranslateY(IIndicator indicator, BoxMode mode, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
-            indicator.ChangeXY(this.Triangle, mode);
+            this.TY1(indicator, mode, translateY);
         }
 
         public void Transform(Matrix3x2 matrix)
         {
-            this.Host = matrix;
-
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-        }
-
-        private void T()
-        {
-            this.Triangle = Triangle.Translate(this.StartingTriangle, this.Host.M31, this.Host.M32);
-            this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
-            //this.Invert();
-        }
-        private void TX()
-        {
-            this.Triangle = Triangle.TranslateX(this.StartingTriangle, this.Host.M31);
-            this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
-            //this.Invert();
-        }
-        private void TY()
-        {
-            this.Triangle = Triangle.TranslateY(this.StartingTriangle, this.Host.M32);
-            this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
-            //this.Invert();
+            this.F(matrix);
         }
         #endregion
 
         #region Triangles.Transform2
         public void CacheRotation(Vector2 point)
         {
-            this.StartingTriangle = this.Triangle;
-            this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
-
-            this.Controller = new TransformController(this.Triangle, point);
+            this.CR(point);
         }
 
         public void CacheTransform(TransformMode mode)
         {
-            this.StartingTriangle = this.Triangle;
-            this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingTriangle.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
-
-            this.Controller = new TransformController(this.Triangle, mode);
+            this.CF(mode);
         }
 
         public void Rotate(Vector2 point, float stepFrequency = float.NaN)
         {
-            this.Radians = this.Controller.ToRadians(point, stepFrequency);
-
-            this.Host = this.Controller.Rotate(this.Radians);
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
+            this.R0(point, stepFrequency);
         }
         public void Rotate(IIndicator indicator, BoxMode mode, Vector2 point, float stepFrequency = float.NaN)
         {
-            this.Radians = this.Controller.ToRadians(point, stepFrequency);
-
-            this.Host = this.Controller.Rotate(this.Radians);
-            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-
-            indicator.ChangeXYWHRS(this.Triangle, mode);
+            this.R1(indicator, mode, point, stepFrequency);
         }
 
         public void TransformSize(Vector2 point, bool keepRatio, bool centeredScaling)
         {
-            this.Triangle = this.Controller.Transform(this.StartingTriangle, point, keepRatio, centeredScaling);
-
-            this.Find();
-
-            //this.FindHomography();
+            this.TWH0(point, keepRatio, centeredScaling);
         }
         public void TransformSize(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling)
         {
-            this.Triangle = this.Controller.Transform(this.StartingTriangle, point, keepRatio, centeredScaling);
-
-            this.Find();
-
-            //this.FindHomography();
-
-            indicator.ChangeXYWH(this.Triangle, mode);
+            this.TWH1(indicator, mode, point, keepRatio, centeredScaling);
         }
 
         public void TransformSkew(Vector2 point, bool keepRatio, bool centeredScaling)
         {
-            this.Triangle = this.Controller.Transform(this.StartingTriangle, point, keepRatio, centeredScaling);
-
-            this.Find();
-
-            //this.FindHomography();
+            this.TS0(point, keepRatio, centeredScaling);
         }
         public void TransformSkew(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling)
         {
-            this.Triangle = this.Controller.Transform(this.StartingTriangle, point, keepRatio, centeredScaling);
-
-            this.Find();
-
-            //this.FindHomography();
-
-            indicator.ChangeXYWHRS(this.Triangle, mode);
+            this.TS1(indicator, mode, point, keepRatio, centeredScaling);
         }
         #endregion
     }

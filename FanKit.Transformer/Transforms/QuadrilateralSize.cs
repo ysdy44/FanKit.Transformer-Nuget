@@ -1,42 +1,27 @@
-﻿using FanKit.Transformer.Controllers;
+﻿using FanKit.Transformer.Compute;
+using FanKit.Transformer.Controllers;
 using FanKit.Transformer.Mathematics;
 using FanKit.Transformer.Indicators;
 using System.Numerics;
 
 namespace FanKit.Transformer.Transforms
 {
-    public partial class QuadrilateralSize : PerspRect
+    public partial class QuadrilateralSize : PerspQuadSize
     {
-        // Step 0. Initialize
-        //public int Count;
         public float DestinationWidth { get; private set; }
         public float DestinationHeight { get; private set; }
 
-        // Step 1. Transformer
-        Quadrilateral StartingQuadrilateral;
-        Quadrilateral Quadrilateral;
         public Quadrilateral Source => this.Quadrilateral;
 
-        // Step 3. Matrix
-        //Matrix4x4 StartingMatrix;
-        Matrix4x4 Matrix;
-        //public Matrix4x4 InverseMatrix;
-        public Matrix4x4 HomographyMatrix => this.Matrix;
-
-        // Step 4. Host
-        //InvertibleMatrix3x2 HostSource;
-        //Matrix3x2 HostDestination;
-        Matrix3x2 Host;
-
-        // Step 6. Controller
-        FreeTransformController Controller;
+        public Matrix4x4 HomographyMatrix => this.Core.m;
 
         public QuadrilateralPointKind PointKind => this.Controller.PointKind;
 
-        protected void Find()
+        readonly PerspSize Core = new PerspSize();
+
+        internal override void Find()
         {
-            this.FindHomography(this.Quadrilateral, this.DestinationWidth, this.DestinationHeight);
-            this.Matrix = m;
+            this.Core.FindHomography(this.Quadrilateral, this.DestinationWidth, this.DestinationHeight);
         }
 
         #region Quadrilaterals.Initialize
@@ -46,14 +31,12 @@ namespace FanKit.Transformer.Transforms
             this.DestinationHeight = destinationHeight;
             this.Quadrilateral = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
 
-            this.Matrix = Matrix4x4.Identity;
+            this.Core.m = Matrix4x4.Identity;
         }
 
         public void UpdateSource(Quadrilateral source)
         {
-            this.Quadrilateral = source;
-
-            this.Find();
+            this.US(source);
         }
 
         public void UpdateDestination(float destinationWidth, float destinationHeight)
@@ -78,138 +61,54 @@ namespace FanKit.Transformer.Transforms
         #region Quadrilaterals.FreeTransform
         public void CacheFreeTransform(FreeTransformMode mode)
         {
-            this.StartingQuadrilateral = this.Quadrilateral;
-            //this.StartingMatrix = this.Matrix;
-
-            this.Host = Matrix3x2.Identity;
-
-            this.Controller = new FreeTransformController(this.Quadrilateral, mode, 8f);
+            this.CFF(mode);
         }
 
         public void MovePoint(Vector2 point)
         {
-            this.Quadrilateral = this.StartingQuadrilateral.MovePoint(this.Controller.PointKind, point);
-
-            this.Find();
-
-            this.Host = Matrix3x2.Identity;
+            this.M0(point);
         }
 
         public void MovePointOfConvexQuadrilateral(Vector2 point)
         {
-            this.Quadrilateral = this.Controller.MovePointOfConvexQuadrilateral(this.StartingQuadrilateral, point);
-
-            this.Find();
-
-            this.Host = Matrix3x2.Identity;
+            this.M1(point);
         }
         #endregion
 
         #region Quadrilaterals.Transform
         public void CacheTranslation()
         {
-            this.StartingQuadrilateral = this.Quadrilateral;
-            //this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingQuadrilateral.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
+            this.CT();
         }
 
         public void CacheTransform()
         {
-            this.StartingQuadrilateral = this.Quadrilateral;
-            //this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingQuadrilateral.ToInvertibleMatrix();
-            this.Host = Matrix3x2.Identity;
+            this.CF();
         }
 
         public void Translate(Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
+            this.STXY0(startingPoint, point);
         }
-        //public void Translate(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
-        //{
-        //    this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-        //    this.T();
-        //    indicator.ChangeXY(this.Quadrilateral, mode);
-        //}
 
         public void Translate(Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
+            this.T0(translate);
         }
-        //public void Translate(IIndicator indicator, BoxMode mode, Vector2 translate)
-        //{
-        //    this.Host = Matrix3x2.CreateTranslation(translate);
-        //    this.T();
-        //    indicator.ChangeXY(this.Quadrilateral, mode);
-        //}
 
         public void Translate(float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
+            this.TXY0(translateX, translateY);
         }
-        //public void Translate(IIndicator indicator, BoxMode mode, float translateX, float translateY)
-        //{
-        //    this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-        //    this.T();
-        //    indicator.ChangeXY(this.Quadrilateral, mode);
-        //}
 
         public void TranslateX(float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
+            this.TX0(translateX);
         }
-        //public void TranslateX(IIndicator indicator, BoxMode mode, float translateX)
-        //{
-        //    this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-        //    this.TX();
-        //    indicator.ChangeXY(this.Quadrilateral, mode);
-        //}
 
         public void TranslateY(float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
-        }
-        //public void TranslateY(IIndicator indicator, BoxMode mode, float translateY)
-        //{
-        //    this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-        //    this.TY();
-        //    indicator.ChangeXY(this.Quadrilateral, mode);
-        //}
-
-        //public void Transform(Matrix3x2 matrix)
-        //{
-        //    this.Host = matrix;
-
-        //    this.Quadrilateral = this.StartingQuadrilateral * this.Host;
-        //    this.Matrix = Math.Transform(this.StartingMatrix, this.Host);
-        //    //this.Invert()
-        //}
-
-        private void T()
-        {
-            this.Quadrilateral = Quadrilateral.Translate(this.StartingQuadrilateral, this.Host.M31, this.Host.M32);
-            this.Find();
-            //this.Invert()
-        }
-        private void TX()
-        {
-            this.Quadrilateral = Quadrilateral.TranslateX(this.StartingQuadrilateral, this.Host.M31);
-            this.Find();
-            //this.Invert()
-        }
-        private void TY()
-        {
-            this.Quadrilateral = Quadrilateral.TranslateY(this.StartingQuadrilateral, this.Host.M32);
-            this.Find();
-            //this.Invert()
+            this.TY0(translateY);
         }
         #endregion
     }

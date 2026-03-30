@@ -1,4 +1,5 @@
-﻿using FanKit.Transformer.Controllers;
+﻿using FanKit.Transformer.Compute;
+using FanKit.Transformer.Controllers;
 using FanKit.Transformer.Indicators;
 using FanKit.Transformer.Mathematics;
 using System.Collections.Generic;
@@ -6,167 +7,88 @@ using System.Numerics;
 
 namespace FanKit.Transformer.Transforms
 {
-    public partial class ChildSizeBounds
+    public partial class ChildSizeBounds : MapBounds
     {
-        // Step 0. Initialize
-        //public int Count;
         public float SourceWidth { get; private set; }
         public float SourceHeight { get; private set; }
         public SizeMatrix SourceNormalize;
 
-        // Step 1. Transformer
-        //Bounds TransformedBounds;
-        public Bounds StartingBounds;
-        public Bounds Bounds;
-
-        // Step 2. Homography Matrix
-        Matrix2x2 DestNorm;
         public Bounds Destination => this.Bounds;
 
-        // Step 3. Matrix
-        public Matrix2x2 StartingMatrix;
-        public Matrix2x2 Matrix;
-        //public Matrix2x2 InverseMatrix;
         public Matrix2x2 HomographyMatrix => this.Matrix;
-        //public Matrix2x2 HomographyInverseMatrix => this.InverseMatrix;
 
-        // Step 4. Host
-        //InvertibleMatrix2x2 HostSourceNorm;
-        //Matrix2x2 HostDestNorm;
-        Matrix2x2 Host;
-        //float TranslationX => this.Host.TranslateX;
-        //float TranslationY => this.Host.TranslateY;
-        //Matrix2x2 TransformMatrix => this.Host;
-
-        // Step 6. Controller
-        //CropController Controller;
-
-        //ControllerRadians Radians;
-
-        /*
-        void Invert()
-        {
-            Matrix2x2.Invert(this.Matrix, out this.InverseMatrix);
-        }
-         */
-
-        void Find()
+        internal override void Find()
         {
             this.DestNorm = this.Bounds.Normalize();
             this.Matrix = this.SourceNormalize.Map(this.DestNorm);
-            //this.Invert();
         }
-
-        /*
-        void FindHomography()
-        {
-            this.HostDestNorm = this.Bounds.Normalize();
-            this.Host = this.HostSourceNorm * this.HostDestNorm;
-        }
-         */
 
         #region Bounds.Initialize
         public void Initialize(float sourceWidth, float sourceHeight)
         {
-            // Step 0. Initialize
             this.SourceWidth = sourceWidth;
             this.SourceHeight = sourceHeight;
             this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
-            // Step 3. Matrix
             this.StartingMatrix = this.Matrix = Matrix2x2.Identity;
-            //this.InverseMatrix = Matrix2x2.Identity;
 
-            // Step 4. Host
             this.Host = Matrix2x2.Identity;
 
-            // Step 1. Transformer
-            //this.TransformedBounds = default;
             this.StartingBounds = this.Bounds = new Bounds(this.SourceWidth, this.SourceHeight);
         }
 
         public void Initialize(float sourceWidth, float sourceHeight, Matrix2x2 matrix)
         {
-            // Step 0. Initialize
             this.SourceWidth = sourceWidth;
             this.SourceHeight = sourceHeight;
             this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
-            // Step 3. Matrix
             this.StartingMatrix = this.Matrix = matrix;
-            //this.Invert();
 
-            // Step 4. Host
             this.Host = Matrix2x2.Identity;
 
-            // Step 1. Transformer
             Bounds TransformedBounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
             this.StartingBounds = this.Bounds = TransformedBounds;
         }
 
         public void Extend(float sourceWidth, float sourceHeight)
         {
-            // Step 0. Initialize
             this.SourceWidth = sourceWidth;
             this.SourceHeight = sourceHeight;
             this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
-            // Step 4. Host
             this.Host = Matrix2x2.Identity;
 
-            // Step 1. Transformer
             Bounds TransformedBounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
             this.StartingBounds = this.Bounds = TransformedBounds;
         }
 
         public void UpdateSource(float sourceWidth, float sourceHeight)
         {
-            // Step 0. Initialize
-            //this.Count = 1;
             this.SourceWidth = sourceWidth;
             this.SourceHeight = sourceHeight;
             this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
             this.Find();
 
-            // Step 4. Host
             this.Host = Matrix2x2.Identity;
         }
 
         public void UpdateDestination(Bounds destination)
         {
-            // Step 0. Initialize
-            //this.Count = 1;
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds = destination;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            this.Host = Matrix2x2.Identity;
+            this.UD(destination);
         }
 
         public void UpdateAll(float sourceWidth, float sourceHeight, Bounds destination)
         {
-            // Step 0. Initialize
-            //this.Count = 1;
             this.SourceWidth = sourceWidth;
             this.SourceHeight = sourceHeight;
             this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
-            // Step 1. Transformer
             this.StartingBounds = this.Bounds = destination;
 
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
             this.Find();
 
-            // Step 4. Host
             this.Host = Matrix2x2.Identity;
         }
         #endregion
@@ -174,302 +96,109 @@ namespace FanKit.Transformer.Transforms
         #region Bounds.Set
         public void SetTranslation(Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix2x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.Translate(this.StartingBounds, this.Host.TranslateX, this.Host.TranslateY);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.Translate(this.StartingMatrix, this.Host.TranslateX, this.Host.TranslateY);
-            //this.Invert();
+            this.ST0(translate);
         }
         public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix2x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.Translate(this.StartingBounds, this.Host.TranslateX, this.Host.TranslateY);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.Translate(this.StartingMatrix, this.Host.TranslateX, this.Host.TranslateY);
-            //this.Invert();
-
-            indicator.ChangeXY(this.Bounds, mode);
+            this.ST1(indicator, mode, translate);
         }
 
         public void SetTranslationX(float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix2x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.TranslateX(this.StartingBounds, this.Host.TranslateX);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.TranslateX);
-            //this.Invert();
+            this.STX0(translateX);
         }
         public void SetTranslationX(IIndicator indicator, BoxMode mode, float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix2x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.TranslateX(this.StartingBounds, this.Host.TranslateX);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.TranslateX);
-            //this.Invert();
-
-            indicator.ChangeX(this.Bounds, mode);
+            this.STX1(indicator, mode, translateX);
         }
 
         public void SetTranslationY(float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix2x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.TranslateY(this.StartingBounds, this.Host.TranslateY);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.TranslateY);
-            //this.Invert();
+            this.STY0(translateY);
         }
         public void SetTranslationY(IIndicator indicator, BoxMode mode, float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix2x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.TranslateY(this.StartingBounds, this.Host.TranslateY);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.TranslateY);
-            //this.Invert();
-
-            indicator.ChangeY(this.Bounds, mode);
+            this.STY1(indicator, mode, translateY);
         }
 
         public void SetTransform(Matrix2x2 matrix)
         {
-            // Step 4. Host
-            this.Host = matrix;
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.Transform(this.StartingBounds, this.Host);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
+            this.SF0(matrix);
         }
         public void SetTransform(IIndicator indicator, BoxMode mode, Matrix2x2 matrix)
         {
-            // Step 4. Host
-            this.Host = matrix;
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.Transform(this.StartingBounds, this.Host);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-
-            indicator.ChangeAll(this.Bounds, mode);
+            this.SF1(indicator, mode, matrix);
         }
 
         public void SetWidth(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         {
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = indicator.CreateWidth(this.StartingBounds, mode, value, keepRatio);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            //this.HostSourceNorm = this.StartingBounds.ToInvertibleMatrix();
-            //this.FindHomography();
-
-            indicator.ChangeXYWH(this.Bounds, mode);
+            this.SW(indicator, mode, value, keepRatio);
         }
         public void SetHeight(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
         {
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = indicator.CreateHeight(this.StartingBounds, mode, value, keepRatio);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            //this.HostSourceNorm = this.StartingBounds.ToInvertibleMatrix();
-            //this.FindHomography();
-
-            indicator.ChangeXYWH(this.Bounds, mode);
+            this.SH(indicator, mode, value, keepRatio);
         }
-
-        /*
-        public void SetRotation(IIndicator indicator, BoxMode mode, float rotationAngleInDegrees)
-        {
-            // Step 4. Host
-            this.Host = indicator.CreateRotation(rotationAngleInDegrees);
-
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = Bounds.Transform(this.StartingBounds, this.Host);
-
-            // Step 3. Matrix
-            this.StartingMatrix = this.Matrix;
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-
-            indicator.ChangeXYWHRS(this.Bounds, mode);
-        }
-        public void SetSkew(IIndicator indicator, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
-        {
-            // Step 1. Transformer
-            this.StartingBounds = this.Bounds;
-            this.Bounds = indicator.CreateSkew(this.StartingBounds, mode, skewAngleInDegrees, minimum, maximum);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            this.Find();
-
-            // Step 4. Host
-            //this.HostSourceNorm = this.StartingBounds.ToInvertibleMatrix();
-            //this.FindHomography();
-
-            indicator.ChangeXYWHRS(this.Bounds, mode);
-        }
-         */
         #endregion
 
         #region Bounds.Transform
         public void CacheTranslation()
         {
-            this.StartingBounds = this.Bounds;
-            this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingBounds.ToInvertibleMatrix();
-            this.Host = Matrix2x2.Identity;
+            this.CT();
         }
 
         public void CacheTransform()
         {
-            this.StartingBounds = this.Bounds;
-            this.StartingMatrix = this.Matrix;
-
-            //this.HostSourceNorm = this.StartingBounds.ToInvertibleMatrix();
-            this.Host = Matrix2x2.Identity;
+            this.CF();
         }
 
         public void Translate(Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix2x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
+            this.TD0(startingPoint, point);
         }
         public void Translate(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix2x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
-            indicator.ChangeXY(this.Bounds, mode);
+            this.TD1(indicator, mode, startingPoint, point);
         }
 
         public void Translate(Vector2 translate)
         {
-            this.Host = Matrix2x2.CreateTranslation(translate);
-            this.T();
+            this.T0(translate);
         }
         public void Translate(IIndicator indicator, BoxMode mode, Vector2 translate)
         {
-            this.Host = Matrix2x2.CreateTranslation(translate);
-            this.T();
-            indicator.ChangeXY(this.Bounds, mode);
+            this.T1(indicator, mode, translate);
         }
 
         public void Translate(float translateX, float translateY)
         {
-            this.Host = Matrix2x2.CreateTranslation(translateX, translateY);
-            this.T();
+            this.TXY0(translateX, translateY);
         }
         public void Translate(IIndicator indicator, BoxMode mode, float translateX, float translateY)
         {
-            this.Host = Matrix2x2.CreateTranslation(translateX, translateY);
-            this.T();
-            indicator.ChangeXY(this.Bounds, mode);
+            this.TXY1(indicator, mode, translateX, translateY);
         }
 
         public void TranslateX(float translateX)
         {
-            this.Host = Matrix2x2.CreateTranslation(translateX, 0f);
-            this.TX();
+            this.TX0(translateX);
         }
         public void TranslateX(IIndicator indicator, BoxMode mode, float translateX)
         {
-            this.Host = Matrix2x2.CreateTranslation(translateX, 0f);
-            this.TX();
-            indicator.ChangeXY(this.Bounds, mode);
+            this.TX1(indicator, mode, translateX);
         }
 
         public void TranslateY(float translateY)
         {
-            this.Host = Matrix2x2.CreateTranslation(0f, translateY);
-            this.TY();
+            this.TY0(translateY);
         }
         public void TranslateY(IIndicator indicator, BoxMode mode, float translateY)
         {
-            this.Host = Matrix2x2.CreateTranslation(0f, translateY);
-            this.TY();
-            indicator.ChangeXY(this.Bounds, mode);
+            this.TY1(indicator, mode, translateY);
         }
 
         public void Transform(Matrix2x2 matrix)
         {
-            this.Host = matrix;
-
-            this.Bounds = Bounds.Transform(this.StartingBounds, this.Host);
-            this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-        }
-
-        private void T()
-        {
-            this.Bounds = Bounds.Translate(this.StartingBounds, this.Host.TranslateX, this.Host.TranslateY);
-            this.Matrix = Math.Translate(this.StartingMatrix, this.Host.TranslateX, this.Host.TranslateY);
-            //this.Invert();
-        }
-        private void TX()
-        {
-            this.Bounds = Bounds.TranslateX(this.StartingBounds, this.Host.TranslateX);
-            this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.TranslateX);
-            //this.Invert();
-        }
-        private void TY()
-        {
-            this.Bounds = Bounds.TranslateY(this.StartingBounds, this.Host.TranslateY);
-            this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.TranslateY);
-            //this.Invert();
+            this.Transform2(matrix);
         }
         #endregion
     }
