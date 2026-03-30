@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Mathematics
 {
-    public class PerspMatrix
+    internal class PerspMatrix
     {
         static float Abs(float v) => v < 0 ? -v : v;
 

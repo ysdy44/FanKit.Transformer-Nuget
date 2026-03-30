@@ -2,7 +2,7 @@
 
 namespace FanKit.Transformer.Mathematics
 {
-    public class PerspRect : PerspMatrix
+    internal class PerspRect : PerspMatrix
     {
         // Normalize
         float m11;
@@ -17,9 +17,9 @@ namespace FanKit.Transformer.Mathematics
         float m42;
 
         // Result
-        public Matrix4x4 m;
+        internal Matrix4x4 m;
 
-        public void FindHomography(Quadrilateral src, float dstW, float dstH)
+        internal void FindHomography(Quadrilateral src, float dstW, float dstH)
         {
             Normalize(src);
 
@@ -62,7 +62,7 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        public void FindHomography(Quadrilateral src, Rectangle dst)
+        internal void FindHomography(Quadrilateral src, Rectangle dst)
         {
             Normalize(src);
 
