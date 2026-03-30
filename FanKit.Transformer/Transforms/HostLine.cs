@@ -1,679 +1,259 @@
-﻿using FanKit.Transformer.Controllers;
+﻿using FanKit.Transformer.Compute;
+using FanKit.Transformer.Controllers;
 using FanKit.Transformer.Indicators;
 using FanKit.Transformer.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System;
 using System.Text;
 
 namespace FanKit.Transformer.Transforms
 {
     public partial class HostLine
     {
-        // Step 0. Initialize'
-
-        // Step 1. Transformer
-        Vector2 StartingPoint0;
-        Vector2 StartingPoint1;
-
-        public Vector2 Point0;
-        public Vector2 Point1;
-
-        // Step 2. Homography Matrix
-
-        // Step 3. Matrix
-
-        // Step 4. Host
-        LineMatrix HostSourceNorm;
-        PinchMatrix3x2 HostDestNorm;
-        Matrix3x2 Host;
-        public float TranslationX => this.Host.M31;
-        public float TranslationY => this.Host.M32;
-        public Matrix3x2 TransformMatrix => this.Host;
-
-        // Step 6. Controller
-        Vector2 Diff;
-        LineControllerFoot Foot;
-        LineController Controller;
-
-        ControllerRadians Radians;
-
-        // ElongatePoint0
-        public void FindHomography0()
+        public Vector2 Point0
         {
-            if (this.HostSourceNorm.IsEmpty)
-            {
-                this.Host = Matrix3x2.Identity;
-            }
-            else
-            {
-                this.HostDestNorm = new PinchMatrix3x2(this.HostSourceNorm, this.StartingPoint1, this.Point0);
-                if (this.HostDestNorm.IsEmpty)
-                {
-                    this.Host = Matrix3x2.Identity;
-                }
-                else
-                {
-                    this.Host = this.HostDestNorm;
-                }
-            }
+            get => this.Line.Point0;
+            set => this.Line.Point0 = value;
+        }
+        public Vector2 Point1
+        {
+            get => this.Line.Point1;
+            set => this.Line.Point1 = value;
         }
 
-        // ElongatePoint1
-        public void FindHomography1()
-        {
-            if (this.HostSourceNorm.IsEmpty)
-            {
-                this.Host = Matrix3x2.Identity;
-            }
-            else
-            {
-                this.HostDestNorm = new PinchMatrix3x2(this.HostSourceNorm, this.StartingPoint0, this.Point1);
-                if (this.HostDestNorm.IsEmpty)
-                {
-                    this.Host = Matrix3x2.Identity;
-                }
-                else
-                {
-                    this.Host = this.HostDestNorm;
-                }
-            }
-        }
+        public float TranslationX => this.Host.Matrix.M31;
+        public float TranslationY => this.Host.Matrix.M32;
+        public Matrix3x2 TransformMatrix => this.Host.Matrix;
 
-        // MovePoint
-        public void FindHomography()
+        readonly M3x2 Host;
+        readonly ComposerLine Line;
+
+        public HostLine()
         {
-            if (this.HostSourceNorm.IsEmpty)
-            {
-                this.Host = Matrix3x2.Identity;
-            }
-            else
-            {
-                this.HostDestNorm = new PinchMatrix3x2(this.HostSourceNorm, this.StartingPoint0, this.Point0, this.Point1);
-                if (this.HostDestNorm.IsEmpty)
-                {
-                    this.Host = Matrix3x2.Identity;
-                }
-                else
-                {
-                    this.Host = this.HostDestNorm;
-                }
-            }
+            this.Host = new M3x2();
+            this.Line = new ComposerLine(this.Host);
         }
 
         #region Lines.Set
         public void SetTranslation(Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y + this.Host.M32);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
+            this.Line.ST0(translate);
         }
         public void SetTranslation(IIndicator indicator, RowLineMode mode, Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y + this.Host.M32);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-
-            indicator.ChangeXY(this.Point0, this.Point1, mode);
+            this.Line.ST1(indicator, mode, translate);
         }
         public void SetTranslation(IIndicator indicator, ColumnLineMode mode, Vector2 translate)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translate);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y + this.Host.M32);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-
-            indicator.ChangeXY(this.Point0, this.Point1, mode);
+            this.Line.ST2(indicator, mode, translate);
         }
 
         public void SetTranslationX(float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
+            this.Line.STX0(translateX);
         }
         public void SetTranslationX(IIndicator indicator, RowLineMode mode, float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-
-            indicator.ChangeXY(this.Point0, this.Point1, mode);
+            this.Line.STX1(indicator, mode, translateX);
         }
         public void SetTranslationX(IIndicator indicator, ColumnLineMode mode, float translateX)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-
-            indicator.ChangeXY(this.Point0, this.Point1, mode);
+            this.Line.STX2(indicator, mode, translateX);
         }
 
         public void SetTranslationY(float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X, this.StartingPoint1.Y + this.Host.M32);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
+            this.Line.STY0(translateY);
         }
         public void SetTranslationY(IIndicator indicator, RowLineMode mode, float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X, this.StartingPoint1.Y + this.Host.M32);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-
-            indicator.ChangeXY(this.Point0, this.Point1, mode);
+            this.Line.STY1(indicator, mode, translateY);
         }
         public void SetTranslationY(IIndicator indicator, ColumnLineMode mode, float translateY)
         {
-            // Step 4. Host
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = new Vector2(this.StartingPoint0.X, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X, this.StartingPoint1.Y + this.Host.M32);
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-
-            indicator.ChangeXY(this.Point0, this.Point1, mode);
+            this.Line.STY2(indicator, mode, translateY);
         }
 
         public void SetWidth(IIndicator indicator, RowLineMode mode, float value)
         {
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            //this.Find();
-
-            // Step 4. Host
-            switch (mode)
-            {
-                case RowLineMode.Left:
-                    this.Controller = new LineController(value, this.StartingPoint0, this.StartingPoint1, 0);
-                    this.Point1 = this.Controller.GetPoint1();
-                    this.Host = this.Controller.Multiply();
-                    break;
-                case RowLineMode.Center:
-                    this.Controller = new LineController(value, this.StartingPoint0, this.StartingPoint1, 1);
-                    this.Point0 = this.Controller.GetPoint0();
-                    this.Point1 = this.Controller.GetPoint1();
-                    this.Host = this.Controller.Multiply();
-                    break;
-                case RowLineMode.Right:
-                    this.Controller = new LineController(value, this.StartingPoint0, this.StartingPoint1, 2);
-                    this.Point0 = this.Controller.GetPoint0();
-                    this.Host = this.Controller.Multiply();
-                    break;
-                default:
-                    break;
-            }
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.SW(indicator, mode, value);
         }
         public void SetHeight(IIndicator indicator, ColumnLineMode mode, float value)
         {
-            // Step 1. Transformer
-            //this.StartingPoint = this.Point;
-            //this.Point = Vector2.Transform(this.StartingPoint, this.Host);
-
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            // Step 2. Homography Matrix
-            // Step 3. Matrix
-            //this.Find();
-
-            // Step 4. Host
-            switch (mode)
-            {
-                case ColumnLineMode.Top:
-                    this.Controller = new LineController(value, this.StartingPoint0, this.StartingPoint1, 0);
-                    this.Point1 = this.Controller.GetPoint1();
-                    this.Host = this.Controller.Multiply();
-                    break;
-                case ColumnLineMode.Center:
-                    this.Controller = new LineController(value, this.StartingPoint0, this.StartingPoint1, 1);
-                    this.Point0 = this.Controller.GetPoint0();
-                    this.Point1 = this.Controller.GetPoint1();
-                    this.Host = this.Controller.Multiply();
-                    break;
-                case ColumnLineMode.Bottom:
-                    this.Controller = new LineController(value, this.StartingPoint0, this.StartingPoint1, 2);
-                    this.Point0 = this.Controller.GetPoint0();
-                    this.Host = this.Controller.Multiply();
-                    break;
-                default:
-                    break;
-            }
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.SH(indicator, mode, value);
         }
 
         public void SetRotation(IIndicator indicator, float rotationAngleInDegrees)
         {
-            // Step 4. Host
-            this.Host = indicator.CreateRotation(rotationAngleInDegrees);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = Vector2.Transform(this.StartingPoint0, this.Host);
-            this.Point1 = Vector2.Transform(this.StartingPoint1, this.Host);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
+            this.Line.SR0(indicator, rotationAngleInDegrees);
         }
         public void SetRotation(IIndicator indicator, RowLineMode mode, float rotationAngleInDegrees)
         {
-            // Step 4. Host
-            this.Host = indicator.CreateRotation(rotationAngleInDegrees);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = Vector2.Transform(this.StartingPoint0, this.Host);
-            this.Point1 = Vector2.Transform(this.StartingPoint1, this.Host);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.SR1(indicator, mode, rotationAngleInDegrees);
         }
         public void SetRotation(IIndicator indicator, ColumnLineMode mode, float rotationAngleInDegrees)
         {
-            // Step 4. Host
-            this.Host = indicator.CreateRotation(rotationAngleInDegrees);
-
-            // Step 1. Transformer
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.Point0 = Vector2.Transform(this.StartingPoint0, this.Host);
-            this.Point1 = Vector2.Transform(this.StartingPoint1, this.Host);
-
-            // Step 3. Matrix
-            //this.StartingMatrix = this.Matrix;
-            //this.Matrix = this.StartingMatrix * this.Host;
-            //this.Invert();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.SR2(indicator, mode, rotationAngleInDegrees);
         }
         #endregion
 
         #region Lines.Transform
         public void CacheTranslation()
         {
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            //this.HostSourceNorm = new LineMatrix(this.StartingPoint0, this.StartingPoint1);
-            this.Host = Matrix3x2.Identity;
+            this.Line.CT();
         }
 
         public void Translate(Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
+            this.Line.TD0(startingPoint, point);
         }
         public void Translate(IIndicator indicator, RowLineMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.TD1(indicator, mode, startingPoint, point);
         }
         public void Translate(IIndicator indicator, ColumnLineMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
-            this.T();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.TD2(indicator, mode, startingPoint, point);
         }
 
         public void Translate(Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
+            this.Line.T0(translate);
         }
         public void Translate(IIndicator indicator, RowLineMode mode, Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.T1(indicator, mode, translate);
         }
         public void Translate(IIndicator indicator, ColumnLineMode mode, Vector2 translate)
         {
-            this.Host = Matrix3x2.CreateTranslation(translate);
-            this.T();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.T2(indicator, mode, translate);
         }
 
         public void Translate(float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
+            this.Line.TXY0(translateX, translateY);
         }
         public void Translate(IIndicator indicator, RowLineMode mode, float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.TXY1(indicator, mode, translateX, translateY);
         }
         public void Translate(IIndicator indicator, ColumnLineMode mode, float translateX, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.T();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.TXY2(indicator, mode, translateX, translateY);
         }
 
         public void TranslateX(float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
+            this.Line.TX0(translateX);
         }
         public void TranslateX(IIndicator indicator, RowLineMode mode, float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.TX1(indicator, mode, translateX);
         }
         public void TranslateX(IIndicator indicator, ColumnLineMode mode, float translateX)
         {
-            this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
-            this.TX();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.TX2(indicator, mode, translateX);
         }
 
         public void TranslateY(float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
+            this.Line.TY0(translateY);
         }
         public void TranslateY(IIndicator indicator, RowLineMode mode, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.TY1(indicator, mode, translateY);
         }
         public void TranslateY(IIndicator indicator, ColumnLineMode mode, float translateY)
         {
-            this.Host = Matrix3x2.CreateTranslation(0f, translateY);
-            this.TY();
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
-        }
-
-        private void T()
-        {
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y + this.Host.M32);
-        }
-        private void TX()
-        {
-            this.Point0 = new Vector2(this.StartingPoint0.X + this.Host.M31, this.StartingPoint0.Y);
-            this.Point1 = new Vector2(this.StartingPoint1.X + this.Host.M31, this.StartingPoint1.Y);
-        }
-        private void TY()
-        {
-            this.Point0 = new Vector2(this.StartingPoint0.X, this.StartingPoint0.Y + this.Host.M32);
-            this.Point1 = new Vector2(this.StartingPoint1.X, this.StartingPoint1.Y + this.Host.M32);
+            this.Line.TY2(indicator, mode, translateY);
         }
         #endregion
 
         #region Lines.Transform2
         public void CacheRotation(Vector2 point)
         {
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            //this.HostSourceNorm = new LineMatrix(this.StartingPoint0, this.StartingPoint1);
-            this.Host = Matrix3x2.Identity;
-
-            this.Controller = new LineController(this.StartingPoint0, this.StartingPoint1, point);
+            this.Line.CR(point);
         }
 
         public void CacheElongation0()
         {
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.HostSourceNorm = new LineMatrix(this.StartingPoint1, this.StartingPoint0);
-            this.Host = Matrix3x2.Identity;
-
-            this.Controller = new LineController(this.StartingPoint1, this.StartingPoint0);
+            this.Line.CE0();
         }
 
         public void CacheElongation1()
         {
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.HostSourceNorm = new LineMatrix(this.StartingPoint0, this.StartingPoint1);
-            this.Host = Matrix3x2.Identity;
-
-            this.Controller = new LineController(this.StartingPoint0, this.StartingPoint1);
+            this.Line.CE1();
         }
 
         public void CacheMovement()
         {
-            this.StartingPoint0 = this.Point0;
-            this.StartingPoint1 = this.Point1;
-
-            this.HostSourceNorm = new LineMatrix(this.StartingPoint0, this.StartingPoint1);
-            this.Host = Matrix3x2.Identity;
+            this.Line.CM();
         }
 
         public void Rotate(Vector2 point, float stepFrequency = float.NaN)
         {
-            this.Radians = this.Controller.ToRadians(point, stepFrequency);
-            this.Host = this.Controller.Rotate(this.Radians);
-
-            this.Point0 = Vector2.Transform(this.StartingPoint0, this.Host);
-            this.Point1 = Vector2.Transform(this.StartingPoint1, this.Host);
+            this.Line.R0(point, stepFrequency);
         }
         public void Rotate(IIndicator indicator, RowLineMode mode, Vector2 point, float stepFrequency = float.NaN)
         {
-            this.Radians = this.Controller.ToRadians(point, stepFrequency);
-            this.Host = this.Controller.Rotate(this.Radians);
-
-            this.Point0 = Vector2.Transform(this.StartingPoint0, this.Host);
-            this.Point1 = Vector2.Transform(this.StartingPoint1, this.Host);
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.R1(indicator, mode, point, stepFrequency);
         }
         public void Rotate(IIndicator indicator, ColumnLineMode mode, Vector2 point, float stepFrequency = float.NaN)
         {
-            this.Radians = this.Controller.ToRadians(point, stepFrequency);
-            this.Host = this.Controller.Rotate(this.Radians);
-
-            this.Point0 = Vector2.Transform(this.StartingPoint0, this.Host);
-            this.Point1 = Vector2.Transform(this.StartingPoint1, this.Host);
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.R2(indicator, mode, point, stepFrequency);
         }
 
         public void ElongatePoint0(Vector2 startingPoint, Vector2 point)
         {
-            this.Diff = startingPoint - this.StartingPoint0;
-            this.Foot = new LineControllerFoot(this.Controller, this.StartingPoint1, point, this.Diff);
-            this.Point0 = this.Foot.Foot;
-
-            this.FindHomography0();
+            this.Line.E00(startingPoint, point);
         }
         public void ElongatePoint0(IIndicator indicator, RowLineMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Diff = startingPoint - this.StartingPoint0;
-            this.Foot = new LineControllerFoot(this.Controller, this.StartingPoint1, point, this.Diff);
-            this.Point0 = this.Foot.Foot;
-
-            this.FindHomography0();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.E10(indicator, mode, startingPoint, point);
         }
         public void ElongatePoint0(IIndicator indicator, ColumnLineMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Diff = startingPoint - this.StartingPoint0;
-            this.Foot = new LineControllerFoot(this.Controller, this.StartingPoint1, point, this.Diff);
-            this.Point0 = this.Foot.Foot;
-
-            this.FindHomography0();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.E20(indicator, mode, startingPoint, point);
         }
 
         public void ElongatePoint1(Vector2 startingPoint, Vector2 point)
         {
-            this.Diff = startingPoint - this.StartingPoint1;
-            this.Foot = new LineControllerFoot(this.Controller, this.StartingPoint0, point, this.Diff);
-            this.Point1 = this.Foot.Foot;
-
-            this.FindHomography1();
+            this.Line.E01(startingPoint, point);
         }
         public void ElongatePoint1(IIndicator indicator, RowLineMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Diff = startingPoint - this.StartingPoint1;
-            this.Foot = new LineControllerFoot(this.Controller, this.StartingPoint0, point, this.Diff);
-            this.Point1 = this.Foot.Foot;
-
-            this.FindHomography1();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.E11(indicator, mode, startingPoint, point);
         }
         public void ElongatePoint1(IIndicator indicator, ColumnLineMode mode, Vector2 startingPoint, Vector2 point)
         {
-            this.Diff = startingPoint - this.StartingPoint1;
-            this.Foot = new LineControllerFoot(this.Controller, this.StartingPoint0, point, this.Diff);
-            this.Point1 = this.Foot.Foot;
-
-            this.FindHomography1();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.E21(indicator, mode, startingPoint, point);
         }
 
         public void MovePoint0(Vector2 point)
         {
-            this.Point0 = point;
-
-            this.FindHomography();
+            this.Line.M00(point);
         }
         public void MovePoint0(IIndicator indicator, RowLineMode mode, Vector2 point)
         {
-            this.Point0 = point;
-
-            this.FindHomography();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.M10(indicator, mode, point);
         }
         public void MovePoint0(IIndicator indicator, ColumnLineMode mode, Vector2 point)
         {
-            this.Point0 = point;
-
-            this.FindHomography();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.M20(indicator, mode, point);
         }
 
         public void MovePoint1(Vector2 point)
         {
-            this.Point1 = point;
-
-            this.FindHomography();
+            this.Line.M01(point);
         }
         public void MovePoint1(IIndicator indicator, RowLineMode mode, Vector2 point)
         {
-            this.Point1 = point;
-
-            this.FindHomography();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.M11(indicator, mode, point);
         }
         public void MovePoint1(IIndicator indicator, ColumnLineMode mode, Vector2 point)
         {
-            this.Point1 = point;
-
-            this.FindHomography();
-
-            indicator.ChangeAll(this.Point0, this.Point1, mode);
+            this.Line.M21(indicator, mode, point);
         }
         #endregion
     }
