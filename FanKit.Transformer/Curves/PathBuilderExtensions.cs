@@ -47,7 +47,6 @@ namespace FanKit.Transformer.Curves
         }
 
         #region ClosestPointer
-
         public static void CreatePreviousPath(this IPathBuilder pathBuilder, ClosestPointer closest)
         {
             // ?
@@ -99,11 +98,9 @@ namespace FanKit.Transformer.Curves
 
             // return
         }
-
         #endregion
 
         #region Node
-
         public static void CreatePointPath(this IPathBuilder pathBuilder, List<Node> segment, bool isClosed)
         {
             // ?
@@ -132,11 +129,9 @@ namespace FanKit.Transformer.Curves
 
             // return
         }
-
         #endregion
 
         #region Segment0
-
         public static void CreatePointPath(this IPathBuilder pathBuilder, List<Segment0> segment, bool isClosed)
         {
             // ?
@@ -165,11 +160,9 @@ namespace FanKit.Transformer.Curves
 
             // return
         }
-
         #endregion
 
         #region Segment1
-
         public static void CreatePointPath(this IPathBuilder pathBuilder, List<Segment1> segment, bool isClosed)
         {
             // ?
@@ -227,11 +220,9 @@ namespace FanKit.Transformer.Curves
 
             // return
         }
-
         #endregion
 
         #region Segment2
-
         public static void CreateRawPath(this IPathBuilder pathBuilder, IEnumerable<Figure2> figures)
         {
             // ?
@@ -295,11 +286,9 @@ namespace FanKit.Transformer.Curves
 
             // return
         }
-
         #endregion
 
         #region Segment3
-
         public static void CreateRawPath(this IPathBuilder pathBuilder, IEnumerable<Figure3> figures)
         {
             // ?
@@ -363,7 +352,6 @@ namespace FanKit.Transformer.Curves
 
             // return
         }
-
         #endregion
     }
 }

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Figure = FanKit.Transformer.Curves.Figure2;
+using Segment = FanKit.Transformer.Curves.Segment2;
 
 namespace FanKit.Transformer.Curves
 {
@@ -10,16 +12,16 @@ namespace FanKit.Transformer.Curves
     {
         public void SharpSelectedItems()
         {
-            foreach (Figure2 figure in this.Data)
+            foreach (Figure figure in this.Data)
             {
                 for (int i = 0; i < figure.Data.Count; i++)
                 {
-                    Segment2 segment = figure.Data[i];
+                    Segment segment = figure.Data[i];
                     if (segment.IsChecked)
                     {
                         if (segment.IsSmooth)
                         {
-                            figure.Data[i] = new Segment2
+                            figure.Data[i] = new Segment
                             {
                                 IsChecked = true,
                                 IsSmooth = false,
@@ -35,11 +37,11 @@ namespace FanKit.Transformer.Curves
 
         public void SmoothSelectedItems()
         {
-            foreach (Figure2 figure in this.Data)
+            foreach (Figure figure in this.Data)
             {
                 int end = figure.Data.Count - 1;
-                Segment2 first = figure.Data[0];
-                Segment2 last = figure.Data[end];
+                Segment first = figure.Data[0];
+                Segment last = figure.Data[end];
 
                 if (figure.IsClosed)
                 {
@@ -50,7 +52,7 @@ namespace FanKit.Transformer.Curves
 
                     for (int i = 1; i < end; i++)
                     {
-                        Segment2 segment = figure.Data[i];
+                        Segment segment = figure.Data[i];
                         if (segment.IsChecked)
                         {
                             figure.Data[i] = segment.Smooth(figure.Data[i - 1], figure.Data[i + 1]);
@@ -71,7 +73,7 @@ namespace FanKit.Transformer.Curves
 
                     for (int i = 1; i < end; i++)
                     {
-                        Segment2 segment = figure.Data[i];
+                        Segment segment = figure.Data[i];
                         if (segment.IsChecked)
                         {
                             figure.Data[i] = segment.Smooth(figure.Data[i - 1], figure.Data[i + 1]);

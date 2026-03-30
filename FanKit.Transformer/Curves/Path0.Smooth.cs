@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Segment = FanKit.Transformer.Curves.Segment0;
 
 namespace FanKit.Transformer.Curves
 {
@@ -12,12 +13,12 @@ namespace FanKit.Transformer.Curves
         {
             for (int i = 0; i < this.Data.Count; i++)
             {
-                Segment0 segment = this.Data[i];
+                Segment segment = this.Data[i];
                 if (segment.IsChecked)
                 {
                     if (segment.IsSmooth)
                     {
-                        this.Data[i] = new Segment0
+                        this.Data[i] = new Segment
                         {
                             IsChecked = true,
                             IsSmooth = false,
@@ -32,8 +33,8 @@ namespace FanKit.Transformer.Curves
         public void SmoothSelectedItems()
         {
             int end = this.Data.Count - 1;
-            Segment0 first = this.Data[0];
-            Segment0 last = this.Data[end];
+            Segment first = this.Data[0];
+            Segment last = this.Data[end];
 
             if (this.IsClosed)
             {
@@ -44,7 +45,7 @@ namespace FanKit.Transformer.Curves
 
                 for (int i = 1; i < end; i++)
                 {
-                    Segment0 segment = this.Data[i];
+                    Segment segment = this.Data[i];
                     if (segment.IsChecked)
                     {
                         this.Data[i] = segment.Smooth(this.Data[i - 1], this.Data[i + 1]);
@@ -65,7 +66,7 @@ namespace FanKit.Transformer.Curves
 
                 for (int i = 1; i < end; i++)
                 {
-                    Segment0 segment = this.Data[i];
+                    Segment segment = this.Data[i];
                     if (segment.IsChecked)
                     {
                         this.Data[i] = segment.Smooth(this.Data[i - 1], this.Data[i + 1]);
