@@ -50,7 +50,6 @@ namespace FanKit.Transformer.Transforms
             Bounds bounds = new Bounds(item.SourceWidth, item.SourceHeight);
             this.Reset(bounds, item.Destination, item.HomographyMatrix);
         }
-        public void Reset(InvertibleRectTriangle item) => this.Reset(item.SourceBounds, item.Destination, item.HomographyMatrix);
         public void Reset(Curves.Path2 item) => this.Reset(item.SourceBounds, item.Destination, item.HomographyMatrix);
         public void Reset(Polylines.Path2 item) => this.Reset(item.SourceBounds, item.Destination, item.HomographyMatrix);
         public void Reset(Curves.Path3 item) => this.Reset(item.SourceBounds, item.Destination, item.HomographyMatrix);
