@@ -58,27 +58,23 @@ namespace FanKit.Transformer.Transforms
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
                 case SizeType.Point:
-
                     this.Point.Point = new Vector2(cx, cy);
 
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
                 case SizeType.RowLine:
-
                     this.Line.Point0 = new Vector2(this.SourceBounds.Left, cy);
                     this.Line.Point1 = new Vector2(this.SourceBounds.Right, cy);
 
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
                 case SizeType.ColumnLine:
-
                     this.Line.Point0 = new Vector2(cx, this.SourceBounds.Top);
                     this.Line.Point1 = new Vector2(cx, this.SourceBounds.Bottom);
 
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
                 case SizeType.Panel:
-
                     this.Panel.StartingTriangle = this.Panel.Triangle = new Triangle(this.SourceBounds);
 
                     this.Host.Matrix = Matrix3x2.Identity;

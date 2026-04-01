@@ -59,22 +59,18 @@ namespace FanKit.Transformer.Controllers
             xy = default;
 
             #region Span 1: Rotate
-
             r0 = new Angle(point1, point0);
 
             r1 = new Angle(point, c);
-
             #endregion
 
             #region Span 2: Size
-
             d = default;
             s = default;
             i = default;
 
             x = default;
             y = default;
-
             #endregion
         }
 
@@ -92,22 +88,18 @@ namespace FanKit.Transformer.Controllers
             xy = abX * abX + abY * abY;
 
             #region Span 1: Rotate
-
             r0 = default;
 
             r1 = default;
-
             #endregion
 
             #region Span 2: Size
-
             d = default;
             s = default;
             i = default;
 
             x = default;
             y = default;
-
             #endregion
         }
 
@@ -128,21 +120,17 @@ namespace FanKit.Transformer.Controllers
                     xy = abX * abX + abY * abY;
 
                     #region Span 1: Rotate
-
                     r0 = default;
                     r1 = default;
-
                     #endregion
 
                     #region Span 2: Size
-
                     d = (float)System.Math.Sqrt(xy);
                     s = value / d;
                     i = 1f - s;
 
                     x = s * abX;
                     y = s * abY;
-
                     #endregion
                     break;
                 case 1:
@@ -157,21 +145,17 @@ namespace FanKit.Transformer.Controllers
                     xy = abX * abX + abY * abY;
 
                     #region Span 1: Rotate
-
                     r0 = default;
                     r1 = default;
-
                     #endregion
 
                     #region Span 2: Size
-
                     d = (float)System.Math.Sqrt(xy);
                     s = value / d;
                     i = 1f - s;
 
                     x = s * abX / 2f;
                     y = s * abY / 2f;
-
                     #endregion
                     break;
                 case 2:
@@ -186,21 +170,17 @@ namespace FanKit.Transformer.Controllers
                     xy = abX * abX + abY * abY;
 
                     #region Span 1: Rotate
-
                     r0 = default;
                     r1 = default;
-
                     #endregion
 
                     #region Span 2: Size
-
                     d = (float)System.Math.Sqrt(xy);
                     s = value / d;
                     i = 1 - s;
 
                     x = s * abX;
                     y = s * abY;
-
                     #endregion
                     break;
                 default:
@@ -213,21 +193,17 @@ namespace FanKit.Transformer.Controllers
                     xy = 0f;
 
                     #region Span 1: Rotate
-
                     r0 = default;
                     r1 = default;
-
                     #endregion
 
                     #region Span 2: Size
-
                     d = 0f;
                     s = 0f;
                     i = 0f;
 
                     x = 0f;
                     y = 0f;
-
                     #endregion
                     break;
             }

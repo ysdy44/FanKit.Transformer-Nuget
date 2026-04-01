@@ -60,7 +60,6 @@ namespace FanKit.Transformer.Controllers
             };
 
             #region Span 1
-
             ho = default;
             so = default;
             co = default;
@@ -91,11 +90,9 @@ namespace FanKit.Transformer.Controllers
                 case TransformMode.ScaleRightBottom: co = CornerOrign.LeftTop; break;
                 default: break;
             }
-
             #endregion
 
             #region Span 2
-
             v = default;
             h = default;
             s = default;
@@ -131,7 +128,6 @@ namespace FanKit.Transformer.Controllers
                 default:
                     break;
             }
-
             #endregion
         }
 
@@ -196,7 +192,6 @@ namespace FanKit.Transformer.Controllers
             };
 
             #region Span 1
-
             ho = default;
             so = default;
             co = default;
@@ -227,11 +222,9 @@ namespace FanKit.Transformer.Controllers
                 case TransformMode.ScaleRightBottom: co = CornerOrign.LeftTop; break;
                 default: break;
             }
-
             #endregion
 
             #region Span 2
-
             v = default;
             h = default;
             s = default;
@@ -267,7 +260,6 @@ namespace FanKit.Transformer.Controllers
                 default:
                     break;
             }
-
             #endregion
         }
 

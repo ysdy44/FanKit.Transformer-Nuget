@@ -13,8 +13,6 @@ namespace FanKit.Transformer.Compute
         internal Triangle StartingTriangle;
         internal Triangle Triangle;
 
-        internal Triangle Destination => this.Triangle;
-
         InvertibleMatrix3x2 HostSourceNorm;
         Matrix3x2 HostDestNorm;
 

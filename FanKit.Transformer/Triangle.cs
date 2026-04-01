@@ -152,7 +152,7 @@ namespace FanKit.Transformer
 
             new Vector2(this.RightTop.X + this.LeftBottom.X - this.LeftTop.X,
                 this.RightTop.Y + this.LeftBottom.Y - this.LeftTop.Y), // Triangle -> Transformer
-            
+
             this.LeftBottom,
         };
         public Bounds ToBounds() => new Bounds

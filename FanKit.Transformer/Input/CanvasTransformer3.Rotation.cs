@@ -24,7 +24,6 @@ namespace FanKit.Transformer.Input
             O(startingPoint);
         }
 
-
         public void Pinch2(float startingRotationAngle, float rotationAngle, Vector2 centerPoint)
         {
             r = Rotate(sr + rotationAngle - startingRotationAngle);

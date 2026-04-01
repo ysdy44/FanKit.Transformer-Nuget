@@ -49,6 +49,5 @@ namespace FanKit.Transformer.Controllers
             Foot = new Vector2(linePoint.X - r.abX * t,
                    linePoint.Y - r.abY * t);
         }
-
     }
 }
