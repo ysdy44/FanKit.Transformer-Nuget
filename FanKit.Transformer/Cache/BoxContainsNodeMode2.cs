@@ -5,13 +5,6 @@
         None = Constants.None,
         Contains = Constants.Contains,
 
-        /*
-        HandleLeftTop = Constants.HandleLeftTop,
-        HandleRightTop = Constants.HandleRightTop,
-        HandleLeftBottom = Constants.HandleLeftBottom,
-        HandleRightBottom = Constants.HandleRightBottom,
-         */
-
         HandleLeft = Constants.HandleLeft,
         HandleTop = Constants.HandleTop,
         HandleRight = Constants.HandleRight,

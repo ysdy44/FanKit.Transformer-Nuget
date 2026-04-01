@@ -52,27 +52,6 @@ namespace FanKit.Transformer.Cache
             if (d2 < minSelectedLengthSquared)
                 return LineContainsNodeMode2.Handle;
 
-            // Handle Corners
-            /*
-            Vector2 e = this.Handle1;
-
-            float ex = x - e.X;
-            float ey = y - e.Y;
-
-            float e2 = ex * ex + ey * ey;
-            if (e2 < minSelectedLengthSquared)
-                return LineContainsNodeMode2.Handle1;
-
-            Vector2 f = this.Handle0;
-
-            float fx = x - f.X;
-            float fy = y - f.Y;
-
-            float f2 = fx * fx + fy * fy;
-            if (f2 < minSelectedLengthSquared)
-                return LineContainsNodeMode2.Handle0;
-             */
-
             return LineContainsNodeMode2.None;
         }
         #endregion Public instance methods

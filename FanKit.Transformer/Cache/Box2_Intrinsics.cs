@@ -57,30 +57,6 @@ namespace FanKit.Transformer.Cache
         public readonly Vector2 HandleRight;
         public readonly Vector2 HandleBottom;
 
-        // Handle Corners
-        /*
-        public readonly float DecreaseX;
-        public readonly float DecreaseY;
-        public readonly float DecreaseLengthSquared;
-
-        public readonly float DecreaseLength;
-        public readonly float HandleDecreaseX;
-        public readonly float HandleDecreaseY;
-
-        public readonly float IncreaseX;
-        public readonly float IncreaseY;
-        public readonly float IncreaseLengthSquared;
-
-        public readonly float IncreaseLength;
-        public readonly float HandleIncreaseX;
-        public readonly float HandleIncreaseY;
-
-        public readonly Vector2 HandleLeftTop;
-        public readonly Vector2 HandleRightTop;
-        public readonly Vector2 HandleLeftBottom;
-        public readonly Vector2 HandleRightBottom;
-         */
-
         #region Constructors
         private Box2(Vector2 leftTop, Vector2 rightTop, Vector2 leftBottom, float handleLength)
          : this(leftTop,
@@ -155,34 +131,6 @@ namespace FanKit.Transformer.Cache
                 this.CenterRight.Y + this.HandleHorizontalY);
             this.HandleBottom = new Vector2(this.CenterBottom.X + this.HandleVerticalX,
                 this.CenterBottom.Y + this.HandleVerticalY);
-
-            // Handle Corners
-            /*
-            this.DecreaseX = this.RightBottom.X - this.LeftTop.X;
-            this.DecreaseY = this.RightBottom.Y - this.LeftTop.Y;
-            this.DecreaseLengthSquared = this.DecreaseX * this.DecreaseX + this.DecreaseY * this.DecreaseY;
-
-            this.DecreaseLength = (float)System.Math.Sqrt(this.DecreaseLengthSquared);
-            this.HandleDecreaseX = handleLength * this.DecreaseX / this.DecreaseLength;
-            this.HandleDecreaseY = handleLength * this.DecreaseY / this.DecreaseLength;
-
-            this.IncreaseX = this.RightTop.X - this.LeftBottom.X;
-            this.IncreaseY = this.RightTop.Y - this.LeftBottom.Y;
-            this.IncreaseLengthSquared = this.IncreaseX * this.IncreaseX + this.IncreaseY * this.IncreaseY;
-
-            this.IncreaseLength = (float)System.Math.Sqrt(this.IncreaseLengthSquared);
-            this.HandleIncreaseX = handleLength * this.IncreaseX / this.IncreaseLength;
-            this.HandleIncreaseY = handleLength * this.IncreaseY / this.IncreaseLength;
-
-            this.HandleLeftTop = new Vector2(this.LeftTop.X - this.HandleDecreaseX,
-                this.LeftTop.Y - this.HandleDecreaseY);
-            this.HandleRightTop = new Vector2(this.RightTop.X + this.HandleIncreaseX,
-                this.RightTop.Y + this.HandleIncreaseY);
-            this.HandleRightBottom = new Vector2(this.RightBottom.X + this.HandleDecreaseX,
-                this.RightBottom.Y + this.HandleDecreaseY);
-            this.HandleLeftBottom = new Vector2(this.LeftBottom.X - this.HandleIncreaseX,
-                this.LeftBottom.Y - this.HandleIncreaseY);
-             */
         }
 
         public Box2(Bounds bounds, float handleLength = 32f)

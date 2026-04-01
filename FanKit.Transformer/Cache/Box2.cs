@@ -193,45 +193,6 @@ namespace FanKit.Transformer.Cache
             if (l2 < minSelectedLengthSquared)
                 return BoxContainsNodeMode2.HandleLeft;
 
-            // Handle Corners
-            /*
-            Vector2 m = this.HandleRightBottom;
-
-            float mx = x - m.X;
-            float my = y - m.Y;
-
-            float m2 = mx * mx + my * my;
-            if (m2 < minSelectedLengthSquared)
-                return BoxContainsNodeMode2.HandleRightBottom;
-
-            Vector2 n = this.HandleLeftBottom;
-
-            float nx = x - n.X;
-            float ny = y - n.Y;
-
-            float n2 = nx * nx + ny * ny;
-            if (n2 < minSelectedLengthSquared)
-                return BoxContainsNodeMode2.HandleLeftBottom;
-
-            Vector2 o = this.HandleRightTop;
-
-            float ox = x - o.X;
-            float oy = y - o.Y;
-
-            float o2 = ox * ox + oy * oy;
-            if (o2 < minSelectedLengthSquared)
-                return BoxContainsNodeMode2.HandleRightTop;
-
-            Vector2 p = this.HandleLeftTop;
-
-            float px = x - p.X;
-            float py = y - p.Y;
-
-            float p2 = px * px + py * py;
-            if (p2 < minSelectedLengthSquared)
-                return BoxContainsNodeMode2.HandleLeftTop;
-             */
-
             // Contains
             switch (Comparer<float>.Default.Compare((d.X - b.X) * (y - b.Y), (d.Y - b.Y) * (x - b.X)))
             {

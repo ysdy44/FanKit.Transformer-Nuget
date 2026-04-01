@@ -42,39 +42,6 @@ namespace FanKit.Transformer.Cache
                     return LineContainsNodeMode1.Center;
             }
 
-            // Handle Sides
-            /*
-            Vector2 d = this.Handle;
-
-            float dx = x - d.X;
-            float dy = y - d.Y;
-
-            float d2 = dx * dx + dy * dy;
-            if (d2 < minSelectedLengthSquared)
-                return LineContainsNodeMode1.Handle;
-             */
-
-            // Handle Corners
-            /*
-            Vector2 e = this.Handle1;
-
-            float ex = x - e.X;
-            float ey = y - e.Y;
-
-            float e2 = ex * ex + ey * ey;
-            if (e2 < minSelectedLengthSquared)
-                return LineContainsNodeMode1.Handle1;
-
-            Vector2 f = this.Handle0;
-
-            float fx = x - f.X;
-            float fy = y - f.Y;
-
-            float f2 = fx * fx + fy * fy;
-            if (f2 < minSelectedLengthSquared)
-                return LineContainsNodeMode1.Handle0;
-             */
-
             return LineContainsNodeMode1.None;
         }
         #endregion Public instance methods

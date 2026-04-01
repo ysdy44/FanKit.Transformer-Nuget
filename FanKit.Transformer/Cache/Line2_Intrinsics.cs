@@ -25,12 +25,6 @@ namespace FanKit.Transformer.Cache
         // Handle Sides
         public readonly Vector2 Handle;
 
-        // Handle Corners
-        /*
-        public readonly Vector2 Handle0;
-        public readonly Vector2 Handle1;
-         */
-
         #region Constructors
         public Line2(Vector2 point0, Vector2 point1, float handleLength = 32f)
         {
@@ -55,14 +49,6 @@ namespace FanKit.Transformer.Cache
             // Handle Sides
             this.Handle = new Vector2(this.Center.X - this.HandleY,
                 this.Center.Y + this.HandleX);
-
-            // Handle Corners
-            /*
-            this.Handle0 = new Vector2(this.Point0.X + this.HandleX,
-                this.Point0.Y + this.HandleY);
-            this.Handle1 = new Vector2(this.Point1.X - this.HandleX,
-                this.Point1.Y - this.HandleY);
-             */
         }
 
         public Line2(Vector2 point0, Vector2 point1, ICanvasMatrix matrix, float handleLength = 32f)
@@ -88,14 +74,6 @@ namespace FanKit.Transformer.Cache
             // Handle Sides
             this.Handle = new Vector2(this.Center.X - this.HandleY,
                 this.Center.Y + this.HandleX);
-
-            // Handle Corners
-            /*
-            this.Handle0 = new Vector2(this.Point0.X + this.HandleX,
-                this.Point0.Y + this.HandleY);
-            this.Handle1 = new Vector2(this.Point1.X - this.HandleX,
-                this.Point1.Y - this.HandleY);
-             */
         }
         #endregion Constructors
     }

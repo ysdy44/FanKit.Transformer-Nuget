@@ -29,54 +29,6 @@ namespace FanKit.Transformer.Cache
             if (b2 < minSelectedLengthSquared)
                 return LineContainsNodeMode0.Point0;
 
-            // Sides
-            /*
-            if (this.LengthSquared > minSideLengthSquared)
-            {
-                Vector2 c = this.Center;
-
-                float cx = x - c.X;
-                float cy = y - c.Y;
-
-                float c2 = cx * cx + cy * cy;
-                if (c2 < minSelectedLengthSquared)
-                    return LineContainsNodeMode0.Center;
-            }
-             */
-
-            // Handle Sides
-            /*
-            Vector2 d = this.Handle;
-
-            float dx = x - d.X;
-            float dy = y - d.Y;
-
-            float d2 = dx * dx + dy * dy;
-            if (d2 < minSelectedLengthSquared)
-                return LineContainsNodeMode0.Handle;
-             */
-
-            // Handle Corners
-            /*
-            Vector2 e = this.Handle0;
-
-            float ex = x - e.X;
-            float ey = y - e.Y;
-
-            float e2 = ex * ex + ey * ey;
-            if (e2 < minSelectedLengthSquared)
-                return LineContainsNodeMode0.Handle0;
-
-            Vector2 f = this.Handle0;
-
-            float fx = x - f.X;
-            float fy = y - f.Y;
-
-            float f2 = fx * fx + fy * fy;
-            if (f2 < minSelectedLengthSquared)
-                return LineContainsNodeMode0.Handle0;
-             */
-
             return LineContainsNodeMode0.None;
         }
         #endregion Public instance methods
