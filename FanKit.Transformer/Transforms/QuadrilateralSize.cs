@@ -1,7 +1,7 @@
 ﻿using FanKit.Transformer.Compute;
 using FanKit.Transformer.Controllers;
-using FanKit.Transformer.Mathematics;
 using FanKit.Transformer.Indicators;
+using FanKit.Transformer.Mathematics;
 using System.Numerics;
 
 namespace FanKit.Transformer.Transforms

@@ -47,8 +47,7 @@ namespace FanKit.Transformer.Transforms
 
             this.Host = Matrix2x2.Identity;
 
-            Bounds TransformedBounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
-            this.StartingBounds = this.Bounds = TransformedBounds;
+            this.StartingBounds = this.Bounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
         }
 
         public void Extend(float sourceWidth, float sourceHeight)
@@ -59,8 +58,7 @@ namespace FanKit.Transformer.Transforms
 
             this.Host = Matrix2x2.Identity;
 
-            Bounds TransformedBounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
-            this.StartingBounds = this.Bounds = TransformedBounds;
+            this.StartingBounds = this.Bounds = new Bounds(this.SourceWidth, this.SourceHeight, this.Matrix);
         }
 
         public void UpdateSource(float sourceWidth, float sourceHeight)
@@ -198,7 +196,7 @@ namespace FanKit.Transformer.Transforms
 
         public void Transform(Matrix2x2 matrix)
         {
-            this.Transform2(matrix);
+            this.F(matrix);
         }
         #endregion
     }

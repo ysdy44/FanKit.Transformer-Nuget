@@ -206,7 +206,7 @@ namespace FanKit.Transformer.Transforms
 
         public void Transform(Matrix2x2 matrix)
         {
-            this.Transform2(matrix);
+            this.F(matrix);
         }
         #endregion
 
