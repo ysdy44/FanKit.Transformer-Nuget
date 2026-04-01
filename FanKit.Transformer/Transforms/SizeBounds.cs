@@ -77,10 +77,7 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix2x2.Identity;
         }
 
-        public void UpdateDestination(Bounds destination)
-        {
-            this.UD(destination);
-        }
+        public void UpdateDestination(Bounds destination) => this.UD(destination);
 
         public void UpdateAll(float sourceWidth, float sourceHeight, Bounds destination)
         {
@@ -97,128 +94,50 @@ namespace FanKit.Transformer.Transforms
         #endregion
 
         #region Bounds.Set
-        public void SetTranslation(Vector2 translate)
-        {
-            this.ST0(translate);
-        }
-        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate)
-        {
-            this.ST1(indicator, mode, translate);
-        }
+        public void SetTranslation(Vector2 translate) => this.ST0(translate);
+        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate) => this.ST1(indicator, mode, translate);
 
-        public void SetTranslationX(float translateX)
-        {
-            this.STX0(translateX);
-        }
-        public void SetTranslationX(IIndicator indicator, BoxMode mode, float translateX)
-        {
-            this.STX1(indicator, mode, translateX);
-        }
+        public void SetTranslationX(float translateX) => this.STX0(translateX);
+        public void SetTranslationX(IIndicator indicator, BoxMode mode, float translateX) => this.STX1(indicator, mode, translateX);
 
-        public void SetTranslationY(float translateY)
-        {
-            this.STY0(translateY);
-        }
-        public void SetTranslationY(IIndicator indicator, BoxMode mode, float translateY)
-        {
-            this.STY1(indicator, mode, translateY);
-        }
+        public void SetTranslationY(float translateY) => this.STY0(translateY);
+        public void SetTranslationY(IIndicator indicator, BoxMode mode, float translateY) => this.STY1(indicator, mode, translateY);
 
-        public void SetTransform(Matrix2x2 matrix)
-        {
-            this.SF0(matrix);
-        }
-        public void SetTransform(IIndicator indicator, BoxMode mode, Matrix2x2 matrix)
-        {
-            this.SF1(indicator, mode, matrix);
-        }
+        public void SetTransform(Matrix2x2 matrix) => this.SF0(matrix);
+        public void SetTransform(IIndicator indicator, BoxMode mode, Matrix2x2 matrix) => this.SF1(indicator, mode, matrix);
 
-        public void SetWidth(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
-        {
-            this.SW(indicator, mode, value, keepRatio);
-        }
-        public void SetHeight(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
-        {
-            this.SH(indicator, mode, value, keepRatio);
-        }
+        public void SetWidth(IIndicator indicator, BoxMode mode, float value, bool keepRatio) => this.SW(indicator, mode, value, keepRatio);
+        public void SetHeight(IIndicator indicator, BoxMode mode, float value, bool keepRatio) => this.SH(indicator, mode, value, keepRatio);
         #endregion
 
         #region Bounds.Transform
-        public void CacheTranslation()
-        {
-            this.CT();
-        }
+        public void CacheTranslation() => this.CT();
 
-        public void CacheTransform()
-        {
-            this.CF();
-        }
+        public void CacheTransform() => this.CF();
 
-        public void Translate(Vector2 startingPoint, Vector2 point)
-        {
-            this.TD0(startingPoint, point);
-        }
-        public void Translate(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
-        {
-            this.TD1(indicator, mode, startingPoint, point);
-        }
+        public void Translate(Vector2 startingPoint, Vector2 point) => this.TD0(startingPoint, point);
+        public void Translate(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point) => this.TD1(indicator, mode, startingPoint, point);
 
-        public void Translate(Vector2 translate)
-        {
-            this.T0(translate);
-        }
-        public void Translate(IIndicator indicator, BoxMode mode, Vector2 translate)
-        {
-            this.T1(indicator, mode, translate);
-        }
+        public void Translate(Vector2 translate) => this.T0(translate);
+        public void Translate(IIndicator indicator, BoxMode mode, Vector2 translate) => this.T1(indicator, mode, translate);
 
-        public void Translate(float translateX, float translateY)
-        {
-            this.TXY0(translateX, translateY);
-        }
-        public void Translate(IIndicator indicator, BoxMode mode, float translateX, float translateY)
-        {
-            this.TXY1(indicator, mode, translateX, translateY);
-        }
+        public void Translate(float translateX, float translateY) => this.TXY0(translateX, translateY);
+        public void Translate(IIndicator indicator, BoxMode mode, float translateX, float translateY) => this.TXY1(indicator, mode, translateX, translateY);
 
-        public void TranslateX(float translateX)
-        {
-            this.TX0(translateX);
-        }
-        public void TranslateX(IIndicator indicator, BoxMode mode, float translateX)
-        {
-            this.TX1(indicator, mode, translateX);
-        }
+        public void TranslateX(float translateX) => this.TX0(translateX);
+        public void TranslateX(IIndicator indicator, BoxMode mode, float translateX) => this.TX1(indicator, mode, translateX);
 
-        public void TranslateY(float translateY)
-        {
-            this.TY0(translateY);
-        }
-        public void TranslateY(IIndicator indicator, BoxMode mode, float translateY)
-        {
-            this.TY1(indicator, mode, translateY);
-        }
+        public void TranslateY(float translateY) => this.TY0(translateY);
+        public void TranslateY(IIndicator indicator, BoxMode mode, float translateY) => this.TY1(indicator, mode, translateY);
 
-        public void Transform(Matrix2x2 matrix)
-        {
-            this.F(matrix);
-        }
+        public void Transform(Matrix2x2 matrix) => this.F(matrix);
         #endregion
 
         #region Bounds.Transform2
-        public void CacheTransform(CropMode mode)
-        {
-            this.CF(mode);
-        }
+        public void CacheTransform(CropMode mode) => this.CF(mode);
 
-        public void TransformSize(Vector2 point, bool keepRatio, bool centeredScaling)
-        {
-            this.TWH0(point, keepRatio, centeredScaling);
-        }
-        public void TransformSize(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling)
-        {
-            this.TWH1(indicator, mode, point, keepRatio, centeredScaling);
-        }
+        public void TransformSize(Vector2 point, bool keepRatio, bool centeredScaling) => this.TWH0(point, keepRatio, centeredScaling);
+        public void TransformSize(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling) => this.TWH1(indicator, mode, point, keepRatio, centeredScaling);
         #endregion
     }
 }

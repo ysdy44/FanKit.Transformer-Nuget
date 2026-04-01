@@ -27,84 +27,33 @@ namespace FanKit.Transformer.Transforms
         }
 
         #region Points.Set
-        public void SetTranslation(Vector2 translate)
-        {
-            this.Core.ST0(translate);
-        }
-        public void SetTranslation(IIndicator indicator, Vector2 translate)
-        {
-            this.Core.ST1(indicator, translate);
-        }
+        public void SetTranslation(Vector2 translate) => this.Core.ST0(translate);
+        public void SetTranslation(IIndicator indicator, Vector2 translate) => this.Core.ST1(indicator, translate);
 
-        public void SetTranslationX(float translateX)
-        {
-            this.Core.STX0(translateX);
-        }
-        public void SetTranslationX(IIndicator indicator, float translateX)
-        {
-            this.Core.STX1(indicator, translateX);
-        }
+        public void SetTranslationX(float translateX) => this.Core.STX0(translateX);
+        public void SetTranslationX(IIndicator indicator, float translateX) => this.Core.STX1(indicator, translateX);
 
-        public void SetTranslationY(float translateY)
-        {
-            this.Core.STY0(translateY);
-        }
-        public void SetTranslationY(IIndicator indicator, float translateY)
-        {
-            this.Core.STY1(indicator, translateY);
-        }
+        public void SetTranslationY(float translateY) => this.Core.STY0(translateY);
+        public void SetTranslationY(IIndicator indicator, float translateY) => this.Core.STY1(indicator, translateY);
         #endregion
 
         #region Points.Transform
-        public void CacheTranslation()
-        {
-            this.Core.CT();
-        }
+        public void CacheTranslation() => this.Core.CT();
 
-        public void Translate(Vector2 startingPoint, Vector2 point)
-        {
-            this.Core.TD0(startingPoint, point);
-        }
-        public void Translate(IIndicator indicator, Vector2 startingPoint, Vector2 point)
-        {
-            this.Core.TD1(indicator, startingPoint, point);
-        }
+        public void Translate(Vector2 startingPoint, Vector2 point) => this.Core.TD0(startingPoint, point);
+        public void Translate(IIndicator indicator, Vector2 startingPoint, Vector2 point) => this.Core.TD1(indicator, startingPoint, point);
 
-        public void Translate(Vector2 translate)
-        {
-            this.Core.T0(translate);
-        }
-        public void Translate(IIndicator indicator, Vector2 translate)
-        {
-            this.Core.T1(indicator, translate);
-        }
+        public void Translate(Vector2 translate) => this.Core.T0(translate);
+        public void Translate(IIndicator indicator, Vector2 translate) => this.Core.T1(indicator, translate);
 
-        public void Translate(float translateX, float translateY)
-        {
-            this.Core.TXY0(translateX, translateY);
-        }
-        public void Translate(IIndicator indicator, float translateX, float translateY)
-        {
-            this.Core.TXY1(indicator, translateX, translateY);
-        }
+        public void Translate(float translateX, float translateY) => this.Core.TXY0(translateX, translateY);
+        public void Translate(IIndicator indicator, float translateX, float translateY) => this.Core.TXY1(indicator, translateX, translateY);
 
-        public void TranslateX(float translateX)
-        {
-            this.Core.TX0(translateX);
-        }
-        public void TranslateX(IIndicator indicator, float translateX)
-        {
-            this.Core.TX1(indicator, translateX);
-        }
+        public void TranslateX(float translateX) => this.Core.TX0(translateX);
+        public void TranslateX(IIndicator indicator, float translateX) => this.Core.TX1(indicator, translateX);
 
-        public void TranslateY(float translateY)
-        {
-            this.Core.TY0(translateY);
-        }
-        public void TranslateY(IIndicator indicator, float translateY)
-        {
-            this.Core.TY1(indicator, translateY);
-        }
+        public void TranslateY(float translateY) => this.Core.TY0(translateY);
+        public void TranslateY(IIndicator indicator, float translateY) => this.Core.TY1(indicator, translateY);
         #endregion
     }
 }

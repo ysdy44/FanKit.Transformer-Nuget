@@ -34,10 +34,7 @@ namespace FanKit.Transformer.Transforms
             this.Core.m = Matrix4x4.Identity;
         }
 
-        public void UpdateSource(Quadrilateral source)
-        {
-            this.US(source);
-        }
+        public void UpdateSource(Quadrilateral source) => this.US(source);
 
         public void UpdateDestination(float destinationWidth, float destinationHeight)
         {
@@ -59,57 +56,27 @@ namespace FanKit.Transformer.Transforms
         #endregion
 
         #region Quadrilaterals.FreeTransform
-        public void CacheFreeTransform(FreeTransformMode mode)
-        {
-            this.CFF(mode);
-        }
+        public void CacheFreeTransform(FreeTransformMode mode) => this.CFF(mode);
 
-        public void MovePoint(Vector2 point)
-        {
-            this.M0(point);
-        }
+        public void MovePoint(Vector2 point) => this.M0(point);
 
-        public void MovePointOfConvexQuadrilateral(Vector2 point)
-        {
-            this.M1(point);
-        }
+        public void MovePointOfConvexQuadrilateral(Vector2 point) => this.M1(point);
         #endregion
 
         #region Quadrilaterals.Transform
-        public void CacheTranslation()
-        {
-            this.CT();
-        }
+        public void CacheTranslation() => this.CT();
 
-        public void CacheTransform()
-        {
-            this.CF();
-        }
+        public void CacheTransform() => this.CF();
 
-        public void Translate(Vector2 startingPoint, Vector2 point)
-        {
-            this.STXY0(startingPoint, point);
-        }
+        public void Translate(Vector2 startingPoint, Vector2 point) => this.STXY0(startingPoint, point);
 
-        public void Translate(Vector2 translate)
-        {
-            this.T0(translate);
-        }
+        public void Translate(Vector2 translate) => this.T0(translate);
 
-        public void Translate(float translateX, float translateY)
-        {
-            this.TXY0(translateX, translateY);
-        }
+        public void Translate(float translateX, float translateY) => this.TXY0(translateX, translateY);
 
-        public void TranslateX(float translateX)
-        {
-            this.TX0(translateX);
-        }
+        public void TranslateX(float translateX) => this.TX0(translateX);
 
-        public void TranslateY(float translateY)
-        {
-            this.TY0(translateY);
-        }
+        public void TranslateY(float translateY) => this.TY0(translateY);
         #endregion
     }
 }
