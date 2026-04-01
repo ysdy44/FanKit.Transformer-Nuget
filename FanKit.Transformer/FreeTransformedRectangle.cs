@@ -4,14 +4,14 @@ namespace FanKit.Transformer
 {
     public readonly struct FreeTransformedRectangle
     {
-        public readonly Rectangle X;
-        public readonly Rectangle Y;
-        public readonly Rectangle Z;
+        private readonly Rectangle X;
+        private readonly Rectangle Y;
+        private readonly Rectangle Z;
 
-        public readonly Vector3 A;
-        public readonly Vector3 B;
-        public readonly Vector3 C;
-        public readonly Vector3 D;
+        private readonly Vector3 A;
+        private readonly Vector3 B;
+        private readonly Vector3 C;
+        private readonly Vector3 D;
 
         // Corners
         public readonly Vector2 LeftTop;

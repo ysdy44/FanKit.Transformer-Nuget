@@ -4,14 +4,14 @@ namespace FanKit.Transformer
 {
     public readonly struct FreeTransformedBounds
     {
-        public readonly Bounds X;
-        public readonly Bounds Y;
-        public readonly Bounds Z;
+        private readonly Bounds X;
+        private readonly Bounds Y;
+        private readonly Bounds Z;
 
-        public readonly Vector3 A;
-        public readonly Vector3 B;
-        public readonly Vector3 C;
-        public readonly Vector3 D;
+        private readonly Vector3 A;
+        private readonly Vector3 B;
+        private readonly Vector3 C;
+        private readonly Vector3 D;
 
         // Corners
         public readonly Vector2 LeftTop;

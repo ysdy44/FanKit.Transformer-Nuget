@@ -4,8 +4,8 @@ namespace FanKit.Transformer
 {
     public readonly struct TransformedRectangle
     {
-        public readonly Rectangle X;
-        public readonly Rectangle Y;
+        private readonly Rectangle X;
+        private readonly Rectangle Y;
 
         // Corners
         public readonly Vector2 LeftTop;

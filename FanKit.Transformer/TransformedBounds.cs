@@ -4,8 +4,8 @@ namespace FanKit.Transformer
 {
     public readonly struct TransformedBounds
     {
-        public readonly Bounds X;
-        public readonly Bounds Y;
+        private readonly Bounds X;
+        private readonly Bounds Y;
 
         // Corners
         public readonly Vector2 LeftTop;

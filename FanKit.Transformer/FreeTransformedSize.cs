@@ -4,19 +4,19 @@ namespace FanKit.Transformer
 {
     public readonly struct FreeTransformedSize
     {
-        public readonly float XWidth;
-        public readonly float XHeight;
+        private readonly float XWidth;
+        private readonly float XHeight;
 
-        public readonly float YWidth;
-        public readonly float YHeight;
+        private readonly float YWidth;
+        private readonly float YHeight;
 
-        public readonly float ZWidth;
-        public readonly float ZHeight;
+        private readonly float ZWidth;
+        private readonly float ZHeight;
 
-        //public readonly Vector3 A;
-        public readonly Vector3 B;
-        public readonly Vector3 C;
-        public readonly Vector3 D;
+        //private readonly Vector3 A;
+        private readonly Vector3 B;
+        private readonly Vector3 C;
+        private readonly Vector3 D;
 
         // Corners
         public readonly Vector2 LeftTop;
