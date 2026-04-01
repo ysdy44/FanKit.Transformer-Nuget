@@ -5,15 +5,6 @@ namespace FanKit.Transformer.Mathematics
 {
     partial class Math
     {
-        /*
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Vector2 T(Vector3 p) => new Vector2
-        {
-            X = p.X / p.Z,
-            Y = p.Y / p.Z,
-        };
-         */
-
         public static Vector2 TransformNormal(float x, float y, Matrix4x4 matrix)
         {
             float tx = matrix.M11 * x + matrix.M21 * y + matrix.M41;

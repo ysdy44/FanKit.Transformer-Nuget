@@ -33,22 +33,6 @@ namespace FanKit.Transformer.Mathematics
         };
 
         public static Matrix3x2 Transform(Matrix3x2 value1, Matrix3x2 value2) => value1 * value2;
-        /*
-        public static Matrix3x2 Transform(Matrix3x2 value1, Matrix3x2 value2) => new Matrix3x2
-        {
-            // First row
-            M11 = value1.M11 * value2.M11 + value1.M12 * value2.M21,
-            M12 = value1.M11 * value2.M12 + value1.M12 * value2.M22,
-
-            // Second row
-            M21 = value1.M21 * value2.M11 + value1.M22 * value2.M21,
-            M22 = value1.M21 * value2.M12 + value1.M22 * value2.M22,
-
-            // Third row
-            M31 = value1.M31 * value2.M11 + value1.M32 * value2.M21 + value2.M31,
-            M32 = value1.M31 * value2.M12 + value1.M32 * value2.M22 + value2.M32
-        };
-         */
 
         // -------------------- 1x2_3x2 -------------------- // 
 

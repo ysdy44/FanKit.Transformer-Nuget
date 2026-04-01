@@ -9,11 +9,6 @@ namespace FanKit.Transformer.Input
         const float rp = -(float)System.Math.PI;
         const float p = (float)System.Math.PI;
 
-        /*
-        internal readonly float val; // Value
-        internal readonly float rev; // Reverse Value
-         */
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Rotation Rotate(float v)
         {

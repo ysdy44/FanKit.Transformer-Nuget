@@ -14,13 +14,6 @@ namespace FanKit.Transformer.Input
         internal Matrix3x2 mat; // Matrix
         internal Matrix3x2 inv; // Inverse Matrix
 
-        /*
-        internal MatrixPair(Matrix3x2 m, Matrix3x2 i)
-        {
-            mat = m;
-            inv = i;
-        }
-         */
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static MatrixPair Pair(Translation t)
         {
@@ -43,16 +36,6 @@ namespace FanKit.Transformer.Input
         }
 
         // 1
-        /*
-        internal MatrixPair(Rotation r, Translation c)
-        {
-            mat = Matrix3x2.CreateTranslation(c.rx, c.ry) *
-                Matrix3x2.CreateRotation(r.val);
-
-            inv = Matrix3x2.CreateRotation(r.rev) *
-                Matrix3x2.CreateTranslation(c.x, c.y);
-        }
-         */
         internal MatrixPair(Rotation r, Translation c) // Center
         {
             mat = Matrix3x2.CreateRotation(r.X);
@@ -65,16 +48,6 @@ namespace FanKit.Transformer.Input
         }
 
         // 2
-        /*
-        internal MatrixPair(Translation t, Scaler s)
-        {
-            mat = Matrix3x2.CreateScale(s.val) *
-                Matrix3x2.CreateTranslation(t.x, t.y);
-
-            inv = Matrix3x2.CreateTranslation(t.rx, t.ry) *
-                Matrix3x2.CreateScale(s.inv);
-        }
-         */
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static MatrixPair Pair(Translation t, Scaler s)
         {
@@ -95,18 +68,6 @@ namespace FanKit.Transformer.Input
                 ),
             };
         }
-        /*
-        internal MatrixPair(Translation t, Scaler s, Translation c) // Center
-        {
-            mat = Matrix3x2.CreateScale(s.val) *
-                Matrix3x2.CreateTranslation(c.x, c.y) *
-                Matrix3x2.CreateTranslation(t.x, t.y);
-
-            inv = Matrix3x2.CreateTranslation(t.rx, t.ry) *
-                Matrix3x2.CreateTranslation(c.rx, c.ry) *
-                Matrix3x2.CreateScale(s.inv);
-        }
-         */
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static MatrixPair Pair(Translation t, Scaler s, Translation c) // Center
         {
@@ -139,19 +100,6 @@ namespace FanKit.Transformer.Input
             };
         }
 
-        /*
-        internal MatrixPair(Translation c, MatrixPair p2)
-        {
-            MatrixPair p1 = new MatrixPair
-            {
-                mat = Matrix3x2.CreateTranslation(c.rx, c.ry),
-                inv = Matrix3x2.CreateTranslation(c.x, c.y),
-            };
-
-            mat = p1.mat * p2.mat;
-            inv = p2.inv * p1.inv;
-        }
-         */
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static MatrixPair Pair(Translation c, MatrixPair p2)
         {

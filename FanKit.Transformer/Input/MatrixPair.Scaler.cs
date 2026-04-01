@@ -7,11 +7,6 @@ namespace FanKit.Transformer.Input
     {
         internal static readonly Scaler empty = new Scaler(1f, 1f);
 
-        /*
-        internal readonly float val; // Value
-        internal readonly float inv; // Inverse Value
-         */
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Scaler Scales(float v)
         {

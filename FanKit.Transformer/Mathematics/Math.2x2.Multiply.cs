@@ -18,18 +18,6 @@ namespace FanKit.Transformer.Mathematics
         };
 
         public static Matrix2x2 Transform(Matrix2x2 value1, Matrix2x2 value2) => value1 * value2;
-        /*
-        public static Matrix2x2 Transform(Matrix2x2 value1, Matrix2x2 value2) => new Matrix2x2
-        {
-            // First row
-            ScaleX = value1.ScaleX * value2.ScaleX,
-            ScaleY = value1.ScaleY * value2.ScaleY,
-
-            // Second row
-            TranslateX = value1.TranslateX * value2.ScaleX + value2.TranslateX,
-            TranslateY = value1.TranslateY * value2.ScaleY + value2.TranslateY
-        };
-         */
 
         // -------------------- 1x2_3x2 -------------------- // 
 

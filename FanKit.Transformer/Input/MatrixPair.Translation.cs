@@ -5,14 +5,6 @@ namespace FanKit.Transformer.Input
 {
     partial struct MatrixPair
     {
-        /*
-        internal readonly float x;
-        internal readonly float y;
-
-        internal readonly float rx; // Reverse X
-        internal readonly float ry; // Reverse Y
-         */
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Translation Translate(float x, float y)
         {
