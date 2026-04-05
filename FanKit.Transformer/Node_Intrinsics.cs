@@ -41,7 +41,6 @@ namespace FanKit.Transformer
                 this.RightControlPoint = controlPoint;
             }
         }
-
         #endregion Constructors
 
         #region Public Instance Methods
