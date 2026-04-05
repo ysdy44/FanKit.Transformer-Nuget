@@ -79,14 +79,7 @@ namespace FanKit.Transformer.Transforms
             this.Host = Matrix3x2.Identity;
         }
 
-        public void UpdateDestination(Quadrilateral destination)
-        {
-            this.StartingQuadrilateral = this.Quadrilateral = destination;
-
-            this.Find();
-
-            this.Host = Matrix3x2.Identity;
-        }
+        public void UpdateDestination(Quadrilateral destination) => this.UD(destination);
 
         public void UpdateAll(float sourceWidth, float sourceHeight, Quadrilateral destination)
         {

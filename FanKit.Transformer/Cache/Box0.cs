@@ -66,7 +66,7 @@ namespace FanKit.Transformer.Cache
             }
         }
 
-        public BoxContainsNodeMode0 ContainsNode(Vector2 point, float minSelectedLengthSquared = 144f, float minSideLengthSquared = 144f)
+        public BoxContainsNodeMode0 ContainsNode(Vector2 point, float minSelectedLengthSquared = 144f)
         {
             float x = point.X;
             float y = point.Y;
