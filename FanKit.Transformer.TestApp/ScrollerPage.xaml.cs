@@ -164,7 +164,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         drawingSession.DrawImage(new ScaleEffect
                         {
-                            Scale = this.Bounds.GetScales((float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height),
+                            Scale = this.Bounds.GetLeftScales((float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height),
                             Source = this.Bitmap3
                         }, this.Bounds.Left, this.Bounds.Top);
                     }
@@ -175,7 +175,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         drawingSession.DrawImage(new ScaleEffect
                         {
-                            Scale = this.Bounds.GetScales((float)this.Bitmap1.Size.Width, (float)this.Bitmap1.Size.Height),
+                            Scale = this.Bounds.GetLeftScales((float)this.Bitmap1.Size.Width, (float)this.Bitmap1.Size.Height),
                             Source = this.Bitmap1
                         }, this.Bounds.Left, this.Bounds.Top);
                     }
@@ -190,7 +190,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         drawingSession.DrawImage(new ScaleEffect
                         {
-                            Scale = this.Bounds.GetScales((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height),
+                            Scale = this.Bounds.GetRightScales((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height),
                             Source = this.Bitmap4
                         }, this.Bounds.CenterX, this.Bounds.Top);
                     }
@@ -201,7 +201,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         drawingSession.DrawImage(new ScaleEffect
                         {
-                            Scale = this.Bounds.GetScales((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height),
+                            Scale = this.Bounds.GetRightScales((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height),
                             Source = this.Bitmap2
                         }, this.Bounds.CenterX, this.Bounds.Top);
                     }
@@ -215,7 +215,7 @@ namespace FanKit.Transformer.TestApp
                             // Right Page 2
                             drawingSession.DrawImage(new ScaleEffect
                             {
-                                Scale = this.Bounds.GetScales((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height),
+                                Scale = this.Bounds.GetRightScales((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height),
                                 Source = this.Bitmap2
                             }, this.Bounds.CenterX, this.Bounds.Top);
                         }
@@ -229,7 +229,7 @@ namespace FanKit.Transformer.TestApp
                             // Right Page 4
                             drawingSession.DrawImage(new ScaleEffect
                             {
-                                Scale = this.Bounds.GetScales((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height),
+                                Scale = this.Bounds.GetRightScales((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height),
                                 Source = this.Bitmap4
                             }, this.Bounds.CenterX, this.Bounds.Top);
                         }
@@ -294,7 +294,7 @@ namespace FanKit.Transformer.TestApp
                             {
                                 drawingSession.DrawImage(new Transform2DEffect
                                 {
-                                    TransformMatrix = this.Bounds.GetTransformMatrix(this.Quad, (float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height),
+                                    TransformMatrix = this.Bounds.GetFloatTransformMatrix(this.Quad, (float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height),
                                     Source = this.Bitmap3,
                                 });
                             }

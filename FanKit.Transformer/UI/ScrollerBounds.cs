@@ -53,16 +53,31 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public Vector2 GetScales(float width, float height)
+        public Vector2 GetLeftScales(float width, float height)
         {
+            float scaleX = this.WidthHalf / width;
+            float scaleY = this.Height / height;
+           
             return new Vector2
             {
-                X = this.WidthHalf / width,
-                Y = this.Height / height,
+                X = scaleX,
+                Y = scaleY,
             };
         }
 
-        public Matrix3x2 GetTransformMatrix(Scroller quad, float width, float height)
+        public Vector2 GetRightScales(float width, float height)
+        {
+            float scaleX = this.WidthHalf / width;
+            float scaleY = this.Height / height;
+
+            return new Vector2
+            {
+                X = scaleX,
+                Y = scaleY,
+            };
+        }
+
+        public Matrix3x2 GetFloatTransformMatrix(Scroller quad, float width, float height)
         {
             float scaleX = this.WidthHalf / width;
             float scaleY = this.Height / height;
