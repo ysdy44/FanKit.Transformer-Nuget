@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
@@ -39,11 +40,25 @@ namespace FanKit.Transformer.TestApp
                 SetLeft(this.Canvas, X);
                 SetTop(this.Canvas, Y);
 
-                this.Moved?.Invoke(this, new Vector2
+                switch (this.FlowDirection)
                 {
-                    X = (float)X,
-                    Y = (float)Y,
-                });
+                    case FlowDirection.LeftToRight:
+                        this.Moved?.Invoke(this, new Vector2
+                        {
+                            X = (float)this.X,
+                            Y = (float)this.Y,
+                        });
+                        break;
+                    case FlowDirection.RightToLeft:
+                        this.Moved?.Invoke(this, new Vector2
+                        {
+                            X = (float)(this.ActualWidth - this.Canvas.ActualWidth - this.X),
+                            Y = (float)this.Y,
+                        });
+                        break;
+                    default:
+                        break;
+                }
             };
             this.Thumb.DragCompleted += delegate
             {

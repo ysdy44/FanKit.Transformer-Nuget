@@ -30,7 +30,9 @@ namespace FanKit.Transformer.TestApp
         bool IsDisable; // Disable Single Events
         bool IsToRight; // Raise Right Events
 
-        public readonly UIElement DestinationControl;
+        public readonly FrameworkElement DestinationControl;
+
+        public bool IsDisableFlipX { get; set; } // Disable Flip X
 
         public TouchMode TouchMode
         {
@@ -70,7 +72,7 @@ namespace FanKit.Transformer.TestApp
         /// </summary>
         public bool IsInContact => this.State != default;
 
-        public CanvasOperator2(UIElement destinationControl)
+        public CanvasOperator2(FrameworkElement destinationControl)
         {
             this.DestinationControl = destinationControl;
 
@@ -92,12 +94,12 @@ namespace FanKit.Transformer.TestApp
                                 if (this.IsToRight)
                                 {
                                     this.State = TouchState2.SingleFingerToRightButton;
-                                    this.Right_Start?.Invoke(this.SP.X, this.SP.Y);
+                                    this.Right_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y);
                                 }
                                 else
                                 {
                                     this.State = TouchState2.SingleFinger;
-                                    this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                                    this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                                 }
                                 break;
                             default:
@@ -114,7 +116,7 @@ namespace FanKit.Transformer.TestApp
                                 this.SP = this.P = pp.Position;
 
                                 this.State = TouchState2.Pen;
-                                this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                                this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                                 break;
                             default:
                                 break;
@@ -132,17 +134,17 @@ namespace FanKit.Transformer.TestApp
                                 if (pp.Properties.IsRightButtonPressed)
                                 {
                                     this.State = TouchState2.RightButton;
-                                    this.Right_Start?.Invoke(this.SP.X, this.SP.Y);
+                                    this.Right_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y);
                                 }
                                 else if (pp.Properties.IsMiddleButtonPressed)
                                 {
                                     this.State = TouchState2.MiddleButton;
-                                    this.Right_Start?.Invoke(this.SP.X, this.SP.Y);
+                                    this.Right_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y);
                                 }
                                 else
                                 {
                                     this.State = TouchState2.LeftButton;
-                                    this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                                    this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                                 }
                                 break;
                             default:
@@ -171,7 +173,7 @@ namespace FanKit.Transformer.TestApp
                             PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
                             this.P = pp.Position;
 
-                            this.Single_Delta?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState2.SingleFingerToRightButton:
@@ -180,7 +182,7 @@ namespace FanKit.Transformer.TestApp
                             PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
                             this.P = pp.Position;
 
-                            this.Right_Delta?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     case TouchState2.Pen:
@@ -189,7 +191,7 @@ namespace FanKit.Transformer.TestApp
                             PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
                             this.P = pp.Position;
 
-                            this.Single_Delta?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState2.MiddleButton:
@@ -197,7 +199,7 @@ namespace FanKit.Transformer.TestApp
                             PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
                             this.P = pp.Position;
 
-                            this.Right_Delta?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     case TouchState2.RightButton:
@@ -205,7 +207,7 @@ namespace FanKit.Transformer.TestApp
                             PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
                             this.P = pp.Position;
 
-                            this.Right_Delta?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     default:
@@ -225,7 +227,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Single_Complete?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState2.SingleFingerToRightButton:
@@ -235,7 +237,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Right_Delta?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     case TouchState2.Pen:
@@ -247,7 +249,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Single_Complete?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState2.MiddleButton:
@@ -258,7 +260,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Right_Complete?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     case TouchState2.RightButton:
@@ -269,7 +271,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Right_Complete?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     default:
@@ -292,7 +294,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Single_Complete?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState2.SingleFingerToRightButton:
@@ -302,7 +304,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Right_Complete?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     case TouchState2.Pen:
@@ -313,7 +315,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Single_Complete?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState2.MiddleButton:
@@ -323,7 +325,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Right_Complete?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     case TouchState2.RightButton:
@@ -333,7 +335,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState2.None;
-                            this.Right_Complete?.Invoke(this.P.X, this.P.Y);
+                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
                         }
                         break;
                     default:
@@ -347,8 +349,24 @@ namespace FanKit.Transformer.TestApp
                 this.Id = e.Pointer.PointerId;
                 this.SP = this.P = pp.Position;
 
-                this.Wheel_Changed?.Invoke(this.SP.X, this.SP.Y, pp.Properties.MouseWheelDelta);
+                this.Wheel_Changed?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties.MouseWheelDelta);
             };
+        }
+
+        private double FlipX(double x)
+        {
+            if (this.IsDisableFlipX)
+            {
+                return x;
+            }
+
+            switch (this.DestinationControl.FlowDirection)
+            {
+                case FlowDirection.RightToLeft:
+                    return this.DestinationControl.ActualWidth - x;
+                default:
+                    return x;
+            }
         }
     }
 }

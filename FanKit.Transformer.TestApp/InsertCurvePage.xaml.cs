@@ -7,6 +7,7 @@ using Microsoft.Graphics.Canvas.Geometry;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace FanKit.Transformer.TestApp
@@ -69,7 +70,16 @@ namespace FanKit.Transformer.TestApp
             this.CanvasControl.PointerMoved += (s, e) =>
             {
                 PointerPoint pp = e.GetCurrentPoint(this.CanvasControl);
-                this.Over(pp.Position.X, pp.Position.Y);
+
+                switch (this.CanvasControl.FlowDirection)
+                {
+                    case FlowDirection.RightToLeft:
+                        this.Over(this.CanvasControl.ActualWidth - pp.Position.X, pp.Position.Y);
+                        break;
+                    default:
+                        this.Over(pp.Position.X, pp.Position.Y);
+                        break;
+                }
             };
         }
 

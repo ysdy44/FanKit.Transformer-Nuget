@@ -22,7 +22,9 @@ namespace FanKit.Transformer.TestApp
         Point SP; // Starting Point
         Point P; // Point
 
-        public readonly UIElement DestinationControl;
+        public readonly FrameworkElement DestinationControl;
+
+        public bool IsDisableFlipX { get; set; } // Disable Flip X
 
         public bool IsDisableTouch { get; set; } // Disable Single Events
 
@@ -31,7 +33,7 @@ namespace FanKit.Transformer.TestApp
         /// </summary>
         public bool IsInContact => this.State != default;
 
-        public CanvasOperator1(UIElement destinationControl)
+        public CanvasOperator1(FrameworkElement destinationControl)
         {
             this.DestinationControl = destinationControl;
 
@@ -52,7 +54,7 @@ namespace FanKit.Transformer.TestApp
                                 this.SP = this.P = pp.Position;
 
                                 this.State = TouchState1.SingleFinger;
-                                this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                                this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                                 break;
                             default:
                                 break;
@@ -66,7 +68,7 @@ namespace FanKit.Transformer.TestApp
                             this.SP = this.P = pp.Position;
 
                             this.State = TouchState1.Pen;
-                            this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                            this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                         }
                         break;
                     case PointerDeviceType.Mouse:
@@ -79,17 +81,17 @@ namespace FanKit.Transformer.TestApp
                             if (pp.Properties.IsRightButtonPressed)
                             {
                                 this.State = TouchState1.RightButton;
-                                this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                                this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                             }
                             else if (pp.Properties.IsMiddleButtonPressed)
                             {
                                 this.State = TouchState1.MiddleButton;
-                                this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                                this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                             }
                             else
                             {
                                 this.State = TouchState1.LeftButton;
-                                this.Single_Start?.Invoke(this.SP.X, this.SP.Y, pp.Properties);
+                                this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties);
                             }
                         }
                         break;
@@ -115,7 +117,7 @@ namespace FanKit.Transformer.TestApp
                             PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
                             this.P = pp.Position;
 
-                            this.Single_Delta?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState1.Pen:
@@ -126,7 +128,7 @@ namespace FanKit.Transformer.TestApp
                             PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
                             this.P = pp.Position;
 
-                            this.Single_Delta?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     default:
@@ -148,7 +150,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState1.None;
-                            this.Single_Complete?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     case TouchState1.Pen:
@@ -162,7 +164,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState1.None;
-                            this.Single_Complete?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     default:
@@ -191,7 +193,7 @@ namespace FanKit.Transformer.TestApp
                             this.P = pp.Position;
 
                             this.State = TouchState1.None;
-                            this.Single_Complete?.Invoke(this.P.X, this.P.Y, pp.Properties);
+                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
                         }
                         break;
                     default:
@@ -205,8 +207,24 @@ namespace FanKit.Transformer.TestApp
                 this.Id = e.Pointer.PointerId;
                 this.SP = this.P = pp.Position;
 
-                this.Wheel_Changed?.Invoke(this.SP.X, this.SP.Y, pp.Properties.MouseWheelDelta);
+                this.Wheel_Changed?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties.MouseWheelDelta);
             };
+        }
+
+        private double FlipX(double x)
+        {
+            if (this.IsDisableFlipX)
+            {
+                return x;
+            }
+
+            switch (this.DestinationControl.FlowDirection)
+            {
+                case FlowDirection.RightToLeft:
+                    return this.DestinationControl.ActualWidth - x;
+                default:
+                    return x;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FanKit.Transformer.Operators;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace FanKit.Transformer.TestApp
@@ -30,7 +31,6 @@ namespace FanKit.Transformer.TestApp
 
             this.Thumb1.DragStarted += delegate
             {
-                Double_Start?.Invoke(Line.X1, Line.Y1, Line.X2, Line.Y2);
             };
             this.Thumb1.DragDelta += (s, e) =>
             {
@@ -46,7 +46,17 @@ namespace FanKit.Transformer.TestApp
 
             this.Thumb2.DragStarted += delegate
             {
-                Double_Start?.Invoke(Line.X1, Line.Y1, Line.X2, Line.Y2);
+                switch (this.FlowDirection)
+                {
+                    case FlowDirection.LeftToRight:
+                        this.Double_Start?.Invoke(this.Line.X1, this.Line.Y1, this.Line.X2, this.Line.Y2);
+                        break;
+                    case FlowDirection.RightToLeft:
+                        this.Double_Start?.Invoke(this.ActualWidth - this.Line.X1, this.Line.Y1, this.ActualWidth - this.Line.X2, this.Line.Y2);
+                        break;
+                    default:
+                        break;
+                }
             };
             this.Thumb2.DragDelta += (s, e) =>
             {
@@ -56,11 +66,31 @@ namespace FanKit.Transformer.TestApp
                 SetLeft(this.Thumb1, this.Line.X1 - 18); SetTop(this.Thumb1, this.Line.Y1 - 18);
                 SetLeft(this.Thumb2, this.Line.X2 - 18); SetTop(this.Thumb2, this.Line.Y2 - 18);
 
-                Double_Delta?.Invoke(this.Line.X1, this.Line.Y1, this.Line.X2, this.Line.Y2);
+                switch (this.FlowDirection)
+                {
+                    case FlowDirection.LeftToRight:
+                        this.Double_Delta?.Invoke(this.Line.X1, this.Line.Y1, this.Line.X2, this.Line.Y2);
+                        break;
+                    case FlowDirection.RightToLeft:
+                        this.Double_Delta?.Invoke(this.ActualWidth - this.Line.X1, this.Line.Y1, this.ActualWidth - this.Line.X2, this.Line.Y2);
+                        break;
+                    default:
+                        break;
+                }
             };
             this.Thumb2.DragCompleted += delegate
             {
-                Double_Complete?.Invoke(this.Line.X1, this.Line.Y1, this.Line.X2, this.Line.Y2);
+                switch (this.FlowDirection)
+                {
+                    case FlowDirection.LeftToRight:
+                        this.Double_Complete?.Invoke(this.Line.X1, this.Line.Y1, this.Line.X2, this.Line.Y2);
+                        break;
+                    case FlowDirection.RightToLeft:
+                        this.Double_Complete?.Invoke(this.ActualWidth - this.Line.X1, this.Line.Y1, this.ActualWidth - this.Line.X2, this.Line.Y2);
+                        break;
+                    default:
+                        break;
+                }
             };
         }
 

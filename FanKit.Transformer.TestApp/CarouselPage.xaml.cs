@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace FanKit.Transformer.TestApp
@@ -56,9 +57,19 @@ namespace FanKit.Transformer.TestApp
             this.CanvasControl.PointerMoved += (s, e) =>
             {
                 PointerPoint pp = e.GetCurrentPoint(this.CanvasControl);
-                float x = (float)pp.Position.X;
 
-                this.Item = new CarouselItem1(this.Carousel, this.Center.X, this.Center.Y, (float)((this.Center.X - x) / 256f));
+                double x;
+                switch (this.CanvasControl.FlowDirection)
+                {
+                    case FlowDirection.RightToLeft:
+                        x = this.CanvasControl.ActualWidth - pp.Position.X;
+                        break;
+                    default:
+                        x = pp.Position.X;
+                        break;
+                }
+
+                this.Item = new CarouselItem1(this.Carousel, this.Center.X, this.Center.Y, (this.Center.X - (float)x) / 256f);
 
                 this.CanvasControl.Invalidate();
             };

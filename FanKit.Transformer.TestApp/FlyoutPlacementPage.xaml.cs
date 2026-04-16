@@ -164,7 +164,13 @@ namespace FanKit.Transformer.TestApp
             };
             this.Target.ManipulationDelta += (s, e) =>
             {
-                this.Location.Target.X += (float)e.Delta.Translation.X;
+                float x = (float)e.Delta.Translation.X;
+                switch (this.Canvas.FlowDirection)
+                {
+                    case FlowDirection.LeftToRight: this.Location.Target.X += x; break;
+                    case FlowDirection.RightToLeft: this.Location.Target.X -= x; break;
+                    default: break;
+                }
                 this.Location.Target.Y += (float)e.Delta.Translation.Y;
                 Canvas.SetLeft(this.Target, this.Location.Target.X);
                 Canvas.SetTop(this.Target, this.Location.Target.Y);

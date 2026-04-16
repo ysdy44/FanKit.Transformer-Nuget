@@ -61,9 +61,21 @@ namespace FanKit.Transformer.TestApp
             this.CanvasControl.PointerMoved += (s, e) =>
             {
                 PointerPoint pp = e.GetCurrentPoint(this.CanvasControl);
+
+                double x;
+                switch (this.CanvasControl.FlowDirection)
+                {
+                    case FlowDirection.RightToLeft:
+                        x = this.CanvasControl.ActualWidth - pp.Position.X;
+                        break;
+                    default:
+                        x = pp.Position.X;
+                        break;
+                }
+
                 this.Position = new Vector2
                 {
-                    X = (float)pp.Position.X,
+                    X = (float)x,
                     Y = (float)pp.Position.Y,
                 };
 

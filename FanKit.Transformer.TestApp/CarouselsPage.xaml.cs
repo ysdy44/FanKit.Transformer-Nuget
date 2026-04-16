@@ -42,7 +42,10 @@ namespace FanKit.Transformer.TestApp
         public CarouselsPage()
         {
             this.InitializeComponent();
-            this.CanvasOperator = new CanvasOperator1(this.CanvasControl);
+            this.CanvasOperator = new CanvasOperator1(this.CanvasControl)
+            {
+                IsDisableFlipX = true
+            };
             base.Unloaded += delegate
             {
                 // Explicitly remove references to allow the Win2D controls to get garbage collected

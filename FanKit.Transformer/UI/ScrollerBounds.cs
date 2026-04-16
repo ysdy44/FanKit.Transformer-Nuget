@@ -53,31 +53,47 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public Vector2 GetLeftScales(float width, float height)
-        {
-            float scaleX = this.WidthHalf / width;
-            float scaleY = this.Height / height;
-           
-            return new Vector2
-            {
-                X = scaleX,
-                Y = scaleY,
-            };
-        }
-
-        public Vector2 GetRightScales(float width, float height)
+        public Matrix3x2 GetLeftTransformMatrix(float width, float height, bool isFlipX)
         {
             float scaleX = this.WidthHalf / width;
             float scaleY = this.Height / height;
 
-            return new Vector2
+            float x = this.Left;
+            float y = this.Top;
+
+            if (isFlipX)
             {
-                X = scaleX,
-                Y = scaleY,
-            };
+                return Matrix3x2.CreateScale(-scaleX, scaleY)
+                * Matrix3x2.CreateTranslation(this.WidthHalf + x, y);
+            }
+            else
+            {
+                return Matrix3x2.CreateScale(scaleX, scaleY)
+                * Matrix3x2.CreateTranslation(x, y);
+            }
         }
 
-        public Matrix3x2 GetFloatTransformMatrix(Scroller quad, float width, float height)
+        public Matrix3x2 GetRightTransformMatrix(float width, float height, bool isFlipX)
+        {
+            float scaleX = this.WidthHalf / width;
+            float scaleY = this.Height / height;
+
+            float x = this.CenterX;
+            float y = this.Top;
+
+            if (isFlipX)
+            {
+                return Matrix3x2.CreateScale(-scaleX, scaleY)
+                * Matrix3x2.CreateTranslation(this.WidthHalf + x, y);
+            }
+            else
+            {
+                return Matrix3x2.CreateScale(scaleX, scaleY)
+                * Matrix3x2.CreateTranslation(x, y);
+            }
+        }
+
+        public Matrix3x2 GetFloatTransformMatrix(Scroller quad, float width, float height, bool isFlipX)
         {
             float scaleX = this.WidthHalf / width;
             float scaleY = this.Height / height;
@@ -90,14 +106,34 @@ namespace FanKit.Transformer.UI
             switch (quad.State)
             {
                 case ScrollerState.BottomTriangle:
-                    return Matrix3x2.CreateTranslation(0f, -height)
-                         * Matrix3x2.CreateScale(scaleX, scaleY)
-                         * Matrix3x2.CreateRotation(radians)
-                         * Matrix3x2.CreateTranslation(quad.Float.LeftBottom);
-                default:
-                    return Matrix3x2.CreateScale(scaleX, scaleY)
+                    if (isFlipX)
+                    {
+                        return Matrix3x2.CreateScale(-scaleX, scaleY)
+                         * Matrix3x2.CreateTranslation(this.WidthHalf, -height * scaleY)
                         * Matrix3x2.CreateRotation(radians)
                         * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
+                    }
+                    else
+                    {
+                        return Matrix3x2.CreateScale(scaleX, scaleY)
+                        * Matrix3x2.CreateTranslation(0f, -height * scaleY)
+                        * Matrix3x2.CreateRotation(radians)
+                        * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
+                    }
+                default:
+                    if (isFlipX)
+                    {
+                        return Matrix3x2.CreateScale(-scaleX, scaleY)
+                        * Matrix3x2.CreateTranslation(this.WidthHalf, 0)
+                        * Matrix3x2.CreateRotation(radians)
+                        * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
+                    }
+                    else
+                    {
+                        return Matrix3x2.CreateScale(scaleX, scaleY)
+                        * Matrix3x2.CreateRotation(radians)
+                        * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
+                    }
             }
         }
 

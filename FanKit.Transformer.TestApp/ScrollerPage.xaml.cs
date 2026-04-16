@@ -42,6 +42,7 @@ namespace FanKit.Transformer.TestApp
             Color.FromArgb(255, 204, 195, 182));
          */
 
+        bool IsFlipX;
         CanvasBitmap Bitmap1 => this.PageIndex % 2 == 0 ? this.Bitmaps[2] : this.Bitmaps[0];
         CanvasBitmap Bitmap2 => this.PageIndex % 2 == 0 ? this.Bitmaps[3] : this.Bitmaps[1];
         CanvasBitmap Bitmap3 => this.PageIndex % 2 == 0 ? this.Bitmaps[0] : this.Bitmaps[2];
@@ -50,7 +51,10 @@ namespace FanKit.Transformer.TestApp
         public ScrollerPage()
         {
             this.InitializeComponent();
-            this.CanvasOperator = new CanvasOperator1(this.CanvasControl);
+            this.CanvasOperator = new CanvasOperator1(this.CanvasControl)
+            {
+                IsDisableFlipX = true
+            };
             this.CanvasControl.SizeChanged += (s, e) =>
             {
                 if (e.NewSize == Size.Empty) return;
@@ -70,6 +74,7 @@ namespace FanKit.Transformer.TestApp
             };
             this.CanvasControl.CreateResources += (s, args) =>
             {
+                this.IsFlipX = this.FlowDirection == Windows.UI.Xaml.FlowDirection.RightToLeft;
                 this.CreateResourcesAsync(s);
             };
             this.CanvasControl.Update += (s, e) =>
@@ -162,22 +167,22 @@ namespace FanKit.Transformer.TestApp
                     // Left Page 3
                     if (this.Bitmap3 != null)
                     {
-                        drawingSession.DrawImage(new ScaleEffect
+                        drawingSession.DrawImage(new Transform2DEffect
                         {
-                            Scale = this.Bounds.GetLeftScales((float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height),
+                            TransformMatrix = this.Bounds.GetLeftTransformMatrix((float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height, this.IsFlipX),
                             Source = this.Bitmap3
-                        }, this.Bounds.Left, this.Bounds.Top);
+                        });
                     }
                     break;
                 default:
                     // Left Page 1
                     if (this.Bitmap1 != null)
                     {
-                        drawingSession.DrawImage(new ScaleEffect
+                        drawingSession.DrawImage(new Transform2DEffect
                         {
-                            Scale = this.Bounds.GetLeftScales((float)this.Bitmap1.Size.Width, (float)this.Bitmap1.Size.Height),
+                            TransformMatrix = this.Bounds.GetLeftTransformMatrix((float)this.Bitmap1.Size.Width, (float)this.Bitmap1.Size.Height, this.IsFlipX),
                             Source = this.Bitmap1
-                        }, this.Bounds.Left, this.Bounds.Top);
+                        });
                     }
                     break;
             }
@@ -188,22 +193,22 @@ namespace FanKit.Transformer.TestApp
                     // Right Page 4
                     if (this.Bitmap4 != null)
                     {
-                        drawingSession.DrawImage(new ScaleEffect
+                        drawingSession.DrawImage(new Transform2DEffect
                         {
-                            Scale = this.Bounds.GetRightScales((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height),
+                            TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height, this.IsFlipX),
                             Source = this.Bitmap4
-                        }, this.Bounds.CenterX, this.Bounds.Top);
+                        });
                     }
                     break;
                 case ScrollerState.RightOutside:
                     // Right Page 2
                     if (this.Bitmap2 != null)
                     {
-                        drawingSession.DrawImage(new ScaleEffect
+                        drawingSession.DrawImage(new Transform2DEffect
                         {
-                            Scale = this.Bounds.GetRightScales((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height),
+                            TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height, this.IsFlipX),
                             Source = this.Bitmap2
-                        }, this.Bounds.CenterX, this.Bounds.Top);
+                        });
                     }
                     break;
                 default:
@@ -213,11 +218,11 @@ namespace FanKit.Transformer.TestApp
                         using (drawingSession.CreateLayer(1.0f, polygon))
                         {
                             // Right Page 2
-                            drawingSession.DrawImage(new ScaleEffect
+                            drawingSession.DrawImage(new Transform2DEffect
                             {
-                                Scale = this.Bounds.GetRightScales((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height),
+                                TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height, this.IsFlipX),
                                 Source = this.Bitmap2
-                            }, this.Bounds.CenterX, this.Bounds.Top);
+                            });
                         }
                     }
 
@@ -227,11 +232,11 @@ namespace FanKit.Transformer.TestApp
                         using (drawingSession.CreateLayer(1.0f, polygon))
                         {
                             // Right Page 4
-                            drawingSession.DrawImage(new ScaleEffect
+                            drawingSession.DrawImage(new Transform2DEffect
                             {
-                                Scale = this.Bounds.GetRightScales((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height),
+                                TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height, this.IsFlipX),
                                 Source = this.Bitmap4
-                            }, this.Bounds.CenterX, this.Bounds.Top);
+                            });
                         }
                     }
                     break;
@@ -294,7 +299,7 @@ namespace FanKit.Transformer.TestApp
                             {
                                 drawingSession.DrawImage(new Transform2DEffect
                                 {
-                                    TransformMatrix = this.Bounds.GetFloatTransformMatrix(this.Quad, (float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height),
+                                    TransformMatrix = this.Bounds.GetFloatTransformMatrix(this.Quad, (float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height, this.IsFlipX),
                                     Source = this.Bitmap3,
                                 });
                             }
