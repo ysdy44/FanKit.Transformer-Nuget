@@ -27,21 +27,6 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_2x2 -------------------- // 
 
-        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, Rectangle destination) => new Matrix3x2
-        {
-            // First row
-            M11 = destination.Width / sourceWidth,
-            M12 = 0f,
-
-            // Second row
-            M21 = 0f,
-            M22 = destination.Height / sourceHeight,
-
-            // Third row
-            M31 = destination.X,
-            M32 = destination.Y
-        };
-
         public static Matrix3x2 Map(float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix3x2
         {
             // First row
@@ -55,6 +40,21 @@ namespace FanKit.Transformer.Mathematics
             // Third row
             M31 = destinationX,
             M32 = destinationY
+        };
+
+        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, Rectangle destination) => new Matrix3x2
+        {
+            // First row
+            M11 = destination.Width / sourceWidth,
+            M12 = 0f,
+
+            // Second row
+            M21 = 0f,
+            M22 = destination.Height / sourceHeight,
+
+            // Third row
+            M31 = destination.X,
+            M32 = destination.Y
         };
 
         // -------------------- 1x2_3x2 -------------------- // 
