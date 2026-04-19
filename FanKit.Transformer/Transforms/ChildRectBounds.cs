@@ -11,7 +11,7 @@ namespace FanKit.Transformer.Transforms
     {
         public Bounds SourceBounds { get; private set; }
         public Rectangle SourceRect { get; private set; }
-        public RectMatrix SourceNormalize;
+        RectMatrix SourceNormalize;
 
         Bounds TransformedBounds;
 

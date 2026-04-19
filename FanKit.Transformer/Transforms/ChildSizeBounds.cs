@@ -11,7 +11,7 @@ namespace FanKit.Transformer.Transforms
     {
         public float SourceWidth { get; private set; }
         public float SourceHeight { get; private set; }
-        public SizeMatrix SourceNormalize;
+        SizeMatrix SourceNormalize;
 
         public Bounds Destination => this.Bounds;
 
