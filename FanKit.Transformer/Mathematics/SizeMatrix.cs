@@ -67,19 +67,19 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_3x2 -------------------- // 
 
-        public Matrix3x2 Affine(Matrix3x2 destNorm) => new Matrix3x2
+        public Matrix3x2 Affine(Matrix3x2 destinationNormalize) => new Matrix3x2
         {
             // First row
-            M11 = X * destNorm.M11,
-            M12 = X * destNorm.M12,
+            M11 = X * destinationNormalize.M11,
+            M12 = X * destinationNormalize.M12,
 
             // Second row
-            M21 = Y * destNorm.M21,
-            M22 = Y * destNorm.M22,
+            M21 = Y * destinationNormalize.M21,
+            M22 = Y * destinationNormalize.M22,
 
             // Third row
-            M31 = destNorm.M31,
-            M32 = destNorm.M32
+            M31 = destinationNormalize.M31,
+            M32 = destinationNormalize.M32
         };
         #endregion Public instance methods
 
