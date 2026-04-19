@@ -21,7 +21,7 @@ namespace FanKit.Transformer
             }
         }
 
-        public bool IsInfinity
+        public bool IsIdentity
         {
             get
             {
