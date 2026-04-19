@@ -8,13 +8,13 @@ namespace FanKit.Transformer.TestApp
 {
     public class CanvasOperator1 : ICanvasOperator1<PointerPointProperties>
     {
-        public event OperatorSingleStartingEventHandler<PointerPointProperties> Single_Start = null;
-        public event OperatorSingleEventHandler<PointerPointProperties> Single_Delta = null;
-        public event OperatorSingleEventHandler<PointerPointProperties> Single_Complete = null;
+        public event SingleStartingEventHandler<PointerPointProperties> Single_Start = null;
+        public event SingleEventHandler<PointerPointProperties> Single_Delta = null;
+        public event SingleEventHandler<PointerPointProperties> Single_Complete = null;
 
-        public event OperatorRightEventHandler Pointer_Over = null;
+        public event RightEventHandler Pointer_Over = null;
 
-        public event OperatorWheelEventHandler Wheel_Changed = null;
+        public event WheelEventHandler Wheel_Changed = null;
 
         TouchState1 State;
 

@@ -6,9 +6,9 @@ namespace FanKit.Transformer.TestApp
 {
     public sealed partial class TouchPad : Canvas
     {
-        public event OperatorDoubleEventHandler Double_Start = null;
-        public event OperatorDoubleEventHandler Double_Delta = null;
-        public event OperatorDoubleEventHandler Double_Complete = null;
+        public event DoubleEventHandler Double_Start = null;
+        public event DoubleEventHandler Double_Delta = null;
+        public event DoubleEventHandler Double_Complete = null;
 
         public TouchPad()
         {

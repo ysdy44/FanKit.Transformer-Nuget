@@ -2,19 +2,19 @@
 {
     public interface ICanvasOperator3
     {
-        event OperatorSingleStartedEventHandler Single_Start;
-        event OperatorSingleEventHandler Single_Delta;
-        event OperatorSingleEventHandler Single_Complete;
+        event SingleStartedEventHandler Single_Start;
+        event SingleEventHandler Single_Delta;
+        event SingleEventHandler Single_Complete;
 
-        event OperatorRightEventHandler Right_Start;
-        event OperatorRightEventHandler Right_Delta;
-        event OperatorRightEventHandler Right_Complete;
+        event RightEventHandler Right_Start;
+        event RightEventHandler Right_Delta;
+        event RightEventHandler Right_Complete;
 
-        event OperatorDoubleEventHandler Double_Start;
-        event OperatorDoubleEventHandler Double_Delta;
-        event OperatorDoubleEventHandler Double_Complete;
+        event DoubleEventHandler Double_Start;
+        event DoubleEventHandler Double_Delta;
+        event DoubleEventHandler Double_Complete;
 
-        event OperatorWheelEventHandler Wheel_Changed;
+        event WheelEventHandler Wheel_Changed;
 
         long ThresholdTicks { get; set; }
 

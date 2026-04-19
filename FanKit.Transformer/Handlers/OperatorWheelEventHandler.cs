@@ -1,4 +1,4 @@
 ﻿namespace FanKit.Transformer
 {
-    public delegate void OperatorWheelEventHandler(double x, double y, double wheelDelta);
+    public delegate void WheelEventHandler(double x, double y, double wheelDelta);
 }

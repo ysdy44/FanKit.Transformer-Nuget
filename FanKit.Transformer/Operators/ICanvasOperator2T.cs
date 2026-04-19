@@ -2,15 +2,15 @@
 {
     public interface ICanvasOperator2<T>
     {
-        event OperatorSingleStartingEventHandler<T> Single_Start;
-        event OperatorSingleEventHandler<T> Single_Delta;
-        event OperatorSingleEventHandler<T> Single_Complete;
+        event SingleStartingEventHandler<T> Single_Start;
+        event SingleEventHandler<T> Single_Delta;
+        event SingleEventHandler<T> Single_Complete;
 
-        event OperatorRightEventHandler Right_Start;
-        event OperatorRightEventHandler Right_Delta;
-        event OperatorRightEventHandler Right_Complete;
+        event RightEventHandler Right_Start;
+        event RightEventHandler Right_Delta;
+        event RightEventHandler Right_Complete;
 
-        event OperatorWheelEventHandler Wheel_Changed;
+        event WheelEventHandler Wheel_Changed;
 
         TouchMode TouchMode { get; set; }
 

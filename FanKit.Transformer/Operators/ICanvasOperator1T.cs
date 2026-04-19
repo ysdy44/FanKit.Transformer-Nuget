@@ -2,11 +2,11 @@
 {
     public interface ICanvasOperator1<T>
     {
-        event OperatorSingleStartingEventHandler<T> Single_Start;
-        event OperatorSingleEventHandler<T> Single_Delta;
-        event OperatorSingleEventHandler<T> Single_Complete;
+        event SingleStartingEventHandler<T> Single_Start;
+        event SingleEventHandler<T> Single_Delta;
+        event SingleEventHandler<T> Single_Complete;
 
-        event OperatorWheelEventHandler Wheel_Changed;
+        event WheelEventHandler Wheel_Changed;
 
         bool IsDisableTouch { get; set; }
 

@@ -9,21 +9,21 @@ namespace FanKit.Transformer.TestApp
 {
     public class CanvasOperator3 : ICanvasOperator3<PointerPointProperties>
     {
-        public event OperatorSingleStartedEventHandler<PointerPointProperties> Single_Start = null;
-        public event OperatorSingleEventHandler<PointerPointProperties> Single_Delta = null;
-        public event OperatorSingleEventHandler<PointerPointProperties> Single_Complete = null;
+        public event SingleStartedEventHandler<PointerPointProperties> Single_Start = null;
+        public event SingleEventHandler<PointerPointProperties> Single_Delta = null;
+        public event SingleEventHandler<PointerPointProperties> Single_Complete = null;
 
-        public event OperatorRightEventHandler Pointer_Over = null;
+        public event RightEventHandler Pointer_Over = null;
 
-        public event OperatorRightEventHandler Right_Start = null;
-        public event OperatorRightEventHandler Right_Delta = null;
-        public event OperatorRightEventHandler Right_Complete = null;
+        public event RightEventHandler Right_Start = null;
+        public event RightEventHandler Right_Delta = null;
+        public event RightEventHandler Right_Complete = null;
 
-        public event OperatorDoubleEventHandler Double_Start = null;
-        public event OperatorDoubleEventHandler Double_Delta = null;
-        public event OperatorDoubleEventHandler Double_Complete = null;
+        public event DoubleEventHandler Double_Start = null;
+        public event DoubleEventHandler Double_Delta = null;
+        public event DoubleEventHandler Double_Complete = null;
 
-        public event OperatorWheelEventHandler Wheel_Changed = null;
+        public event WheelEventHandler Wheel_Changed = null;
 
         TouchState3 State;
 
