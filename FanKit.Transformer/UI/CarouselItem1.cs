@@ -8,7 +8,7 @@
         public readonly Quadrilateral Box;
 
         // -0.5 ~ +0.5
-        public CarouselItem1(Carousel carousel, float centerX, float centerY, float amout)
+        internal CarouselItem1(Carousel carousel, float centerX, float centerY, float amout)
         {
             if (amout < -0.5f)
             {

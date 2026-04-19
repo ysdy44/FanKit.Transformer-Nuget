@@ -318,7 +318,7 @@ namespace FanKit.Transformer.TestApp
         {
             for (int i = 0; i < this.Items.Length; i++)
             {
-                this.Items[i] = new CarouselItem2(this.Carousel, i, this.Center.X, this.Center.Y, this.X, this.ItemMargin, this.ItemSpacing);
+                this.Items[i] = this.Carousel.ToItem2(i, this.Center.X, this.Center.Y, this.X, this.ItemMargin, this.ItemSpacing);
             }
         }
 

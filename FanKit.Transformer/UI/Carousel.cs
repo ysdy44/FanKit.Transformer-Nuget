@@ -70,6 +70,16 @@ namespace FanKit.Transformer.UI
             };
         }
 
+        public CarouselItem1 ToItem1(float centerX, float centerY, float amout)
+        {
+            return new CarouselItem1(this, centerX, centerY, amout);
+        }
+
+        public CarouselItem2 ToItem2(int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
+        {
+            return new CarouselItem2(this, index, centerX, centerY, offsetX, itemMargin, itemSpacing);
+        }
+
         public Quadrilateral LeftBox(Vector2 center) => Quadrilateral.Translate(ql, center);
         public Quadrilateral LeftBox(float centerX, float centerY) => Quadrilateral.Translate(ql, centerX, centerY);
 
@@ -86,7 +96,7 @@ namespace FanKit.Transformer.UI
         public Quadrilateral LerpBox(Vector2 center, float amout) => LB(center.X, center.Y, amout);
         public Quadrilateral LerpBox(float centerX, float centerY, float amout) => LB(centerX, centerY, amout);
 
-        public Quadrilateral LB(float centerX, float centerY, float amout)
+        private Quadrilateral LB(float centerX, float centerY, float amout)
         {
             float r = amout * (float)System.Math.PI;
             float c = (float)System.Math.Cos(r);

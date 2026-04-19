@@ -10,7 +10,7 @@
 
         public readonly Quadrilateral Box;
 
-        public CarouselItem2(Carousel carousel, int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
+        internal CarouselItem2(Carousel carousel, int index, float centerX, float centerY, float offsetX, float itemMargin, float itemSpacing)
         {
             Raw = offsetX + index * itemSpacing;
 
