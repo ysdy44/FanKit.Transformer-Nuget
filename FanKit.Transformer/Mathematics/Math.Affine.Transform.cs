@@ -59,8 +59,8 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_3x2 -------------------- // 
 
-        public static Matrix3x2 Affine(SizeMatrix srcNorm, Matrix3x2 destNorm)
-            => srcNorm.Affine(destNorm);
+        public static Matrix3x2 Affine(SizeMatrix sourceNormalize, Matrix3x2 destinationNormalize)
+            => sourceNormalize.Affine(destinationNormalize);
 
         public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Triangle destination)
             => new SizeMatrix(sourceWidth, sourceHeight).Affine(destination.Normalize());
@@ -100,8 +100,8 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 2x2_3x2 -------------------- // 
 
-        public static Matrix3x2 Affine(RectMatrix srcNorm, Matrix3x2 destNorm)
-            => srcNorm.Affine(destNorm);
+        public static Matrix3x2 Affine(RectMatrix sourceNormalize, Matrix3x2 destinationNormalize)
+            => sourceNormalize.Affine(destinationNormalize);
 
         public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Triangle destination)
             => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(destination.Normalize());

@@ -21,22 +21,22 @@ namespace FanKit.Transformer.Mathematics
         internal readonly float m44;
 
         #region Constructors
-        public PerspRectMatrix3x3(RectMatrix srcNorm, Quadrilateral quad)
+        public PerspRectMatrix3x3(RectMatrix sourceNormalize, Quadrilateral destination)
         {
-            dst = new SparseMatrix3x3(quad);
+            dst = new SparseMatrix3x3(destination);
 
             // First row
-            m11 = srcNorm.X * dst.sx;
-            m14 = srcNorm.X * dst.rx;
+            m11 = sourceNormalize.X * dst.sx;
+            m14 = sourceNormalize.X * dst.rx;
 
             // Second row
-            m22 = srcNorm.Y * dst.sy;
-            m24 = srcNorm.Y * dst.ry;
+            m22 = sourceNormalize.Y * dst.sy;
+            m24 = sourceNormalize.Y * dst.ry;
 
             // Fourth row
-            m41 = srcNorm.Z * dst.sx;
-            m42 = srcNorm.W * dst.sy;
-            m44 = srcNorm.Z * dst.rx + srcNorm.W * dst.ry + 1f;
+            m41 = sourceNormalize.Z * dst.sx;
+            m42 = sourceNormalize.W * dst.sy;
+            m44 = sourceNormalize.Z * dst.rx + sourceNormalize.W * dst.ry + 1f;
         }
         #endregion Constructors
 
