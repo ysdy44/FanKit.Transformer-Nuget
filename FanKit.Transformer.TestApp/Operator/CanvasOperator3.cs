@@ -1,203 +1,66 @@
-﻿using FanKit.Transformer.Operators;
-using System.Diagnostics;
-using Windows.Devices.Input;
+﻿using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 
 namespace FanKit.Transformer.TestApp
 {
-    public class CanvasOperator3 : ICanvasOperator3<PointerPointProperties>
+    public class CanvasOperator3 : Operators.CanvasOperator3<PointerPointProperties>
     {
-        public event SingleStartedEventHandler<PointerPointProperties> Single_Start = null;
-        public event SingleEventHandler<PointerPointProperties> Single_Delta = null;
-        public event SingleEventHandler<PointerPointProperties> Single_Complete = null;
-
-        public event RightEventHandler Pointer_Over = null;
-
-        public event RightEventHandler Right_Start = null;
-        public event RightEventHandler Right_Delta = null;
-        public event RightEventHandler Right_Complete = null;
-
-        public event DoubleEventHandler Double_Start = null;
-        public event DoubleEventHandler Double_Delta = null;
-        public event DoubleEventHandler Double_Complete = null;
-
-        public event WheelEventHandler Wheel_Changed = null;
-
-        TouchState3 State;
-
-        // Single | Right | Wheel
-        uint Id = 0;
-        Point SP; // Starting Point
-        Point P; // Point
-
-        // Double
-        uint Id0 = 0;
-        uint Id1 = 0;
-
-        Point P0; // Point 0
-        Point P1; // Point 1
-
-        bool IsDisable; // Disable Single Events
-        bool IsToRight; // Raise Right Events
-
-        // Double
-        readonly Stopwatch Stopwatch = new Stopwatch();
-
         public readonly FrameworkElement DestinationControl;
 
+        double Width;
+
         public bool IsDisableFlipX { get; set; } // Disable Flip X
-
-        /// <summary>
-        /// Gets the total threshold time measured by the current instance, in timer ticks.
-        /// </summary>
-        public long ThresholdTicks { get; set; } = 100 * 10000;
-
-        public TouchMode TouchMode
-        {
-            get
-            {
-                if (this.IsDisable)
-                    return TouchMode.Disable;
-                else if (this.IsToRight)
-                    return TouchMode.RightButton;
-                else
-                    return TouchMode.SingleFinger;
-            }
-            set
-            {
-                switch (value)
-                {
-                    case TouchMode.Disable:
-                        this.IsDisable = true;
-                        this.IsToRight = false;
-                        break;
-                    case TouchMode.SingleFinger:
-                        this.IsDisable = false;
-                        this.IsToRight = false;
-                        break;
-                    case TouchMode.RightButton:
-                        this.IsDisable = false;
-                        this.IsToRight = true;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// <inheritdoc cref="Windows.UI.Xaml.Input.Pointer.IsInContact"/>
-        /// </summary>
-        public bool IsInContact => this.State != default;
 
         public CanvasOperator3(FrameworkElement destinationControl)
         {
             this.DestinationControl = destinationControl;
 
+            this.DestinationControl.SizeChanged += (s, e) =>
+            {
+                if (e.NewSize == Size.Empty) return;
+                if (e.NewSize == e.PreviousSize) return;
+
+                this.Width = e.NewSize.Width;
+            };
             this.DestinationControl.PointerPressed += (s, e) =>
             {
                 switch (e.Pointer.PointerDeviceType)
                 {
                     case PointerDeviceType.Touch:
-                        switch (this.State)
+                        if (this.AllowPressedTouch())
                         {
-                            case TouchState3.None:
-                                {
-                                    PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                                    this.Id = this.Id0 = e.Pointer.PointerId;
-                                    this.SP = this.P = this.P0 = pp.Position;
+                            if (this.CapturePointerPressedTouch())
+                                this.DestinationControl.CapturePointer(e.Pointer);
 
-                                    if (this.IsDisable)
-                                    {
-                                        this.State = TouchState3.DoubleFingersOnly0;
-                                    }
-                                    else
-                                    {
-                                        this.Stopwatch.Start();
-                                        this.State = TouchState3.Indeterminate;
-                                    }
-                                }
-                                break;
-                            case TouchState3.Indeterminate:
-                                {
-                                    PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                                    this.Id1 = e.Pointer.PointerId;
-                                    this.P1 = pp.Position;
-
-                                    this.Stopwatch.Stop(); // Goto Double
-                                    this.State = TouchState3.DoubleFingers;
-                                    this.Double_Start?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                                }
-                                break;
-                            case TouchState3.DoubleFingersOnly0:
-                                {
-                                    PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                                    this.Id1 = e.Pointer.PointerId;
-                                    this.P1 = pp.Position;
-
-                                    this.State = TouchState3.DoubleFingers;
-                                    this.Double_Start?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                                }
-                                break;
-                            case TouchState3.DoubleFingersOnly1:
-                                {
-                                    PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                                    this.Id0 = e.Pointer.PointerId;
-                                    this.P0 = pp.Position;
-
-                                    this.State = TouchState3.DoubleFingers;
-                                    this.Double_Start?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                                }
-                                break;
-                            default:
-                                break;
+                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
+                            this.PressedTouch(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
                         }
                         break;
                     case PointerDeviceType.Pen:
-                        switch (this.State)
+                        if (this.AllowPressedPen())
                         {
-                            case TouchState3.None:
+                            if (this.CapturePointerPressedPen())
                                 this.DestinationControl.CapturePointer(e.Pointer);
-                                PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                                this.Id = pp.PointerId;
-                                this.SP = this.P = pp.Position;
 
-                                this.State = TouchState3.Pen;
-                                this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, this.P.X, this.P.Y, pp.Properties);
-                                break;
-                            default:
-                                break;
+                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
+                            this.PressedPen(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
                         }
                         break;
                     case PointerDeviceType.Mouse:
-                        switch (this.State)
+                        if (this.AllowPressedMouse())
                         {
-                            case TouchState3.None:
+                            if (this.CapturePointerPressedMouse())
                                 this.DestinationControl.CapturePointer(e.Pointer);
-                                PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                                this.Id = pp.PointerId;
-                                this.SP = this.P = pp.Position;
 
-                                if (pp.Properties.IsRightButtonPressed)
-                                {
-                                    this.State = TouchState3.RightButton;
-                                    this.Right_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y);
-                                }
-                                else if (pp.Properties.IsMiddleButtonPressed)
-                                {
-                                    this.State = TouchState3.MiddleButton;
-                                    this.Right_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y);
-                                }
-                                else
-                                {
-                                    this.State = TouchState3.LeftButton;
-                                    this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, this.P.X, this.P.Y, pp.Properties);
-                                }
-                                break;
-                            default:
-                                break;
+                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
+                            if (pp.Properties.IsRightButtonPressed)
+                                this.PressedRightButton(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
+                            else if (pp.Properties.IsMiddleButtonPressed)
+                                this.PressedMiddleButton(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
+                            else
+                                this.PressedLeftButton(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
                         }
                         break;
                     default:
@@ -206,227 +69,21 @@ namespace FanKit.Transformer.TestApp
             };
             this.DestinationControl.PointerMoved += (s, e) =>
             {
-                switch (this.State)
+                if (this.AllowMoved(e.Pointer.PointerId))
                 {
-                    case TouchState3.None:
-                        if (this.Pointer_Over != null)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-                            this.Pointer_Over(this.P.X, this.P.Y);
-                        }
-                        break;
-                    case TouchState3.Indeterminate:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            if (this.Stopwatch.ElapsedTicks > this.ThresholdTicks)
-                            {
-                                if (this.IsToRight)
-                                {
-                                    this.Stopwatch.Stop(); // Goto Right
-                                    this.State = TouchState3.SingleFingerToRightButton;
-                                    this.Right_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y);
-                                }
-                                else
-                                {
-                                    this.Stopwatch.Stop(); // Goto Single
-                                    this.State = TouchState3.SingleFinger;
-                                    this.Single_Start?.Invoke(this.FlipX(this.SP.X), this.SP.Y, this.P.X, this.P.Y, pp.Properties);
-                                }
-                            }
-                        }
-                        break;
-                    case TouchState3.SingleFinger:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.Single_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
-                        }
-                        break;
-                    case TouchState3.SingleFingerToRightButton:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingers:
-                        if (this.Id0 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P0 = pp.Position;
-
-                            this.Double_Delta?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        else if (this.Id1 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P1 = pp.Position;
-
-                            this.Double_Delta?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingersOnly0:
-                        if (this.Id0 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P0 = pp.Position;
-                        }
-                        break;
-                    case TouchState3.DoubleFingersOnly1:
-                        if (this.Id1 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P1 = pp.Position;
-                        }
-                        break;
-                    case TouchState3.Pen:
-                    case TouchState3.LeftButton:
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.Single_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
-                        }
-                        break;
-                    case TouchState3.MiddleButton:
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    case TouchState3.RightButton:
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    default:
-                        break;
+                    PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
+                    this.Moved(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
                 }
             };
             this.DestinationControl.PointerReleased += (s, e) =>
             {
-                switch (this.State)
+                if (this.AllowReleased(e.Pointer.PointerId))
                 {
-                    case TouchState3.None:
-                        break;
-                    case TouchState3.Indeterminate:
-                        this.Id0 = 0;
-                        this.Id1 = 0;
+                    if (this.ReleasePointerReleased())
+                        this.DestinationControl.ReleasePointerCaptures();
 
-                        this.Stopwatch.Stop();
-                        this.State = TouchState3.None;
-                        break;
-                    case TouchState3.SingleFinger:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
-                        }
-                        break;
-                    case TouchState3.SingleFingerToRightButton:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Right_Delta?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingers:
-                        if (this.Id0 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.Id0 = 0;
-                            this.P0 = pp.Position;
-
-                            this.State = this.Id1 == 0 ? TouchState3.None : TouchState3.DoubleFingersOnly1;
-                            this.Double_Complete?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        else if (this.Id1 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.Id1 = 0;
-                            this.P1 = pp.Position;
-
-                            this.State = this.Id0 == 0 ? TouchState3.None : TouchState3.DoubleFingersOnly0;
-                            this.Double_Complete?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingersOnly0:
-                        if (this.Id0 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.Id0 = 0;
-                            this.P0 = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Double_Complete?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingersOnly1:
-                        if (this.Id1 == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.Id1 = 0;
-                            this.P1 = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Double_Complete?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        break;
-                    case TouchState3.Pen:
-                    case TouchState3.LeftButton:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            this.DestinationControl.ReleasePointerCaptures();
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
-                        }
-                        break;
-                    case TouchState3.MiddleButton:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            this.DestinationControl.ReleasePointerCaptures();
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    case TouchState3.RightButton:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            this.DestinationControl.ReleasePointerCaptures();
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    default:
-                        break;
+                    PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
+                    this.Released(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
                 }
             };
 
@@ -435,121 +92,24 @@ namespace FanKit.Transformer.TestApp
             };
             this.DestinationControl.PointerCanceled += (s, e) =>
             {
-                switch (this.State)
+                if (this.AllowCanceled(e.Pointer.PointerId))
                 {
-                    case TouchState3.None:
-                        break;
-                    case TouchState3.Indeterminate:
-                        this.Id0 = 0;
-                        this.Id1 = 0;
+                    if (this.ReleasePointerCanceled())
+                        this.DestinationControl.ReleasePointerCaptures();
 
-                        this.Stopwatch.Stop();
-                        this.State = TouchState3.None;
-                        break;
-                    case TouchState3.SingleFinger:
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
-                        }
-                        break;
-                    case TouchState3.SingleFingerToRightButton:
-                        if (this.Id == e.Pointer.PointerId)
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingers:
-                        if (this.Id0 == e.Pointer.PointerId)
-                        {
-                            goto case TouchState3.DoubleFingersOnly0;
-                        }
-                        else if (this.Id1 == e.Pointer.PointerId)
-                        {
-                            goto case TouchState3.DoubleFingersOnly1;
-                        }
-                        else
-                        {
-                            this.Id0 = 0;
-                            this.Id1 = 0;
-
-                            this.State = TouchState3.None;
-                            this.Double_Complete?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingersOnly0:
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.Id0 = 0;
-                            this.P0 = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Double_Complete?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        break;
-                    case TouchState3.DoubleFingersOnly1:
-                        {
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.Id1 = 0;
-                            this.P1 = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Double_Complete?.Invoke(this.FlipX(this.P0.X), this.P0.Y, this.P1.X, this.P1.Y);
-                        }
-                        break;
-                    case TouchState3.Pen:
-                    case TouchState3.LeftButton:
-                        {
-                            this.DestinationControl.ReleasePointerCaptures();
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Single_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y, pp.Properties);
-                        }
-                        break;
-                    case TouchState3.MiddleButton:
-                        {
-                            this.DestinationControl.ReleasePointerCaptures();
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    case TouchState3.RightButton:
-                        {
-                            this.DestinationControl.ReleasePointerCaptures();
-                            PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                            this.P = pp.Position;
-
-                            this.State = TouchState3.None;
-                            this.Right_Complete?.Invoke(this.FlipX(this.P.X), this.P.Y);
-                        }
-                        break;
-                    default:
-                        break;
+                    PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
+                    this.Canceled(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties);
                 }
             };
 
             this.DestinationControl.PointerWheelChanged += (s, e) =>
             {
                 PointerPoint pp = e.GetCurrentPoint(this.DestinationControl);
-                this.Id = e.Pointer.PointerId;
-                this.SP = this.P = pp.Position;
-
-                this.Wheel_Changed?.Invoke(this.FlipX(this.SP.X), this.SP.Y, pp.Properties.MouseWheelDelta);
+                this.WheelChanged(e.Pointer.PointerId, pp.Position.X, pp.Position.Y, pp.Properties.MouseWheelDelta);
             };
         }
 
-        private double FlipX(double x)
+        public override double FlipX(double x)
         {
             if (this.IsDisableFlipX)
             {
@@ -559,7 +119,7 @@ namespace FanKit.Transformer.TestApp
             switch (this.DestinationControl.FlowDirection)
             {
                 case FlowDirection.RightToLeft:
-                    return this.DestinationControl.ActualWidth - x;
+                    return this.Width - x;
                 default:
                     return x;
             }
