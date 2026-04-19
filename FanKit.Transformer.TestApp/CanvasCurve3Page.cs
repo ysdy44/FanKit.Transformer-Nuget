@@ -64,7 +64,7 @@ namespace FanKit.Transformer.TestApp
         // Composer3
         //int Index1 = -1;
         //int Index2 = -1;
-        SegmentIndexer Indexer = SegmentIndexer.Empty;
+        NodeIndexer Indexer = NodeIndexer.Empty;
         NodeController Controller;
 
         ClosestPointer Closest;
@@ -918,11 +918,11 @@ namespace FanKit.Transformer.TestApp
             const float cd = 10f;
             const float cds = cd * cd;
 
-            this.Indexer = new SegmentIndexer(this.Layer.Data, this.StartingPoint, ds, cds);
+            this.Indexer = new NodeIndexer(this.Layer.Data, this.StartingPoint, ds, cds);
 
             switch (this.Indexer.Mode)
             {
-                case SegmentMode.None:
+                case NodeIndexerMode.None:
                     float l = 4f * this.Canvas.InverseScaleFactor;
                     float ls = l * l;
 
@@ -967,11 +967,11 @@ namespace FanKit.Transformer.TestApp
                             Actual = this.Canvas.Transform(this.Closest.Current),
                         });
 
-                        this.Indexer = new SegmentIndexer
+                        this.Indexer = new NodeIndexer
                         {
                             Index = this.Inserter.Current,
 
-                            Mode = SegmentMode.PointWithoutChecked,
+                            Mode = NodeIndexerMode.PointWithoutChecked,
                         };
 
                         this.Composer.Reset(this.Closest.Current.Point);
@@ -983,7 +983,7 @@ namespace FanKit.Transformer.TestApp
                         this.CacheSingle3();
                     }
                     break;
-                case SegmentMode.PointWithoutChecked:
+                case NodeIndexerMode.PointWithoutChecked:
                     {
                         this.Layer.Select(this.Indexer.Index);
 
@@ -998,7 +998,7 @@ namespace FanKit.Transformer.TestApp
                             | InvalidateModes.CanvasControl);
                     }
                     break;
-                case SegmentMode.PointWithChecked:
+                case NodeIndexerMode.PointWithChecked:
                     switch (this.Composer.SizeType)
                     {
                         case SizeType.Empty:
@@ -1028,12 +1028,12 @@ namespace FanKit.Transformer.TestApp
                             break;
                     }
                     break;
-                case SegmentMode.LeftControlPoint:
-                case SegmentMode.RightControlPoint:
+                case NodeIndexerMode.LeftControlPoint:
+                case NodeIndexerMode.RightControlPoint:
                     {
                         Segment segment = this.Layer.Data[this.Indexer.Index];
 
-                        bool isLeft = this.Indexer.Mode == SegmentMode.LeftControlPoint;
+                        bool isLeft = this.Indexer.Mode == NodeIndexerMode.LeftControlPoint;
                         this.Controller = new NodeController(segment.Point, isLeft, this.Mode1, this.Mode2);
 
                         this.Layer.Data[this.Indexer.Index] = new Segment
@@ -1061,10 +1061,10 @@ namespace FanKit.Transformer.TestApp
         {
             switch (this.Indexer.Mode)
             {
-                case SegmentMode.None:
+                case NodeIndexerMode.None:
                     this.Single3();
                     break;
-                case SegmentMode.PointWithoutChecked:
+                case NodeIndexerMode.PointWithoutChecked:
                     {
                         this.Composer.PointTranslate(this.Indicator, this.StartingPosition, this.Position);
 
@@ -1076,7 +1076,7 @@ namespace FanKit.Transformer.TestApp
                             | InvalidateModes.CanvasControl);
                     }
                     break;
-                case SegmentMode.PointWithChecked:
+                case NodeIndexerMode.PointWithChecked:
                     switch (this.Composer.SizeType)
                     {
                         case SizeType.Empty:
@@ -1112,8 +1112,8 @@ namespace FanKit.Transformer.TestApp
                             break;
                     }
                     break;
-                case SegmentMode.LeftControlPoint:
-                case SegmentMode.RightControlPoint:
+                case NodeIndexerMode.LeftControlPoint:
+                case NodeIndexerMode.RightControlPoint:
                     {
                         Segment segment = this.Layer.Data[this.Indexer.Index];
                         Node point = this.Controller.ToNode(this.Position, this.Disconnected);
@@ -1187,11 +1187,11 @@ namespace FanKit.Transformer.TestApp
             const float cd = 10f;
             const float cds = cd * cd;
 
-            this.Indexer = new SegmentIndexer(this.Layer.Data, this.Point, ds, cds);
+            this.Indexer = new NodeIndexer(this.Layer.Data, this.Point, ds, cds);
 
             switch (this.Indexer.Mode)
             {
-                case SegmentMode.None:
+                case NodeIndexerMode.None:
                     float l = 4f * this.Canvas.InverseScaleFactor;
                     float ls = l * l;
 
@@ -1217,7 +1217,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case SegmentMode.PointWithoutChecked:
+                case NodeIndexerMode.PointWithoutChecked:
                     {
                         Segment segment = this.Layer.Data[this.Indexer.Index];
 
@@ -1226,7 +1226,7 @@ namespace FanKit.Transformer.TestApp
                         this.Invalidate(InvalidateModes.CanvasControl);
                     }
                     break;
-                case SegmentMode.PointWithChecked:
+                case NodeIndexerMode.PointWithChecked:
                     {
                         Segment segment = this.Layer.Data[this.Indexer.Index];
 
@@ -1235,7 +1235,7 @@ namespace FanKit.Transformer.TestApp
                         this.Invalidate(InvalidateModes.CanvasControl);
                     }
                     break;
-                case SegmentMode.LeftControlPoint:
+                case NodeIndexerMode.LeftControlPoint:
                     {
                         Segment segment = this.Layer.Data[this.Indexer.Index];
 
@@ -1244,7 +1244,7 @@ namespace FanKit.Transformer.TestApp
                         this.Invalidate(InvalidateModes.CanvasControl);
                     }
                     break;
-                case SegmentMode.RightControlPoint:
+                case NodeIndexerMode.RightControlPoint:
                     {
                         Segment segment = this.Layer.Data[this.Indexer.Index];
 
