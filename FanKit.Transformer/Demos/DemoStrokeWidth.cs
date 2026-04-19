@@ -6,6 +6,10 @@
 
         public float ActualValue;
 
+        public DemoStrokeWidth()
+        {
+        }
+
         public void UpdateCanvas()
         {
             this.ActualValue = this.Value;

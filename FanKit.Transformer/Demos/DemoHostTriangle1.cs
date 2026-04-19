@@ -7,6 +7,10 @@ namespace FanKit.Transformer.Demos
     {
         public Box1 ActualBox;
 
+        public DemoHostTriangle1()
+        {
+        }
+
         public void UpdateCanvas()
         {
             switch (this.Count)

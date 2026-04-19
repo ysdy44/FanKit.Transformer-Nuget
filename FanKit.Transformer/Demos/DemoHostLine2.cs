@@ -7,6 +7,10 @@ namespace FanKit.Transformer.Demos
     {
         public Line2 ActualLine;
 
+        public DemoHostLine2()
+        {
+        }
+
         public void UpdateCanvas()
         {
             this.ActualLine = new Line2(this.Point0, this.Point1);

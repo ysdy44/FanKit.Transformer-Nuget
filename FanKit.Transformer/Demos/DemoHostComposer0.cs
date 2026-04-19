@@ -11,6 +11,10 @@ namespace FanKit.Transformer.Demos
         public Line0 ActualLine;
         public Box0 ActualBox;
 
+        public DemoHostComposer0()
+        {
+        }
+
         public void UpdateCanvas()
         {
             switch (this.SizeType)
