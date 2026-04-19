@@ -18,8 +18,8 @@ namespace FanKit.Transformer.Input
             sx = x2 - x1;
             sy = y2 - y1;
 
-            this.Center = new Vector2((float)(ax / 2), (float)(ay / 2));
-            this.RotationAngle = (float)System.Math.Atan2(sy, sx);
+            Center = new Vector2((float)(ax / 2), (float)(ay / 2));
+            RotationAngle = (float)System.Math.Atan2(sy, sx);
         }
     }
 }

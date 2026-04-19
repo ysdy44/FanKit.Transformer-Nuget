@@ -269,11 +269,11 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Triangles.SelectedItems.Set.Index
-        public void SetTranslation(Vector2 translate, Vector2 point, int index) => ST0(translate, point, index);
-        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int index) => ST1(indicator, mode, translate, point, index);
+        public void SetTranslation(Vector2 translate, Vector2 point, int index) => this.ST0(translate, point, index);
+        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int index) => this.ST1(indicator, mode, translate, point, index);
 
-        public void SetTranslation(float translateX, float translateY, Vector2 point, int index) => STXY0(translateX, translateY, point, index);
-        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index) => STXY1(indicator, mode, translateX, translateY, point, index);
+        public void SetTranslation(float translateX, float translateY, Vector2 point, int index) => this.STXY0(translateX, translateY, point, index);
+        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index) => this.STXY1(indicator, mode, translateX, translateY, point, index);
 
         internal override void SI(Vector2 point, int index)
         {

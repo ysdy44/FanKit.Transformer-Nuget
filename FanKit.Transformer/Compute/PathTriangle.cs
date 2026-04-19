@@ -91,24 +91,24 @@ namespace FanKit.Transformer.Compute
         internal void ST0(Vector2 translate, Vector2 point, int index)
         {
             this.Host = Matrix3x2.CreateTranslation(translate);
-            SI(point, index);
+            this.SI(point, index);
         }
         internal void ST1(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int index)
         {
             this.Host = Matrix3x2.CreateTranslation(translate);
-            SI(point, index);
+            this.SI(point, index);
             indicator.ChangeXY(this.Triangle, mode);
         }
 
         internal void STXY0(float translateX, float translateY, Vector2 point, int index)
         {
             this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            SI(point, index);
+            this.SI(point, index);
         }
         internal void STXY1(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index)
         {
             this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            SI(point, index);
+            this.SI(point, index);
             indicator.ChangeXY(this.Triangle, mode);
         }
 

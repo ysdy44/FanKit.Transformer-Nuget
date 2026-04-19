@@ -18,8 +18,8 @@ namespace FanKit.Transformer.Input
             sx = x2 - x1;
             sy = y2 - y1;
 
-            this.Center = new Vector2((float)(ax / 2), (float)(ay / 2));
-            this.Radius = (float)System.Math.Sqrt(sx * sx + sy * sy);
+            Center = new Vector2((float)(ax / 2), (float)(ay / 2));
+            Radius = (float)System.Math.Sqrt(sx * sx + sy * sy);
         }
     }
 }
