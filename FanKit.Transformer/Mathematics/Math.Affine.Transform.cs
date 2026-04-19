@@ -62,6 +62,12 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 Affine(SizeMatrix sourceNormalize, Matrix3x2 destinationNormalize)
             => sourceNormalize.Affine(destinationNormalize);
 
+        public static Matrix3x2 Affine(SizeMatrix sourceNormalize, Triangle destination)
+            => sourceNormalize.Affine(destination.Normalize());
+
+        public static Matrix3x2 Affine(SizeMatrix sourceNormalize, Quadrilateral destination)
+            => sourceNormalize.Affine(destination.Normalize());
+
         public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Triangle destination)
             => new SizeMatrix(sourceWidth, sourceHeight).Affine(destination.Normalize());
 
@@ -103,6 +109,12 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 Affine(RectMatrix sourceNormalize, Matrix3x2 destinationNormalize)
             => sourceNormalize.Affine(destinationNormalize);
 
+        public static Matrix3x2 Affine(RectMatrix sourceNormalize, Triangle destination)
+            => sourceNormalize.Affine(destination.Normalize());
+
+        public static Matrix3x2 Affine(RectMatrix sourceNormalize, Quadrilateral destination)
+            => sourceNormalize.Affine(destination.Normalize());
+
         public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Triangle destination)
             => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(destination.Normalize());
 
@@ -121,6 +133,15 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 3x2_3x2 -------------------- // 
 
+        public static Matrix3x2 BidiAffine(InvertibleMatrix3x2 sourceNormalize, Matrix3x2 destinationNormalize)
+            => sourceNormalize.BidiAffine(destinationNormalize);
+
+        public static Matrix3x2 BidiAffine(InvertibleMatrix3x2 sourceNormalize, Triangle destination)
+            => sourceNormalize.BidiAffine(destination.Normalize());
+
+        public static Matrix3x2 BidiAffine(InvertibleMatrix3x2 sourceNormalize, Quadrilateral destination)
+            => sourceNormalize.BidiAffine(destination.Normalize());
+
         public static Matrix3x2 BidiAffine(Triangle source, Triangle destination)
             => source.ToInvertibleMatrix().BidiAffine(destination.Normalize());
 
@@ -129,10 +150,16 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_3x3 -------------------- // 
 
+        public static Matrix4x4 Persp(SizeMatrix sourceNormalize, Quadrilateral destination)
+            => new PerspSizeMatrix3x3(sourceNormalize, destination);
+
         public static Matrix4x4 Persp(float sourceWidth, float sourceHeight, Quadrilateral destination)
             => new PerspSizeMatrix3x3(new SizeMatrix(sourceWidth, sourceHeight), destination);
 
         // -------------------- 2x2_3x3 -------------------- // 
+
+        public static Matrix4x4 Persp(this RectMatrix sourceNormalize, Quadrilateral destination)
+            => new PerspRectMatrix3x3(sourceNormalize, destination);
 
         public static Matrix4x4 Persp(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
             => new PerspRectMatrix3x3(new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight), destination);
