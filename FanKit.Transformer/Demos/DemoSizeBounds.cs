@@ -14,6 +14,7 @@ namespace FanKit.Transformer.Demos
         {
             this.UpdateAll(sourceWidth, sourceHeight, destination);
         }
+
         public DemoSizeBounds(float sourceWidth, float sourceHeight, Matrix2x2 matrix)
         {
             this.Initialize(sourceWidth, sourceHeight, matrix);

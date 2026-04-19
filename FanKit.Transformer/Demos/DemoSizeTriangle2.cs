@@ -14,6 +14,7 @@ namespace FanKit.Transformer.Demos
         {
             this.UpdateAll(sourceWidth, sourceHeight, destination);
         }
+
         public DemoSizeTriangle2(float sourceWidth, float sourceHeight, Matrix3x2 matrix)
         {
             this.Initialize(sourceWidth, sourceHeight, matrix);

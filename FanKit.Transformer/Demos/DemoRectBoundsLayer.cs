@@ -15,6 +15,7 @@ namespace FanKit.Transformer.Demos
         {
             this.UpdateAll(source, destination);
         }
+
         public DemoRectBoundsLayer(Bounds source, Matrix2x2 matrix)
         {
             this.Initialize(source, matrix);

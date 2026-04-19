@@ -16,6 +16,7 @@ namespace FanKit.Transformer.Demos
         {
             this.Initialize(destinationWidth, destinationHeight);
         }
+
         public DemoQuadrilateralSize(float destinationWidth, float destinationHeight, Quadrilateral source)
         {
             this.UpdateAll(destinationWidth, destinationHeight, source);

@@ -15,6 +15,7 @@ namespace FanKit.Transformer.Demos
         {
             this.UpdateAll(source, destination);
         }
+
         public DemoRectTriangleLayer(Bounds source, Matrix3x2 matrix)
         {
             this.Initialize(source, matrix);
