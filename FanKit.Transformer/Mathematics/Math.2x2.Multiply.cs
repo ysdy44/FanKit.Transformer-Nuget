@@ -17,8 +17,6 @@ namespace FanKit.Transformer.Mathematics
             Y = matrix.ScaleY * y + matrix.TranslateY,
         };
 
-        public static Matrix2x2 Transform(Matrix2x2 value1, Matrix2x2 value2) => value1 * value2;
-
         // -------------------- 1x2_3x2 -------------------- // 
 
         public static Matrix2x2 TransformTranslation(Vector2 translate, Matrix2x2 matrix) => new Matrix2x2
