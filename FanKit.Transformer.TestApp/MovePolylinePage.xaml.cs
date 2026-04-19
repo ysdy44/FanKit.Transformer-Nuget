@@ -15,7 +15,7 @@ namespace FanKit.Transformer.TestApp
         Vector2 StartingPoint;
         Vector2 Point;
 
-        SegmentIndexer Indexer = SegmentIndexer.Empty;
+        NodeIndexer Indexer = NodeIndexer.Empty;
 
         readonly CanvasOperator1 CanvasOperator;
 
@@ -82,7 +82,7 @@ namespace FanKit.Transformer.TestApp
 
             this.StartingPoint = this.Point = new Vector2((float)startingX, (float)startingY);
 
-            this.Indexer = new SegmentIndexer(this.Data, this.StartingPoint, ds);
+            this.Indexer = new NodeIndexer(this.Data, this.StartingPoint, ds);
         }
 
         private void Single(double x, double y)
@@ -91,10 +91,10 @@ namespace FanKit.Transformer.TestApp
 
             switch (this.Indexer.Mode)
             {
-                case SegmentMode.None:
+                case NodeIndexerMode.None:
                     break;
-                case SegmentMode.PointWithoutChecked:
-                case SegmentMode.PointWithChecked:
+                case NodeIndexerMode.PointWithoutChecked:
+                case NodeIndexerMode.PointWithChecked:
                     this.Data[this.Indexer.Index] = this.Point;
                     this.CanvasControl.Invalidate();
                     break;
