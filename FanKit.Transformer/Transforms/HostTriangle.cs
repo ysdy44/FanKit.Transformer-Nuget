@@ -251,7 +251,7 @@ namespace FanKit.Transformer.Transforms
         #region Triangles.Transform2
         public void CacheRotation(Vector2 point) => this.Panel.CR(point);
 
-        public void CacheTransform(TransformMode mode) => this.Panel.CF(mode);
+        public void CacheTransform(TransformMode mode) => this.Panel.CF1(mode);
 
         public void Rotate(Vector2 point, float stepFrequency = float.NaN) => this.Panel.R0(point, stepFrequency);
         public void Rotate(IIndicator indicator, BoxMode mode, Vector2 point, float stepFrequency = float.NaN) => this.Panel.R1(indicator, mode, point, stepFrequency);

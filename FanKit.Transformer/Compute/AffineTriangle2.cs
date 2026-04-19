@@ -23,7 +23,7 @@ namespace FanKit.Transformer.Compute
             this.Controller = new TransformController(this.Triangle, point);
         }
 
-        internal void CF(TransformMode mode)
+        internal void CF1(TransformMode mode)
         {
             this.StartingTriangle = this.Triangle;
             this.StartingMatrix = this.Matrix;

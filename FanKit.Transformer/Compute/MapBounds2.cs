@@ -10,7 +10,7 @@ namespace FanKit.Transformer.Compute
         CropController Controller;
 
         #region Bounds.Transform2
-        internal void CF(CropMode mode)
+        internal void CF1(CropMode mode)
         {
             this.StartingBounds = this.Bounds;
             this.StartingMatrix = this.Matrix;

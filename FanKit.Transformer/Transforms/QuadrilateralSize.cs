@@ -68,7 +68,7 @@ namespace FanKit.Transformer.Transforms
 
         public void CacheTransform() => this.CF();
 
-        public void Translate(Vector2 startingPoint, Vector2 point) => this.STXY0(startingPoint, point);
+        public void Translate(Vector2 startingPoint, Vector2 point) => this.TD0(startingPoint, point);
 
         public void Translate(Vector2 translate) => this.T0(translate);
 

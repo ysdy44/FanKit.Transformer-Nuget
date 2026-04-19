@@ -134,7 +134,7 @@ namespace FanKit.Transformer.Transforms
         #endregion
 
         #region Bounds.Transform2
-        public void CacheTransform(CropMode mode) => this.CF(mode);
+        public void CacheTransform(CropMode mode) => this.CF1(mode);
 
         public void TransformSize(Vector2 point, bool keepRatio, bool centeredScaling) => this.TWH0(point, keepRatio, centeredScaling);
         public void TransformSize(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling) => this.TWH1(indicator, mode, point, keepRatio, centeredScaling);

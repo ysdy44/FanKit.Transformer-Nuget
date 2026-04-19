@@ -69,7 +69,7 @@ namespace FanKit.Transformer.Compute
             this.Host = Matrix3x2.Identity;
         }
 
-        internal void STXY0(Vector2 startingPoint, Vector2 point)
+        internal void TD0(Vector2 startingPoint, Vector2 point)
         {
             this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
             this.T();
