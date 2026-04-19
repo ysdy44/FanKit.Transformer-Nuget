@@ -134,25 +134,25 @@ namespace FanKit.Transformer.Curves
             this.EndExtend();
         }
 
-        public void Complete(Figure figure = null)
+        public void Complete()
         {
             this.BeginExtend();
-            if (figure == null)
+            foreach (Figure item in this.Data)
             {
-                foreach (Figure item in this.Data)
-                {
-                    item.Extend();
-                    this.Extend(item.SourceBounds);
-                }
+                item.Extend();
+                this.Extend(item.SourceBounds);
             }
-            else
-            {
-                figure.Extend();
+            this.EndExtend();
+        }
 
-                foreach (Figure item in this.Data)
-                {
-                    this.Extend(item.SourceBounds);
-                }
+        public void Complete(Figure figure)
+        {
+            this.BeginExtend();
+            figure.Extend();
+
+            foreach (Figure item in this.Data)
+            {
+                this.Extend(item.SourceBounds);
             }
             this.EndExtend();
         }
