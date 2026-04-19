@@ -19,7 +19,7 @@ namespace FanKit.Transformer.Cache
         public readonly float LengthSquared;
 
         #region Constructors
-        public Line1(Vector2 point0, Vector2 point1, float handleLength = 32f)
+        public Line1(Vector2 point0, Vector2 point1)
         {
             // Line
             this.Point0 = point0;
@@ -36,7 +36,7 @@ namespace FanKit.Transformer.Cache
             this.LengthSquared = this.X * this.X + this.Y * this.Y;
         }
 
-        public Line1(Vector2 point0, Vector2 point1, ICanvasMatrix matrix, float handleLength = 32f)
+        public Line1(Vector2 point0, Vector2 point1, ICanvasMatrix matrix)
         {
             // Line
             this.Point0 = matrix.Transform(point0);

@@ -5,7 +5,7 @@ namespace FanKit.Transformer.Cache
     partial struct Line0
     {
         #region Public instance methods
-        public LineContainsNodeMode0 ContainsNode(Vector2 point, float minSelectedLengthSquared = 044f, float minSideLengthSquared = 044f)
+        public LineContainsNodeMode0 ContainsNode(Vector2 point, float minSelectedLengthSquared = 044f)
         {
             float x = point.X;
             float y = point.Y;
