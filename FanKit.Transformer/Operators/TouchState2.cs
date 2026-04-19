@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Operators
 {
-    public enum TouchState2 : byte
+    internal enum TouchState2 : byte
     {
         None,
 
