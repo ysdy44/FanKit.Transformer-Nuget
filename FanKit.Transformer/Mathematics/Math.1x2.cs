@@ -46,6 +46,17 @@ namespace FanKit.Transformer.Mathematics
                 (position.Y - centerPoint.Y) * scales.Y + centerPoint.Y);
         }
 
+        public static Vector2 Scale(Vector2 position, float xScale, float yScale)
+        {
+            return new Vector2(position.X * xScale, position.Y * yScale);
+        }
+        public static Vector2 Scale(Vector2 position, float xScale, float yScale, Vector2 centerPoint)
+        {
+            return new Vector2(
+                (position.X - centerPoint.X) * xScale + centerPoint.X,
+                (position.Y - centerPoint.Y) * yScale + centerPoint.Y);
+        }
+
         // -------------------- 2x2_1x2 -------------------- // 
 
         public static Matrix2x2 Translate(Matrix2x2 matrix, Vector2 translate) => new Matrix2x2
