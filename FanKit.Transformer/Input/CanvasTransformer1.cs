@@ -80,17 +80,17 @@ namespace FanKit.Transformer.Input
             return value * s.X;
         }
 
-        public Vector2 Transform(float x, float y)
-        {
-            return new Vector2(
-                x * s.X + t.X,
-                y * s.X + t.Y);
-        }
         public Vector2 Transform(Vector2 position)
         {
             return new Vector2(
                 position.X * s.X + t.X,
                 position.Y * s.X + t.Y);
+        }
+        public Vector2 Transform(float xPosition, float yPosition)
+        {
+            return new Vector2(
+                xPosition * s.X + t.X,
+                yPosition * s.X + t.Y);
         }
         public Node Transform(Node node)
         {
@@ -189,17 +189,17 @@ namespace FanKit.Transformer.Input
             return value * s.Y;
         }
 
-        public Vector2 InverseTransform(float x, float y)
-        {
-            return new Vector2(
-                (x + t.Z) * s.Y,
-                (y + t.W) * s.Y);
-        }
         public Vector2 InverseTransform(Vector2 position)
         {
             return new Vector2(
                 (position.X + t.Z) * s.Y,
                 (position.Y + t.W) * s.Y);
+        }
+        public Vector2 InverseTransform(float xPosition, float yPosition)
+        {
+            return new Vector2(
+                (xPosition + t.Z) * s.Y,
+                (yPosition + t.W) * s.Y);
         }
         public Node InverseTransform(Node node)
         {

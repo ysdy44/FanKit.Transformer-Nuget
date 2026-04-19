@@ -9,8 +9,8 @@ namespace FanKit.Transformer
         float InverseScale(float value);
         Vector2 InverseScale(Vector2 value);
 
-        Vector2 InverseTransform(float x, float y);
         Vector2 InverseTransform(Vector2 position);
+        Vector2 InverseTransform(float xPosition, float yPosition);
         Node InverseTransform(Node node);
         Triangle InverseTransform(Triangle triangle);
         Quadrilateral InverseTransform(Quadrilateral quad);

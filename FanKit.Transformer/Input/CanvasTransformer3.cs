@@ -121,8 +121,8 @@ namespace FanKit.Transformer.Input
         public float Scale(float value) => value * s.X;
         public Vector2 Scale(Vector2 value) => value * s.X;
 
-        public Vector2 Transform(float x, float y) => p3.T(x, y);
         public Vector2 Transform(Vector2 position) => p3.T(position);
+        public Vector2 Transform(float xPosition, float yPosition) => p3.T(xPosition, yPosition);
         public Node Transform(Node node) => node * p3.mat;
         public Triangle Transform(Triangle triangle) => triangle * p3.mat;
         public Quadrilateral Transform(Quadrilateral quad) => quad * p3.mat;
@@ -134,8 +134,8 @@ namespace FanKit.Transformer.Input
         public float InverseScale(float value) => value * s.Y;
         public Vector2 InverseScale(Vector2 value) => value * s.Y;
 
-        public Vector2 InverseTransform(float x, float y) => p3.R(x, y);
         public Vector2 InverseTransform(Vector2 position) => p3.R(position);
+        public Vector2 InverseTransform(float xPosition, float yPosition) => p3.R(xPosition, yPosition);
         public Node InverseTransform(Node node) => node * p3.inv;
         public Triangle InverseTransform(Triangle triangle) => triangle * p3.inv;
         public Quadrilateral InverseTransform(Quadrilateral quad) => quad * p3.inv;

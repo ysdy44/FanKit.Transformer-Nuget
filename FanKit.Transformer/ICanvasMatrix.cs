@@ -9,8 +9,8 @@ namespace FanKit.Transformer
         float Scale(float value);
         Vector2 Scale(Vector2 value);
 
-        Vector2 Transform(float x, float y);
         Vector2 Transform(Vector2 position);
+        Vector2 Transform(float xPosition, float yPosition);
         Node Transform(Node node);
         Triangle Transform(Triangle triangle);
         Quadrilateral Transform(Quadrilateral quad);
