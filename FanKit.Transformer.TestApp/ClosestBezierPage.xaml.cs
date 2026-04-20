@@ -154,6 +154,24 @@ namespace FanKit.Transformer.TestApp
                     drawingSession.DrawGeometry(geometry, Colors.DodgerBlue, 2f);
                 }
             }
+
+            const float spaceHalf = 32f;
+            const float space = spaceHalf + spaceHalf;
+
+            float length = C.Length();
+            int count = (int)(length / space);
+
+            int count2 = length % space > spaceHalf ? count : count - 1;
+            float space2 = length / count2;
+
+            drawingSession.FillCircle(C.C0, 4f, Colors.DodgerBlue);
+            for (int i = 0; i < count2; i++)
+            {
+                float distance = i * space2 + space2;
+                float time = distance / length;
+                drawingSession.FillCircle(C.Lerp(time, 1f - time), 4f, Colors.DodgerBlue);
+            }
+            drawingSession.FillCircle(C.C3, 4f, Colors.DodgerBlue);
         }
     }
 
