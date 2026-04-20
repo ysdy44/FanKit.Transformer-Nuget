@@ -7,6 +7,11 @@ namespace FanKit.Transformer.Mathematics
         public Vector2 L0;
         public Vector2 L1;
 
+        public float Length()
+        {
+            return Vector2.Distance(L0, L1);
+        }
+
         public Vector2 Lerp(float t, float i)
         {
             return new Vector2

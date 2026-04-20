@@ -88,6 +88,24 @@ namespace FanKit.Transformer.TestApp
         public static void DrawLine(CanvasDrawingSession drawingSession, Linear L, Vector2 P)
         {
             drawingSession.DrawLine(L.L0, L.L1, Colors.DodgerBlue, 2f);
+
+            const float spaceHalf = 32f;
+            const float space = spaceHalf + spaceHalf;
+
+            float length = L.Length();
+            int count = (int)(length / space);
+
+            int count2 = length % space > spaceHalf ? count : count - 1;
+            float space2 = length / count2;
+
+            drawingSession.FillCircle(L.L0, 4f, Colors.DodgerBlue);
+            for (int i = 0; i < count2; i++)
+            {
+                float distance = i * space2 + space2;
+                float time = distance / length;
+                drawingSession.FillCircle(L.Lerp(time, 1f - time), 4f, Colors.DodgerBlue);
+            }
+            drawingSession.FillCircle(L.L1, 4f, Colors.DodgerBlue);
         }
 
         public static void DrawQuadratic(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, Quadratic Q, Linear L, Vector2 P)
