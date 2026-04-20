@@ -10,6 +10,19 @@ namespace FanKit.Transformer.Mathematics
         public Vector2 Q1;
         public Vector2 Q2;
 
+        public float Length(QuadraticGaussLegendre order = QuadraticGaussLegendre.Order10)
+        {
+            switch (order)
+            {
+                case QuadraticGaussLegendre.Order10:
+                    return Constants.QuadraticLengthOrder10(Q0, Q1, Q2);
+                case QuadraticGaussLegendre.Order20:
+                    return Constants.QuadraticLengthOrder20(Q0, Q1, Q2);
+                default:
+                    return 0f;
+            }
+        }
+
         public Linear Linear(float t, float i)
         {
             return new Linear
