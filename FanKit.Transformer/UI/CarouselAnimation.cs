@@ -15,9 +15,9 @@ namespace FanKit.Transformer.UI
         float Reverse;
         float Amout;
 
-        float Form;
-        float To;
-        public float Value;
+        public float Form { get; private set; }
+        public float To { get; private set; }
+        public float Value { get; private set; }
 
         public void Reset(float offset, CarouselItem2 item)
         {

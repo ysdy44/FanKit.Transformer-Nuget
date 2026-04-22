@@ -16,12 +16,12 @@ namespace FanKit.Transformer.UI
         float Reverse;
         float Amout;
 
-        public float StartingY;
-        public ScrollerDirection Direction;
+        public float StartingY { get; private set; }
+        public ScrollerDirection Direction { get; private set; }
 
-        Vector2 Form;
-        Vector2 To;
-        public Vector2 Value;
+        public Vector2 Form { get; private set; }
+        public Vector2 To { get; private set; }
+        public Vector2 Value { get; private set; }
 
         public void Reset(Vector2 form, ScrollerBounds bounds, float startingY)
         {
