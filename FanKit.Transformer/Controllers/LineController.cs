@@ -212,7 +212,7 @@ namespace FanKit.Transformer.Controllers
         // Rotate
         public Matrix3x2 Rotate(ControllerRadians rotationAngle)
         {
-            return Matrix3x2.CreateRotation(rotationAngle.rs, c);
+            return Matrix3x2.CreateRotation(rotationAngle.Radians, c);
         }
 
         public ControllerRadians ToRadians(Vector2 point, float stepFrequency = float.NaN)

@@ -8,7 +8,7 @@ namespace FanKit.Transformer.Controllers
 
         readonly float rn; // Numerator
         readonly int rq; // Quotient
-        internal readonly float rs; // Subtract
+        public readonly float Radians; // Subtract
 
         internal ControllerRadians(TransformController r, Vector2 point, float stepFrequency)
         {
@@ -18,13 +18,13 @@ namespace FanKit.Transformer.Controllers
             {
                 rn = default;
                 rq = default;
-                rs = r2 - r.r1;
+                Radians = r2 - r.r1;
             }
             else
             {
                 rn = stepFrequency / 2f + r.r0 + r2 - r.r1;
                 rq = (int)(rn / stepFrequency);
-                rs = rq * stepFrequency - r.r0;
+                Radians = rq * stepFrequency - r.r0;
             }
         }
 
@@ -36,13 +36,13 @@ namespace FanKit.Transformer.Controllers
             {
                 rn = default;
                 rq = default;
-                rs = r2 - r.r1;
+                Radians = r2 - r.r1;
             }
             else
             {
                 rn = stepFrequency / 2f + r.r0 + r2 - r.r1;
                 rq = (int)(rn / stepFrequency);
-                rs = rq * stepFrequency - r.r0;
+                Radians = rq * stepFrequency - r.r0;
             }
         }
     }
