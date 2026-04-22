@@ -221,15 +221,15 @@ namespace FanKit.Transformer
         public Vector2 Vertical() => new Vector2((this.LeftBottom.X + this.RightBottom.X - this.LeftTop.X - this.RightTop.X) / 2f,
              (this.LeftBottom.Y + this.RightBottom.Y - this.LeftTop.Y - this.RightTop.Y) / 2f);
 
-        //public Controllers.Controller CacheTransform(TransformMode mode) => new Controllers.Controller(this, mode);
-        //public Controllers.Controller CacheRotation(Vector2 point) => new Controllers.Controller(this, point);
+        //public TransformController CacheTransform(TransformMode mode) => new TransformController(this, mode);
+        //public TransformController CacheRotation(Vector2 point) => new TransformController(this, point);
 
-        //public Controllers.FreeTransformController CacheFreeTransform(FreeTransformMode mode) => new Controllers.FreeTransformController(this, mode, 8f);
+        //public FreeTransformController CacheFreeTransform(FreeTransformMode mode) => new FreeTransformController(this, mode, 8f);
 
-        //public Quadrilateral Transform(Controllers.Controller controller, Vector2 point, bool keepRatio, bool centeredScaling) => controller.Transform(this, point, keepRatio, centeredScaling);
+        //public Quadrilateral Transform(TransformController controller, Vector2 point, bool keepRatio, bool centeredScaling) => controller.Transform(this, point, keepRatio, centeredScaling);
 
-        //public Quadrilateral MovePoint(Controllers.FreeTransformController controller, Vector2 point) => controller.MovePoint(this, point);
-        //public Quadrilateral MovePointOfConvexQuadrilateral(Controllers.FreeTransformController controller, Vector2 point) => controller.MovePointOfConvexQuadrilateral(this, point);
+        //public Quadrilateral MovePoint(FreeTransformController controller, Vector2 point) => controller.MovePoint(this, point);
+        //public Quadrilateral MovePointOfConvexQuadrilateral(FreeTransformController controller, Vector2 point) => controller.MovePointOfConvexQuadrilateral(this, point);
 
         public Quadrilateral Expand(Quadrilateral expander) => new Quadrilateral
         {

@@ -5,20 +5,17 @@ namespace FanKit.Transformer.Input
 {
     partial struct MatrixPair
     {
-        const float p2 = (float)(System.Math.PI + System.Math.PI);
-        const float rp = -(float)System.Math.PI;
-        const float p = (float)System.Math.PI;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Rotation Rotate(float v)
         {
-            if (v > p)
+            if (v > Constants.PI)
             {
-                return R(v % p2); // val
+                return R(v % Constants.PiTwice); // val
             }
-            else if (v < rp)
+            else if (v < Constants.InvPI)
             {
-                return R(v % p2); // val
+                return R(v % Constants.PiTwice); // val
             }
             else
             {

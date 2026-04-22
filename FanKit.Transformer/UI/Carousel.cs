@@ -98,7 +98,7 @@ namespace FanKit.Transformer.UI
 
         private Quadrilateral LB(float centerX, float centerY, float amout)
         {
-            float r = amout * (float)System.Math.PI;
+            float r = amout * Constants.PI;
             float c = (float)System.Math.Cos(r);
 
             float v = 1f - c;

@@ -48,13 +48,13 @@ namespace FanKit.Transformer.Controllers
             px = current.X - previous.X;
             py = current.Y - previous.Y;
             pls = px * px + py * py;
-            pd = (float)(System.Math.Sqrt(pls) / System.Math.PI);
+            pd = (float)System.Math.Sqrt(pls) / Constants.PI;
 
             // Distance of Next
             nx = current.X - next.X;
             ny = current.Y - next.Y;
             nls = nx * nx + ny * ny;
-            nd = (float)(System.Math.Sqrt(nls) / System.Math.PI);
+            nd = (float)System.Math.Sqrt(nls) / Constants.PI;
 
             x = previous.X - next.X;
             y = previous.Y - next.Y;

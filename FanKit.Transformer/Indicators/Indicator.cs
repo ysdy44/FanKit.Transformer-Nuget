@@ -4,12 +4,6 @@ namespace FanKit.Transformer.Indicators
 {
     public partial class Indicator : IIndicator
     {
-        const float PI = (float)System.Math.PI;
-        const float PI2 = (float)(System.Math.PI / 2d);
-
-        const float radians2degrees = (float)(180.0f / System.Math.PI);
-        const float degrees2radians = (float)(System.Math.PI / 180.0);
-
         // Delegate
         public event System.EventHandler<IndicatorSizeType> SizeTypeChanged;
 
@@ -77,7 +71,7 @@ namespace FanKit.Transformer.Indicators
 
         public Matrix3x2 CreateRotation(float rotationAngleInDegrees)
         {
-            return Matrix3x2.CreateRotation((rotationAngleInDegrees - r) * degrees2radians, c);
+            return Matrix3x2.CreateRotation((rotationAngleInDegrees - r) * Constants.DegreesToRadians, c);
         }
 
         public void ClearAll()
@@ -183,7 +177,7 @@ namespace FanKit.Transformer.Indicators
                     }
 
                     // RS
-                    vr = PI2;
+                    vr = Constants.PIOver2;
                     hr = 0f;
 
                     // R
@@ -275,7 +269,7 @@ namespace FanKit.Transformer.Indicators
                     EH();
 
                     // RS
-                    hr = PI2;
+                    hr = Constants.PIOver2;
                     vr = 0f;
 
                     // R
@@ -476,7 +470,7 @@ namespace FanKit.Transformer.Indicators
             }
             else
             {
-                r = hr % PI * radians2degrees;
+                r = hr % Constants.PI * Constants.RadiansToDegrees;
 
                 if (rotation != r)
                 {
@@ -500,7 +494,7 @@ namespace FanKit.Transformer.Indicators
             }
             else
             {
-                r = vr % PI * radians2degrees;
+                r = vr % Constants.PI * Constants.RadiansToDegrees;
 
                 if (rotation != r)
                 {
@@ -519,8 +513,8 @@ namespace FanKit.Transformer.Indicators
             }
             else if (vy > float.Epsilon)
             {
-                v = hr - vr + PI2;
-                s = v % PI * radians2degrees;
+                v = hr - vr + Constants.PIOver2;
+                s = v % Constants.PI * Constants.RadiansToDegrees;
 
                 if (skew != s)
                 {
@@ -530,8 +524,8 @@ namespace FanKit.Transformer.Indicators
             }
             else
             {
-                v = hr - vr + PI2;
-                s = v % PI * radians2degrees;
+                v = hr - vr + Constants.PIOver2;
+                s = v % Constants.PI * Constants.RadiansToDegrees;
 
                 if (skew != s)
                 {

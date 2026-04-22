@@ -2,12 +2,6 @@
 {
     public readonly partial struct IndicatorSkew
     {
-        const float PI = (float)System.Math.PI;
-        const float PI2 = (float)(System.Math.PI / 2d);
-
-        const float radians2degrees = (float)(180.0f / System.Math.PI);
-        const float degrees2radians = (float)(System.Math.PI / 180.0);
-
         readonly float rx;
         readonly float ry;
 
@@ -41,11 +35,11 @@
                     ry = (t.LeftTop.Y + t.RightTop.Y) / 2f;
 
                     if (d < min)
-                        rad = PI2 + hr + min * degrees2radians;
+                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
                     else if (d > max)
-                        rad = PI2 + hr - max * degrees2radians;
+                        rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
-                        rad = PI2 + hr - d * degrees2radians;
+                        rad = Constants.PIOver2 + hr - d * Constants.DegreesToRadians;
 
                     tan = (float)System.Math.Tan(rad);
                     v = tan * rx;
@@ -97,11 +91,11 @@
                     ry = t.LeftBottom.Y + (t.RightTop.Y - t.LeftTop.Y) / 2f;
 
                     if (d < min)
-                        rad = PI2 + hr + min * degrees2radians;
+                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
                     else if (d > max)
-                        rad = PI2 + hr - max * degrees2radians;
+                        rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
-                        rad = PI2 + hr - d * degrees2radians;
+                        rad = Constants.PIOver2 + hr - d * Constants.DegreesToRadians;
 
                     tan = (float)System.Math.Tan(rad);
                     v = tan * rx;
@@ -153,11 +147,11 @@
                     ry = (t.RightTop.Y + t.LeftBottom.Y) / 2f;
 
                     if (d < min)
-                        rad = PI2 + hr + min * degrees2radians;
+                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
                     else if (d > max)
-                        rad = PI2 + hr - max * degrees2radians;
+                        rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
-                        rad = PI2 + hr - d * degrees2radians;
+                        rad = Constants.PIOver2 + hr - d * Constants.DegreesToRadians;
 
                     tan = (float)System.Math.Tan(rad);
                     v = tan * rx;
@@ -252,11 +246,11 @@
                     ry = (t.LeftTop.Y + t.RightTop.Y) / 2f;
 
                     if (d < min)
-                        rad = PI2 + hr + min * degrees2radians;
+                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
                     else if (d > max)
-                        rad = PI2 + hr - max * degrees2radians;
+                        rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
-                        rad = PI2 + hr - d * degrees2radians;
+                        rad = Constants.PIOver2 + hr - d * Constants.DegreesToRadians;
 
                     tan = (float)System.Math.Tan(rad);
                     v = tan * rx;
@@ -308,11 +302,11 @@
                     ry = (t.RightBottom.Y + t.LeftBottom.Y) / 2f;
 
                     if (d < min)
-                        rad = PI2 + hr + min * degrees2radians;
+                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
                     else if (d > max)
-                        rad = PI2 + hr - max * degrees2radians;
+                        rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
-                        rad = PI2 + hr - d * degrees2radians;
+                        rad = Constants.PIOver2 + hr - d * Constants.DegreesToRadians;
 
                     tan = (float)System.Math.Tan(rad);
                     v = tan * rx;
@@ -364,11 +358,11 @@
                     ry = (t.LeftTop.Y + t.RightTop.Y + t.RightBottom.Y + t.LeftBottom.Y) / 4f;
 
                     if (d < min)
-                        rad = PI2 + hr + min * degrees2radians;
+                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
                     else if (d > max)
-                        rad = PI2 + hr - max * degrees2radians;
+                        rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
-                        rad = PI2 + hr - d * degrees2radians;
+                        rad = Constants.PIOver2 + hr - d * Constants.DegreesToRadians;
 
                     tan = (float)System.Math.Tan(rad);
                     v = tan * rx;

@@ -46,7 +46,7 @@ namespace FanKit.Transformer.Input
             O(centerPoint);
         }
 
-        public void TwistCounterclockwise(Vector2 centerPoint, float deltaRotationAngle = (float)(System.Math.PI) / 180f)
+        public void TwistCounterclockwise(Vector2 centerPoint, float deltaRotationAngle = Constants.DegreesToRadians)
         {
             cc = p3.R(centerPoint);
             r = Rotate(r.X - deltaRotationAngle);
@@ -54,7 +54,7 @@ namespace FanKit.Transformer.Input
             O(centerPoint);
         }
 
-        public void TwistClockwise(Vector2 centerPoint, float deltaRotationAngle = (float)(System.Math.PI) / 180f)
+        public void TwistClockwise(Vector2 centerPoint, float deltaRotationAngle = Constants.DegreesToRadians)
         {
             cc = p3.R(centerPoint);
             r = Rotate(r.X + deltaRotationAngle);

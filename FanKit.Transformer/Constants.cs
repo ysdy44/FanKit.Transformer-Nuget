@@ -2,6 +2,15 @@
 {
     internal static partial class Constants
     {
+        internal const float PiTwice = (float)(System.Math.PI * 2.0);
+        internal const float InvPI = (float)(-System.Math.PI);
+        internal const float PI = (float)System.Math.PI;
+        internal const float PIOver2 = (float)(System.Math.PI / 2.0);
+        internal const float PIOver4 = (float)(System.Math.PI / 4.0);
+
+        internal const float RadiansToDegrees = (float)(180.0f / System.Math.PI);
+        internal const float DegreesToRadians = (float)(System.Math.PI / 180.0);
+
         internal const byte None = 0;
 
         #region Channel

@@ -409,17 +409,6 @@ namespace FanKit.Transformer
             };
         }
 
-        public static Quadrilateral operator +(Quadrilateral left, Quadrilateral right)
-        {
-            return new Quadrilateral
-            {
-                LeftTop = new Vector2(left.LeftTop.X + right.LeftTop.X, left.LeftTop.Y + right.LeftTop.Y),
-                RightTop = new Vector2(left.RightTop.X + right.RightTop.X, left.RightTop.Y + right.RightTop.Y),
-                LeftBottom = new Vector2(left.LeftBottom.X + right.LeftBottom.X, left.LeftBottom.Y + right.LeftBottom.Y),
-                RightBottom = new Vector2(left.RightBottom.X + right.RightBottom.X, left.RightBottom.Y + right.RightBottom.Y),
-            };
-        }
-
         public static Quadrilateral operator +(Vector2 left, Quadrilateral right)
         {
             return new Quadrilateral
@@ -428,6 +417,17 @@ namespace FanKit.Transformer
                 RightTop = new Vector2(left.X + right.RightTop.X, left.Y + right.RightTop.Y),
                 LeftBottom = new Vector2(left.X + right.LeftBottom.X, left.Y + right.LeftBottom.Y),
                 RightBottom = new Vector2(left.X + right.RightBottom.X, left.Y + right.RightBottom.Y),
+            };
+        }
+
+        public static Quadrilateral operator +(Quadrilateral left, Quadrilateral right)
+        {
+            return new Quadrilateral
+            {
+                LeftTop = new Vector2(left.LeftTop.X + right.LeftTop.X, left.LeftTop.Y + right.LeftTop.Y),
+                RightTop = new Vector2(left.RightTop.X + right.RightTop.X, left.RightTop.Y + right.RightTop.Y),
+                LeftBottom = new Vector2(left.LeftBottom.X + right.LeftBottom.X, left.LeftBottom.Y + right.LeftBottom.Y),
+                RightBottom = new Vector2(left.RightBottom.X + right.RightBottom.X, left.RightBottom.Y + right.RightBottom.Y),
             };
         }
 

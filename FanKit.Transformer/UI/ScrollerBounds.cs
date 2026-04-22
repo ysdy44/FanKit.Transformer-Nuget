@@ -101,7 +101,7 @@ namespace FanKit.Transformer.UI
             float x = quad.Float.LeftBottom.X - quad.Float.LeftTop.X;
             float y = quad.Float.LeftBottom.Y - quad.Float.LeftTop.Y;
 
-            float radians = (float)(System.Math.Atan2(y, x) - System.Math.PI / 2);
+            float radians = (float)System.Math.Atan2(y, x) - Constants.PIOver2;
 
             switch (quad.State)
             {
