@@ -87,15 +87,15 @@ namespace FanKit.Transformer.Mathematics
             TranslateY = matrix.TranslateY * scales.Y + translate.Y,
         };
 
-        public static Matrix2x2 Transform(Matrix2x2 matrix, Rectangle identity) => new Matrix2x2
+        public static Matrix2x2 Transform(Matrix2x2 matrix, Rectangle transform) => new Matrix2x2
         {
             // First row
-            ScaleX = matrix.ScaleX * identity.Width,
-            ScaleY = matrix.ScaleY * identity.Height,
+            ScaleX = matrix.ScaleX * transform.Width,
+            ScaleY = matrix.ScaleY * transform.Height,
 
             // Second row
-            TranslateX = matrix.TranslateX * identity.Width + identity.X,
-            TranslateY = matrix.TranslateY * identity.Height + identity.Y,
+            TranslateX = matrix.TranslateX * transform.Width + transform.X,
+            TranslateY = matrix.TranslateY * transform.Height + transform.Y,
         };
 
         public static Matrix2x2 Transform(Matrix2x2 matrix, Matrix2x2 transform) => matrix * transform;
