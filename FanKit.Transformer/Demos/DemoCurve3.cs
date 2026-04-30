@@ -15,11 +15,11 @@ namespace FanKit.Transformer.Demos
         public float StrokeWidth = 4f;
         public float ActualStrokeWidth = 4f;
 
-        public DemoCurve3(List<Figure3> items) : base(items)
+        public DemoCurve3(List<Figure3> figures) : base(figures)
         {
         }
 
-        public DemoCurve3(List<Figure3> items, Matrix3x2 matrix) : base(items, matrix)
+        public DemoCurve3(List<Figure3> figures, Matrix3x2 matrix) : base(figures, matrix)
         {
         }
 
@@ -33,12 +33,12 @@ namespace FanKit.Transformer.Demos
             this.ActualStrokeWidth = this.StrokeWidth;
             this.ActualBox = new Box0(this.Destination);
 
-            foreach (Figure3 figure in this.Data)
+            foreach (Figure3 figure in this.Figures)
             {
-                for (int i = 0; i < figure.Data.Count; i++)
+                for (int i = 0; i < figure.Segments.Count; i++)
                 {
-                    Segment3 segment = figure.Data[i];
-                    figure.Data[i] = new Segment3
+                    Segment3 segment = figure.Segments[i];
+                    figure.Segments[i] = new Segment3
                     {
                         Actual = segment.Map,
                         // C# 9.0 : var a = item with { ... }
@@ -59,12 +59,12 @@ namespace FanKit.Transformer.Demos
             this.ActualStrokeWidth = matrix.Scale(this.StrokeWidth);
             this.ActualBox = new Box0(this.Destination, matrix);
 
-            foreach (Figure3 figure in this.Data)
+            foreach (Figure3 figure in this.Figures)
             {
-                for (int i = 0; i < figure.Data.Count; i++)
+                for (int i = 0; i < figure.Segments.Count; i++)
                 {
-                    Segment3 segment = figure.Data[i];
-                    figure.Data[i] = new Segment3
+                    Segment3 segment = figure.Segments[i];
+                    figure.Segments[i] = new Segment3
                     {
                         Actual = matrix.Transform(segment.Map),
                         // C# 9.0 : var a = item with { ... }

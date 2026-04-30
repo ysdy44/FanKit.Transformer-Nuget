@@ -14,21 +14,21 @@ namespace FanKit.Transformer.Curves
 
         public bool IsClosed;
 
-        public readonly List<Segment2> Data = new List<Segment2>();
+        public readonly List<Segment2> Segments = new List<Segment2>();
 
         public PathSetting Setting { get; } = new PathSetting();
-        public int Count => this.Data.Count;
-        public int GetChecksCount() => this.Data.Count(GetIsChecked);
+        public int Count => this.Segments.Count;
+        public int GetChecksCount() => this.Segments.Count(GetIsChecked);
         private static bool GetIsChecked(Segment2 item) => item.IsChecked;
 
         public void Extend()
         {
             this.SourceBounds = Bounds.Infinity;
 
-            for (int i = 1; i < this.Data.Count; i++)
+            for (int i = 1; i < this.Segments.Count; i++)
             {
-                Segment2 previous = this.Data[i - 1];
-                Segment2 next = this.Data[i];
+                Segment2 previous = this.Segments[i - 1];
+                Segment2 next = this.Segments[i];
 
                 this.b = Segment2.Extend(previous, next);
                 this.SourceBounds = Bounds.Union(this.SourceBounds, this.b);
@@ -36,8 +36,8 @@ namespace FanKit.Transformer.Curves
 
             if (this.IsClosed)
             {
-                Segment2 first = this.Data[0];
-                Segment2 last = this.Data[this.Data.Count - 1];
+                Segment2 first = this.Segments[0];
+                Segment2 last = this.Segments[this.Segments.Count - 1];
 
                 this.b = Segment2.Extend(last, first);
                 this.SourceBounds = Bounds.Union(this.SourceBounds, this.b);

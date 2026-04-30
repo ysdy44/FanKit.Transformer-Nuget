@@ -11,14 +11,14 @@ namespace FanKit.Transformer.Curves
     {
         public void SharpSelectedItems()
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment segment = this.Data[i];
+                Segment segment = this.Segments[i];
                 if (segment.IsChecked)
                 {
                     if (segment.IsSmooth)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = true,
                             IsSmooth = false,
@@ -33,50 +33,50 @@ namespace FanKit.Transformer.Curves
 
         public void SmoothSelectedItems()
         {
-            int end = this.Data.Count - 1;
-            Segment first = this.Data[0];
-            Segment last = this.Data[end];
+            int end = this.Segments.Count - 1;
+            Segment first = this.Segments[0];
+            Segment last = this.Segments[end];
 
             if (this.IsClosed)
             {
                 if (first.IsChecked)
                 {
-                    this.Data[0] = first.Smooth(last, this.Data[1]);
+                    this.Segments[0] = first.Smooth(last, this.Segments[1]);
                 }
 
                 for (int i = 1; i < end; i++)
                 {
-                    Segment segment = this.Data[i];
+                    Segment segment = this.Segments[i];
                     if (segment.IsChecked)
                     {
-                        this.Data[i] = segment.Smooth(this.Data[i - 1], this.Data[i + 1]);
+                        this.Segments[i] = segment.Smooth(this.Segments[i - 1], this.Segments[i + 1]);
                     }
                 }
 
                 if (last.IsChecked)
                 {
-                    this.Data[end] = last.Smooth(this.Data[this.Data.Count - 2], first);
+                    this.Segments[end] = last.Smooth(this.Segments[this.Segments.Count - 2], first);
                 }
             }
             else
             {
                 if (first.IsChecked)
                 {
-                    this.Data[0] = first.SmoothFirst(this.Data[1]);
+                    this.Segments[0] = first.SmoothFirst(this.Segments[1]);
                 }
 
                 for (int i = 1; i < end; i++)
                 {
-                    Segment segment = this.Data[i];
+                    Segment segment = this.Segments[i];
                     if (segment.IsChecked)
                     {
-                        this.Data[i] = segment.Smooth(this.Data[i - 1], this.Data[i + 1]);
+                        this.Segments[i] = segment.Smooth(this.Segments[i - 1], this.Segments[i + 1]);
                     }
                 }
 
                 if (last.IsChecked)
                 {
-                    this.Data[end] = last.SmoothLast(this.Data[this.Data.Count - 2]);
+                    this.Segments[end] = last.SmoothLast(this.Segments[this.Segments.Count - 2]);
                 }
             }
         }

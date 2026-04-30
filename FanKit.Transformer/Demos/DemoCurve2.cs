@@ -14,11 +14,11 @@ namespace FanKit.Transformer.Demos
 
         public float StrokeWidth = 4f;
 
-        public DemoCurve2(List<Figure2> items) : base(items)
+        public DemoCurve2(List<Figure2> figures) : base(figures)
         {
         }
 
-        public DemoCurve2(List<Figure2> items, Matrix3x2 matrix) : base(items, matrix)
+        public DemoCurve2(List<Figure2> figures, Matrix3x2 matrix) : base(figures, matrix)
         {
         }
 

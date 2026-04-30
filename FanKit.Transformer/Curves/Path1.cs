@@ -26,10 +26,10 @@ namespace FanKit.Transformer.Curves
         {
             this.SourceBounds = Bounds.Infinity;
 
-            for (int i = 1; i < this.Data.Count; i++)
+            for (int i = 1; i < this.Segments.Count; i++)
             {
-                Segment previous = this.Data[i - 1];
-                Segment next = this.Data[i];
+                Segment previous = this.Segments[i - 1];
+                Segment next = this.Segments[i];
 
                 this.b = Segment.Extend(previous, next);
                 this.SourceBounds = Bounds.Union(this.SourceBounds, this.b);
@@ -37,8 +37,8 @@ namespace FanKit.Transformer.Curves
 
             if (this.IsClosed)
             {
-                Segment first = this.Data[0];
-                Segment last = this.Data[this.Data.Count - 1];
+                Segment first = this.Segments[0];
+                Segment last = this.Segments[this.Segments.Count - 1];
 
                 this.b = Segment.Extend(last, first);
                 this.SourceBounds = Bounds.Union(this.SourceBounds, this.b);
@@ -60,16 +60,16 @@ namespace FanKit.Transformer.Curves
         #region Triangles.SelectedItems
         public bool IsClosed;
 
-        public List<Segment> Data;
+        public readonly List<Segment> Segments;
 
         public PathSetting Setting { get; } = new PathSetting();
-        public int Count => this.Data.Count;
-        public int GetChecksCount() => this.Data.Count(GetIsChecked);
+        public int Count => this.Segments.Count;
+        public int GetChecksCount() => this.Segments.Count(GetIsChecked);
         private static bool GetIsChecked(Segment item) => item.IsChecked;
 
-        public Path1(List<Segment> items)
+        public Path1(List<Segment> segments)
         {
-            this.Data = items;
+            this.Segments = segments;
 
             this.Extend();
 
@@ -88,15 +88,15 @@ namespace FanKit.Transformer.Curves
 
         public void Select(int index)
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
 
                 if (item.IsChecked)
                 {
                     if (index != i)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = false,
                             // C# 9.0 : var a = item with { ... }
@@ -113,7 +113,7 @@ namespace FanKit.Transformer.Curves
                 {
                     if (index == i)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = true,
                             // C# 9.0 : var a = item with { ... }
@@ -131,13 +131,13 @@ namespace FanKit.Transformer.Curves
 
         public void DeselectAll()
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
 
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = false,
                         // C# 9.0 : var a = item with { ... }
@@ -154,15 +154,15 @@ namespace FanKit.Transformer.Curves
 
         public void RectChooseItems(Bounds bounds)
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
 
                 if (bounds.ContainsPoint(item.Point.Point))
                 {
                     if (item.IsChecked is false)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = true,
                             // C# 9.0 : var a = item with { ... }
@@ -179,7 +179,7 @@ namespace FanKit.Transformer.Curves
                 {
                     if (item.IsChecked)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = false,
                             // C# 9.0 : var a = item with { ... }
@@ -213,15 +213,15 @@ namespace FanKit.Transformer.Curves
         {
             bool has = false;
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     has = true;
 
                     Node p = Node.Translate(item.Point, this.TranslationX, this.TranslationY);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -245,15 +245,15 @@ namespace FanKit.Transformer.Curves
         {
             bool has = false;
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     has = true;
 
                     Node p = Node.Transform(item.Point, this.TransformMatrix);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -283,10 +283,10 @@ namespace FanKit.Transformer.Curves
 
         internal override void SI(Vector2 point, int index)
         {
-            Segment segment = this.Data[index];
+            Segment segment = this.Segments[index];
             Node node = segment.Point.MovePoint(point);
 
-            this.Data[index] = new Segment
+            this.Segments[index] = new Segment
             {
                 IsChecked = true,
                 Point = node,
@@ -329,12 +329,12 @@ namespace FanKit.Transformer.Curves
 
         internal override void CacheRaw()
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Starting = item.Point,
@@ -352,12 +352,12 @@ namespace FanKit.Transformer.Curves
 
         internal override void CacheMap()
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Starting = item.Point,
@@ -377,15 +377,15 @@ namespace FanKit.Transformer.Curves
         {
             bool has = false;
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     has = true;
 
                     Node p = Node.Translate(item.Starting, this.TranslationX, this.TranslationY);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -409,15 +409,15 @@ namespace FanKit.Transformer.Curves
         {
             bool has = false;
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     has = true;
 
                     Node p = Node.Transform(item.Starting, this.TransformMatrix);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,

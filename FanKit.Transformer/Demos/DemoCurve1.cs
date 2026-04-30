@@ -13,7 +13,7 @@ namespace FanKit.Transformer.Demos
         public float StrokeWidth = 4f;
         public float ActualStrokeWidth = 4f;
 
-        public DemoCurve1(List<Segment1> items) : base(items)
+        public DemoCurve1(List<Segment1> segments) : base(segments)
         {
         }
 
@@ -22,10 +22,10 @@ namespace FanKit.Transformer.Demos
             this.ActualStrokeWidth = this.StrokeWidth;
             this.ActualBox = new Box0(this.Destination);
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment1 segment = this.Data[i];
-                this.Data[i] = new Segment1
+                Segment1 segment = this.Segments[i];
+                this.Segments[i] = new Segment1
                 {
                     Actual = segment.Point,
                     // C# 9.0 : var a = item with { ... }
@@ -44,10 +44,10 @@ namespace FanKit.Transformer.Demos
             this.ActualStrokeWidth = matrix.Scale(this.StrokeWidth);
             this.ActualBox = new Box0(this.Destination, matrix);
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment1 segment = this.Data[i];
-                this.Data[i] = new Segment1
+                Segment1 segment = this.Segments[i];
+                this.Segments[i] = new Segment1
                 {
                     Actual = matrix.Transform(segment.Point),
                     // C# 9.0 : var a = item with { ... }

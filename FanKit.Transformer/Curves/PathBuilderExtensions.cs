@@ -229,19 +229,19 @@ namespace FanKit.Transformer.Curves
 
             foreach (Figure2 figure in figures)
             {
-                Segment2 first = figure.Data[0];
+                Segment2 first = figure.Segments[0];
                 pathBuilder.BeginFigure(first.Raw.Point);
 
-                for (int i = 1; i < figure.Data.Count; i++)
+                for (int i = 1; i < figure.Segments.Count; i++)
                 {
-                    Segment2 previous = figure.Data[i - 1];
-                    Segment2 next = figure.Data[i];
+                    Segment2 previous = figure.Segments[i - 1];
+                    Segment2 next = figure.Segments[i];
                     CreateRaw(pathBuilder, previous, next);
                 }
 
                 if (figure.IsClosed)
                 {
-                    Segment2 last = figure.Data[figure.Data.Count - 1];
+                    Segment2 last = figure.Segments[figure.Segments.Count - 1];
                     CreateRaw(pathBuilder, last, first);
 
                     pathBuilder.EndFigure(Closed);
@@ -261,19 +261,19 @@ namespace FanKit.Transformer.Curves
 
             foreach (Figure2 figure in figures)
             {
-                Segment2 first = figure.Data[0];
+                Segment2 first = figure.Segments[0];
                 pathBuilder.BeginFigure(first.Map.Point);
 
-                for (int i = 1; i < figure.Data.Count; i++)
+                for (int i = 1; i < figure.Segments.Count; i++)
                 {
-                    Segment2 previous = figure.Data[i - 1];
-                    Segment2 next = figure.Data[i];
+                    Segment2 previous = figure.Segments[i - 1];
+                    Segment2 next = figure.Segments[i];
                     CreateMap(pathBuilder, previous, next);
                 }
 
                 if (figure.IsClosed)
                 {
-                    Segment2 last = figure.Data[figure.Data.Count - 1];
+                    Segment2 last = figure.Segments[figure.Segments.Count - 1];
                     CreateMap(pathBuilder, last, first);
 
                     pathBuilder.EndFigure(Closed);
@@ -295,19 +295,19 @@ namespace FanKit.Transformer.Curves
 
             foreach (Figure3 figure in figures)
             {
-                Segment3 first = figure.Data[0];
+                Segment3 first = figure.Segments[0];
                 pathBuilder.BeginFigure(first.Raw.Point);
 
-                for (int i = 1; i < figure.Data.Count; i++)
+                for (int i = 1; i < figure.Segments.Count; i++)
                 {
-                    Segment3 previous = figure.Data[i - 1];
-                    Segment3 next = figure.Data[i];
+                    Segment3 previous = figure.Segments[i - 1];
+                    Segment3 next = figure.Segments[i];
                     CreateRaw(pathBuilder, previous, next);
                 }
 
                 if (figure.IsClosed)
                 {
-                    Segment3 last = figure.Data[figure.Data.Count - 1];
+                    Segment3 last = figure.Segments[figure.Segments.Count - 1];
                     CreateRaw(pathBuilder, last, first);
 
                     pathBuilder.EndFigure(Closed);
@@ -327,19 +327,19 @@ namespace FanKit.Transformer.Curves
 
             foreach (Figure3 figure in figures)
             {
-                Segment3 first = figure.Data[0];
+                Segment3 first = figure.Segments[0];
                 pathBuilder.BeginFigure(first.Actual.Point);
 
-                for (int i = 1; i < figure.Data.Count; i++)
+                for (int i = 1; i < figure.Segments.Count; i++)
                 {
-                    Segment3 previous = figure.Data[i - 1];
-                    Segment3 next = figure.Data[i];
+                    Segment3 previous = figure.Segments[i - 1];
+                    Segment3 next = figure.Segments[i];
                     CreateActual(pathBuilder, previous, next);
                 }
 
                 if (figure.IsClosed)
                 {
-                    Segment3 last = figure.Data[figure.Data.Count - 1];
+                    Segment3 last = figure.Segments[figure.Segments.Count - 1];
                     CreateActual(pathBuilder, last, first);
 
                     pathBuilder.EndFigure(Closed);

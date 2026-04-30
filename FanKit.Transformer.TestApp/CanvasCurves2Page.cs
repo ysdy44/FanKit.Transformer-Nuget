@@ -94,7 +94,7 @@ namespace FanKit.Transformer.TestApp
             {
                 new Figure
                 {
-                    Data =
+                    Segments =
                     {
                         new Segment
                         {
@@ -151,7 +151,7 @@ namespace FanKit.Transformer.TestApp
             {
                 new Figure
                 {
-                    Data =
+                    Segments =
                     {
                         new Segment
                         {
@@ -325,7 +325,7 @@ namespace FanKit.Transformer.TestApp
             {
                 using (PathBuilder path = new PathBuilder(resourceCreator))
                 {
-                    path.CreateActualPath(item.Data);
+                    path.CreateActualPath(item.Figures);
                     using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                     {
                         drawingSession.DrawDashCurve(curve, item.ActualStrokeWidth);
@@ -349,7 +349,7 @@ namespace FanKit.Transformer.TestApp
             {
                 using (PathBuilder path = new PathBuilder(resourceCreator))
                 {
-                    path.CreateRawPath(item.Data);
+                    path.CreateRawPath(item.Figures);
                     using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                     {
                         drawingSession.DrawDashCurve(curve, item.StrokeWidth);
@@ -586,9 +586,9 @@ namespace FanKit.Transformer.TestApp
                 {
                     if (item.IsSelected)
                     {
-                        foreach (Figure figure in item.Data)
+                        foreach (Figure figure in item.Figures)
                         {
-                            foreach (Segment segment in figure.Data)
+                            foreach (Segment segment in figure.Segments)
                             {
                                 this.Composer.Extend(segment);
                             }
@@ -1052,11 +1052,11 @@ namespace FanKit.Transformer.TestApp
             {
                 if (item.IsSelected)
                 {
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
                         if (figure.IsClosed is false)
                         {
-                            figure.Setting.UpdateSelectedMode(item.Data);
+                            figure.Setting.UpdateSelectedMode(item.Figures);
 
                             if (figure.Setting.SelectedMode != SelectedMode.UnSelected)
                             {
@@ -1078,11 +1078,11 @@ namespace FanKit.Transformer.TestApp
             {
                 if (item.IsSelected)
                 {
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
                         if (figure.IsClosed)
                         {
-                            figure.Setting.UpdateSelectedMode(item.Data);
+                            figure.Setting.UpdateSelectedMode(item.Figures);
 
                             if (figure.Setting.SelectedMode != SelectedMode.UnSelected)
                             {
@@ -1105,7 +1105,7 @@ namespace FanKit.Transformer.TestApp
                 Layer item = this.Layers[k];
                 if (item.IsSelected)
                 {
-                    item.Setting.UpdateRemoveMode(item.Data);
+                    item.Setting.UpdateRemoveMode(item.Figures);
 
                     switch (item.Setting.RemoveMode)
                     {
@@ -1115,25 +1115,25 @@ namespace FanKit.Transformer.TestApp
                             this.Layers.RemoveAt(k);
                             break;
                         case RemoveMode.RemoveNodes:
-                            for (int j = item.Data.Count - 1; j >= 0; j--)
+                            for (int j = item.Figures.Count - 1; j >= 0; j--)
                             {
-                                Figure figure = item.Data[j];
+                                Figure figure = item.Figures[j];
 
                                 switch (figure.Setting.RemoveMode)
                                 {
                                     case RemoveMode.NoRemove:
                                         break;
                                     case RemoveMode.RemoveCurve:
-                                        figure.Data.RemoveAt(j);
+                                        figure.Segments.RemoveAt(j);
                                         break;
                                     case RemoveMode.RemoveNodes:
-                                        for (int i = figure.Data.Count - 1; i >= 0; i--)
+                                        for (int i = figure.Segments.Count - 1; i >= 0; i--)
                                         {
-                                            Segment segment = figure.Data[i];
+                                            Segment segment = figure.Segments[i];
 
                                             if (segment.IsChecked)
                                             {
-                                                figure.Data.RemoveAt(i);
+                                                figure.Segments.RemoveAt(i);
                                             }
                                         }
                                         break;
@@ -1382,9 +1382,9 @@ namespace FanKit.Transformer.TestApp
                 {
                     item.DeselectAll();
 
-                    Figure figure = item.Data.Last();
+                    Figure figure = item.Figures.Last();
 
-                    figure.Data.Add(new Segment
+                    figure.Segments.Add(new Segment
                     {
                         IsChecked = true,
 
@@ -1393,7 +1393,7 @@ namespace FanKit.Transformer.TestApp
                         Actual = new Node(this.StartingPoint),
                     });
 
-                    this.PenCurve(figure.Data);
+                    this.PenCurve(figure.Segments);
 
                     item.Complete();
                     item.UpdateCanvas(this.Canvas);
@@ -1414,7 +1414,7 @@ namespace FanKit.Transformer.TestApp
             {
                 new Figure
                 {
-                    Data =
+                    Segments =
                     {
                         new Segment
                         {
@@ -1451,9 +1451,9 @@ namespace FanKit.Transformer.TestApp
             {
                 if (item.IsEditable)
                 {
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
-                        this.PenCurve(figure.Data);
+                        this.PenCurve(figure.Segments);
                     }
 
                     item.Complete();
@@ -1496,9 +1496,9 @@ namespace FanKit.Transformer.TestApp
             {
                 if (item.IsEditable)
                 {
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
-                        this.PenCurve(figure.Data);
+                        this.PenCurve(figure.Segments);
                     }
 
                     item.Complete();
@@ -1551,11 +1551,11 @@ namespace FanKit.Transformer.TestApp
             const float l = 4f;
             const float ls = l * l;
 
-            for (int i = 0; i < item.Data.Count; i++)
+            for (int i = 0; i < item.Figures.Count; i++)
             {
-                Figure figure = item.Data[i];
+                Figure figure = item.Figures[i];
 
-                this.Closest = new Curves.ClosestPointer(NodePointUnits.Actual, figure.Data, figure.IsClosed, point, ls);
+                this.Closest = new Curves.ClosestPointer(NodePointUnits.Actual, figure.Segments, figure.IsClosed, point, ls);
                 if (this.Closest.Contains)
                 {
                     return true;
@@ -1576,9 +1576,9 @@ namespace FanKit.Transformer.TestApp
                 {
                     item.IsEditable = false;
 
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
-                        figure.Data.RemoveAt(figure.Data.Count - 1);
+                        figure.Segments.RemoveAt(figure.Segments.Count - 1);
                     }
 
                     item.Complete();
@@ -1601,9 +1601,9 @@ namespace FanKit.Transformer.TestApp
             {
                 if (item.IsSelected)
                 {
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
-                        foreach (Segment segment in figure.Data)
+                        foreach (Segment segment in figure.Segments)
                         {
                             if (segment.IsChecked)
                             {
@@ -1621,9 +1621,9 @@ namespace FanKit.Transformer.TestApp
             {
                 if (item.IsSelected)
                 {
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
-                        foreach (Segment segment in figure.Data)
+                        foreach (Segment segment in figure.Segments)
                         {
                             if (segment.IsChecked)
                                 drawingSession.DrawNode(segment.Actual);
@@ -1707,9 +1707,9 @@ namespace FanKit.Transformer.TestApp
             {
                 if (item.IsSelected)
                 {
-                    foreach (Figure figure in item.Data)
+                    foreach (Figure figure in item.Figures)
                     {
-                        foreach (Segment segment in figure.Data)
+                        foreach (Segment segment in figure.Segments)
                         {
                             if (segment.IsChecked)
                                 drawingSession.DrawNode(segment.Actual.Point);
@@ -1765,10 +1765,10 @@ namespace FanKit.Transformer.TestApp
                         Layer item = this.Layers[k];
                         if (item.IsSelected)
                         {
-                            for (int j = 0; j < item.Data.Count; j++)
+                            for (int j = 0; j < item.Figures.Count; j++)
                             {
-                                Figure figure = item.Data[j];
-                                this.Indexer = new NodeIndexer(figure.Data, this.StartingPoint, ds);
+                                Figure figure = item.Figures[j];
+                                this.Indexer = new NodeIndexer(figure.Segments, this.StartingPoint, ds);
 
                                 if (this.Indexer.Mode != NodeIndexerMode.None)
                                 {
@@ -1792,11 +1792,11 @@ namespace FanKit.Transformer.TestApp
                         Layer item = this.Layers[k];
                         if (item.IsSelected)
                         {
-                            for (int j = 0; j < item.Data.Count; j++)
+                            for (int j = 0; j < item.Figures.Count; j++)
                             {
-                                Figure figure = item.Data[j];
+                                Figure figure = item.Figures[j];
 
-                                this.Inserter = new SegmentInserter(ref this.Closest, NodePointUnits.Normal, figure.Data, figure.IsClosed, this.Position, ls);
+                                this.Inserter = new SegmentInserter(ref this.Closest, NodePointUnits.Normal, figure.Segments, figure.IsClosed, this.Position, ls);
 
                                 if (this.Inserter.Mode == default)
                                     continue;
@@ -1811,7 +1811,7 @@ namespace FanKit.Transformer.TestApp
 
                                 if (this.Inserter.Mode == SegmentInserterMode.Smooth)
                                 {
-                                    figure.Data[this.Inserter.Previous] = new Segment
+                                    figure.Segments[this.Inserter.Previous] = new Segment
                                     {
                                         IsChecked = false,
                                         IsSmooth = this.Closest.PreviousIsSmooth,
@@ -1822,7 +1822,7 @@ namespace FanKit.Transformer.TestApp
                                         Map = this.Closest.Previous,
                                         Actual = this.Canvas.Transform(this.Closest.Previous),
                                     };
-                                    figure.Data[this.Inserter.Next] = new Segment
+                                    figure.Segments[this.Inserter.Next] = new Segment
                                     {
                                         IsChecked = false,
                                         IsSmooth = this.Closest.NextIsSmooth,
@@ -1835,7 +1835,7 @@ namespace FanKit.Transformer.TestApp
                                     };
                                 }
 
-                                figure.Data.Insert(this.Inserter.Current, new Segment
+                                figure.Segments.Insert(this.Inserter.Current, new Segment
                                 {
                                     IsChecked = true,
                                     IsSmooth = this.Closest.CurrentIsSmooth,
@@ -1881,8 +1881,8 @@ namespace FanKit.Transformer.TestApp
 
                     {
                         Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Data[this.Index2];
-                        Segment segment = figure.Data[this.Indexer.Index];
+                        Figure figure = item.Figures[this.Index2];
+                        Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.Composer.Reset(segment.Map.Point);
 
@@ -1927,13 +1927,13 @@ namespace FanKit.Transformer.TestApp
                 case NodeIndexerMode.RightControlPoint:
                     {
                         Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Data[this.Index2];
-                        Segment segment = figure.Data[this.Indexer.Index];
+                        Figure figure = item.Figures[this.Index2];
+                        Segment segment = figure.Segments[this.Indexer.Index];
 
                         bool isLeft = this.Indexer.Mode == NodeIndexerMode.LeftControlPoint;
                         this.Controller = new NodeController(segment.Map, isLeft, this.Mode1, this.Mode2);
 
-                        figure.Data[this.Indexer.Index] = new Segment
+                        figure.Segments[this.Indexer.Index] = new Segment
                         {
                             IsChecked = true,
                             IsSmooth = segment.IsSmooth,
@@ -2021,11 +2021,11 @@ namespace FanKit.Transformer.TestApp
                 case NodeIndexerMode.RightControlPoint:
                     {
                         Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Data[this.Index2];
-                        Segment segment = figure.Data[this.Indexer.Index];
+                        Figure figure = item.Figures[this.Index2];
+                        Segment segment = figure.Segments[this.Indexer.Index];
                         Node map = this.Controller.ToNode(this.Position, this.Disconnected);
 
-                        figure.Data[this.Indexer.Index] = new Segment
+                        figure.Segments[this.Indexer.Index] = new Segment
                         {
                             IsChecked = true,
                             IsSmooth = true,
@@ -2102,10 +2102,10 @@ namespace FanKit.Transformer.TestApp
                         Layer item = this.Layers[k];
                         if (item.IsSelected)
                         {
-                            for (int j = 0; j < item.Data.Count; j++)
+                            for (int j = 0; j < item.Figures.Count; j++)
                             {
-                                Figure figure = item.Data[j];
-                                this.Indexer = new NodeIndexer(figure.Data, this.Point, ds);
+                                Figure figure = item.Figures[j];
+                                this.Indexer = new NodeIndexer(figure.Segments, this.Point, ds);
 
                                 if (this.Indexer.Mode != NodeIndexerMode.None)
                                 {
@@ -2131,11 +2131,11 @@ namespace FanKit.Transformer.TestApp
                             Layer item = this.Layers[k];
                             if (item.IsSelected)
                             {
-                                for (int j = 0; j < item.Data.Count; j++)
+                                for (int j = 0; j < item.Figures.Count; j++)
                                 {
-                                    Figure figure = item.Data[j];
+                                    Figure figure = item.Figures[j];
 
-                                    this.Closest = new ClosestPointer(NodePointUnits.Normal, figure.Data, figure.IsClosed, this.Position, ls);
+                                    this.Closest = new ClosestPointer(NodePointUnits.Normal, figure.Segments, figure.IsClosed, this.Position, ls);
                                     if (this.Closest.Contains)
                                     {
                                         this.Invalidate(InvalidateModes.CanvasControl);
@@ -2155,11 +2155,11 @@ namespace FanKit.Transformer.TestApp
                             Layer item = this.Layers[k];
                             if (item.IsSelected)
                             {
-                                for (int j = 0; j < item.Data.Count; j++)
+                                for (int j = 0; j < item.Figures.Count; j++)
                                 {
-                                    Figure figure = item.Data[j];
+                                    Figure figure = item.Figures[j];
 
-                                    this.Closest = new ClosestPointer(NodePointUnits.Normal, figure.Data, figure.IsClosed, this.Position, ls);
+                                    this.Closest = new ClosestPointer(NodePointUnits.Normal, figure.Segments, figure.IsClosed, this.Position, ls);
                                     if (this.Closest.Contains)
                                     {
                                         this.Invalidate(InvalidateModes.CanvasControl);
@@ -2173,8 +2173,8 @@ namespace FanKit.Transformer.TestApp
                 case NodeIndexerMode.PointWithoutChecked:
                     {
                         Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Data[this.Index2];
-                        Segment segment = figure.Data[this.Indexer.Index];
+                        Figure figure = item.Figures[this.Index2];
+                        Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.Closest = new ClosestPointer(segment.Map.Point);
 
@@ -2184,8 +2184,8 @@ namespace FanKit.Transformer.TestApp
                 case NodeIndexerMode.PointWithChecked:
                     {
                         Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Data[this.Index2];
-                        Segment segment = figure.Data[this.Indexer.Index];
+                        Figure figure = item.Figures[this.Index2];
+                        Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.Closest = new ClosestPointer(segment.Map.Point);
 
@@ -2195,8 +2195,8 @@ namespace FanKit.Transformer.TestApp
                 case NodeIndexerMode.LeftControlPoint:
                     {
                         Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Data[this.Index2];
-                        Segment segment = figure.Data[this.Indexer.Index];
+                        Figure figure = item.Figures[this.Index2];
+                        Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.Closest = new ClosestPointer(segment.Map.LeftControlPoint);
 
@@ -2206,8 +2206,8 @@ namespace FanKit.Transformer.TestApp
                 case NodeIndexerMode.RightControlPoint:
                     {
                         Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Data[this.Index2];
-                        Segment segment = figure.Data[this.Indexer.Index];
+                        Figure figure = item.Figures[this.Index2];
+                        Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.Closest = new ClosestPointer(segment.Map.RightControlPoint);
 
