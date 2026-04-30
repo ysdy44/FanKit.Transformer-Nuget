@@ -20,11 +20,11 @@ namespace FanKit.Transformer.Polylines
         public int Index;
         public NodeIndexerMode Mode;
 
-        public NodeIndexer(IReadOnlyList<Vector2> items, Vector2 point, float minLengthSquared = 144f)
+        public NodeIndexer(IReadOnlyList<Vector2> segments, Vector2 point, float minLengthSquared = 144f)
         {
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < segments.Count; i++)
             {
-                Vector2 item = items[i];
+                Vector2 item = segments[i];
                 if (item.ContainsNode(point, minLengthSquared))
                 {
                     this.Index = i;
@@ -37,11 +37,11 @@ namespace FanKit.Transformer.Polylines
             this.Mode = NodeIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment0> items, Vector2 point, float minLengthSquared = 144f)
+        public NodeIndexer(IReadOnlyList<Segment0> segments, Vector2 point, float minLengthSquared = 144f)
         {
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < segments.Count; i++)
             {
-                Segment0 item = items[i];
+                Segment0 item = segments[i];
                 if (item.Point.ContainsNode(point, minLengthSquared))
                 {
                     this.Index = i;
@@ -61,11 +61,11 @@ namespace FanKit.Transformer.Polylines
             this.Mode = NodeIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment1> items, Vector2 point, float minLengthSquared = 144f)
+        public NodeIndexer(IReadOnlyList<Segment1> segments, Vector2 point, float minLengthSquared = 144f)
         {
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < segments.Count; i++)
             {
-                Segment1 item = items[i];
+                Segment1 item = segments[i];
                 if (item.Actual.ContainsNode(point, minLengthSquared))
                 {
                     this.Index = i;
@@ -85,11 +85,11 @@ namespace FanKit.Transformer.Polylines
             this.Mode = NodeIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment2> items, Vector2 point, float minLengthSquared = 144f)
+        public NodeIndexer(IReadOnlyList<Segment2> segments, Vector2 point, float minLengthSquared = 144f)
         {
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < segments.Count; i++)
             {
-                Segment2 item = items[i];
+                Segment2 item = segments[i];
                 if (item.Map.ContainsNode(point, minLengthSquared))
                 {
                     this.Index = i;
@@ -109,11 +109,11 @@ namespace FanKit.Transformer.Polylines
             this.Mode = NodeIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment3> items, Vector2 point, float minLengthSquared = 144f)
+        public NodeIndexer(IReadOnlyList<Segment3> segments, Vector2 point, float minLengthSquared = 144f)
         {
-            for (int i = 0; i < items.Count; i++)
+            for (int i = 0; i < segments.Count; i++)
             {
-                Segment3 item = items[i];
+                Segment3 item = segments[i];
                 if (item.Actual.ContainsNode(point, minLengthSquared))
                 {
                     this.Index = i;

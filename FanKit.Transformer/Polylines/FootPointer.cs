@@ -134,14 +134,14 @@ namespace FanKit.Transformer.Polylines
             previous.Actual, next.Actual,
             minLengthSquared);
 
-        public FootPointer(IReadOnlyList<Segment0> items, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
-            int count = items.Count;
+            int count = segments.Count;
 
             if (isClosed)
             {
-                Segment0 last = items[count - 1];
-                Segment0 first = items[0];
+                Segment0 last = segments[count - 1];
+                Segment0 first = segments[0];
 
                 this = new FootPointer(point, last.Point, first.Point, minLengthSquared);
                 if (this.Contains)
@@ -153,8 +153,8 @@ namespace FanKit.Transformer.Polylines
 
             for (int i = 1; i < count; i++)
             {
-                Segment0 previous = items[i - 1];
-                Segment0 next = items[i];
+                Segment0 previous = segments[i - 1];
+                Segment0 next = segments[i];
 
                 this = new FootPointer(point, previous.Point, next.Point, minLengthSquared);
                 if (this.Contains)
@@ -167,17 +167,17 @@ namespace FanKit.Transformer.Polylines
             this = default;
         }
 
-        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment1> items, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
-            int count = items.Count;
+            int count = segments.Count;
 
             switch (unit)
             {
                 case NodePointUnits.Normal:
                     if (isClosed)
                     {
-                        Segment1 last = items[count - 1];
-                        Segment1 first = items[0];
+                        Segment1 last = segments[count - 1];
+                        Segment1 first = segments[0];
 
                         this = new FootPointer(point, last.Point, first.Point, minLengthSquared);
                         if (this.Contains)
@@ -189,8 +189,8 @@ namespace FanKit.Transformer.Polylines
 
                     for (int i = 1; i < count; i++)
                     {
-                        Segment1 previous = items[i - 1];
-                        Segment1 next = items[i];
+                        Segment1 previous = segments[i - 1];
+                        Segment1 next = segments[i];
 
                         this = new FootPointer(point, previous.Point, next.Point, minLengthSquared);
                         if (this.Contains)
@@ -203,8 +203,8 @@ namespace FanKit.Transformer.Polylines
                 case NodePointUnits.Actual:
                     if (isClosed)
                     {
-                        Segment1 last = items[count - 1];
-                        Segment1 first = items[0];
+                        Segment1 last = segments[count - 1];
+                        Segment1 first = segments[0];
 
                         this = new FootPointer(point, last.Actual, first.Actual, minLengthSquared);
                         if (this.Contains)
@@ -216,8 +216,8 @@ namespace FanKit.Transformer.Polylines
 
                     for (int i = 1; i < count; i++)
                     {
-                        Segment1 previous = items[i - 1];
-                        Segment1 next = items[i];
+                        Segment1 previous = segments[i - 1];
+                        Segment1 next = segments[i];
 
                         this = new FootPointer(point, previous.Actual, next.Actual, minLengthSquared);
                         if (this.Contains)
@@ -234,14 +234,14 @@ namespace FanKit.Transformer.Polylines
             this = default;
         }
 
-        public FootPointer(IReadOnlyList<Segment2> items, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
-            int count = items.Count;
+            int count = segments.Count;
 
             if (isClosed)
             {
-                Segment2 last = items[count - 1];
-                Segment2 first = items[0];
+                Segment2 last = segments[count - 1];
+                Segment2 first = segments[0];
 
                 this = new FootPointer(point, last.Map, first.Map, minLengthSquared);
                 if (this.Contains)
@@ -253,8 +253,8 @@ namespace FanKit.Transformer.Polylines
 
             for (int i = 1; i < count; i++)
             {
-                Segment2 previous = items[i - 1];
-                Segment2 next = items[i];
+                Segment2 previous = segments[i - 1];
+                Segment2 next = segments[i];
 
                 this = new FootPointer(point, previous.Map, next.Map, minLengthSquared);
                 if (this.Contains)
@@ -267,17 +267,17 @@ namespace FanKit.Transformer.Polylines
             this = default;
         }
 
-        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment3> items, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
-            int count = items.Count;
+            int count = segments.Count;
 
             switch (unit)
             {
                 case NodePointUnits.Normal:
                     if (isClosed)
                     {
-                        Segment3 last = items[count - 1];
-                        Segment3 first = items[0];
+                        Segment3 last = segments[count - 1];
+                        Segment3 first = segments[0];
 
                         this = new FootPointer(point, last.Map, first.Map, minLengthSquared);
                         if (this.Contains)
@@ -289,8 +289,8 @@ namespace FanKit.Transformer.Polylines
 
                     for (int i = 1; i < count; i++)
                     {
-                        Segment3 previous = items[i - 1];
-                        Segment3 next = items[i];
+                        Segment3 previous = segments[i - 1];
+                        Segment3 next = segments[i];
 
                         this = new FootPointer(point, previous.Map, next.Map, minLengthSquared);
                         if (this.Contains)
@@ -303,8 +303,8 @@ namespace FanKit.Transformer.Polylines
                 case NodePointUnits.Actual:
                     if (isClosed)
                     {
-                        Segment3 last = items[count - 1];
-                        Segment3 first = items[0];
+                        Segment3 last = segments[count - 1];
+                        Segment3 first = segments[0];
 
                         this = new FootPointer(point, last.Actual, first.Actual, minLengthSquared);
                         if (this.Contains)
@@ -316,8 +316,8 @@ namespace FanKit.Transformer.Polylines
 
                     for (int i = 1; i < count; i++)
                     {
-                        Segment3 previous = items[i - 1];
-                        Segment3 next = items[i];
+                        Segment3 previous = segments[i - 1];
+                        Segment3 next = segments[i];
 
                         this = new FootPointer(point, previous.Actual, next.Actual, minLengthSquared);
                         if (this.Contains)
