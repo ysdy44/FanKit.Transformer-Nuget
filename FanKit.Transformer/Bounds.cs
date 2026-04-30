@@ -516,6 +516,11 @@ namespace FanKit.Transformer
             };
         }
 
+        public static Bounds Translate(Bounds bounds, Vector2 translate)
+        {
+            return bounds + translate;
+        }
+
         public static Bounds Translate(Bounds bounds, float translateX, float translateY)
         {
             return new Bounds
@@ -525,11 +530,6 @@ namespace FanKit.Transformer
                 Right = bounds.Right + translateX,
                 Bottom = bounds.Bottom + translateY,
             };
-        }
-
-        public static Bounds Translate(Bounds bounds, Vector2 translate)
-        {
-            return bounds + translate;
         }
 
         public static Bounds TranslateX(Bounds bounds, float translateX)

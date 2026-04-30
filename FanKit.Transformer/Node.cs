@@ -105,6 +105,11 @@ namespace FanKit.Transformer
         #endregion Public instance methods
 
         #region Public Static Methods
+        public static Node Translate(Node node, Vector2 translate)
+        {
+            return node + translate;
+        }
+
         public static Node Translate(Node node, float translateX, float translateY)
         {
             return new Node
@@ -113,11 +118,6 @@ namespace FanKit.Transformer
                 LeftControlPoint = new Vector2(node.LeftControlPoint.X + translateX, node.LeftControlPoint.Y + translateY),
                 RightControlPoint = new Vector2(node.RightControlPoint.X + translateX, node.RightControlPoint.Y + translateY),
             };
-        }
-
-        public static Node Translate(Node node, Vector2 translate)
-        {
-            return node + translate;
         }
 
         public static Node TranslateX(Node node, float translateX)

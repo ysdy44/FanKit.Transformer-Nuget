@@ -388,19 +388,9 @@ namespace FanKit.Transformer
 
         public static Triangle Scale(Triangle triangle, Vector2 scales)
         {
-            return new Triangle
-            {
-                LeftTop = new Vector2(
-                    triangle.LeftTop.X * scales.X,
-                    triangle.LeftTop.Y * scales.Y),
-                RightTop = new Vector2(
-                    triangle.RightTop.X * scales.X,
-                    triangle.RightTop.Y * scales.Y),
-                LeftBottom = new Vector2(
-                    triangle.LeftBottom.X * scales.X,
-                    triangle.LeftBottom.Y * scales.Y),
-            };
+            return triangle * scales;
         }
+
         public static Triangle Scale(Triangle triangle, Vector2 scales, Vector2 centerPoint)
         {
             return new Triangle

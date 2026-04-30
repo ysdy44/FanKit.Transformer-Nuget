@@ -375,6 +375,11 @@ namespace FanKit.Transformer
         #endregion Public instance methods
 
         #region Public Static Methods
+        public static Quadrilateral Translate(Quadrilateral quad, Vector2 translate)
+        {
+            return quad + translate;
+        }
+
         public static Quadrilateral Translate(Quadrilateral quad, float translateX, float translateY)
         {
             return new Quadrilateral
@@ -384,11 +389,6 @@ namespace FanKit.Transformer
                 LeftBottom = new Vector2(quad.LeftBottom.X + translateX, quad.LeftBottom.Y + translateY),
                 RightBottom = new Vector2(quad.RightBottom.X + translateX, quad.RightBottom.Y + translateY),
             };
-        }
-
-        public static Quadrilateral Translate(Quadrilateral quad, Vector2 translate)
-        {
-            return quad + translate;
         }
 
         public static Quadrilateral TranslateX(Quadrilateral quad, float translateX)
