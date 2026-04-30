@@ -45,22 +45,22 @@ namespace FanKit.Transformer.Polylines
         #region Triangles.SelectedItems
         public bool IsClosed;
 
-        public List<Segment> Data;
+        public readonly List<Segment> Segments;
 
         public PathSetting Setting { get; } = new PathSetting();
-        public int Count => this.Data.Count;
-        public int GetChecksCount() => this.Data.Count(GetIsChecked);
+        public int Count => this.Segments.Count;
+        public int GetChecksCount() => this.Segments.Count(GetIsChecked);
         private static bool GetIsChecked(Segment item) => item.IsChecked;
 
-        public Path1(List<Segment> items)
+        public Path1(List<Segment> segments)
         {
-            this.Data = items;
+            this.Segments = segments;
 
             this.BeginExtend();
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
-                this.Data[i] = new Segment
+                Segment item = this.Segments[i];
+                this.Segments[i] = new Segment
                 {
                     Actual = item.Point,
                     // C# 9.0 : var a = item with { ... }
@@ -77,15 +77,15 @@ namespace FanKit.Transformer.Polylines
             this.TransformedBounds = new TransformedBounds(this.SourceBounds);
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
-        public Path1(List<Segment> items, Matrix3x2 matrix)
+        public Path1(List<Segment> segments, Matrix3x2 matrix)
         {
-            this.Data = items;
+            this.Segments = segments;
 
             this.BeginExtend();
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
-                this.Data[i] = new Segment
+                Segment item = this.Segments[i];
+                this.Segments[i] = new Segment
                 {
                     Actual = Vector2.Transform(item.Point, matrix),
                     // C# 9.0 : var a = item with { ... }
@@ -102,7 +102,7 @@ namespace FanKit.Transformer.Polylines
         public void Complete()
         {
             this.BeginExtend();
-            foreach (Segment item in this.Data)
+            foreach (Segment item in this.Segments)
             {
                 this.Extend(item.Point);
             }
@@ -111,15 +111,15 @@ namespace FanKit.Transformer.Polylines
 
         public void Select(int index)
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
 
                 if (item.IsChecked)
                 {
                     if (index != i)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = false,
                             // C# 9.0 : var a = item with { ... }
@@ -135,7 +135,7 @@ namespace FanKit.Transformer.Polylines
                 {
                     if (index == i)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = true,
                             // C# 9.0 : var a = item with { ... }
@@ -152,13 +152,13 @@ namespace FanKit.Transformer.Polylines
 
         public void DeselectAll()
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
 
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = false,
                         // C# 9.0 : var a = item with { ... }
@@ -174,15 +174,15 @@ namespace FanKit.Transformer.Polylines
 
         public void RectChooseItems(Bounds bounds)
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
 
                 if (bounds.ContainsPoint(item.Point))
                 {
                     if (item.IsChecked is false)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = true,
                             // C# 9.0 : var a = item with { ... }
@@ -198,7 +198,7 @@ namespace FanKit.Transformer.Polylines
                 {
                     if (item.IsChecked)
                     {
-                        this.Data[i] = new Segment
+                        this.Segments[i] = new Segment
                         {
                             IsChecked = false,
                             // C# 9.0 : var a = item with { ... }
@@ -230,13 +230,13 @@ namespace FanKit.Transformer.Polylines
         internal override void TranslateRaw()
         {
             this.BeginExtend();
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = new Vector2(item.Point.X + this.TranslationX, item.Point.Y + this.TranslationY);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -256,13 +256,13 @@ namespace FanKit.Transformer.Polylines
         internal override void TransformMap()
         {
             this.BeginExtend();
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = Vector2.Transform(item.Point, this.TransformMatrix);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -289,9 +289,9 @@ namespace FanKit.Transformer.Polylines
 
         internal override void SI(Vector2 point, int index)
         {
-            Segment segment = this.Data[index];
+            Segment segment = this.Segments[index];
 
-            this.Data[index] = new Segment
+            this.Segments[index] = new Segment
             {
                 IsChecked = true,
                 Point = point,
@@ -304,7 +304,7 @@ namespace FanKit.Transformer.Polylines
             };
 
             this.BeginExtend();
-            foreach (Segment item in this.Data)
+            foreach (Segment item in this.Segments)
             {
                 this.Extend(item.Point);
             }
@@ -336,12 +336,12 @@ namespace FanKit.Transformer.Polylines
 
         internal override void CacheRaw()
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Starting = item.Point,
@@ -358,12 +358,12 @@ namespace FanKit.Transformer.Polylines
 
         internal override void CacheMap()
         {
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Starting = item.Point,
@@ -381,13 +381,13 @@ namespace FanKit.Transformer.Polylines
         internal override void TranslateStarting()
         {
             this.BeginExtend();
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = Math.Translate(item.Starting, this.TranslationX, this.TranslationY);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,
@@ -407,13 +407,13 @@ namespace FanKit.Transformer.Polylines
         internal override void TransformStarting()
         {
             this.BeginExtend();
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment item = this.Data[i];
+                Segment item = this.Segments[i];
                 if (item.IsChecked)
                 {
                     Vector2 p = Vector2.Transform(item.Starting, this.TransformMatrix);
-                    this.Data[i] = new Segment
+                    this.Segments[i] = new Segment
                     {
                         IsChecked = true,
                         Point = p,

@@ -9,11 +9,11 @@ namespace FanKit.Transformer.Polylines
     {
         public bool IsClosed;
 
-        public readonly List<Segment2> Data = new List<Segment2>();
+        public readonly List<Segment2> Segments = new List<Segment2>();
 
         public PathSetting Setting { get; } = new PathSetting();
-        public int Count => this.Data.Count;
-        public int GetChecksCount() => this.Data.Count(GetIsChecked);
+        public int Count => this.Segments.Count;
+        public int GetChecksCount() => this.Segments.Count(GetIsChecked);
         private static bool GetIsChecked(Segment2 item) => item.IsChecked;
     }
 }

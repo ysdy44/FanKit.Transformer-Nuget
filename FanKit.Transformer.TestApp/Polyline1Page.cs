@@ -149,7 +149,7 @@ namespace FanKit.Transformer.TestApp
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
         {
-            drawingSession.DrawDashPointPolyline(this.Layer.Data, this.Layer.IsClosed, this.Layer.StrokeWidth);
+            drawingSession.DrawDashPointPolyline(this.Layer.Segments, this.Layer.IsClosed, this.Layer.StrokeWidth);
 
             switch (this.TopBar.ToolType)
             {
@@ -161,7 +161,7 @@ namespace FanKit.Transformer.TestApp
 
         public override void DrawThumb(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
         {
-            drawingSession.DrawDashPointPolyline(this.Layer.Data, this.Layer.IsClosed, this.Layer.StrokeWidth);
+            drawingSession.DrawDashPointPolyline(this.Layer.Segments, this.Layer.IsClosed, this.Layer.StrokeWidth);
         }
 
         public override void CacheSingle()
@@ -298,7 +298,7 @@ namespace FanKit.Transformer.TestApp
             if (modes.HasFlag(InvalidateModes.InitIndicator))
             {
                 this.Composer.BeginExtend();
-                foreach (Segment item in this.Layer.Data)
+                foreach (Segment item in this.Layer.Segments)
                 {
                     this.Composer.Extend(item);
                 }
@@ -762,7 +762,7 @@ namespace FanKit.Transformer.TestApp
         {
             drawingSession.DrawBounds(this.Layer.ActualBox);
 
-            foreach (Segment segment in this.Layer.Data)
+            foreach (Segment segment in this.Layer.Segments)
             {
                 if (segment.IsChecked)
                     drawingSession.DrawNode(segment.Point);
@@ -808,7 +808,7 @@ namespace FanKit.Transformer.TestApp
         {
             drawingSession.DrawBounds(this.Layer.ActualBox);
 
-            foreach (Segment segment in this.Layer.Data)
+            foreach (Segment segment in this.Layer.Segments)
             {
                 if (segment.IsChecked)
                     drawingSession.DrawNode(segment.Point);
@@ -849,7 +849,7 @@ namespace FanKit.Transformer.TestApp
             const float d = 12f;
             const float ds = d * d;
 
-            this.Indexer = new NodeIndexer(this.Layer.Data, this.StartingPoint, ds);
+            this.Indexer = new NodeIndexer(this.Layer.Segments, this.StartingPoint, ds);
 
             switch (this.Indexer.Mode)
             {
@@ -857,13 +857,13 @@ namespace FanKit.Transformer.TestApp
                     const float l = 4f * 1f; // this.Canvas.InverseScaleFactor;
                     const float ls = l * l;
 
-                    this.Inserter = new SegmentInserter(ref this.FootPoint, this.Layer.Data, this.Layer.IsClosed, this.Point, ls);
+                    this.Inserter = new SegmentInserter(ref this.FootPoint, this.Layer.Segments, this.Layer.IsClosed, this.Point, ls);
 
                     if (this.Inserter.Contains != false)
                     {
                         this.Layer.DeselectAll();
 
-                        this.Layer.Data.Insert(this.Inserter.Index, new Segment
+                        this.Layer.Segments.Insert(this.Inserter.Index, new Segment
                         {
                             IsChecked = true,
 
@@ -892,7 +892,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         this.Layer.Select(this.Indexer.Index);
 
-                        Segment segment = this.Layer.Data[this.Indexer.Index];
+                        Segment segment = this.Layer.Segments[this.Indexer.Index];
 
                         this.Composer.Reset(segment.Point);
 
@@ -1040,7 +1040,7 @@ namespace FanKit.Transformer.TestApp
             const float d = 12f;
             const float ds = d * d;
 
-            this.Indexer = new NodeIndexer(this.Layer.Data, this.Point, ds);
+            this.Indexer = new NodeIndexer(this.Layer.Segments, this.Point, ds);
 
             switch (this.Indexer.Mode)
             {
@@ -1050,7 +1050,7 @@ namespace FanKit.Transformer.TestApp
 
                     if (this.FootPoint.Contains)
                     {
-                        this.FootPoint = new FootPointer(this.Layer.Data, this.Layer.IsClosed, this.Point, ls);
+                        this.FootPoint = new FootPointer(this.Layer.Segments, this.Layer.IsClosed, this.Point, ls);
                         if (this.FootPoint.Contains)
                         {
                             this.Invalidate(InvalidateModes.CanvasControl);
@@ -1062,7 +1062,7 @@ namespace FanKit.Transformer.TestApp
                     }
                     else
                     {
-                        this.FootPoint = new FootPointer(this.Layer.Data, this.Layer.IsClosed, this.Point, ls);
+                        this.FootPoint = new FootPointer(this.Layer.Segments, this.Layer.IsClosed, this.Point, ls);
                         if (this.FootPoint.Contains)
                         {
                             this.Invalidate(InvalidateModes.CanvasControl);
@@ -1072,7 +1072,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case NodeIndexerMode.PointWithoutChecked:
                     {
-                        Segment segment = this.Layer.Data[this.Indexer.Index];
+                        Segment segment = this.Layer.Segments[this.Indexer.Index];
 
                         this.FootPoint = new FootPointer(segment.Point);
 
@@ -1081,7 +1081,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case NodeIndexerMode.PointWithChecked:
                     {
-                        Segment segment = this.Layer.Data[this.Indexer.Index];
+                        Segment segment = this.Layer.Segments[this.Indexer.Index];
 
                         this.FootPoint = new FootPointer(segment.Point);
 

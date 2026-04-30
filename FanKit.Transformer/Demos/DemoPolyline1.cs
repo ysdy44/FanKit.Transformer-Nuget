@@ -14,11 +14,11 @@ namespace FanKit.Transformer.Demos
         public float StrokeWidth = 4f;
         public float ActualStrokeWidth = 4f;
 
-        public DemoPolyline1(List<Segment1> items) : base(items)
+        public DemoPolyline1(List<Segment1> segments) : base(segments)
         {
         }
 
-        public DemoPolyline1(List<Segment1> items, Matrix3x2 matrix) : base(items, matrix)
+        public DemoPolyline1(List<Segment1> segments, Matrix3x2 matrix) : base(segments, matrix)
         {
         }
 
@@ -27,10 +27,10 @@ namespace FanKit.Transformer.Demos
             this.ActualStrokeWidth = this.StrokeWidth;
             this.ActualBox = new Box0(this.Destination);
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment1 item = this.Data[i];
-                this.Data[i] = new Segment1
+                Segment1 item = this.Segments[i];
+                this.Segments[i] = new Segment1
                 {
                     Actual = item.Point,
                     // C# 9.0 : var a = item with { ... }
@@ -48,10 +48,10 @@ namespace FanKit.Transformer.Demos
             this.ActualStrokeWidth = matrix.Scale(this.StrokeWidth);
             this.ActualBox = new Box0(this.Destination, matrix);
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.Segments.Count; i++)
             {
-                Segment1 item = this.Data[i];
-                this.Data[i] = new Segment1
+                Segment1 item = this.Segments[i];
+                this.Segments[i] = new Segment1
                 {
                     Actual = matrix.Transform(item.Point),
                     // C# 9.0 : var a = item with { ... }

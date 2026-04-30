@@ -13,7 +13,7 @@ namespace FanKit.Transformer.Demos
 
         public float StrokeWidth = 4f;
 
-        public DemoPolyline0(List<Segment0> items) : base(items)
+        public DemoPolyline0(List<Segment0> segments) : base(segments)
         {
         }
 
