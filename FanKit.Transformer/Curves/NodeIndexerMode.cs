@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Curves
 {
-    public enum NodeIndexerMode : byte
+    public enum SegmentIndexerMode : byte
     {
         None,
 

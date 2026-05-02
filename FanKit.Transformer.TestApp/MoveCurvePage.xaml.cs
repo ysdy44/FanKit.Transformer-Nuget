@@ -23,7 +23,7 @@ namespace FanKit.Transformer.TestApp
         Vector2 Point;
 
         Node Node;
-        NodeIndexer Indexer = NodeIndexer.Empty;
+        SegmentIndexer Indexer = SegmentIndexer.Empty;
         NodeController Controller;
 
         readonly CanvasOperator1 CanvasOperator;
@@ -111,24 +111,24 @@ namespace FanKit.Transformer.TestApp
 
             this.StartingPoint = this.Point = new Vector2((float)startingX, (float)startingY);
 
-            this.Indexer = new NodeIndexer(this.Data, this.StartingPoint, ds, cds);
+            this.Indexer = new SegmentIndexer(this.Data, this.StartingPoint, ds, cds);
 
             switch (this.Indexer.Mode)
             {
-                case NodeIndexerMode.None:
+                case SegmentIndexerMode.None:
                     break;
-                case NodeIndexerMode.PointWithoutChecked:
-                case NodeIndexerMode.PointWithChecked:
+                case SegmentIndexerMode.PointWithoutChecked:
+                case SegmentIndexerMode.PointWithChecked:
                     this.Node = this.Data[this.Indexer.Index];
                     this.CanvasControl.Invalidate();
                     break;
-                case NodeIndexerMode.LeftControlPoint:
+                case SegmentIndexerMode.LeftControlPoint:
                     const bool Left = true;
                     this.Node = this.Data[this.Indexer.Index];
                     this.Controller = new NodeController(this.Node, Left, this.Mode1, this.Mode2);
                     this.CanvasControl.Invalidate();
                     break;
-                case NodeIndexerMode.RightControlPoint:
+                case SegmentIndexerMode.RightControlPoint:
                     const bool Right = false;
                     this.Node = this.Data[this.Indexer.Index];
                     this.Controller = new NodeController(this.Node, Right, this.Mode1, this.Mode2);
@@ -145,16 +145,16 @@ namespace FanKit.Transformer.TestApp
 
             switch (this.Indexer.Mode)
             {
-                case NodeIndexerMode.None:
+                case SegmentIndexerMode.None:
                     break;
-                case NodeIndexerMode.PointWithoutChecked:
-                case NodeIndexerMode.PointWithChecked:
-                    this.Data[this.Indexer.Index] = this.Node.MovePoint(this.Point);
+                case SegmentIndexerMode.PointWithoutChecked:
+                case SegmentIndexerMode.PointWithChecked:
+                    this.Data[Indexer.Index] = this.Node.MovePoint(this.Point);
                     this.CanvasControl.Invalidate();
                     break;
-                case NodeIndexerMode.LeftControlPoint:
-                case NodeIndexerMode.RightControlPoint:
-                    this.Data[this.Indexer.Index] = this.Controller.ToNode(this.Point, this.Disconnected);
+                case SegmentIndexerMode.LeftControlPoint:
+                case SegmentIndexerMode.RightControlPoint:
+                    this.Data[Indexer.Index] = this.Controller.ToNode(this.Point, this.Disconnected);
                     this.CanvasControl.Invalidate();
                     break;
                 default:

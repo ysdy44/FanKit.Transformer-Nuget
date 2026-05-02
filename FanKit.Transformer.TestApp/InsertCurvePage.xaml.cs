@@ -20,8 +20,8 @@ namespace FanKit.Transformer.TestApp
 
         Vector2 Point;
 
-        int Index0 = -1;
-        int Index1 = -1;
+        int SegmentIndex0 = -1;
+        int SegmentIndex1 = -1;
         ClosestPointer Closest;
 
         readonly bool IsClosed = false;
@@ -177,8 +177,8 @@ namespace FanKit.Transformer.TestApp
                     this.Closest = new ClosestPointer(this.Point, last, first, ls);
                     if (this.Closest.Contains)
                     {
-                        this.Index0 = this.Data.Count - 1;
-                        this.Index1 = 0;
+                        this.SegmentIndex0 = this.Data.Count - 1;
+                        this.SegmentIndex1 = 0;
                         this.CanvasControl.Invalidate();
                         return;
                     }
@@ -192,15 +192,15 @@ namespace FanKit.Transformer.TestApp
                     this.Closest = new ClosestPointer(this.Point, previous, next, ls);
                     if (this.Closest.Contains)
                     {
-                        this.Index0 = i - 1;
-                        this.Index1 = i;
+                        this.SegmentIndex0 = i - 1;
+                        this.SegmentIndex1 = i;
                         this.CanvasControl.Invalidate();
                         return;
                     }
                 }
 
-                this.Index0 = -1;
-                this.Index1 = -1;
+                this.SegmentIndex0 = -1;
+                this.SegmentIndex1 = -1;
                 this.Closest = default;
                 this.CanvasControl.Invalidate();
             }
@@ -214,8 +214,8 @@ namespace FanKit.Transformer.TestApp
                     this.Closest = new ClosestPointer(this.Point, last, first, ls);
                     if (this.Closest.Contains)
                     {
-                        this.Index0 = this.Data.Count - 1;
-                        this.Index1 = 0;
+                        this.SegmentIndex0 = this.Data.Count - 1;
+                        this.SegmentIndex1 = 0;
                         this.CanvasControl.Invalidate();
                         return;
                     }
@@ -229,8 +229,8 @@ namespace FanKit.Transformer.TestApp
                     this.Closest = new ClosestPointer(this.Point, previous, next, ls);
                     if (this.Closest.Contains)
                     {
-                        this.Index0 = i - 1;
-                        this.Index1 = i;
+                        this.SegmentIndex0 = i - 1;
+                        this.SegmentIndex1 = i;
                         this.CanvasControl.Invalidate();
                         return;
                     }

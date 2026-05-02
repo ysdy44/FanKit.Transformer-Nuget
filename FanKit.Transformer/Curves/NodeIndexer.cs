@@ -4,23 +4,23 @@ using System.Numerics;
 
 namespace FanKit.Transformer.Curves
 {
-    public struct NodeIndexer
+    public struct SegmentIndexer
     {
-        readonly static NodeIndexer empty = new NodeIndexer
+        readonly static SegmentIndexer empty = new SegmentIndexer
         {
-            Mode = NodeIndexerMode.None,
+            Mode = SegmentIndexerMode.None,
             Index = -1,
         };
 
-        public static NodeIndexer Empty
+        public static SegmentIndexer Empty
         {
             get { return empty; }
         }
 
         public int Index;
-        public NodeIndexerMode Mode;
+        public SegmentIndexerMode Mode;
 
-        public NodeIndexer(IReadOnlyList<Node> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
+        public SegmentIndexer(IReadOnlyList<Node> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -29,14 +29,14 @@ namespace FanKit.Transformer.Curves
                     if (item.RightControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.RightControlPoint;
+                        this.Mode = SegmentIndexerMode.RightControlPoint;
                         return;
                     }
 
                     if (item.LeftControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.LeftControlPoint;
+                        this.Mode = SegmentIndexerMode.LeftControlPoint;
                         return;
                     }
                 }
@@ -48,16 +48,16 @@ namespace FanKit.Transformer.Curves
                 if (item.Point.ContainsNode(point, minLengthSquared))
                 {
                     this.Index = i;
-                    this.Mode = NodeIndexerMode.PointWithChecked;
+                    this.Mode = SegmentIndexerMode.PointWithChecked;
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment0> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
+        public SegmentIndexer(IReadOnlyList<Segment0> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -67,14 +67,14 @@ namespace FanKit.Transformer.Curves
                     if (item.Point.RightControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.RightControlPoint;
+                        this.Mode = SegmentIndexerMode.RightControlPoint;
                         return;
                     }
 
                     if (item.Point.LeftControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.LeftControlPoint;
+                        this.Mode = SegmentIndexerMode.LeftControlPoint;
                         return;
                     }
                 }
@@ -88,21 +88,21 @@ namespace FanKit.Transformer.Curves
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment1> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
+        public SegmentIndexer(IReadOnlyList<Segment1> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -112,14 +112,14 @@ namespace FanKit.Transformer.Curves
                     if (item.Actual.RightControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.RightControlPoint;
+                        this.Mode = SegmentIndexerMode.RightControlPoint;
                         return;
                     }
 
                     if (item.Actual.LeftControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.LeftControlPoint;
+                        this.Mode = SegmentIndexerMode.LeftControlPoint;
                         return;
                     }
                 }
@@ -133,21 +133,21 @@ namespace FanKit.Transformer.Curves
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment2> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
+        public SegmentIndexer(IReadOnlyList<Segment2> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -157,14 +157,14 @@ namespace FanKit.Transformer.Curves
                     if (item.Map.RightControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.RightControlPoint;
+                        this.Mode = SegmentIndexerMode.RightControlPoint;
                         return;
                     }
 
                     if (item.Map.LeftControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.LeftControlPoint;
+                        this.Mode = SegmentIndexerMode.LeftControlPoint;
                         return;
                     }
                 }
@@ -178,21 +178,21 @@ namespace FanKit.Transformer.Curves
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment3> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
+        public SegmentIndexer(IReadOnlyList<Segment3> segments, Vector2 point, float minLengthSquared = 144f, float minControlLengthSquared = 100f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -202,14 +202,14 @@ namespace FanKit.Transformer.Curves
                     if (item.Actual.RightControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.RightControlPoint;
+                        this.Mode = SegmentIndexerMode.RightControlPoint;
                         return;
                     }
 
                     if (item.Actual.LeftControlPoint.ContainsNode(point, minControlLengthSquared))
                     {
                         this.Index = i;
-                        this.Mode = NodeIndexerMode.LeftControlPoint;
+                        this.Mode = SegmentIndexerMode.LeftControlPoint;
                         return;
                     }
                 }
@@ -223,18 +223,18 @@ namespace FanKit.Transformer.Curves
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
     }
 }
