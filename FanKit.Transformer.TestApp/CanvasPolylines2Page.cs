@@ -69,9 +69,9 @@ namespace FanKit.Transformer.TestApp
         readonly DemoHostTriangle2 Transformer = new DemoHostTriangle2();
 
         // ComposerMulti2
-        int Index1 = -1;
-        int Index2 = -1;
-        NodeIndexer Indexer = NodeIndexer.Empty;
+        int LayerIndex = -1;
+        int FigureIndex = -1;
+        SegmentIndexer Indexer = SegmentIndexer.Empty;
         //NodeController Controller;
 
         FootPointer FootPoint;
@@ -1566,11 +1566,11 @@ namespace FanKit.Transformer.TestApp
             const float d = 12f;
             const float ds = d * d;
 
-            this.Indexer = NodeIndexer.Empty;
+            this.Indexer = SegmentIndexer.Empty;
 
             switch (this.Indexer.Mode)
             {
-                case NodeIndexerMode.None:
+                case SegmentIndexerMode.None:
                     for (int k = 0; k < this.Layers.Count; k++)
                     {
                         Layer item = this.Layers[k];
@@ -1579,15 +1579,15 @@ namespace FanKit.Transformer.TestApp
                             for (int j = 0; j < item.Figures.Count; j++)
                             {
                                 Figure figure = item.Figures[j];
-                                this.Indexer = new NodeIndexer(figure.Segments, this.StartingPoint, ds);
+                                this.Indexer = new SegmentIndexer(figure.Segments, this.StartingPoint, ds);
 
-                                if (this.Indexer.Mode != NodeIndexerMode.None)
+                                if (this.Indexer.Mode != SegmentIndexerMode.None)
                                 {
-                                    this.Index1 = k;
-                                    this.Index2 = j;
+                                    this.LayerIndex = k;
+                                    this.FigureIndex = j;
 
-                                    if (this.Indexer.Mode == NodeIndexerMode.PointWithoutChecked) goto case NodeIndexerMode.PointWithoutChecked;
-                                    if (this.Indexer.Mode == NodeIndexerMode.PointWithChecked) goto case NodeIndexerMode.PointWithChecked;
+                                    if (this.Indexer.Mode == SegmentIndexerMode.PointWithoutChecked) goto case SegmentIndexerMode.PointWithoutChecked;
+                                    if (this.Indexer.Mode == SegmentIndexerMode.PointWithChecked) goto case SegmentIndexerMode.PointWithChecked;
                                 }
                             }
                         }
@@ -1629,13 +1629,13 @@ namespace FanKit.Transformer.TestApp
                                     Actual = this.Canvas.Transform(this.FootPoint.Foot),
                                 });
 
-                                this.Index1 = k;
-                                this.Index2 = j;
-                                this.Indexer = new NodeIndexer
+                                this.LayerIndex = k;
+                                this.FigureIndex = j;
+                                this.Indexer = new SegmentIndexer
                                 {
                                     Index = this.Inserter.Index,
 
-                                    Mode = NodeIndexerMode.PointWithoutChecked,
+                                    Mode = SegmentIndexerMode.PointWithoutChecked,
                                 };
 
                                 this.Composer.Reset(this.FootPoint.Foot);
@@ -1648,22 +1648,22 @@ namespace FanKit.Transformer.TestApp
 
                     this.CacheSingle3();
                     break;
-                case NodeIndexerMode.PointWithoutChecked:
+                case SegmentIndexerMode.PointWithoutChecked:
                     for (int k = 0; k < this.Layers.Count; k++)
                     {
                         Layer item = this.Layers[k];
                         if (item.IsSelected)
                         {
-                            if (this.Index1 == k)
-                                item.Select(this.Index2, this.Indexer.Index);
+                            if (this.LayerIndex == k)
+                                item.Select(this.FigureIndex, this.Indexer.Index);
                             else
                                 item.DeselectAll();
                         }
                     }
 
                     {
-                        Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Figures[this.Index2];
+                        Layer item = this.Layers[this.LayerIndex];
+                        Figure figure = item.Figures[this.FigureIndex];
                         Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.Composer.Reset(segment.Map);
@@ -1675,7 +1675,7 @@ namespace FanKit.Transformer.TestApp
                             | InvalidateModes.CanvasControl);
                     }
                     break;
-                case NodeIndexerMode.PointWithChecked:
+                case SegmentIndexerMode.PointWithChecked:
                     switch (this.Composer.SizeType)
                     {
                         case SizeType.Empty:
@@ -1714,14 +1714,14 @@ namespace FanKit.Transformer.TestApp
         {
             switch (this.Indexer.Mode)
             {
-                case NodeIndexerMode.None:
+                case SegmentIndexerMode.None:
                     this.Single3();
                     break;
-                case NodeIndexerMode.PointWithoutChecked:
+                case SegmentIndexerMode.PointWithoutChecked:
                     {
                         this.Composer.PointTranslate(this.Indicator, this.StartingPosition, this.Position);
 
-                        Layer item = this.Layers[this.Index1];
+                        Layer item = this.Layers[this.LayerIndex];
                         item.SetTranslation(this.Composer.TranslationX, this.Composer.TranslationY, this.Composer.PointPoint, this.Indexer.Index);
 
                         this.Invalidate(InvalidateModes.None
@@ -1730,7 +1730,7 @@ namespace FanKit.Transformer.TestApp
                             | InvalidateModes.CanvasControl);
                     }
                     break;
-                case NodeIndexerMode.PointWithChecked:
+                case SegmentIndexerMode.PointWithChecked:
                     switch (this.Composer.SizeType)
                     {
                         case SizeType.Empty:
@@ -1819,11 +1819,11 @@ namespace FanKit.Transformer.TestApp
             const float d = 12f;
             const float ds = d * d;
 
-            this.Indexer = NodeIndexer.Empty;
+            this.Indexer = SegmentIndexer.Empty;
 
             switch (this.Indexer.Mode)
             {
-                case NodeIndexerMode.None:
+                case SegmentIndexerMode.None:
                     for (int k = 0; k < this.Layers.Count; k++)
                     {
                         Layer item = this.Layers[k];
@@ -1832,15 +1832,15 @@ namespace FanKit.Transformer.TestApp
                             for (int j = 0; j < item.Figures.Count; j++)
                             {
                                 Figure figure = item.Figures[j];
-                                this.Indexer = new NodeIndexer(figure.Segments, this.Point, ds);
+                                this.Indexer = new SegmentIndexer(figure.Segments, this.Point, ds);
 
-                                if (this.Indexer.Mode != NodeIndexerMode.None)
+                                if (this.Indexer.Mode != SegmentIndexerMode.None)
                                 {
-                                    this.Index1 = k;
-                                    this.Index2 = j;
+                                    this.LayerIndex = k;
+                                    this.FigureIndex = j;
 
-                                    if (this.Indexer.Mode == NodeIndexerMode.PointWithoutChecked) goto case NodeIndexerMode.PointWithoutChecked;
-                                    if (this.Indexer.Mode == NodeIndexerMode.PointWithChecked) goto case NodeIndexerMode.PointWithChecked;
+                                    if (this.Indexer.Mode == SegmentIndexerMode.PointWithoutChecked) goto case SegmentIndexerMode.PointWithoutChecked;
+                                    if (this.Indexer.Mode == SegmentIndexerMode.PointWithChecked) goto case SegmentIndexerMode.PointWithChecked;
                                 }
                             }
                         }
@@ -1895,10 +1895,10 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case NodeIndexerMode.PointWithoutChecked:
+                case SegmentIndexerMode.PointWithoutChecked:
                     {
-                        Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Figures[this.Index2];
+                        Layer item = this.Layers[this.LayerIndex];
+                        Figure figure = item.Figures[this.FigureIndex];
                         Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.FootPoint = new FootPointer(segment.Map);
@@ -1906,10 +1906,10 @@ namespace FanKit.Transformer.TestApp
                         this.Invalidate(InvalidateModes.CanvasControl);
                     }
                     break;
-                case NodeIndexerMode.PointWithChecked:
+                case SegmentIndexerMode.PointWithChecked:
                     {
-                        Layer item = this.Layers[this.Index1];
-                        Figure figure = item.Figures[this.Index2];
+                        Layer item = this.Layers[this.LayerIndex];
+                        Figure figure = item.Figures[this.FigureIndex];
                         Segment segment = figure.Segments[this.Indexer.Index];
 
                         this.FootPoint = new FootPointer(segment.Map);

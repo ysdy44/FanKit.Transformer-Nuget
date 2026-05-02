@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Polylines
 {
-    public enum NodeIndexerMode : byte
+    public enum SegmentIndexerMode : byte
     {
         None,
 

@@ -4,23 +4,23 @@ using System.Numerics;
 
 namespace FanKit.Transformer.Polylines
 {
-    public struct NodeIndexer
+    public struct SegmentIndexer
     {
-        readonly static NodeIndexer empty = new NodeIndexer
+        readonly static SegmentIndexer empty = new SegmentIndexer
         {
-            Mode = NodeIndexerMode.None,
+            Mode = SegmentIndexerMode.None,
             Index = -1,
         };
 
-        public static NodeIndexer Empty
+        public static SegmentIndexer Empty
         {
             get { return empty; }
         }
 
         public int Index;
-        public NodeIndexerMode Mode;
+        public SegmentIndexerMode Mode;
 
-        public NodeIndexer(IReadOnlyList<Vector2> segments, Vector2 point, float minLengthSquared = 144f)
+        public SegmentIndexer(IReadOnlyList<Vector2> segments, Vector2 point, float minLengthSquared = 144f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -28,16 +28,16 @@ namespace FanKit.Transformer.Polylines
                 if (item.ContainsNode(point, minLengthSquared))
                 {
                     this.Index = i;
-                    this.Mode = NodeIndexerMode.PointWithChecked;
+                    this.Mode = SegmentIndexerMode.PointWithChecked;
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment0> segments, Vector2 point, float minLengthSquared = 144f)
+        public SegmentIndexer(IReadOnlyList<Segment0> segments, Vector2 point, float minLengthSquared = 144f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -47,21 +47,21 @@ namespace FanKit.Transformer.Polylines
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment1> segments, Vector2 point, float minLengthSquared = 144f)
+        public SegmentIndexer(IReadOnlyList<Segment1> segments, Vector2 point, float minLengthSquared = 144f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -71,21 +71,21 @@ namespace FanKit.Transformer.Polylines
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment2> segments, Vector2 point, float minLengthSquared = 144f)
+        public SegmentIndexer(IReadOnlyList<Segment2> segments, Vector2 point, float minLengthSquared = 144f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -95,21 +95,21 @@ namespace FanKit.Transformer.Polylines
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
 
-        public NodeIndexer(IReadOnlyList<Segment3> segments, Vector2 point, float minLengthSquared = 144f)
+        public SegmentIndexer(IReadOnlyList<Segment3> segments, Vector2 point, float minLengthSquared = 144f)
         {
             for (int i = 0; i < segments.Count; i++)
             {
@@ -119,18 +119,18 @@ namespace FanKit.Transformer.Polylines
                     this.Index = i;
                     if (item.IsChecked)
                     {
-                        this.Mode = NodeIndexerMode.PointWithChecked;
+                        this.Mode = SegmentIndexerMode.PointWithChecked;
                     }
                     else
                     {
-                        this.Mode = NodeIndexerMode.PointWithoutChecked;
+                        this.Mode = SegmentIndexerMode.PointWithoutChecked;
                     }
                     return;
                 }
             }
 
             this.Index = -1;
-            this.Mode = NodeIndexerMode.None;
+            this.Mode = SegmentIndexerMode.None;
         }
     }
 }
