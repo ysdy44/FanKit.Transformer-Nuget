@@ -87,7 +87,7 @@ namespace FanKit.Transformer.Curves
             this.EndExtend();
         }
 
-        public void Select(int index)
+        public void Select(int segmentIndex)
         {
             for (int i = 0; i < this.Segments.Count; i++)
             {
@@ -95,7 +95,7 @@ namespace FanKit.Transformer.Curves
 
                 if (item.IsChecked)
                 {
-                    if (index != i)
+                    if (segmentIndex != i)
                     {
                         this.Segments[i] = new Segment
                         {
@@ -111,7 +111,7 @@ namespace FanKit.Transformer.Curves
                 }
                 else
                 {
-                    if (index == i)
+                    if (segmentIndex == i)
                     {
                         this.Segments[i] = new Segment
                         {
@@ -269,18 +269,18 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Triangles.SelectedItems.Set.Index
-        public void SetTranslation(Vector2 translate, Vector2 point, int index) => this.ST0(translate, point, index);
-        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int index) => this.ST1(indicator, mode, translate, point, index);
+        public void SetTranslation(Vector2 translate, Vector2 point, int segmentIndex) => this.ST0(translate, point, segmentIndex);
+        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int segmentIndex) => this.ST1(indicator, mode, translate, point, segmentIndex);
 
-        public void SetTranslation(float translateX, float translateY, Vector2 point, int index) => this.STXY0(translateX, translateY, point, index);
-        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index) => this.STXY1(indicator, mode, translateX, translateY, point, index);
+        public void SetTranslation(float translateX, float translateY, Vector2 point, int segmentIndex) => this.STXY0(translateX, translateY, point, segmentIndex);
+        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int segmentIndex) => this.STXY1(indicator, mode, translateX, translateY, point, segmentIndex);
 
-        internal override void SI(Vector2 point, int index)
+        internal override void SI(Vector2 point, int segmentIndex)
         {
-            Segment segment = this.Segments[index];
+            Segment segment = this.Segments[segmentIndex];
             Node node = segment.Point.MovePoint(point);
 
-            this.Segments[index] = new Segment
+            this.Segments[segmentIndex] = new Segment
             {
                 IsChecked = true,
                 Point = node,

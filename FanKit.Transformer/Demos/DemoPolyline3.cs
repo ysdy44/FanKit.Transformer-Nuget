@@ -19,7 +19,7 @@ namespace FanKit.Transformer.Demos
         {
         }
 
-        public DemoPolyline3(List<Figure3> figures, Matrix3x2 matrix) : base(figures, matrix)
+        public DemoPolyline3(List<Figure3> figures, Matrix3x2 homographyMatrix) : base(figures, homographyMatrix)
         {
         }
 

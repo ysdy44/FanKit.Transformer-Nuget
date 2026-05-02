@@ -100,10 +100,10 @@ namespace FanKit.Transformer.Polylines
             this.TransformedBounds = new TransformedBounds(this.SourceBounds);
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
-        public Path2(List<Figure> figures, Matrix3x2 matrix)
+        public Path2(List<Figure> figures, Matrix3x2 homographyMatrix)
         {
             this.Figures = figures;
-            this.Matrix = matrix;
+            this.Matrix = homographyMatrix;
             this.Invert();
 
             this.BeginExtend();
@@ -141,13 +141,13 @@ namespace FanKit.Transformer.Polylines
             this.EndExtend();
         }
 
-        public void Select(int index1, int index2)
+        public void Select(int figureIndex, int segmentIndex)
         {
             for (int j = 0; j < this.Figures.Count; j++)
             {
                 Figure figure = this.Figures[j];
 
-                if (index1 == j)
+                if (figureIndex == j)
                 {
                     for (int i = 0; i < figure.Segments.Count; i++)
                     {
@@ -155,7 +155,7 @@ namespace FanKit.Transformer.Polylines
 
                         if (item.IsChecked)
                         {
-                            if (index2 != i)
+                            if (segmentIndex != i)
                             {
                                 figure.Segments[i] = new Segment
                                 {
@@ -171,7 +171,7 @@ namespace FanKit.Transformer.Polylines
                         }
                         else
                         {
-                            if (index2 == i)
+                            if (segmentIndex == i)
                             {
                                 figure.Segments[i] = new Segment
                                 {
@@ -379,19 +379,19 @@ namespace FanKit.Transformer.Polylines
         #endregion
 
         #region Triangles.SelectedItems.Set.Index
-        public void SetTranslation(Vector2 translate, Vector2 point, int index) => this.ST0(translate, point, index);
-        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int index) => this.ST1(indicator, mode, translate, point, index);
+        public void SetTranslation(Vector2 translate, Vector2 point, int segmentIndex) => this.ST0(translate, point, segmentIndex);
+        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int segmentIndex) => this.ST1(indicator, mode, translate, point, segmentIndex);
 
-        public void SetTranslation(float translateX, float translateY, Vector2 point, int index) => this.STXY0(translateX, translateY, point, index);
-        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index) => this.STXY1(indicator, mode, translateX, translateY, point, index);
+        public void SetTranslation(float translateX, float translateY, Vector2 point, int segmentIndex) => this.STXY0(translateX, translateY, point, segmentIndex);
+        public void SetTranslation(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int segmentIndex) => this.STXY1(indicator, mode, translateX, translateY, point, segmentIndex);
 
-        internal override void SI(Vector2 point, int index)
+        internal override void SI(Vector2 point, int segmentIndex)
         {
             foreach (Figure figure in this.Figures)
             {
-                Segment item = figure.Segments[index];
+                Segment item = figure.Segments[segmentIndex];
 
-                figure.Segments[index] = new Segment
+                figure.Segments[segmentIndex] = new Segment
                 {
                     IsChecked = true,
                     Map = point,

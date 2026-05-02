@@ -1,5 +1,4 @@
-﻿using FanKit.Transformer.Cache;
-using FanKit.Transformer.Mathematics;
+﻿using FanKit.Transformer.Mathematics;
 using System.Collections.Generic;
 using System;
 using System.Numerics;
@@ -88,31 +87,31 @@ namespace FanKit.Transformer.Compute
         #endregion
 
         #region Triangles.SelectedItems.Set.Index
-        internal void ST0(Vector2 translate, Vector2 point, int index)
+        internal void ST0(Vector2 translate, Vector2 point, int segmentIndex)
         {
             this.Host = Matrix3x2.CreateTranslation(translate);
-            this.SI(point, index);
+            this.SI(point, segmentIndex);
         }
-        internal void ST1(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int index)
+        internal void ST1(IIndicator indicator, BoxMode mode, Vector2 translate, Vector2 point, int segmentIndex)
         {
             this.Host = Matrix3x2.CreateTranslation(translate);
-            this.SI(point, index);
+            this.SI(point, segmentIndex);
             indicator.ChangeXY(this.Triangle, mode);
         }
 
-        internal void STXY0(float translateX, float translateY, Vector2 point, int index)
+        internal void STXY0(float translateX, float translateY, Vector2 point, int segmentIndex)
         {
             this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.SI(point, index);
+            this.SI(point, segmentIndex);
         }
-        internal void STXY1(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int index)
+        internal void STXY1(IIndicator indicator, BoxMode mode, float translateX, float translateY, Vector2 point, int segmentIndex)
         {
             this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
-            this.SI(point, index);
+            this.SI(point, segmentIndex);
             indicator.ChangeXY(this.Triangle, mode);
         }
 
-        internal abstract void SI(Vector2 point, int index);
+        internal abstract void SI(Vector2 point, int segmentIndex);
         #endregion
 
         #region Triangles.SelectedItems.Transform

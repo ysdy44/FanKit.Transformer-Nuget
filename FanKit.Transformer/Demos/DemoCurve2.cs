@@ -18,7 +18,7 @@ namespace FanKit.Transformer.Demos
         {
         }
 
-        public DemoCurve2(List<Figure2> figures, Matrix3x2 matrix) : base(figures, matrix)
+        public DemoCurve2(List<Figure2> figures, Matrix3x2 homographyMatrix) : base(figures, homographyMatrix)
         {
         }
 
