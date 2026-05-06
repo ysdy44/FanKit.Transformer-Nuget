@@ -15,24 +15,24 @@ namespace FanKit.Transformer.Curves
         public Node Map;
 
         #region Constructors
-        public Segment2(bool isChecked, Vector2 point, Matrix3x2 matrix)
+        public Segment2(bool isChecked, Vector2 pointRaw, Matrix3x2 homographyMatrix)
         {
             this.IsChecked = isChecked;
             this.IsSmooth = true;
 
             this.Starting = default;
-            this.Raw = new Node(point);
-            this.Map = new Node(Vector2.Transform(this.Raw.Point, matrix));
+            this.Raw = new Node(pointRaw);
+            this.Map = new Node(Vector2.Transform(this.Raw.Point, homographyMatrix));
         }
 
-        public Segment2(bool isChecked, Node node, Matrix3x2 matrix)
+        public Segment2(bool isChecked, Node nodeRaw, Matrix3x2 homographyMatrix)
         {
             this.IsChecked = isChecked;
             this.IsSmooth = true;
 
             this.Starting = default;
-            this.Raw = node;
-            this.Map = Node.Transform(this.Raw, matrix);
+            this.Raw = nodeRaw;
+            this.Map = Node.Transform(this.Raw, homographyMatrix);
         }
 
         private Segment2(Segment2 center, Segment2 control, bool atFirst)

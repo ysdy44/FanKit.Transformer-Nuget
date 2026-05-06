@@ -16,26 +16,26 @@ namespace FanKit.Transformer.Curves
         public Node Actual;
 
         #region Constructors
-        public Segment3(bool isChecked, Vector2 point, Matrix3x2 matrix1, ICanvasMatrix matrix2)
+        public Segment3(bool isChecked, Vector2 pointRaw, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             this.IsChecked = isChecked;
             this.IsSmooth = true;
 
             this.Starting = default;
-            this.Raw = new Node(point);
-            this.Map = new Node(Vector2.Transform(this.Raw.Point, matrix1));
-            this.Actual = new Node(matrix2.Transform(this.Map.Point));
+            this.Raw = new Node(pointRaw);
+            this.Map = new Node(Vector2.Transform(this.Raw.Point, homographyMatrix));
+            this.Actual = new Node(canvasMatrix.Transform(this.Map.Point));
         }
 
-        public Segment3(bool isChecked, Node node, Matrix3x2 matrix1, ICanvasMatrix matrix2)
+        public Segment3(bool isChecked, Node nodeRaw, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             this.IsChecked = isChecked;
             this.IsSmooth = true;
 
             this.Starting = default;
-            this.Raw = node;
-            this.Map = Node.Transform(this.Raw, matrix1);
-            this.Actual = matrix2.Transform(this.Map);
+            this.Raw = nodeRaw;
+            this.Map = Node.Transform(this.Raw, homographyMatrix);
+            this.Actual = canvasMatrix.Transform(this.Map);
         }
 
         private Segment3(Segment3 center, Segment3 control, bool atFirst)

@@ -73,26 +73,26 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        public static void CreatePreviousPath(this IPathBuilder pathBuilder, ClosestPointer closest, ICanvasMatrix matrix)
+        public static void CreatePreviousPath(this IPathBuilder pathBuilder, ClosestPointer closest, ICanvasMatrix canvasMatrix)
         {
             // ?
 
-            pathBuilder.BeginFigure(matrix.Transform(closest.Previous.Point));
+            pathBuilder.BeginFigure(canvasMatrix.Transform(closest.Previous.Point));
 
-            AddBezier(pathBuilder, closest.PreviousIsSmooth, closest.NextIsSmooth, matrix.Transform(closest.Previous), matrix.Transform(closest.Current));
+            AddBezier(pathBuilder, closest.PreviousIsSmooth, closest.NextIsSmooth, canvasMatrix.Transform(closest.Previous), canvasMatrix.Transform(closest.Current));
 
             pathBuilder.EndFigure(Open);
 
             // return
         }
 
-        public static void CreateNextPath(this IPathBuilder pathBuilder, ClosestPointer closest, ICanvasMatrix matrix)
+        public static void CreateNextPath(this IPathBuilder pathBuilder, ClosestPointer closest, ICanvasMatrix canvasMatrix)
         {
             // ?
 
-            pathBuilder.BeginFigure(matrix.Transform(closest.Current.Point));
+            pathBuilder.BeginFigure(canvasMatrix.Transform(closest.Current.Point));
 
-            AddBezier(pathBuilder, closest.PreviousIsSmooth, closest.NextIsSmooth, matrix.Transform(closest.Current), matrix.Transform(closest.Next));
+            AddBezier(pathBuilder, closest.PreviousIsSmooth, closest.NextIsSmooth, canvasMatrix.Transform(closest.Current), canvasMatrix.Transform(closest.Next));
 
             pathBuilder.EndFigure(Open);
 

@@ -40,11 +40,11 @@ namespace FanKit.Transformer
                 this.RightTop.Y + this.LeftBottom.Y - this.LeftTop.Y); // Triangle -> Transformer
         }
 
-        public Quadrilateral(Vector2 leftTop, Vector2 rightTop, Vector2 leftBottom, ICanvasMatrix matrix)
+        public Quadrilateral(Vector2 leftTop, Vector2 rightTop, Vector2 leftBottom, ICanvasMatrix canvasMatrix)
         {
-            this.LeftTop = matrix.Transform(leftTop);
-            this.RightTop = matrix.Transform(rightTop);
-            this.LeftBottom = matrix.Transform(leftBottom);
+            this.LeftTop = canvasMatrix.Transform(leftTop);
+            this.RightTop = canvasMatrix.Transform(rightTop);
+            this.LeftBottom = canvasMatrix.Transform(leftBottom);
 
             this.RightBottom = new Vector2(this.RightTop.X + this.LeftBottom.X - this.LeftTop.X,
                 this.RightTop.Y + this.LeftBottom.Y - this.LeftTop.Y); // Triangle -> Transformer
@@ -70,11 +70,11 @@ namespace FanKit.Transformer
                 this.RightTop.Y + this.LeftBottom.Y - this.LeftTop.Y); // Triangle -> Transformer
         }
 
-        public Quadrilateral(Triangle triangle, ICanvasMatrix matrix)
+        public Quadrilateral(Triangle triangle, ICanvasMatrix canvasMatrix)
         {
-            this.LeftTop = matrix.Transform(triangle.LeftTop);
-            this.RightTop = matrix.Transform(triangle.RightTop);
-            this.LeftBottom = matrix.Transform(triangle.LeftBottom);
+            this.LeftTop = canvasMatrix.Transform(triangle.LeftTop);
+            this.RightTop = canvasMatrix.Transform(triangle.RightTop);
+            this.LeftBottom = canvasMatrix.Transform(triangle.LeftBottom);
 
             this.RightBottom = new Vector2(this.RightTop.X + this.LeftBottom.X - this.LeftTop.X,
                 this.RightTop.Y + this.LeftBottom.Y - this.LeftTop.Y); // Triangle -> Transformer

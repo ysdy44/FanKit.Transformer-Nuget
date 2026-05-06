@@ -32,11 +32,11 @@ namespace FanKit.Transformer
             this.LeftBottom = Vector2.Transform(leftBottom, matrix);
         }
 
-        public Triangle(Vector2 leftTop, Vector2 rightTop, Vector2 leftBottom, ICanvasMatrix matrix)
+        public Triangle(Vector2 leftTop, Vector2 rightTop, Vector2 leftBottom, ICanvasMatrix canvasMatrix)
         {
-            this.LeftTop = matrix.Transform(leftTop);
-            this.RightTop = matrix.Transform(rightTop);
-            this.LeftBottom = matrix.Transform(leftBottom);
+            this.LeftTop = canvasMatrix.Transform(leftTop);
+            this.RightTop = canvasMatrix.Transform(rightTop);
+            this.LeftBottom = canvasMatrix.Transform(leftBottom);
         }
 
         public Triangle(Quadrilateral quad)
@@ -53,11 +53,11 @@ namespace FanKit.Transformer
             this.LeftBottom = Vector2.Transform(quad.LeftBottom, matrix);
         }
 
-        public Triangle(Quadrilateral quad, ICanvasMatrix matrix)
+        public Triangle(Quadrilateral quad, ICanvasMatrix canvasMatrix)
         {
-            this.LeftTop = matrix.Transform(quad.LeftTop);
-            this.RightTop = matrix.Transform(quad.RightTop);
-            this.LeftBottom = matrix.Transform(quad.LeftBottom);
+            this.LeftTop = canvasMatrix.Transform(quad.LeftTop);
+            this.RightTop = canvasMatrix.Transform(quad.RightTop);
+            this.LeftBottom = canvasMatrix.Transform(quad.LeftBottom);
         }
 
         public Triangle(float width, float height)

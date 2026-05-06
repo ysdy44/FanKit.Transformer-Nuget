@@ -171,65 +171,65 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment1
-        public Segment1 CubicBezier1(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix matrix)
+        public Segment1 CubicBezier1(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment1(false, new Node(s, s, controlPoint1), matrix);
+                    return new Segment1(false, new Node(s, s, controlPoint1), canvasMatrix);
                 case l:
-                    return new Segment1(false, new Node(e, e, controlPoint1), matrix);
+                    return new Segment1(false, new Node(e, e, controlPoint1), canvasMatrix);
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, controlPoint1), matrix);
+                    return new Segment1(false, new Node(e, c, controlPoint1), canvasMatrix);
                 default:
                     return default;
             }
         }
 
-        public Segment1 QuadraticBezier1(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix matrix)
+        public Segment1 QuadraticBezier1(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment1(false, new Node(s, s, controlPoint), matrix);
+                    return new Segment1(false, new Node(s, s, controlPoint), canvasMatrix);
                 case l:
-                    return new Segment1(false, new Node(e, e, controlPoint), matrix);
+                    return new Segment1(false, new Node(e, e, controlPoint), canvasMatrix);
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, controlPoint), matrix);
+                    return new Segment1(false, new Node(e, c, controlPoint), canvasMatrix);
                 default:
                     return default;
             }
         }
 
-        public Segment1 Line1(Vector2 endPoint, ICanvasMatrix matrix)
+        public Segment1 Line1(Vector2 endPoint, ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment1(false, s, matrix);
+                    return new Segment1(false, s, canvasMatrix);
                 case l:
-                    return new Segment1(false, e, matrix);
+                    return new Segment1(false, e, canvasMatrix);
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, endPoint), matrix);
+                    return new Segment1(false, new Node(e, c, endPoint), canvasMatrix);
                 default:
                     return default;
             }
         }
 
         // Closed
-        public Segment1 EndFigure1(ICanvasMatrix matrix)
+        public Segment1 EndFigure1(ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
                 case l:
-                    return new Segment1(false, e, matrix);
+                    return new Segment1(false, e, canvasMatrix);
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, e), matrix);
+                    return new Segment1(false, new Node(e, c, e), canvasMatrix);
                 default:
                     return default;
             }
@@ -237,65 +237,65 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment2
-        public Segment2 CubicBezier2(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 matrix)
+        public Segment2 CubicBezier2(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment2(false, new Node(s, s, controlPoint1), matrix);
+                    return new Segment2(false, new Node(s, s, controlPoint1), homographyMatrix);
                 case l:
-                    return new Segment2(false, new Node(e, e, controlPoint1), matrix);
+                    return new Segment2(false, new Node(e, e, controlPoint1), homographyMatrix);
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, controlPoint1), matrix);
+                    return new Segment2(false, new Node(e, c, controlPoint1), homographyMatrix);
                 default:
                     return default;
             }
         }
 
-        public Segment2 QuadraticBezier2(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 matrix)
+        public Segment2 QuadraticBezier2(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment2(false, new Node(s, s, controlPoint), matrix);
+                    return new Segment2(false, new Node(s, s, controlPoint), homographyMatrix);
                 case l:
-                    return new Segment2(false, new Node(e, e, controlPoint), matrix);
+                    return new Segment2(false, new Node(e, e, controlPoint), homographyMatrix);
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, controlPoint), matrix);
+                    return new Segment2(false, new Node(e, c, controlPoint), homographyMatrix);
                 default:
                     return default;
             }
         }
 
-        public Segment2 Line2(Vector2 endPoint, Matrix3x2 matrix)
+        public Segment2 Line2(Vector2 endPoint, Matrix3x2 homographyMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment2(false, s, matrix);
+                    return new Segment2(false, s, homographyMatrix);
                 case l:
-                    return new Segment2(false, e, matrix);
+                    return new Segment2(false, e, homographyMatrix);
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, endPoint), matrix);
+                    return new Segment2(false, new Node(e, c, endPoint), homographyMatrix);
                 default:
                     return default;
             }
         }
 
         // Closed
-        public Segment2 EndFigure2(Matrix3x2 matrix)
+        public Segment2 EndFigure2(Matrix3x2 homographyMatrix)
         {
             switch (m)
             {
                 case b:
                 case l:
-                    return new Segment2(false, e, matrix);
+                    return new Segment2(false, e, homographyMatrix);
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, e), matrix);
+                    return new Segment2(false, new Node(e, c, e), homographyMatrix);
                 default:
                     return default;
             }
@@ -303,65 +303,65 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment3
-        public Segment3 CubicBezier3(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 matrix1, ICanvasMatrix matrix2)
+        public Segment3 CubicBezier3(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment3(false, new Node(s, s, controlPoint1), matrix1, matrix2);
+                    return new Segment3(false, new Node(s, s, controlPoint1), homographyMatrix, canvasMatrix);
                 case l:
-                    return new Segment3(false, new Node(e, e, controlPoint1), matrix1, matrix2);
+                    return new Segment3(false, new Node(e, e, controlPoint1), homographyMatrix, canvasMatrix);
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, controlPoint1), matrix1, matrix2);
+                    return new Segment3(false, new Node(e, c, controlPoint1), homographyMatrix, canvasMatrix);
                 default:
                     return default;
             }
         }
 
-        public Segment3 QuadraticBezier3(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 matrix1, ICanvasMatrix matrix2)
+        public Segment3 QuadraticBezier3(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment3(false, new Node(s, s, controlPoint), matrix1, matrix2);
+                    return new Segment3(false, new Node(s, s, controlPoint), homographyMatrix, canvasMatrix);
                 case l:
-                    return new Segment3(false, new Node(e, e, controlPoint), matrix1, matrix2);
+                    return new Segment3(false, new Node(e, e, controlPoint), homographyMatrix, canvasMatrix);
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, controlPoint), matrix1, matrix2);
+                    return new Segment3(false, new Node(e, c, controlPoint), homographyMatrix, canvasMatrix);
                 default:
                     return default;
             }
         }
 
-        public Segment3 Line3(Vector2 endPoint, Matrix3x2 matrix1, ICanvasMatrix matrix2)
+        public Segment3 Line3(Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
-                    return new Segment3(false, s, matrix1, matrix2);
+                    return new Segment3(false, s, homographyMatrix, canvasMatrix);
                 case l:
-                    return new Segment3(false, e, matrix1, matrix2);
+                    return new Segment3(false, e, homographyMatrix, canvasMatrix);
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, endPoint), matrix1, matrix2);
+                    return new Segment3(false, new Node(e, c, endPoint), homographyMatrix, canvasMatrix);
                 default:
                     return default;
             }
         }
 
         // Closed
-        public Segment3 EndFigure3(Matrix3x2 matrix1, ICanvasMatrix matrix2)
+        public Segment3 EndFigure3(Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             switch (m)
             {
                 case b:
                 case l:
-                    return new Segment3(false, e, matrix1, matrix2);
+                    return new Segment3(false, e, homographyMatrix, canvasMatrix);
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, e), matrix1, matrix2);
+                    return new Segment3(false, new Node(e, c, e), homographyMatrix, canvasMatrix);
                 default:
                     return default;
             }

@@ -15,24 +15,24 @@ namespace FanKit.Transformer.Curves
         public Node Actual;
 
         #region Constructors
-        public Segment1(bool isChecked, Vector2 point, ICanvasMatrix matrix)
+        public Segment1(bool isChecked, Vector2 point, ICanvasMatrix canvasMatrix)
         {
             this.IsChecked = isChecked;
             this.IsSmooth = true;
 
             this.Starting = default;
             this.Point = new Node(point);
-            this.Actual = new Node(matrix.Transform(this.Point.Point));
+            this.Actual = new Node(canvasMatrix.Transform(this.Point.Point));
         }
 
-        public Segment1(bool isChecked, Node node, ICanvasMatrix matrix)
+        public Segment1(bool isChecked, Node node, ICanvasMatrix canvasMatrix)
         {
             this.IsChecked = isChecked;
             this.IsSmooth = true;
 
             this.Starting = default;
             this.Point = node;
-            this.Actual = matrix.Transform(this.Point);
+            this.Actual = canvasMatrix.Transform(this.Point);
         }
 
         private Segment1(Segment1 center, Segment1 control, bool atFirst)
