@@ -15,9 +15,9 @@
             this.ActualValue = this.Value;
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualValue = matrix.Scale(this.Value);
+            this.ActualValue = canvasMatrix.Scale(this.Value);
         }
     }
 }

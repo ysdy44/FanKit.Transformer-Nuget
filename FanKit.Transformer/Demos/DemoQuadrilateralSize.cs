@@ -38,20 +38,20 @@ namespace FanKit.Transformer.Demos
             this.ActualDestBox = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
         }
 
-        public void ResetCanvas(ICanvasMatrix matrix)
+        public void ResetCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualDestinationMatrix = matrix.Matrix.ToMatrix3x3();
-            this.ActualSourceBox = new Box0(this.Source, matrix);
+            this.ActualDestinationMatrix = canvasMatrix.Matrix.ToMatrix3x3();
+            this.ActualSourceBox = new Box0(this.Source, canvasMatrix);
 
-            this.ActualDestBox = new Quadrilateral(this.DestinationWidth, this.DestinationHeight, matrix.Matrix);
+            this.ActualDestBox = new Quadrilateral(this.DestinationWidth, this.DestinationHeight, canvasMatrix.Matrix);
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualDestinationMatrix = Math.Transform(this.HomographyMatrix, matrix.Matrix);
-            this.ActualSourceBox = new Box0(this.Source, matrix);
+            this.ActualDestinationMatrix = Math.Transform(this.HomographyMatrix, canvasMatrix.Matrix);
+            this.ActualSourceBox = new Box0(this.Source, canvasMatrix);
 
-            this.ActualDestBox = new Quadrilateral(this.DestinationWidth, this.DestinationHeight, matrix.Matrix);
+            this.ActualDestBox = new Quadrilateral(this.DestinationWidth, this.DestinationHeight, canvasMatrix.Matrix);
         }
     }
 }

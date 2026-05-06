@@ -24,7 +24,7 @@ namespace FanKit.Transformer.Demos
             }
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
             switch (this.Count)
             {
@@ -32,7 +32,7 @@ namespace FanKit.Transformer.Demos
                     this.ActualBox = default;
                     break;
                 default:
-                    this.ActualBox = new Box0(this.Destination, matrix);
+                    this.ActualBox = new Box0(this.Destination, canvasMatrix);
                     break;
             }
         }

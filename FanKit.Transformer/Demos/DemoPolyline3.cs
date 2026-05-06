@@ -53,10 +53,10 @@ namespace FanKit.Transformer.Demos
             }
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualStrokeWidth = matrix.Scale(this.StrokeWidth);
-            this.ActualBox = new Box0(this.Destination, matrix);
+            this.ActualStrokeWidth = canvasMatrix.Scale(this.StrokeWidth);
+            this.ActualBox = new Box0(this.Destination, canvasMatrix);
 
             foreach (Figure3 figure in this.Figures)
             {
@@ -65,7 +65,7 @@ namespace FanKit.Transformer.Demos
                     Segment3 item = figure.Segments[i];
                     figure.Segments[i] = new Segment3
                     {
-                        Actual = matrix.Transform(item.Map),
+                        Actual = canvasMatrix.Transform(item.Map),
                         // C# 9.0 : var a = item with { ... }
 
                         IsChecked = item.IsChecked,

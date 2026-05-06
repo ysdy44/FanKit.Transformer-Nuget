@@ -18,10 +18,6 @@ namespace FanKit.Transformer.Demos
         {
         }
 
-        public DemoPolyline1(List<Segment1> segments, Matrix3x2 matrix) : base(segments, matrix)
-        {
-        }
-
         public void UpdateCanvas()
         {
             this.ActualStrokeWidth = this.StrokeWidth;
@@ -43,17 +39,17 @@ namespace FanKit.Transformer.Demos
             }
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualStrokeWidth = matrix.Scale(this.StrokeWidth);
-            this.ActualBox = new Box0(this.Destination, matrix);
+            this.ActualStrokeWidth = canvasMatrix.Scale(this.StrokeWidth);
+            this.ActualBox = new Box0(this.Destination, canvasMatrix);
 
             for (int i = 0; i < this.Segments.Count; i++)
             {
                 Segment1 item = this.Segments[i];
                 this.Segments[i] = new Segment1
                 {
-                    Actual = matrix.Transform(item.Point),
+                    Actual = canvasMatrix.Transform(item.Point),
                     // C# 9.0 : var a = item with { ... }
 
                     IsChecked = item.IsChecked,

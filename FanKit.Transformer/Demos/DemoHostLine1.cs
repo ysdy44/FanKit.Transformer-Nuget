@@ -16,9 +16,9 @@ namespace FanKit.Transformer.Demos
             this.ActualLine = new Line1(this.Point0, this.Point1);
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualLine = new Line1(this.Point0, this.Point1, matrix);
+            this.ActualLine = new Line1(this.Point0, this.Point1, canvasMatrix);
         }
     }
 }

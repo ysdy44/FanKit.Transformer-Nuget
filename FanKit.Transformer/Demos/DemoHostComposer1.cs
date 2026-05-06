@@ -52,7 +52,7 @@ namespace FanKit.Transformer.Demos
             }
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
             switch (this.SizeType)
             {
@@ -62,24 +62,24 @@ namespace FanKit.Transformer.Demos
                     this.ActualBox = default;
                     break;
                 case SizeType.Point:
-                    this.ActualPoint = matrix.Transform(this.PointPoint);
+                    this.ActualPoint = canvasMatrix.Transform(this.PointPoint);
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
                 case SizeType.RowLine:
                     this.ActualPoint = default;
-                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1, matrix);
+                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1, canvasMatrix);
                     this.ActualBox = default;
                     break;
                 case SizeType.ColumnLine:
                     this.ActualPoint = default;
-                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1, matrix);
+                    this.ActualLine = new Line1(this.LinePoint0, this.LinePoint1, canvasMatrix);
                     this.ActualBox = default;
                     break;
                 case SizeType.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
-                    this.ActualBox = new Box1(this.PanelDestination, matrix);
+                    this.ActualBox = new Box1(this.PanelDestination, canvasMatrix);
                     break;
                 default:
                     this.ActualPoint = default;

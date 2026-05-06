@@ -34,18 +34,18 @@ namespace FanKit.Transformer.Demos
             this.ActualBox = new Box0(this.Destination);
         }
 
-        public void ResetCanvas(ICanvasMatrix matrix)
+        public void ResetCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualMatrix = matrix.Matrix.ToMatrix3x3();
+            this.ActualMatrix = canvasMatrix.Matrix.ToMatrix3x3();
 
-            this.ActualBox = new Box0(this.Destination, matrix);
+            this.ActualBox = new Box0(this.Destination, canvasMatrix);
         }
 
-        public void UpdateCanvas(ICanvasMatrix matrix)
+        public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
-            this.ActualMatrix = Math.Transform(this.HomographyMatrix, matrix.Matrix);
+            this.ActualMatrix = Math.Transform(this.HomographyMatrix, canvasMatrix.Matrix);
 
-            this.ActualBox = new Box0(this.Destination, matrix);
+            this.ActualBox = new Box0(this.Destination, canvasMatrix);
         }
     }
 }
