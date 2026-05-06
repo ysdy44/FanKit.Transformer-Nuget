@@ -56,6 +56,7 @@
                 }
             }
         }
+
         public bool IsInContact => this.State != default;
 
         public abstract double FlipX(double x);

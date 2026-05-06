@@ -100,6 +100,7 @@ namespace FanKit.Transformer.Polylines
             this.TransformedBounds = new TransformedBounds(this.SourceBounds);
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
+
         public Path2(List<Figure> figures, Matrix3x2 homographyMatrix)
         {
             this.Figures = figures;
