@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Segment = FanKit.Transformer.Curves.Segment3;
 
 namespace FanKit.Transformer.Curves
 {
@@ -14,12 +15,12 @@ namespace FanKit.Transformer.Curves
 
         public bool IsClosed;
 
-        public readonly List<Segment3> Segments = new List<Segment3>();
+        public readonly List<Segment> Segments = new List<Segment>();
 
         public PathSetting Setting { get; } = new PathSetting();
         public int Count => this.Segments.Count;
         public int GetChecksCount() => this.Segments.Count(GetIsChecked);
-        private static bool GetIsChecked(Segment3 item) => item.IsChecked;
+        private static bool GetIsChecked(Segment item) => item.IsChecked;
 
         public void Extend()
         {
@@ -27,19 +28,19 @@ namespace FanKit.Transformer.Curves
 
             for (int i = 1; i < this.Segments.Count; i++)
             {
-                Segment3 previous = this.Segments[i - 1];
-                Segment3 next = this.Segments[i];
+                Segment previous = this.Segments[i - 1];
+                Segment next = this.Segments[i];
 
-                this.b = Segment3.Extend(previous, next);
+                this.b = Segment.Extend(previous, next);
                 this.SourceBounds = Bounds.Union(this.SourceBounds, this.b);
             }
 
             if (this.IsClosed)
             {
-                Segment3 first = this.Segments[0];
-                Segment3 last = this.Segments[this.Segments.Count - 1];
+                Segment first = this.Segments[0];
+                Segment last = this.Segments[this.Segments.Count - 1];
 
-                this.b = Segment3.Extend(last, first);
+                this.b = Segment.Extend(last, first);
                 this.SourceBounds = Bounds.Union(this.SourceBounds, this.b);
             }
         }

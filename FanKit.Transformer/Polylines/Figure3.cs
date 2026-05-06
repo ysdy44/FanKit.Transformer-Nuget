@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Segment = FanKit.Transformer.Polylines.Segment3;
 
 namespace FanKit.Transformer.Polylines
 {
@@ -9,11 +10,11 @@ namespace FanKit.Transformer.Polylines
     {
         public bool IsClosed;
 
-        public readonly List<Segment3> Segments = new List<Segment3>();
+        public readonly List<Segment> Segments = new List<Segment>();
 
         public PathSetting Setting { get; } = new PathSetting();
         public int Count => this.Segments.Count;
         public int GetChecksCount() => this.Segments.Count(GetIsChecked);
-        private static bool GetIsChecked(Segment3 item) => item.IsChecked;
+        private static bool GetIsChecked(Segment item) => item.IsChecked;
     }
 }
