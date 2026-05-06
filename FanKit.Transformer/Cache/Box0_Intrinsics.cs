@@ -37,19 +37,19 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box0(Bounds bounds, Matrix3x2 matrix)
-            : this(Mathematics.Math.Transform(bounds.Left, bounds.Top, matrix),
-                  Mathematics.Math.Transform(bounds.Right, bounds.Top, matrix),
-                  Mathematics.Math.Transform(bounds.Left, bounds.Bottom, matrix),
-                  Mathematics.Math.Transform(bounds.Right, bounds.Bottom, matrix))
+        public Box0(Bounds bounds, Matrix3x2 canvasMatrix)
+            : this(Mathematics.Math.Transform(bounds.Left, bounds.Top, canvasMatrix),
+                  Mathematics.Math.Transform(bounds.Right, bounds.Top, canvasMatrix),
+                  Mathematics.Math.Transform(bounds.Left, bounds.Bottom, canvasMatrix),
+                  Mathematics.Math.Transform(bounds.Right, bounds.Bottom, canvasMatrix))
         {
         }
 
-        public Box0(Bounds bounds, ICanvasMatrix matrix)
-            : this(matrix.Transform(bounds.Left, bounds.Top),
-                  matrix.Transform(bounds.Right, bounds.Top),
-                  matrix.Transform(bounds.Left, bounds.Bottom),
-                  matrix.Transform(bounds.Right, bounds.Bottom))
+        public Box0(Bounds bounds, ICanvasMatrix canvasMatrix)
+            : this(canvasMatrix.Transform(bounds.Left, bounds.Top),
+                  canvasMatrix.Transform(bounds.Right, bounds.Top),
+                  canvasMatrix.Transform(bounds.Left, bounds.Bottom),
+                  canvasMatrix.Transform(bounds.Right, bounds.Bottom))
         {
         }
 
@@ -68,17 +68,17 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box0(Triangle triangle, Matrix3x2 matrix)
-            : this(Vector2.Transform(triangle.LeftTop, matrix),
-                  Vector2.Transform(triangle.RightTop, matrix),
-                  Vector2.Transform(triangle.LeftBottom, matrix))
+        public Box0(Triangle triangle, Matrix3x2 canvasMatrix)
+            : this(Vector2.Transform(triangle.LeftTop, canvasMatrix),
+                  Vector2.Transform(triangle.RightTop, canvasMatrix),
+                  Vector2.Transform(triangle.LeftBottom, canvasMatrix))
         {
         }
 
-        public Box0(Triangle triangle, ICanvasMatrix matrix)
-            : this(matrix.Transform(triangle.LeftTop),
-                  matrix.Transform(triangle.RightTop),
-                  matrix.Transform(triangle.LeftBottom))
+        public Box0(Triangle triangle, ICanvasMatrix canvasMatrix)
+            : this(canvasMatrix.Transform(triangle.LeftTop),
+                  canvasMatrix.Transform(triangle.RightTop),
+                  canvasMatrix.Transform(triangle.LeftBottom))
         {
         }
 
@@ -97,19 +97,19 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box0(Quadrilateral quad, Matrix3x2 matrix)
-            : this(Vector2.Transform(quad.LeftTop, matrix),
-                  Vector2.Transform(quad.RightTop, matrix),
-                  Vector2.Transform(quad.LeftBottom, matrix),
-                  Vector2.Transform(quad.RightBottom, matrix))
+        public Box0(Quadrilateral quad, Matrix3x2 canvasMatrix)
+            : this(Vector2.Transform(quad.LeftTop, canvasMatrix),
+                  Vector2.Transform(quad.RightTop, canvasMatrix),
+                  Vector2.Transform(quad.LeftBottom, canvasMatrix),
+                  Vector2.Transform(quad.RightBottom, canvasMatrix))
         {
         }
 
-        public Box0(Quadrilateral quad, ICanvasMatrix matrix)
-            : this(matrix.Transform(quad.LeftTop),
-                  matrix.Transform(quad.RightTop),
-                  matrix.Transform(quad.LeftBottom),
-                  matrix.Transform(quad.RightBottom))
+        public Box0(Quadrilateral quad, ICanvasMatrix canvasMatrix)
+            : this(canvasMatrix.Transform(quad.LeftTop),
+                  canvasMatrix.Transform(quad.RightTop),
+                  canvasMatrix.Transform(quad.LeftBottom),
+                  canvasMatrix.Transform(quad.RightBottom))
         {
         }
 

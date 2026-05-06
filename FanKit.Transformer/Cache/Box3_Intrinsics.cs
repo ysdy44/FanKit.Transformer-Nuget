@@ -190,20 +190,20 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box3(Bounds bounds, Matrix3x2 matrix, float handleLength = 32f)
-            : this(Mathematics.Math.Transform(bounds.Left, bounds.Top, matrix),
-                  Mathematics.Math.Transform(bounds.Right, bounds.Top, matrix),
-                  Mathematics.Math.Transform(bounds.Left, bounds.Bottom, matrix),
-                  Mathematics.Math.Transform(bounds.Right, bounds.Bottom, matrix),
+        public Box3(Bounds bounds, Matrix3x2 canvasMatrix, float handleLength = 32f)
+            : this(Mathematics.Math.Transform(bounds.Left, bounds.Top, canvasMatrix),
+                  Mathematics.Math.Transform(bounds.Right, bounds.Top, canvasMatrix),
+                  Mathematics.Math.Transform(bounds.Left, bounds.Bottom, canvasMatrix),
+                  Mathematics.Math.Transform(bounds.Right, bounds.Bottom, canvasMatrix),
                   handleLength)
         {
         }
 
-        public Box3(Bounds bounds, ICanvasMatrix matrix, float handleLength = 32f)
-            : this(matrix.Transform(bounds.Left, bounds.Top),
-                  matrix.Transform(bounds.Right, bounds.Top),
-                  matrix.Transform(bounds.Left, bounds.Bottom),
-                  matrix.Transform(bounds.Right, bounds.Bottom),
+        public Box3(Bounds bounds, ICanvasMatrix canvasMatrix, float handleLength = 32f)
+            : this(canvasMatrix.Transform(bounds.Left, bounds.Top),
+                  canvasMatrix.Transform(bounds.Right, bounds.Top),
+                  canvasMatrix.Transform(bounds.Left, bounds.Bottom),
+                  canvasMatrix.Transform(bounds.Right, bounds.Bottom),
                   handleLength)
         {
         }
@@ -225,18 +225,18 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box3(Triangle triangle, Matrix3x2 matrix, float handleLength = 32f)
-            : this(Vector2.Transform(triangle.LeftTop, matrix),
-                  Vector2.Transform(triangle.RightTop, matrix),
-                  Vector2.Transform(triangle.LeftBottom, matrix),
+        public Box3(Triangle triangle, Matrix3x2 canvasMatrix, float handleLength = 32f)
+            : this(Vector2.Transform(triangle.LeftTop, canvasMatrix),
+                  Vector2.Transform(triangle.RightTop, canvasMatrix),
+                  Vector2.Transform(triangle.LeftBottom, canvasMatrix),
                   handleLength)
         {
         }
 
-        public Box3(Triangle triangle, ICanvasMatrix matrix, float handleLength = 32f)
-            : this(matrix.Transform(triangle.LeftTop),
-                  matrix.Transform(triangle.RightTop),
-                  matrix.Transform(triangle.LeftBottom),
+        public Box3(Triangle triangle, ICanvasMatrix canvasMatrix, float handleLength = 32f)
+            : this(canvasMatrix.Transform(triangle.LeftTop),
+                  canvasMatrix.Transform(triangle.RightTop),
+                  canvasMatrix.Transform(triangle.LeftBottom),
                   handleLength)
         {
         }
@@ -258,20 +258,20 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box3(Quadrilateral quad, Matrix3x2 matrix, float handleLength = 32f)
-            : this(Vector2.Transform(quad.LeftTop, matrix),
-                  Vector2.Transform(quad.RightTop, matrix),
-                  Vector2.Transform(quad.LeftBottom, matrix),
-                  Vector2.Transform(quad.RightBottom, matrix),
+        public Box3(Quadrilateral quad, Matrix3x2 canvasMatrix, float handleLength = 32f)
+            : this(Vector2.Transform(quad.LeftTop, canvasMatrix),
+                  Vector2.Transform(quad.RightTop, canvasMatrix),
+                  Vector2.Transform(quad.LeftBottom, canvasMatrix),
+                  Vector2.Transform(quad.RightBottom, canvasMatrix),
                   handleLength)
         {
         }
 
-        public Box3(Quadrilateral quad, ICanvasMatrix matrix, float handleLength = 32f)
-            : this(matrix.Transform(quad.LeftTop),
-                  matrix.Transform(quad.RightTop),
-                  matrix.Transform(quad.LeftBottom),
-                  matrix.Transform(quad.RightBottom),
+        public Box3(Quadrilateral quad, ICanvasMatrix canvasMatrix, float handleLength = 32f)
+            : this(canvasMatrix.Transform(quad.LeftTop),
+                  canvasMatrix.Transform(quad.RightTop),
+                  canvasMatrix.Transform(quad.LeftBottom),
+                  canvasMatrix.Transform(quad.RightBottom),
                   handleLength)
         {
         }

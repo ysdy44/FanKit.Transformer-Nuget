@@ -36,11 +36,11 @@ namespace FanKit.Transformer.Cache
             this.LengthSquared = this.X * this.X + this.Y * this.Y;
         }
 
-        public Line1(Vector2 point0, Vector2 point1, ICanvasMatrix matrix)
+        public Line1(Vector2 point0, Vector2 point1, ICanvasMatrix canvasMatrix)
         {
             // Line
-            this.Point0 = matrix.Transform(point0);
-            this.Point1 = matrix.Transform(point1);
+            this.Point0 = canvasMatrix.Transform(point0);
+            this.Point1 = canvasMatrix.Transform(point1);
 
             // Sides
             this.CenterX = this.Point0.X + this.Point1.X;
