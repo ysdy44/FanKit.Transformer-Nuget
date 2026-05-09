@@ -77,27 +77,6 @@ namespace FanKit.Transformer.Polylines
             this.TransformedBounds = new TransformedBounds(this.SourceBounds);
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
-        public Path1(List<Segment> segments, Matrix3x2 matrix)
-        {
-            this.Segments = segments;
-
-            this.BeginExtend();
-            for (int i = 0; i < this.Segments.Count; i++)
-            {
-                Segment item = this.Segments[i];
-                this.Segments[i] = new Segment
-                {
-                    Actual = Vector2.Transform(item.Point, matrix),
-                    // C# 9.0 : var a = item with { ... }
-
-                    IsChecked = item.IsChecked,
-                    Starting = item.Starting,
-                    Point = item.Point,
-                };
-                this.Extend(item.Point);
-            }
-            this.EndExtend();
-        }
 
         public void Complete()
         {
