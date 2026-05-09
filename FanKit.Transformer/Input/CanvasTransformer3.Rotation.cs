@@ -31,10 +31,10 @@ namespace FanKit.Transformer.Input
             O(centerPoint);
         }
 
-        public void Pinch3(Pivot3 startingPivot, Pivot3 pivot, Vector2 centerPoint)
+        public void Pinch3(float startingRadius, float startingRotationAngle, float radius, float rotationAngle, Vector2 centerPoint)
         {
-            r = Rotate(sr + pivot.RotationAngle - startingPivot.RotationAngle);
-            s = Scales(ss * pivot.Radius / startingPivot.Radius);
+            r = Rotate(sr + rotationAngle - startingRotationAngle);
+            s = Scales(ss * radius / startingRadius);
             O(centerPoint);
         }
 

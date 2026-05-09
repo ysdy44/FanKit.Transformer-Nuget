@@ -234,7 +234,7 @@ namespace FanKit.Transformer.TestApp
                 }
                 else
                 {
-                    this.Canvas.Pinch3(this.StartingPivot, this.Pivot, this.Pivot.Center);
+                    this.Canvas.Pinch3(this.StartingPivot.Radius, this.StartingPivot.RotationAngle, this.Pivot.Radius, this.Pivot.RotationAngle, this.Pivot.Center);
                 }
 
                 this.UpdateCanvasControl2();
@@ -263,7 +263,7 @@ namespace FanKit.Transformer.TestApp
                 }
                 else
                 {
-                    this.Canvas.Pinch3(this.StartingPivot, this.Pivot, this.Pivot.Center);
+                    this.Canvas.Pinch3(this.StartingPivot.Radius, this.StartingPivot.RotationAngle, this.Pivot.Radius, this.Pivot.RotationAngle, this.Pivot.Center);
                 }
 
                 this.UpdateCanvasControl2();
