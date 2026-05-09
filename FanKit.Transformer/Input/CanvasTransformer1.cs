@@ -366,6 +366,11 @@ namespace FanKit.Transformer.Input
             Z(centerPoint, 1 / 1.1f);
         }
 
+        public void Zoom(Vector2 centerPoint, float zoom)
+        {
+            Z(centerPoint, zoom);
+        }
+
         private void Z(Vector2 cp, float ss)
         {
             s = Scales(s.X * ss);
