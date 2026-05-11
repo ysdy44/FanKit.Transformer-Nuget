@@ -44,13 +44,13 @@ namespace FanKit.Transformer.Transforms
             this.StartingTriangle = this.Triangle = new Triangle(this.SourceBounds);
         }
 
-        public void Initialize(Bounds source, Matrix3x2 matrix)
+        public void Initialize(Bounds source, Matrix3x2 homographyMatrix)
         {
             this.SourceBounds = source;
             this.SourceRect = new Rectangle(this.SourceBounds);
             this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            this.StartingMatrix = this.Matrix = matrix;
+            this.StartingMatrix = this.Matrix = homographyMatrix;
 
             this.Host = Matrix3x2.Identity;
 

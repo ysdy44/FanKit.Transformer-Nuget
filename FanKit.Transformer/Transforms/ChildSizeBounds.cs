@@ -37,13 +37,13 @@ namespace FanKit.Transformer.Transforms
             this.StartingBounds = this.Bounds = new Bounds(this.SourceWidth, this.SourceHeight);
         }
 
-        public void Initialize(float sourceWidth, float sourceHeight, Matrix2x2 matrix)
+        public void Initialize(float sourceWidth, float sourceHeight, Matrix2x2 homographyMatrix)
         {
             this.SourceWidth = sourceWidth;
             this.SourceHeight = sourceHeight;
             this.SourceNormalize = new SizeMatrix(this.SourceWidth, this.SourceHeight);
 
-            this.StartingMatrix = this.Matrix = matrix;
+            this.StartingMatrix = this.Matrix = homographyMatrix;
 
             this.Host = Matrix2x2.Identity;
 

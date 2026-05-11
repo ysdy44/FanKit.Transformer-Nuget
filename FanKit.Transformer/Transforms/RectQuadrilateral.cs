@@ -42,13 +42,13 @@ namespace FanKit.Transformer.Transforms
             this.StartingQuadrilateral = this.Quadrilateral = new Quadrilateral(this.SourceBounds);
         }
 
-        public void Initialize(Bounds source, Matrix4x4 matrix)
+        public void Initialize(Bounds source, Matrix4x4 homographyMatrix)
         {
             this.SourceBounds = source;
             this.SourceRect = new Rectangle(this.SourceBounds);
             this.SourceNormalize = new RectMatrix(this.SourceRect);
 
-            this.StartingMatrix = this.Matrix = matrix;
+            this.StartingMatrix = this.Matrix = homographyMatrix;
 
             this.Host = Matrix3x2.Identity;
 
