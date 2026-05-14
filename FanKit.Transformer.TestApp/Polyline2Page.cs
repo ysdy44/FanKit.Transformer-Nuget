@@ -297,12 +297,12 @@ namespace FanKit.Transformer.TestApp
 
             if (modes.HasFlag(InvalidateModes.InitIndicator))
             {
-                this.Composer.BeginExtend();
+                this.Composer.BeginUnion();
                 foreach (Segment item in this.Layer.Segments)
                 {
-                    this.Composer.Extend(item);
+                    this.Composer.UnionByPoint(item);
                 }
-                this.Composer.EndExtendByPoints();
+                this.Composer.EndUnionByPoints();
 
                 switch (this.Composer.SizeType)
                 {
@@ -823,7 +823,7 @@ namespace FanKit.Transformer.TestApp
                             Mode = SegmentIndexerMode.PointWithoutChecked,
                         };
 
-                        this.Composer.Reset(this.FootPoint.Foot);
+                        this.Composer.ResetByPoint(this.FootPoint.Foot);
                         this.HasRectChoose = false;
                         this.Invalidate(InvalidateModes.CanvasControl);
                     }
@@ -838,7 +838,7 @@ namespace FanKit.Transformer.TestApp
 
                         Segment segment = this.Layer.Segments[this.Indexer.Index];
 
-                        this.Composer.Reset(segment.Point);
+                        this.Composer.ResetByPoint(segment.Point);
 
                         this.HasRectChoose = false;
 

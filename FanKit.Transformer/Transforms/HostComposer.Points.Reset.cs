@@ -6,7 +6,7 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostComposer
     {
-        public void Reset(Vector2 point)
+        public void ResetByPoint(Vector2 point)
         {
             this.Count = 1;
             this.SizeType = SizeType.Point;
@@ -16,19 +16,19 @@ namespace FanKit.Transformer.Transforms
             this.Host.Matrix = Matrix3x2.Identity;
         }
 
-        public void Extend(Node segment) { this.Count++; this.Ex(segment.Point); }
+        public void UnionByPoint(Node node) { this.Count++; this.Ex(node.Point); }
 
-        public void Extend(Polylines.Segment0 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point); } }
-        public void Extend(Polylines.Segment1 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point); } }
-        public void Extend(Polylines.Segment2 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map); } }
-        public void Extend(Polylines.Segment3 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map); } }
+        public void UnionByPoint(Polylines.Segment0 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point); } }
+        public void UnionByPoint(Polylines.Segment1 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point); } }
+        public void UnionByPoint(Polylines.Segment2 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map); } }
+        public void UnionByPoint(Polylines.Segment3 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map); } }
 
-        public void Extend(Curves.Segment0 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point.Point); } }
-        public void Extend(Curves.Segment1 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point.Point); } }
-        public void Extend(Curves.Segment2 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map.Point); } }
-        public void Extend(Curves.Segment3 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map.Point); } }
+        public void UnionByPoint(Curves.Segment0 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point.Point); } }
+        public void UnionByPoint(Curves.Segment1 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Point.Point); } }
+        public void UnionByPoint(Curves.Segment2 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map.Point); } }
+        public void UnionByPoint(Curves.Segment3 segment) { if (segment.IsChecked) { this.Count++; this.Ex(segment.Map.Point); } }
 
-        public void EndExtendByPoints()
+        public void EndUnionByPoints()
         {
             switch (this.Count)
             {
