@@ -40,14 +40,14 @@ namespace FanKit.Transformer.Transforms
             this.Host.Matrix = transformMatrix;
         }
 
-        public void BeginExtend()
+        public void BeginUnion()
         {
             this.Count = 0;
 
             this.SourceBounds = Bounds.Infinity;
         }
 
-        public void Extend(Bounds bounds)
+        public void Union(Bounds bounds)
         {
             switch (this.Count)
             {
@@ -82,7 +82,7 @@ namespace FanKit.Transformer.Transforms
             }
         }
 
-        public void Extend(Triangle triangle)
+        public void Union(Triangle triangle)
         {
             switch (this.Count)
             {
@@ -117,7 +117,7 @@ namespace FanKit.Transformer.Transforms
             }
         }
 
-        public void Extend(Quadrilateral quad)
+        public void Union(Quadrilateral quad)
         {
             switch (this.Count)
             {
@@ -188,7 +188,7 @@ namespace FanKit.Transformer.Transforms
             this.Ex(quad.RightBottom);
         }
 
-        public void EndExtend()
+        public void EndUnion()
         {
             switch (this.Count)
             {

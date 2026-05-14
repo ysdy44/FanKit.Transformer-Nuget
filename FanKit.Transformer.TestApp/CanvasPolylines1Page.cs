@@ -518,7 +518,7 @@ namespace FanKit.Transformer.TestApp
 
             if (modes.HasFlag(InvalidateModes.InitTransformer))
             {
-                this.Transformer.BeginExtend();
+                this.Transformer.BeginUnion();
                 foreach (Layer item in this.Layers)
                 {
                     if (item.IsSelected)
@@ -529,12 +529,12 @@ namespace FanKit.Transformer.TestApp
                                 this.Transformer.Reset(item);
                                 break;
                             default:
-                                this.Transformer.Extend(item.Destination);
+                                this.Transformer.Union(item.Destination);
                                 break;
                         }
                     }
                 }
-                this.Transformer.EndExtend();
+                this.Transformer.EndUnion();
 
                 switch (this.TopBar.ToolType)
                 {
