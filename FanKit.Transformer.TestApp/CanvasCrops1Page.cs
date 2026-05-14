@@ -316,7 +316,7 @@ namespace FanKit.Transformer.TestApp
 
             if (modes.HasFlag(InvalidateModes.InitIndicator))
             {
-                this.Cropper.BeginExtend();
+                this.Cropper.BeginUnion();
                 foreach (Layer item in this.Layers)
                 {
                     if (item.IsSelected)
@@ -327,12 +327,12 @@ namespace FanKit.Transformer.TestApp
                                 this.Cropper.Reset(item);
                                 break;
                             default:
-                                this.Cropper.Extend(item.Destination);
+                                this.Cropper.Union(item.Destination);
                                 break;
                         }
                     }
                 }
-                this.Cropper.EndExtend();
+                this.Cropper.EndUnion();
 
                 switch (this.Cropper.Count)
                 {

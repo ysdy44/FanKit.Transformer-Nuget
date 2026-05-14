@@ -29,24 +29,24 @@ namespace FanKit.Transformer.Transforms
         }
 
         #region Bounds.Reset
-        public void Reset(Bounds source, Bounds bounds, Matrix2x2 matrix)
+        public void Reset(Bounds source, Bounds destination, Matrix2x2 transformMatrix)
         {
             this.Count = 1;
             this.Panel.SourceBounds = source;
 
-            this.Panel.StartingBounds = this.Panel.Bounds = bounds;
+            this.Panel.StartingBounds = this.Panel.Bounds = destination;
 
-            this.Host.Matrix = matrix;
+            this.Host.Matrix = transformMatrix;
         }
 
-        public void BeginExtend()
+        public void BeginUnion()
         {
             this.Count = 0;
 
             this.Panel.SourceBounds = Bounds.Infinity;
         }
 
-        public void Extend(Bounds bounds)
+        public void Union(Bounds bounds)
         {
             switch (this.Count)
             {
@@ -81,7 +81,7 @@ namespace FanKit.Transformer.Transforms
             }
         }
 
-        public void Extend(Triangle triangle)
+        public void Union(Triangle triangle)
         {
             switch (this.Count)
             {
@@ -116,7 +116,7 @@ namespace FanKit.Transformer.Transforms
             }
         }
 
-        public void Extend(Quadrilateral quad)
+        public void Union(Quadrilateral quad)
         {
             switch (this.Count)
             {
@@ -134,7 +134,7 @@ namespace FanKit.Transformer.Transforms
                     this.Count = 2;
                     this.Panel.SourceBounds = Bounds.Infinity;
 
-                    this.Extend(this.Panel.Bounds);
+                    this.Union(this.Panel.Bounds);
 
                     this.E4(quad);
 
@@ -187,7 +187,7 @@ namespace FanKit.Transformer.Transforms
             this.Ex(quad.RightBottom);
         }
 
-        public void EndExtend()
+        public void EndUnion()
         {
             switch (this.Count)
             {
