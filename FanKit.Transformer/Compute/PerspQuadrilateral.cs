@@ -273,12 +273,21 @@ namespace FanKit.Transformer.Compute
             indicator.ChangeXY(this.Quadrilateral, mode);
         }
 
-        internal void F(Matrix3x2 matrix)
+        internal void F0(Matrix3x2 matrix)
         {
             this.Host = matrix;
 
             this.Quadrilateral = this.StartingQuadrilateral * this.Host;
             this.Matrix = Math.Transform(this.StartingMatrix, this.Host);
+        }
+        internal void F1(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
+        {
+            this.Host = matrix;
+
+            this.Quadrilateral = this.StartingQuadrilateral * this.Host;
+            this.Matrix = Math.Transform(this.StartingMatrix, this.Host);
+
+            indicator.ChangeAll(this.Quadrilateral, mode);
         }
 
         private void T()

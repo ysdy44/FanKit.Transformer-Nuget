@@ -444,7 +444,8 @@ namespace FanKit.Transformer.Polylines
         public void TranslateY(float translateY) => this.TY0(translateY);
         public void TranslateY(IIndicator indicator, BoxMode mode, float translateY) => this.TY1(indicator, mode, translateY);
 
-        public void Transform(Matrix3x2 matrix) => this.F(matrix);
+        public void Transform(Matrix3x2 matrix) => this.F0(matrix);
+        public void Transform(IIndicator indicator, BoxMode mode, Matrix3x2 matrix) => this.F1(indicator, mode, matrix);
         #endregion
     }
 }

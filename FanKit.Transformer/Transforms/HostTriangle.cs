@@ -245,7 +245,8 @@ namespace FanKit.Transformer.Transforms
         public void TranslateY(float translateY) => this.Panel.TY0(translateY);
         public void TranslateY(IIndicator indicator, BoxMode mode, float translateY) => this.Panel.TY1(indicator, mode, translateY);
 
-        public void Transform(Matrix3x2 matrix) => this.Panel.F(matrix);
+        public void Transform(Matrix3x2 matrix) => this.Panel.F0(matrix);
+        public void Transform(IIndicator indicator, BoxMode mode, Matrix3x2 matrix) => this.Panel.F1(indicator, mode, matrix);
         #endregion
 
         #region Triangles.Transform2

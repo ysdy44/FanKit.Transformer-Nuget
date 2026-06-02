@@ -220,11 +220,19 @@ namespace FanKit.Transformer.Compute
             indicator.ChangeXY(this.Triangle, mode);
         }
 
-        internal void F(Matrix3x2 matrix)
+        internal void F0(Matrix3x2 matrix)
         {
             this.Host.Matrix = matrix;
 
             this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host.Matrix);
+        }
+        internal void F1(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
+        {
+            this.Host.Matrix = matrix;
+
+            this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host.Matrix);
+
+            indicator.ChangeAll(this.Triangle, mode);
         }
 
         private void T()

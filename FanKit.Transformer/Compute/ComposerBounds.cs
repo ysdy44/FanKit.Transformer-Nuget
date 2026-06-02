@@ -200,11 +200,19 @@ namespace FanKit.Transformer.Compute
             indicator.ChangeXY(this.Bounds, mode);
         }
 
-        internal void F(Matrix2x2 matrix)
+        internal void F0(Matrix2x2 matrix)
         {
             this.Host.Matrix = matrix;
 
             this.Bounds = Bounds.Transform(this.StartingBounds, this.Host.Matrix);
+        }
+        internal void F1(IIndicator indicator, BoxMode mode, Matrix2x2 matrix)
+        {
+            this.Host.Matrix = matrix;
+
+            this.Bounds = Bounds.Transform(this.StartingBounds, this.Host.Matrix);
+
+            indicator.ChangeAll(this.Bounds, mode);
         }
 
         private void T()

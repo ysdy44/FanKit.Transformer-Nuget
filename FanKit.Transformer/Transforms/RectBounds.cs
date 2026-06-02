@@ -135,7 +135,8 @@ namespace FanKit.Transformer.Transforms
         public void TranslateY(float translateY) => this.TY0(translateY);
         public void TranslateY(IIndicator indicator, BoxMode mode, float translateY) => this.TY1(indicator, mode, translateY);
 
-        public void Transform(Matrix2x2 matrix) => this.F(matrix);
+        public void Transform(Matrix2x2 matrix) => this.F0(matrix);
+        public void Transform(IIndicator indicator, BoxMode mode, Matrix2x2 matrix) => this.F1(indicator, mode, matrix);
         #endregion
 
         #region Bounds.Transform2
