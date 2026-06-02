@@ -230,8 +230,8 @@ namespace FanKit.Transformer.Input
                     (triangle.LeftBottom.X + t.Z) * s.Y,
                     (triangle.LeftBottom.Y + t.W) * s.Y),
                 //RightBottom = new Vector2(
-                //    (triangle.RightBottomX + t.rx) * s.inv,
-                //    (triangle.RightBottomY + t.ry) * s.inv),
+                //    (triangle.RightBottomX + t.Z) * s.inv,
+                //    (triangle.RightBottomY + t.W) * s.inv),
             };
         }
         public Quadrilateral InverseTransform(Quadrilateral quad)
@@ -335,7 +335,7 @@ namespace FanKit.Transformer.Input
         {
             //tx = point.X - startingPoint.X; // Angular
             ty = point.Y - startingPoint.Y; // Scale
-            //R = Rotate(StartingRadians + tx / rotateDistance);
+            //r = Rotate(sr + tx / rotateDistance);
             s = Scales(ss + ty / scaleDistance);
             P(startingPoint);
         }
@@ -351,7 +351,7 @@ namespace FanKit.Transformer.Input
 
         public void Pinch1(float startingRadius, float radius, Vector2 centerPoint)
         {
-            //R = Rotate(StartingRadians + angular - startingAngular);
+            //r = Rotate(sr + rotationAngle - startingRotationAngle);
             s = Scales(ss * radius / startingRadius);
             P(centerPoint);
         }

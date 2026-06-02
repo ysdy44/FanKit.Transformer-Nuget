@@ -22,8 +22,16 @@
         internal readonly float fy0, fy1;
 
         #region Triangles
-        public IndicatorSkew(float hr, Triangle t, BoxMode m, float d, float min, float max)
+        public IndicatorSkew(float horizontalAngleInRadians, Triangle triangle, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
         {
+            var hr = horizontalAngleInRadians;
+            var t = triangle;
+            var m = mode;
+
+            var d = skewAngleInDegrees;
+            var min = minimum;
+            var max = maximum;
+
             switch (m)
             {
                 case BoxMode.LeftTop:
@@ -233,8 +241,16 @@
         #endregion
 
         #region Quadrilaterals
-        public IndicatorSkew(float hr, Quadrilateral t, BoxMode m, float d, float min, float max)
+        public IndicatorSkew(float horizontalAngleInRadians, Quadrilateral quad, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
         {
+            var hr = horizontalAngleInRadians;
+            var t = quad;
+            var m = mode;
+
+            var d = skewAngleInDegrees;
+            var min = minimum;
+            var max = maximum;
+
             switch (m)
             {
                 case BoxMode.LeftTop:

@@ -11,7 +11,7 @@ namespace FanKit.Transformer.Input
             float angular = point.X - startingPoint.X;
             //float scale = point.Y - startingPoint.Y;
             r = Rotate(sr + angular / rotateDistance);
-            //S = Scales(StartingScale + scale / distance);
+            //s = Scales(ss + scale / distance);
             O(startingPoint);
         }
 
@@ -27,7 +27,7 @@ namespace FanKit.Transformer.Input
         public void Pinch2(float startingRotationAngle, float rotationAngle, Vector2 centerPoint)
         {
             r = Rotate(sr + rotationAngle - startingRotationAngle);
-            //S = Scales(StartingScale * radius / startingRadius);
+            //s = Scales(ss * radius / startingRadius);
             O(centerPoint);
         }
 
