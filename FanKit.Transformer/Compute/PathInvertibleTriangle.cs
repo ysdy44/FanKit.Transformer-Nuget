@@ -220,6 +220,15 @@ namespace FanKit.Transformer.Compute
             this.TransformStarting();
         }
 
+        internal void FSI1(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
+        {
+            this.Host = matrix * this.InverseMatrix;
+
+            this.TransformStarting();
+
+            indicator.ChangeAll(this.Triangle, mode);
+        }
+
         internal abstract void CacheRaw();
 
         internal abstract void CacheMap();

@@ -327,6 +327,8 @@ namespace FanKit.Transformer.Curves
 
         public void TransformSelectedItems(Matrix3x2 matrix) => this.FSI(matrix);
 
+        public void TransformSelectedItems(IIndicator indicator, BoxMode mode, Matrix3x2 matrix) => this.FSI1(indicator, mode, matrix);
+
         internal override void CacheRaw()
         {
             for (int i = 0; i < this.Segments.Count; i++)
