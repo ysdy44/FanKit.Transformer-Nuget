@@ -2282,7 +2282,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.Reset(this.Transformer.Destination);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -2295,7 +2295,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.Reset(this.Transformer.Destination);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -2306,7 +2306,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.Reset(this.Transformer.Destination);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -2317,7 +2317,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.Reset(this.Transformer.Destination);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -2328,7 +2328,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.Reset(this.Transformer.Destination);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;
@@ -2339,7 +2339,7 @@ namespace FanKit.Transformer.TestApp
                     {
                         if (item.IsSelected)
                         {
-                            item.Reset(this.Transformer.Destination);
+                            item.UpdateDestination(this.Transformer.Destination);
                         }
                     }
                     break;

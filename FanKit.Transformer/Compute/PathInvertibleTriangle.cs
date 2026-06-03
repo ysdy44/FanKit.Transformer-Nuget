@@ -26,7 +26,7 @@ namespace FanKit.Transformer.Compute
         internal abstract void Find();
 
         #region Triangles.Initialize
-        internal void RT(Triangle destination)
+        internal void UD(Triangle destination)
         {
             this.StartingTriangle = this.Triangle = destination;
 

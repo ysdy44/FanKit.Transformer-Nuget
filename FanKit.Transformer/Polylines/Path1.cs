@@ -39,7 +39,7 @@ namespace FanKit.Transformer.Polylines
             this.StartingTriangle = this.Triangle = this.TransformedBounds.ToTriangle();
         }
 
-        public void Reset(Triangle destination) => this.RT(destination);
+        public void UpdateDestination(Triangle destination) => this.UD(destination);
         #endregion
 
         #region Triangles.SelectedItems
