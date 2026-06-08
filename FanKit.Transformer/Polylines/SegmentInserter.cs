@@ -21,7 +21,7 @@ namespace FanKit.Transformer.Polylines
             Index = index;
         }
 
-        public SegmentInserter(ref FootPointer closest, IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out FootPointer closest, IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -53,10 +53,11 @@ namespace FanKit.Transformer.Polylines
                 }
             }
 
+            closest = default;
             Index = -1;
         }
 
-        public SegmentInserter(ref FootPointer closest, NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out FootPointer closest, NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -124,10 +125,11 @@ namespace FanKit.Transformer.Polylines
                     break;
             }
 
+            closest = default;
             Index = -1;
         }
 
-        public SegmentInserter(ref FootPointer closest, IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out FootPointer closest, IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -159,10 +161,11 @@ namespace FanKit.Transformer.Polylines
                 }
             }
 
+            closest = default;
             Index = -1;
         }
 
-        public SegmentInserter(ref FootPointer closest, NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out FootPointer closest, NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -230,6 +233,7 @@ namespace FanKit.Transformer.Polylines
                     break;
             }
 
+            closest = default;
             Index = -1;
         }
     }

@@ -1605,7 +1605,7 @@ namespace FanKit.Transformer.TestApp
                             {
                                 Figure figure = item.Figures[j];
 
-                                this.Inserter = new SegmentInserter(ref this.FootPoint, NodePointUnits.Normal, figure.Segments, figure.IsClosed, this.Position, ls);
+                                this.Inserter = new SegmentInserter(out this.FootPoint, NodePointUnits.Normal, figure.Segments, figure.IsClosed, this.Position, ls);
 
                                 if (this.Inserter.Contains == default)
                                     continue;

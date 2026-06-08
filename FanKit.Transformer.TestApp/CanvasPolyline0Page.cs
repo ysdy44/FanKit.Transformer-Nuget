@@ -813,7 +813,7 @@ namespace FanKit.Transformer.TestApp
                     const float l = 4f * 1f; // this.Canvas.InverseScaleFactor;
                     const float ls = l * l;
 
-                    this.Inserter = new SegmentInserter(ref this.FootPoint, NodePointUnits.Normal, this.Layer.Segments, this.Layer.IsClosed, this.Position, ls);
+                    this.Inserter = new SegmentInserter(out this.FootPoint, NodePointUnits.Normal, this.Layer.Segments, this.Layer.IsClosed, this.Position, ls);
 
                     if (this.Inserter.Contains != false)
                     {
