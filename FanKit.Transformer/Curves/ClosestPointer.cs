@@ -199,38 +199,38 @@ namespace FanKit.Transformer.Curves
             Contains = Vector2.DistanceSquared(point, Current.Point) < strokeWidthSquared;
         }
 
-        public ClosestPointer(Vector2 point, Node previous, Node next, float minLengthSquared = 144f) => this = new ClosestPointer(point,
+        public ClosestPointer(Vector2 point, Node previous, Node next, float strokeWidthSquared = 144f) => this = new ClosestPointer(point,
             previous, next,
             true, true,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public ClosestPointer(Vector2 point, Segment0 previous, Segment0 next, float minLengthSquared) => this = new ClosestPointer(point,
+        public ClosestPointer(Vector2 point, Segment0 previous, Segment0 next, float strokeWidthSquared) => this = new ClosestPointer(point,
             previous.Point, next.Point,
             previous.IsSmooth, next.IsSmooth,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public ClosestPointer(NodePointUnits unit, Vector2 point, Segment1 previous, Segment1 next, float minLengthSquared) => this = unit == NodePointUnits.Normal ? new ClosestPointer(point,
+        public ClosestPointer(NodePointUnits unit, Vector2 point, Segment1 previous, Segment1 next, float strokeWidthSquared) => this = unit == NodePointUnits.Normal ? new ClosestPointer(point,
             previous.Point, next.Point,
             previous.IsSmooth, next.IsSmooth,
-            minLengthSquared) : new ClosestPointer(point,
+            strokeWidthSquared) : new ClosestPointer(point,
             previous.Actual, next.Actual,
             previous.IsSmooth, next.IsSmooth,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public ClosestPointer(Vector2 point, Segment2 previous, Segment2 next, float minLengthSquared) => this = new ClosestPointer(point,
+        public ClosestPointer(Vector2 point, Segment2 previous, Segment2 next, float strokeWidthSquared) => this = new ClosestPointer(point,
             previous.Map, next.Map,
             previous.IsSmooth, next.IsSmooth,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public ClosestPointer(NodePointUnits unit, Vector2 point, Segment3 previous, Segment3 next, float minLengthSquared) => this = unit == NodePointUnits.Normal ? new ClosestPointer(point,
+        public ClosestPointer(NodePointUnits unit, Vector2 point, Segment3 previous, Segment3 next, float strokeWidthSquared) => this = unit == NodePointUnits.Normal ? new ClosestPointer(point,
             previous.Map, next.Map,
             previous.IsSmooth, next.IsSmooth,
-            minLengthSquared) : new ClosestPointer(point,
+            strokeWidthSquared) : new ClosestPointer(point,
             previous.Actual, next.Actual,
             previous.IsSmooth, next.IsSmooth,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public ClosestPointer(IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public ClosestPointer(IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -239,7 +239,7 @@ namespace FanKit.Transformer.Curves
                 Segment0 last = segments[count - 1];
                 Segment0 first = segments[0];
 
-                this = new ClosestPointer(point, last.Point, first.Point, last.IsSmooth, first.IsSmooth, minLengthSquared);
+                this = new ClosestPointer(point, last.Point, first.Point, last.IsSmooth, first.IsSmooth, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // Append
@@ -252,7 +252,7 @@ namespace FanKit.Transformer.Curves
                 Segment0 previous = segments[i - 1];
                 Segment0 next = segments[i];
 
-                this = new ClosestPointer(point, previous.Point, next.Point, previous.IsSmooth, next.IsSmooth, minLengthSquared);
+                this = new ClosestPointer(point, previous.Point, next.Point, previous.IsSmooth, next.IsSmooth, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // InsertAt
@@ -263,7 +263,7 @@ namespace FanKit.Transformer.Curves
             this = default;
         }
 
-        public ClosestPointer(NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public ClosestPointer(NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -275,7 +275,7 @@ namespace FanKit.Transformer.Curves
                         Segment1 last = segments[count - 1];
                         Segment1 first = segments[0];
 
-                        this = new ClosestPointer(point, last.Point, first.Point, last.IsSmooth, first.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, last.Point, first.Point, last.IsSmooth, first.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -288,7 +288,7 @@ namespace FanKit.Transformer.Curves
                         Segment1 previous = segments[i - 1];
                         Segment1 next = segments[i];
 
-                        this = new ClosestPointer(point, previous.Point, next.Point, previous.IsSmooth, next.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, previous.Point, next.Point, previous.IsSmooth, next.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt
@@ -302,7 +302,7 @@ namespace FanKit.Transformer.Curves
                         Segment1 last = segments[count - 1];
                         Segment1 first = segments[0];
 
-                        this = new ClosestPointer(point, last.Actual, first.Actual, last.IsSmooth, first.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, last.Actual, first.Actual, last.IsSmooth, first.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -315,7 +315,7 @@ namespace FanKit.Transformer.Curves
                         Segment1 previous = segments[i - 1];
                         Segment1 next = segments[i];
 
-                        this = new ClosestPointer(point, previous.Actual, next.Actual, previous.IsSmooth, next.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, previous.Actual, next.Actual, previous.IsSmooth, next.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt
@@ -330,7 +330,7 @@ namespace FanKit.Transformer.Curves
             this = default;
         }
 
-        public ClosestPointer(IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public ClosestPointer(IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -339,7 +339,7 @@ namespace FanKit.Transformer.Curves
                 Segment2 last = segments[count - 1];
                 Segment2 first = segments[0];
 
-                this = new ClosestPointer(point, last.Map, first.Map, last.IsSmooth, first.IsSmooth, minLengthSquared);
+                this = new ClosestPointer(point, last.Map, first.Map, last.IsSmooth, first.IsSmooth, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // Append
@@ -352,7 +352,7 @@ namespace FanKit.Transformer.Curves
                 Segment2 previous = segments[i - 1];
                 Segment2 next = segments[i];
 
-                this = new ClosestPointer(point, previous.Map, next.Map, previous.IsSmooth, next.IsSmooth, minLengthSquared);
+                this = new ClosestPointer(point, previous.Map, next.Map, previous.IsSmooth, next.IsSmooth, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // InsertAt
@@ -363,7 +363,7 @@ namespace FanKit.Transformer.Curves
             this = default;
         }
 
-        public ClosestPointer(NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public ClosestPointer(NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -375,7 +375,7 @@ namespace FanKit.Transformer.Curves
                         Segment3 last = segments[count - 1];
                         Segment3 first = segments[0];
 
-                        this = new ClosestPointer(point, last.Map, first.Map, last.IsSmooth, first.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, last.Map, first.Map, last.IsSmooth, first.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -388,7 +388,7 @@ namespace FanKit.Transformer.Curves
                         Segment3 previous = segments[i - 1];
                         Segment3 next = segments[i];
 
-                        this = new ClosestPointer(point, previous.Map, next.Map, previous.IsSmooth, next.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, previous.Map, next.Map, previous.IsSmooth, next.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt
@@ -402,7 +402,7 @@ namespace FanKit.Transformer.Curves
                         Segment3 last = segments[count - 1];
                         Segment3 first = segments[0];
 
-                        this = new ClosestPointer(point, last.Actual, first.Actual, last.IsSmooth, first.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, last.Actual, first.Actual, last.IsSmooth, first.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -415,7 +415,7 @@ namespace FanKit.Transformer.Curves
                         Segment3 previous = segments[i - 1];
                         Segment3 next = segments[i];
 
-                        this = new ClosestPointer(point, previous.Actual, next.Actual, previous.IsSmooth, next.IsSmooth, minLengthSquared);
+                        this = new ClosestPointer(point, previous.Actual, next.Actual, previous.IsSmooth, next.IsSmooth, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt

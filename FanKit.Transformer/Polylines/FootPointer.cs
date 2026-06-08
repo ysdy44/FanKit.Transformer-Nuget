@@ -114,27 +114,27 @@ namespace FanKit.Transformer.Polylines
             }
         }
 
-        public FootPointer(Vector2 point, Segment0 previous, Segment0 next, float minLengthSquared = 144f) => this = new FootPointer(point,
+        public FootPointer(Vector2 point, Segment0 previous, Segment0 next, float strokeWidthSquared = 144f) => this = new FootPointer(point,
             previous.Point, next.Point,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public FootPointer(NodePointUnits unit, Vector2 point, Segment1 previous, Segment1 next, float minLengthSquared = 144f) => this = unit == NodePointUnits.Normal ? new FootPointer(point,
+        public FootPointer(NodePointUnits unit, Vector2 point, Segment1 previous, Segment1 next, float strokeWidthSquared = 144f) => this = unit == NodePointUnits.Normal ? new FootPointer(point,
             previous.Point, next.Point,
-            minLengthSquared) : new FootPointer(point,
+            strokeWidthSquared) : new FootPointer(point,
             previous.Actual, next.Actual,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public FootPointer(Vector2 point, Segment2 previous, Segment2 next, float minLengthSquared = 144f) => this = new FootPointer(point,
+        public FootPointer(Vector2 point, Segment2 previous, Segment2 next, float strokeWidthSquared = 144f) => this = new FootPointer(point,
             previous.Map, next.Map,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public FootPointer(NodePointUnits unit, Vector2 point, Segment3 previous, Segment3 next, float minLengthSquared = 144f) => this = unit == NodePointUnits.Normal ? new FootPointer(point,
+        public FootPointer(NodePointUnits unit, Vector2 point, Segment3 previous, Segment3 next, float strokeWidthSquared = 144f) => this = unit == NodePointUnits.Normal ? new FootPointer(point,
             previous.Map, next.Map,
-            minLengthSquared) : new FootPointer(point,
+            strokeWidthSquared) : new FootPointer(point,
             previous.Actual, next.Actual,
-            minLengthSquared);
+            strokeWidthSquared);
 
-        public FootPointer(IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -143,7 +143,7 @@ namespace FanKit.Transformer.Polylines
                 Segment0 last = segments[count - 1];
                 Segment0 first = segments[0];
 
-                this = new FootPointer(point, last.Point, first.Point, minLengthSquared);
+                this = new FootPointer(point, last.Point, first.Point, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // Append
@@ -156,7 +156,7 @@ namespace FanKit.Transformer.Polylines
                 Segment0 previous = segments[i - 1];
                 Segment0 next = segments[i];
 
-                this = new FootPointer(point, previous.Point, next.Point, minLengthSquared);
+                this = new FootPointer(point, previous.Point, next.Point, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // InsertAt
@@ -167,7 +167,7 @@ namespace FanKit.Transformer.Polylines
             this = default;
         }
 
-        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -179,7 +179,7 @@ namespace FanKit.Transformer.Polylines
                         Segment1 last = segments[count - 1];
                         Segment1 first = segments[0];
 
-                        this = new FootPointer(point, last.Point, first.Point, minLengthSquared);
+                        this = new FootPointer(point, last.Point, first.Point, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -192,7 +192,7 @@ namespace FanKit.Transformer.Polylines
                         Segment1 previous = segments[i - 1];
                         Segment1 next = segments[i];
 
-                        this = new FootPointer(point, previous.Point, next.Point, minLengthSquared);
+                        this = new FootPointer(point, previous.Point, next.Point, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt
@@ -206,7 +206,7 @@ namespace FanKit.Transformer.Polylines
                         Segment1 last = segments[count - 1];
                         Segment1 first = segments[0];
 
-                        this = new FootPointer(point, last.Actual, first.Actual, minLengthSquared);
+                        this = new FootPointer(point, last.Actual, first.Actual, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -219,7 +219,7 @@ namespace FanKit.Transformer.Polylines
                         Segment1 previous = segments[i - 1];
                         Segment1 next = segments[i];
 
-                        this = new FootPointer(point, previous.Actual, next.Actual, minLengthSquared);
+                        this = new FootPointer(point, previous.Actual, next.Actual, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt
@@ -234,7 +234,7 @@ namespace FanKit.Transformer.Polylines
             this = default;
         }
 
-        public FootPointer(IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -243,7 +243,7 @@ namespace FanKit.Transformer.Polylines
                 Segment2 last = segments[count - 1];
                 Segment2 first = segments[0];
 
-                this = new FootPointer(point, last.Map, first.Map, minLengthSquared);
+                this = new FootPointer(point, last.Map, first.Map, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // Append
@@ -256,7 +256,7 @@ namespace FanKit.Transformer.Polylines
                 Segment2 previous = segments[i - 1];
                 Segment2 next = segments[i];
 
-                this = new FootPointer(point, previous.Map, next.Map, minLengthSquared);
+                this = new FootPointer(point, previous.Map, next.Map, strokeWidthSquared);
                 if (this.Contains)
                 {
                     // InsertAt
@@ -267,7 +267,7 @@ namespace FanKit.Transformer.Polylines
             this = default;
         }
 
-        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public FootPointer(NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float strokeWidthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -279,7 +279,7 @@ namespace FanKit.Transformer.Polylines
                         Segment3 last = segments[count - 1];
                         Segment3 first = segments[0];
 
-                        this = new FootPointer(point, last.Map, first.Map, minLengthSquared);
+                        this = new FootPointer(point, last.Map, first.Map, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -292,7 +292,7 @@ namespace FanKit.Transformer.Polylines
                         Segment3 previous = segments[i - 1];
                         Segment3 next = segments[i];
 
-                        this = new FootPointer(point, previous.Map, next.Map, minLengthSquared);
+                        this = new FootPointer(point, previous.Map, next.Map, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt
@@ -306,7 +306,7 @@ namespace FanKit.Transformer.Polylines
                         Segment3 last = segments[count - 1];
                         Segment3 first = segments[0];
 
-                        this = new FootPointer(point, last.Actual, first.Actual, minLengthSquared);
+                        this = new FootPointer(point, last.Actual, first.Actual, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // Append
@@ -319,7 +319,7 @@ namespace FanKit.Transformer.Polylines
                         Segment3 previous = segments[i - 1];
                         Segment3 next = segments[i];
 
-                        this = new FootPointer(point, previous.Actual, next.Actual, minLengthSquared);
+                        this = new FootPointer(point, previous.Actual, next.Actual, strokeWidthSquared);
                         if (this.Contains)
                         {
                             // InsertAt
