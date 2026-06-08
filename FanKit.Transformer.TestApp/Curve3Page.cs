@@ -906,7 +906,7 @@ namespace FanKit.Transformer.TestApp
                     const float l = 4f * 1f; // this.Canvas.InverseScaleFactor;
                     const float ls = l * l;
 
-                    this.Inserter = new SegmentInserter(ref this.Closest, this.Layer.Segments, this.Layer.IsClosed, this.Point, ls);
+                    this.Inserter = new SegmentInserter(out this.Closest, this.Layer.Segments, this.Layer.IsClosed, this.Point, ls);
 
                     if (this.Inserter.Mode != SegmentInserterMode.None)
                     {

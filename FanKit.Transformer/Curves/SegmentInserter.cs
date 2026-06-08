@@ -34,7 +34,7 @@ namespace FanKit.Transformer.Curves
             Next = next;
         }
 
-        public SegmentInserter(ref ClosestPointer closest, IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out ClosestPointer closest, IReadOnlyList<Segment0> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -66,10 +66,11 @@ namespace FanKit.Transformer.Curves
                 }
             }
 
+            closest = default;
             this = empty;
         }
 
-        public SegmentInserter(ref ClosestPointer closest, NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out ClosestPointer closest, NodePointUnits unit, IReadOnlyList<Segment1> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -137,10 +138,11 @@ namespace FanKit.Transformer.Curves
                     break;
             }
 
+            closest = default;
             this = empty;
         }
 
-        public SegmentInserter(ref ClosestPointer closest, IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out ClosestPointer closest, IReadOnlyList<Segment2> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -172,10 +174,11 @@ namespace FanKit.Transformer.Curves
                 }
             }
 
+            closest = default;
             this = empty;
         }
 
-        public SegmentInserter(ref ClosestPointer closest, NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
+        public SegmentInserter(out ClosestPointer closest, NodePointUnits unit, IReadOnlyList<Segment3> segments, bool isClosed, Vector2 point, float minLengthSquared = 144f)
         {
             int count = segments.Count;
 
@@ -243,6 +246,7 @@ namespace FanKit.Transformer.Curves
                     break;
             }
 
+            closest = default;
             this = empty;
         }
     }
