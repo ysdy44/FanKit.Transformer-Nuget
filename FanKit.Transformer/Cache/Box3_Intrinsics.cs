@@ -182,12 +182,85 @@ namespace FanKit.Transformer.Cache
         }
 
         public Box3(Bounds bounds, float handleLength = 32f)
-            : this(new Vector2(bounds.Left, bounds.Top),
-                  new Vector2(bounds.Right, bounds.Top),
-                  new Vector2(bounds.Left, bounds.Bottom),
-                  new Vector2(bounds.Right, bounds.Bottom),
-                  handleLength)
         {
+            // Center
+            this.Center = bounds.Center();
+
+            // Corners
+            this.LeftTop = new Vector2(bounds.Left, bounds.Top);
+            this.RightTop = new Vector2(bounds.Right, bounds.Top);
+            this.LeftBottom = new Vector2(bounds.Left, bounds.Bottom);
+            this.RightBottom = new Vector2(bounds.Right, bounds.Bottom);
+
+            // Sides
+            this.SideLeftX = 0f;
+            this.SideLeftY = bounds.Bottom - bounds.Top;
+            this.SideLeftLengthSquared = this.SideLeftY * this.SideLeftY;
+
+            this.SideTopX = bounds.Left - bounds.Right;
+            this.SideTopY = 0f;
+            this.SideTopLengthSquared = this.SideTopX * this.SideTopX;
+
+            this.SideRightX = 0f;
+            this.SideRightY = bounds.Top - bounds.Bottom;
+            this.SideRightLengthSquared = this.SideLeftLengthSquared;
+
+            this.SideBottomX = bounds.Right - bounds.Left;
+            this.SideBottomY = 0f;
+            this.SideBottomLengthSquared = this.SideTopLengthSquared;
+
+            this.CenterLeft = new Vector2(bounds.Left, this.Center.Y);
+            this.CenterTop = new Vector2(this.Center.X, bounds.Top);
+            this.CenterRight = new Vector2(bounds.Right, this.Center.Y);
+            this.CenterBottom = new Vector2(this.Center.X, bounds.Bottom);
+
+            // HandleSides
+            this.HorizontalX = this.SideBottomX;
+            this.HorizontalY = 0f;
+            this.HorizontalLengthSquared = this.SideBottomLengthSquared;
+
+            this.HorizontalLength = this.HorizontalX;
+            this.HandleHorizontalX = handleLength;
+            this.HandleHorizontalY = 0f;
+
+            this.VerticalX = 0f;
+            this.VerticalY = this.SideLeftY;
+            this.VerticalLengthSquared = this.SideLeftLengthSquared;
+
+            this.VerticalLength = this.VerticalY;
+            this.HandleVerticalX = 0f;
+            this.HandleVerticalY = handleLength;
+
+            this.HandleLeft = new Vector2(bounds.Left - handleLength, this.Center.Y);
+            this.HandleTop = new Vector2(this.Center.X, bounds.Top - this.HandleVerticalY);
+            this.HandleRight = new Vector2(bounds.Right + handleLength, this.Center.Y);
+            this.HandleBottom = new Vector2(this.Center.X, bounds.Bottom + this.HandleVerticalY);
+
+            // HandleCorners
+            this.DecreaseX = this.SideBottomX;
+            this.DecreaseY = this.SideLeftY;
+            this.DecreaseLengthSquared = this.SideBottomLengthSquared + this.SideLeftLengthSquared;
+
+            this.DecreaseLength = (float)System.Math.Sqrt(this.DecreaseLengthSquared);
+            this.HandleDecreaseX = handleLength * this.DecreaseX / this.DecreaseLength;
+            this.HandleDecreaseY = handleLength * this.DecreaseY / this.DecreaseLength;
+
+            this.IncreaseX = this.SideBottomX;
+            this.IncreaseY = this.SideRightY;
+            this.IncreaseLengthSquared = this.SideBottomLengthSquared + this.SideRightLengthSquared;
+
+            this.IncreaseLength = (float)System.Math.Sqrt(this.IncreaseLengthSquared);
+            this.HandleIncreaseX = handleLength * this.IncreaseX / this.IncreaseLength;
+            this.HandleIncreaseY = handleLength * this.IncreaseY / this.IncreaseLength;
+
+            this.HandleLeftTop = new Vector2(bounds.Left - this.HandleDecreaseX,
+                bounds.Top - this.HandleDecreaseY);
+            this.HandleRightTop = new Vector2(bounds.Right + this.HandleIncreaseX,
+                bounds.Top + this.HandleIncreaseY);
+            this.HandleRightBottom = new Vector2(bounds.Right + this.HandleDecreaseX,
+                bounds.Bottom + this.HandleDecreaseY);
+            this.HandleLeftBottom = new Vector2(bounds.Left - this.HandleIncreaseX,
+                bounds.Bottom - this.HandleIncreaseY);
         }
 
         public Box3(Bounds bounds, Matrix3x2 canvasMatrix, float handleLength = 32f)
