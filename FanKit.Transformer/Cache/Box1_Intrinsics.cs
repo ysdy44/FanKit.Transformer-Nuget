@@ -80,8 +80,8 @@ namespace FanKit.Transformer.Cache
                 (this.RightBottom.Y + this.LeftBottom.Y) / 2f);
 
             // Center
-            this.Center = new Vector2((this.LeftTop.X + this.RightTop.X + this.RightBottom.X + this.LeftBottom.X) / 2f,
-                (this.LeftTop.Y + this.RightTop.Y + this.RightBottom.Y + this.LeftBottom.Y) / 2f);
+            this.Center = new Vector2((this.LeftTop.X + this.RightTop.X + this.RightBottom.X + this.LeftBottom.X) / 4f,
+                (this.LeftTop.Y + this.RightTop.Y + this.RightBottom.Y + this.LeftBottom.Y) / 4f);
         }
 
         public Box1(Bounds bounds)
