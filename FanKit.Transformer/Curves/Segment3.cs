@@ -19,7 +19,7 @@ namespace FanKit.Transformer.Curves
         public Segment3(bool isChecked, Vector2 pointRaw, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             this.IsChecked = isChecked;
-            this.IsSmooth = true;
+            this.IsSmooth = false;
 
             this.Starting = default;
             this.Raw = new Node(pointRaw);

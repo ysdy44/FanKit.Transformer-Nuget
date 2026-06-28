@@ -18,7 +18,7 @@ namespace FanKit.Transformer.Curves
         public Segment2(bool isChecked, Vector2 pointRaw, Matrix3x2 homographyMatrix)
         {
             this.IsChecked = isChecked;
-            this.IsSmooth = true;
+            this.IsSmooth = false;
 
             this.Starting = default;
             this.Raw = new Node(pointRaw);

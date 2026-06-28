@@ -17,7 +17,7 @@ namespace FanKit.Transformer.Curves
         public Segment0(bool isChecked, Vector2 point)
         {
             this.IsChecked = isChecked;
-            this.IsSmooth = true;
+            this.IsSmooth = false;
 
             this.Starting = default;
             this.Point = new Node(point);

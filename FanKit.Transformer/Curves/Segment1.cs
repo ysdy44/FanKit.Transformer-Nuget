@@ -18,7 +18,7 @@ namespace FanKit.Transformer.Curves
         public Segment1(bool isChecked, Vector2 point, ICanvasMatrix canvasMatrix)
         {
             this.IsChecked = isChecked;
-            this.IsSmooth = true;
+            this.IsSmooth = false;
 
             this.Starting = default;
             this.Point = new Node(point);
