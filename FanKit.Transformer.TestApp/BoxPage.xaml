@@ -10,14 +10,15 @@
     >
 
     <ScrollViewer
-        VerticalScrollMode="Disabled"
+        VerticalScrollMode="Enabled"
         HorizontalScrollMode="Enabled"
-        VerticalScrollBarVisibility="Disabled"
-        HorizontalScrollBarVisibility="Hidden"
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Auto"
         >
 
-        <!--Box-->
         <Canvas Width="856" Height="376" HorizontalAlignment="Center" VerticalAlignment="Center">
+     
+            <!--Box-->
             <Grid Canvas.Left="10" Canvas.Top="10" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="22"/>

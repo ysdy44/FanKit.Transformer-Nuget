@@ -10,10 +10,10 @@
     >
 
     <ScrollViewer
-        VerticalScrollMode="Disabled"
+        VerticalScrollMode="Enabled"
         HorizontalScrollMode="Enabled"
-        VerticalScrollBarVisibility="Disabled"
-        HorizontalScrollBarVisibility="Hidden"
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Auto"
         >
         <Canvas Width="820" Height="452">
         

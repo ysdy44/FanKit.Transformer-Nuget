@@ -16,7 +16,7 @@
         HorizontalScrollBarVisibility="Auto"
         >
 
-        <Canvas Width="1056" Height="720" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Canvas Width="1068" Height="720" HorizontalAlignment="Center" VerticalAlignment="Center">
        
             <!--0-->
             <Grid Canvas.Left="10" Canvas.Top="10" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
