@@ -1,0 +1,179 @@
+﻿<Page
+    x:Class="FanKit.Transformer.TestApp.GeometryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
+
+    <ScrollViewer
+        VerticalScrollMode="Enabled"
+        HorizontalScrollMode="Enabled"
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Auto"
+        >
+
+        <Canvas Width="1056" Height="720" HorizontalAlignment="Center" VerticalAlignment="Center">
+       
+            <!--0-->
+            <Grid Canvas.Left="10" Canvas.Top="10" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Rectangle
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl00" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="222" Canvas.Top="10" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Ellipse
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl01" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="434" Canvas.Top="10" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Round Rectangle
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl02" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="646" Canvas.Top="10" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Triangle
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl03" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="856" Canvas.Top="10" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Diamond
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl04" Grid.Row="1"/>
+            </Grid>
+
+            <!--1-->
+            <Grid Canvas.Left="10" Canvas.Top="244" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Pentagon
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl10" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="222" Canvas.Top="244" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Star
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl11" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="434" Canvas.Top="244" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Cog
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl12" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="646" Canvas.Top="244" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Donut
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl13" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="856" Canvas.Top="244" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Pie
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl14" Grid.Row="1"/>
+            </Grid>
+
+            <!--2-->
+            <Grid Canvas.Left="10" Canvas.Top="478" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Cookie
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl20" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="222" Canvas.Top="478" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Arrow
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl21" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="434" Canvas.Top="478" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Capsule
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl22" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="646" Canvas.Top="478" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Heart
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl23" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="856" Canvas.Top="478" Width="200" Height="222" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Arc
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl24" Grid.Row="1"/>
+            </Grid>
+
+        </Canvas>
+    </ScrollViewer>
+</Page>

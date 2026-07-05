@@ -2746,6 +2746,73 @@
                             </StackPanel>
                         </Button>
 
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                Geometry
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#424242">
+                                    <Line X1="32" Y1="0" X2="32" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="64" Y1="0" X2="64" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="96" Y1="0" X2="96" Y2="82" StrokeThickness="4" Stroke="Black"/>
+
+                                    <Polygon Canvas.Left="40" Canvas.Top="15" StrokeThickness="2" Stroke="DeepSkyBlue" StrokeLineJoin="Round">
+                                        <Polygon.Points>
+                                            24,0 30,18 48,18 33.2,29.6 39.1,48 24,36.4 9.4,48 14.8,29.4 0,18 18,18
+                                        </Polygon.Points>
+                                    </Polygon>
+
+                                    <Ellipse Canvas.Left="60" Canvas.Top="11" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="83" Canvas.Top="29" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="75.1" Canvas.Top="59" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="45.4" Canvas.Top="59" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="36" Canvas.Top="29" Width="8" Height="8" Fill="DeepSkyBlue"/>
+
+                                    <Ellipse Canvas.Left="62" Canvas.Top="13" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="85" Canvas.Top="31" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="77.1" Canvas.Top="61" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="47.4" Canvas.Top="61" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="38" Canvas.Top="31" Width="4" Height="4" Fill="White"/>
+                                </Canvas>
+                                <TextBlock Text="Geometry" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                CombinePath
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#424242">
+                                    <Line X1="32" Y1="0" X2="32" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="64" Y1="0" X2="64" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="96" Y1="0" X2="96" Y2="82" StrokeThickness="4" Stroke="Black"/>
+
+                                    <Ellipse IsHitTestVisible="False" Canvas.Left="22" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="DeepSkyBlue"/>
+                                    <Ellipse IsHitTestVisible="False" Canvas.Left="52" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="DeepSkyBlue"/>
+
+                                    <Ellipse Canvas.Left="18" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="45" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="72" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="45" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="48" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="75" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="102" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="75" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
+
+                                    <Ellipse Canvas.Left="20" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="47" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="74" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="47" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="50" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="77" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="104" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="77" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
+                                </Canvas>
+                                <TextBlock Text="Combine Path" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
                     </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
@@ -2785,48 +2852,6 @@
                                     <Rectangle IsHitTestVisible="False" Canvas.Left="46" Canvas.Top="23" Width="36" Height="36" StrokeThickness="2" Stroke="DeepSkyBlue"/>
                                 </Canvas>
                                 <TextBlock Text="Contains Bounds" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
-                            <ButtonBase.CommandParameter>
-                                CombinePath
-                            </ButtonBase.CommandParameter>
-                            <StackPanel>
-                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
-                                    <Ellipse IsHitTestVisible="False" Canvas.Left="22" Canvas.Top="14" Width="54" Height="54">
-                                        <Shape.Fill>
-                                            <SolidColorBrush Opacity="0.1" Color="OrangeRed"/>
-                                        </Shape.Fill>
-                                    </Ellipse>
-                                    <Ellipse IsHitTestVisible="False" Canvas.Left="52" Canvas.Top="14" Width="54" Height="54">
-                                        <Shape.Fill>
-                                            <SolidColorBrush Opacity="0.1" Color="DeepSkyBlue"/>
-                                        </Shape.Fill>
-                                    </Ellipse>
-
-                                    <Ellipse IsHitTestVisible="False" Canvas.Left="22" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="OrangeRed"/>
-                                    <Ellipse IsHitTestVisible="False" Canvas.Left="52" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="DeepSkyBlue"/>
-
-                                    <Ellipse Canvas.Left="18" Canvas.Top="37" Width="8" Height="8" Fill="OrangeRed"/>
-                                    <Ellipse Canvas.Left="45" Canvas.Top="10" Width="8" Height="8" Fill="OrangeRed"/>
-                                    <Ellipse Canvas.Left="72" Canvas.Top="37" Width="8" Height="8" Fill="OrangeRed"/>
-                                    <Ellipse Canvas.Left="45" Canvas.Top="64" Width="8" Height="8" Fill="OrangeRed"/>
-                                    <Ellipse Canvas.Left="48" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="75" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="102" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="75" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
-
-                                    <Ellipse Canvas.Left="20" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="47" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="74" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="47" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="50" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="77" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="104" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="77" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
-                                </Canvas>
-                                <TextBlock Text="Combine Path" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
