@@ -214,7 +214,7 @@ namespace FanKit.Transformer.Cache
             this.CenterRight = new Vector2(bounds.Right, this.Center.Y);
             this.CenterBottom = new Vector2(this.Center.X, bounds.Bottom);
 
-            // HandleSides
+            // Handle Sides
             this.HorizontalX = this.SideBottomX;
             this.HorizontalY = 0f;
             this.HorizontalLengthSquared = this.SideBottomLengthSquared;
@@ -236,7 +236,7 @@ namespace FanKit.Transformer.Cache
             this.HandleRight = new Vector2(bounds.Right + handleLength, this.Center.Y);
             this.HandleBottom = new Vector2(this.Center.X, bounds.Bottom + this.HandleVerticalY);
 
-            // HandleCorners
+            // Handle Corners
             this.DecreaseX = this.SideBottomX;
             this.DecreaseY = this.SideLeftY;
             this.DecreaseLengthSquared = this.SideBottomLengthSquared + this.SideLeftLengthSquared;

@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Cache
 {
     public readonly partial struct Box1
     {
         #region Public instance methods
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2[] To3Points() => new Vector2[]
         {
             this.LeftTop,
             this.RightTop,
             this.LeftBottom,
         };
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2[] To4Points() => new Vector2[]
         {
             this.LeftTop,
@@ -19,6 +22,7 @@ namespace FanKit.Transformer.Cache
             this.RightBottom,
             this.LeftBottom,
         };
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Bounds ToBounds() => new Bounds
         {
             Left = System.Math.Min(System.Math.Min(this.LeftTop.X, this.RightTop.X), System.Math.Min(this.RightBottom.X, this.LeftBottom.X)),
@@ -26,12 +30,14 @@ namespace FanKit.Transformer.Cache
             Right = System.Math.Max(System.Math.Max(this.LeftTop.X, this.RightTop.X), System.Math.Max(this.RightBottom.X, this.LeftBottom.X)),
             Bottom = System.Math.Max(System.Math.Max(this.LeftTop.Y, this.RightTop.Y), System.Math.Max(this.RightBottom.Y, this.LeftBottom.Y)),
         };
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Triangle ToTriangle() => new Triangle
         {
             LeftTop = this.LeftTop,
             RightTop = this.RightTop,
             LeftBottom = this.LeftBottom,
         };
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Quadrilateral ToQuadrilateral() => new Quadrilateral
         {
             LeftTop = this.LeftTop,
