@@ -29,9 +29,9 @@ namespace FanKit.Transformer.TestApp
         CanvasGeometry Curve1;
         CanvasGeometry Curve;
 
-        readonly CanvasPath Path0 = new CanvasPath();
-        readonly CanvasPath Path1 = new CanvasPath();
-        readonly CanvasPath Path = new CanvasPath();
+        readonly DemoPath Path0 = new DemoPath();
+        readonly DemoPath Path1 = new DemoPath();
+        readonly DemoPath Path = new DemoPath();
 
         readonly Matrix3x2 Offset = Matrix3x2.CreateTranslation(412f, 0f);
 
@@ -83,79 +83,79 @@ namespace FanKit.Transformer.TestApp
 
                 if (this.ToggleSwitch.IsOn)
                 {
-                    foreach (List<Node> figure in this.Path0)
+                    foreach (List<Segment0> figure in this.Path0)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawLine(item.Point, item.LeftControlPoint);
-                            args.DrawingSession.DrawLine(item.Point, item.RightControlPoint);
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.LeftControlPoint);
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.RightControlPoint);
                         }
                     }
-                    foreach (List<Node> figure in this.Path1)
+                    foreach (List<Segment0> figure in this.Path1)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawLine(item.Point, item.LeftControlPoint);
-                            args.DrawingSession.DrawLine(item.Point, item.RightControlPoint);
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.LeftControlPoint);
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.RightControlPoint);
                         }
                     }
                     args.DrawingSession.Transform = this.Offset;
-                    foreach (List<Node> figure in this.Path)
+                    foreach (List<Segment0> figure in this.Path)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawLine(item.Point, item.LeftControlPoint);
-                            args.DrawingSession.DrawLine(item.Point, item.RightControlPoint);
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.LeftControlPoint);
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.RightControlPoint);
                         }
                     }
                     args.DrawingSession.Transform = Matrix3x2.Identity;
 
-                    foreach (List<Node> figure in this.Path0)
+                    foreach (List<Segment0> figure in this.Path0)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawNode(item);
+                            args.DrawingSession.DrawNode(item.Point);
                         }
                     }
-                    foreach (List<Node> figure in this.Path1)
+                    foreach (List<Segment0> figure in this.Path1)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawNode(item);
+                            args.DrawingSession.DrawNode(item.Point);
                         }
                     }
                     args.DrawingSession.Transform = this.Offset;
-                    foreach (List<Node> figure in this.Path)
+                    foreach (List<Segment0> figure in this.Path)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawNode(item);
+                            args.DrawingSession.DrawNode(item.Point);
                         }
                     }
                     //args.DrawingSession.Transform = Matrix3x2.Identity;
                 }
                 else
                 {
-                    foreach (List<Node> figure in this.Path0)
+                    foreach (List<Segment0> figure in this.Path0)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawNode3(item.Point);
+                            args.DrawingSession.DrawNode3(item.Point.Point);
                         }
                     }
-                    foreach (List<Node> figure in this.Path1)
+                    foreach (List<Segment0> figure in this.Path1)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawNode3(item.Point);
+                            args.DrawingSession.DrawNode3(item.Point.Point);
                         }
                     }
                     args.DrawingSession.Transform = this.Offset;
-                    foreach (List<Node> figure in this.Path)
+                    foreach (List<Segment0> figure in this.Path)
                     {
-                        foreach (Node item in figure)
+                        foreach (Segment0 item in figure)
                         {
-                            args.DrawingSession.DrawNode3(item.Point);
+                            args.DrawingSession.DrawNode3(item.Point.Point);
                         }
                     }
                     //args.DrawingSession.Transform = Matrix3x2.Identity;

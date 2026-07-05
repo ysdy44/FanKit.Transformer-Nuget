@@ -20,9 +20,9 @@ namespace FanKit.Transformer.TestApp
         readonly static Color StrokeColor = Colors.DeepSkyBlue;
         readonly static Color FillColor = Color.FromArgb(51, Colors.DeepSkyBlue.R, Colors.DeepSkyBlue.G, Colors.DeepSkyBlue.B);
 
-        CanvasGeometry Curve;
+        CanvasGeometry CanvasGeometry;
 
-        readonly CanvasPath Path = new CanvasPath();
+        readonly DemoPath Path = new DemoPath();
 
         readonly Matrix3x2 Offset = Matrix3x2.CreateTranslation(412f, 0f);
 
@@ -34,37 +34,47 @@ namespace FanKit.Transformer.TestApp
             {
                 this.Path.ResetByXaml((Windows.UI.Xaml.Media.PathGeometry)this.SvgPath.Data);
 
-                this.Curve = this.Path.ToGeometry(s);
+                this.CanvasGeometry = this.Path.ToGeometry(s);
 
-                this.Curve.SendPathTo(this.Path);
+                this.CanvasGeometry.SendPathTo(this.Path);
             };
             this.CanvasControl.Draw += (s, args) =>
             {
                 args.DrawingSession.Transform = this.Offset;
-                args.DrawingSession.FillGeometry(this.Curve, FillColor);
+                args.DrawingSession.FillGeometry(this.CanvasGeometry, FillColor);
                 args.DrawingSession.Transform = Matrix3x2.Identity;
 
                 args.DrawingSession.Transform = this.Offset;
-                args.DrawingSession.DrawGeometry(this.Curve, StrokeColor, 2f);
+                args.DrawingSession.DrawGeometry(this.CanvasGeometry, StrokeColor, 2f);
                 args.DrawingSession.Transform = Matrix3x2.Identity;
 
                 args.DrawingSession.Transform = this.Offset;
-                foreach (List<Node> figure in this.Path)
+                foreach (List<Segment0> figure in this.Path)
                 {
-                    foreach (Node item in figure)
+                    foreach (Segment0 item in figure)
                     {
-                        args.DrawingSession.DrawLine(item.Point, item.LeftControlPoint);
-                        args.DrawingSession.DrawLine(item.Point, item.RightControlPoint);
+                        if (item.IsSmooth)
+                        {
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.LeftControlPoint);
+                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.RightControlPoint);
+                        }
                     }
                 }
                 args.DrawingSession.Transform = Matrix3x2.Identity;
 
                 args.DrawingSession.Transform = this.Offset;
-                foreach (List<Node> figure in this.Path)
+                foreach (List<Segment0> figure in this.Path)
                 {
-                    foreach (Node item in figure)
+                    foreach (Segment0 item in figure)
                     {
-                        args.DrawingSession.DrawNode(item);
+                        if (item.IsSmooth)
+                        {
+                            args.DrawingSession.DrawNode(item.Point);
+                        }
+                        else
+                        {
+                            args.DrawingSession.DrawNode(item.Point.Point);
+                        }
                     }
                 }
                 //args.DrawingSession.Transform = Matrix3x2.Identity;

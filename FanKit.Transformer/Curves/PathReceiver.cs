@@ -1,29 +1,22 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Curves
 {
-    public readonly struct PathReceiver
+    public struct PathReceiver
     {
         const byte b = 0; // BeginFigure
         const byte l = 1; // Line
         const byte q = 2; // QuadraticBezier
         const byte u = 3; // CubicBezier
 
-        readonly byte m; // Mode
+        byte m; // Mode
 
-        readonly Vector2 s; // StartPoint
-        readonly Vector2 c; // ControlPoint2
-        readonly Vector2 e; // EndPoint
+        Vector2 s; // StartPoint
+        Vector2 c; // ControlPoint2
+        Vector2 e; // EndPoint
 
         #region Constructors
-        private PathReceiver(byte m, Vector2 s, Vector2 c, Vector2 e)
-        {
-            this.m = m;
-            this.s = s;
-            this.c = c;
-            this.e = e;
-        }
-
         // Begin
         public PathReceiver(Vector2 startPoint)
         {
@@ -33,338 +26,540 @@ namespace FanKit.Transformer.Curves
             e = default;
         }
 
-        public PathReceiver ToCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint) => new PathReceiver(u, s, controlPoint2, endPoint);
-        public PathReceiver ToQuadraticBezier(Vector2 controlPoint, Vector2 endPoint) => new PathReceiver(q, s, controlPoint, endPoint);
-        public PathReceiver ToLine(Vector2 endPoint) => new PathReceiver(l, s, c, endPoint);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private PathReceiver ToCubicBezier(Vector2 controlPoint2, Vector2 endPoint)
+        {
+            return new PathReceiver
+            {
+                m = u,
+                s = s,
+                c = controlPoint2,
+                e = endPoint,
+            };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private PathReceiver ToQuadraticBezier(Vector2 controlPoint, Vector2 endPoint)
+        {
+            return new PathReceiver
+            {
+                m = q,
+                s = s,
+                c = controlPoint,
+                e = endPoint,
+            };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private PathReceiver ToLine(Vector2 endPoint)
+        {
+            return new PathReceiver
+            {
+                m = l,
+                s = s,
+                c = c,
+                e = endPoint,
+            };
+        }
         #endregion Constructors
 
         #region Node
-        public Node CubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint)
+        public Node AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, out PathReceiver result)
         {
+            Node segment;
+
             switch (m)
             {
                 case b:
-                    return new Node(s, s, controlPoint1);
+                    segment = new Node(s, s, controlPoint1);
+                    break;
                 case l:
-                    return new Node(e, e, controlPoint1);
+                    segment = new Node(e, e, controlPoint1);
+                    break;
                 case q:
                 case u:
-                    return new Node(e, c, controlPoint1);
+                    segment = new Node(e, c, controlPoint1);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
         }
 
-        public Node QuadraticBezier(Vector2 controlPoint, Vector2 endPoint)
+        public Node AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, out PathReceiver result)
         {
+            Node segment;
+
             switch (m)
             {
                 case b:
-                    return new Node(s, s, controlPoint);
+                    segment = new Node(s, s, controlPoint);
+                    break;
                 case l:
-                    return new Node(e, e, controlPoint);
+                    segment = new Node(e, e, controlPoint);
+                    break;
                 case q:
                 case u:
-                    return new Node(e, c, controlPoint);
+                    segment = new Node(e, c, controlPoint);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
         }
 
-        public Node Line(Vector2 endPoint)
+        public Node AddLine(Vector2 endPoint, out PathReceiver result)
         {
+            Node segment;
+
             switch (m)
             {
                 case b:
-                    return new Node(s);
+                    segment = new Node(s);
+                    break;
                 case l:
-                    return new Node(e);
+                    segment = new Node(e);
+                    break;
                 case q:
                 case u:
-                    return new Node(e, c, endPoint);
+                    segment = new Node(e, c, endPoint);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToLine(endPoint);
+            return segment;
         }
 
         // Closed
         public Node EndFigure()
         {
+            Node segment;
+
             switch (m)
             {
                 case b:
                 case l:
-                    return new Node(e);
+                    segment = new Node(e);
+                    break;
                 case q:
                 case u:
-                    return new Node(e, c, e);
+                    segment = new Node(e, c, e);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            return segment;
         }
         #endregion
 
         #region Segment0
-        public Segment0 CubicBezier0(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint)
+        public Segment0 AddCubicBezier0(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, out PathReceiver result)
         {
+            Segment0 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment0(false, new Node(s, s, controlPoint1));
+                    segment = new Segment0(false, new Node(s, s, controlPoint1));
+                    break;
                 case l:
-                    return new Segment0(false, new Node(e, e, controlPoint1));
+                    segment = new Segment0(false, new Node(e, e, controlPoint1));
+                    break;
                 case q:
                 case u:
-                    return new Segment0(false, new Node(e, c, controlPoint1));
+                    segment = new Segment0(false, new Node(e, c, controlPoint1));
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
         }
 
-        public Segment0 QuadraticBezier0(Vector2 controlPoint, Vector2 endPoint)
+        public Segment0 AddQuadraticBezier0(Vector2 controlPoint, Vector2 endPoint, out PathReceiver result)
         {
+            Segment0 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment0(false, new Node(s, s, controlPoint));
+                    segment = new Segment0(false, new Node(s, s, controlPoint));
+                    break;
                 case l:
-                    return new Segment0(false, new Node(e, e, controlPoint));
+                    segment = new Segment0(false, new Node(e, e, controlPoint));
+                    break;
                 case q:
                 case u:
-                    return new Segment0(false, new Node(e, c, controlPoint));
+                    segment = new Segment0(false, new Node(e, c, controlPoint));
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
         }
 
-        public Segment0 Line0(Vector2 endPoint)
+        public Segment0 AddLine0(Vector2 endPoint, out PathReceiver result)
         {
+            Segment0 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment0(false, s);
+                    segment = new Segment0(false, s);
+                    break;
                 case l:
-                    return new Segment0(false, e);
+                    segment = new Segment0(false, e);
+                    break;
                 case q:
                 case u:
-                    return new Segment0(false, new Node(e, c, endPoint));
+                    segment = new Segment0(false, new Node(e, c, endPoint));
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToLine(endPoint);
+            return segment;
         }
 
         // Closed
         public Segment0 EndFigure0()
         {
+            Segment0 segment;
+
             switch (m)
             {
                 case b:
                 case l:
-                    return new Segment0(false, e);
+                    segment = new Segment0(false, e);
+                    break;
                 case q:
                 case u:
-                    return new Segment0(false, new Node(e, c, e));
+                    segment = new Segment0(false, new Node(e, c, e));
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            return segment;
         }
         #endregion
 
         #region Segment1
-        public Segment1 CubicBezier1(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix canvasMatrix)
+        public Segment1 AddCubicBezier1(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
+            Segment1 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment1(false, new Node(s, s, controlPoint1), canvasMatrix);
+                    segment = new Segment1(false, new Node(s, s, controlPoint1), canvasMatrix);
+                    break;
                 case l:
-                    return new Segment1(false, new Node(e, e, controlPoint1), canvasMatrix);
+                    segment = new Segment1(false, new Node(e, e, controlPoint1), canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, controlPoint1), canvasMatrix);
+                    segment = new Segment1(false, new Node(e, c, controlPoint1), canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
         }
 
-        public Segment1 QuadraticBezier1(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix canvasMatrix)
+        public Segment1 AddQuadraticBezier1(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
+            Segment1 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment1(false, new Node(s, s, controlPoint), canvasMatrix);
+                    segment = new Segment1(false, new Node(s, s, controlPoint), canvasMatrix);
+                    break;
                 case l:
-                    return new Segment1(false, new Node(e, e, controlPoint), canvasMatrix);
+                    segment = new Segment1(false, new Node(e, e, controlPoint), canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, controlPoint), canvasMatrix);
+                    segment = new Segment1(false, new Node(e, c, controlPoint), canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
         }
 
-        public Segment1 Line1(Vector2 endPoint, ICanvasMatrix canvasMatrix)
+        public Segment1 AddLine1(Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
+            Segment1 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment1(false, s, canvasMatrix);
+                    segment = new Segment1(false, s, canvasMatrix);
+                    break;
                 case l:
-                    return new Segment1(false, e, canvasMatrix);
+                    segment = new Segment1(false, e, canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, endPoint), canvasMatrix);
+                    segment = new Segment1(false, new Node(e, c, endPoint), canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToLine(endPoint);
+            return segment;
         }
 
         // Closed
         public Segment1 EndFigure1(ICanvasMatrix canvasMatrix)
         {
+            Segment1 segment;
+
             switch (m)
             {
                 case b:
                 case l:
-                    return new Segment1(false, e, canvasMatrix);
+                    segment = new Segment1(false, e, canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment1(false, new Node(e, c, e), canvasMatrix);
+                    segment = new Segment1(false, new Node(e, c, e), canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            return segment;
         }
         #endregion
 
         #region Segment2
-        public Segment2 CubicBezier2(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix)
+        public Segment2 AddCubicBezier2(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
         {
+            Segment2 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment2(false, new Node(s, s, controlPoint1), homographyMatrix);
+                    segment = new Segment2(false, new Node(s, s, controlPoint1), homographyMatrix);
+                    break;
                 case l:
-                    return new Segment2(false, new Node(e, e, controlPoint1), homographyMatrix);
+                    segment = new Segment2(false, new Node(e, e, controlPoint1), homographyMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, controlPoint1), homographyMatrix);
+                    segment = new Segment2(false, new Node(e, c, controlPoint1), homographyMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
         }
 
-        public Segment2 QuadraticBezier2(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix)
+        public Segment2 AddQuadraticBezier2(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
         {
+            Segment2 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment2(false, new Node(s, s, controlPoint), homographyMatrix);
+                    segment = new Segment2(false, new Node(s, s, controlPoint), homographyMatrix);
+                    break;
                 case l:
-                    return new Segment2(false, new Node(e, e, controlPoint), homographyMatrix);
+                    segment = new Segment2(false, new Node(e, e, controlPoint), homographyMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, controlPoint), homographyMatrix);
+                    segment = new Segment2(false, new Node(e, c, controlPoint), homographyMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
         }
 
-        public Segment2 Line2(Vector2 endPoint, Matrix3x2 homographyMatrix)
+        public Segment2 AddLine2(Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
         {
+            Segment2 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment2(false, s, homographyMatrix);
+                    segment = new Segment2(false, s, homographyMatrix);
+                    break;
                 case l:
-                    return new Segment2(false, e, homographyMatrix);
+                    segment = new Segment2(false, e, homographyMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, endPoint), homographyMatrix);
+                    segment = new Segment2(false, new Node(e, c, endPoint), homographyMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToLine(endPoint);
+            return segment;
         }
 
         // Closed
         public Segment2 EndFigure2(Matrix3x2 homographyMatrix)
         {
+            Segment2 segment;
+
             switch (m)
             {
                 case b:
                 case l:
-                    return new Segment2(false, e, homographyMatrix);
+                    segment = new Segment2(false, e, homographyMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment2(false, new Node(e, c, e), homographyMatrix);
+                    segment = new Segment2(false, new Node(e, c, e), homographyMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            return segment;
         }
         #endregion
 
         #region Segment3
-        public Segment3 CubicBezier3(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
+        public Segment3 AddCubicBezier3(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
+            Segment3 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment3(false, new Node(s, s, controlPoint1), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(s, s, controlPoint1), homographyMatrix, canvasMatrix);
+                    break;
                 case l:
-                    return new Segment3(false, new Node(e, e, controlPoint1), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(e, e, controlPoint1), homographyMatrix, canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, controlPoint1), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(e, c, controlPoint1), homographyMatrix, canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
         }
 
-        public Segment3 QuadraticBezier3(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
+        public Segment3 AddQuadraticBezier3(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
+            Segment3 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment3(false, new Node(s, s, controlPoint), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(s, s, controlPoint), homographyMatrix, canvasMatrix);
+                    break;
                 case l:
-                    return new Segment3(false, new Node(e, e, controlPoint), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(e, e, controlPoint), homographyMatrix, canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, controlPoint), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(e, c, controlPoint), homographyMatrix, canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
         }
 
-        public Segment3 Line3(Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
+        public Segment3 AddLine3(Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
+            Segment3 segment;
+
             switch (m)
             {
                 case b:
-                    return new Segment3(false, s, homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, s, homographyMatrix, canvasMatrix);
+                    break;
                 case l:
-                    return new Segment3(false, e, homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, e, homographyMatrix, canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, endPoint), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(e, c, endPoint), homographyMatrix, canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            result = ToLine(endPoint);
+            return segment;
         }
 
         // Closed
         public Segment3 EndFigure3(Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
+            Segment3 segment;
+
             switch (m)
             {
                 case b:
                 case l:
-                    return new Segment3(false, e, homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, e, homographyMatrix, canvasMatrix);
+                    break;
                 case q:
                 case u:
-                    return new Segment3(false, new Node(e, c, e), homographyMatrix, canvasMatrix);
+                    segment = new Segment3(false, new Node(e, c, e), homographyMatrix, canvasMatrix);
+                    break;
                 default:
-                    return default;
+                    segment = default;
+                    break;
             }
+
+            return segment;
         }
         #endregion
     }

@@ -8,14 +8,14 @@ using Windows.Foundation;
 
 namespace FanKit.Transformer.TestApp
 {
-    public class CanvasPath : List<List<Node>>, ICanvasPathReceiver
+    public class DemoPath : List<List<Segment0>>, ICanvasPathReceiver
     {
         PathReceiver Receiver;
 
         #region ICanvasPathReceiver
         public void BeginFigure(Vector2 startPoint, CanvasFigureFill figureFill)
         {
-            this.Add(new List<Node>());
+            this.Add(new List<Segment0>());
             this.Receiver = new PathReceiver(startPoint);
         }
 
@@ -25,20 +25,17 @@ namespace FanKit.Transformer.TestApp
 
         public void AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint)
         {
-            this.Last().Add(this.Receiver.CubicBezier(controlPoint1, controlPoint2, endPoint));
-            this.Receiver = this.Receiver.ToCubicBezier(controlPoint1, controlPoint2, endPoint);
+            this.Last().Add(this.Receiver.AddCubicBezier0(controlPoint1, controlPoint2, endPoint, out this.Receiver));
         }
 
         public void AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint)
         {
-            this.Last().Add(this.Receiver.QuadraticBezier(controlPoint, endPoint));
-            this.Receiver = this.Receiver.ToQuadraticBezier(controlPoint, endPoint);
+            this.Last().Add(this.Receiver.AddQuadraticBezier0(controlPoint, endPoint, out this.Receiver));
         }
 
         public void AddLine(Vector2 endPoint)
         {
-            this.Last().Add(this.Receiver.Line(endPoint));
-            this.Receiver = this.Receiver.ToLine(endPoint);
+            this.Last().Add(this.Receiver.AddLine0(endPoint, out this.Receiver));
         }
 
         public void SetFilledRegionDetermination(CanvasFilledRegionDetermination filledRegionDetermination)
@@ -56,7 +53,7 @@ namespace FanKit.Transformer.TestApp
                 case CanvasFigureLoop.Open:
                     break;
                 case CanvasFigureLoop.Closed:
-                    this.Last().Add(this.Receiver.EndFigure());
+                    this.Last().Add(this.Receiver.EndFigure0());
                     break;
                 default:
                     break;
@@ -71,7 +68,7 @@ namespace FanKit.Transformer.TestApp
 
             for (int i = 0; i < Count; i++)
             {
-                List<Node> item = this[i];
+                List<Segment0> item = this[i];
                 using (PathBuilder path = new PathBuilder(resourceCreator))
                 {
                     path.CreatePath(item, true);
