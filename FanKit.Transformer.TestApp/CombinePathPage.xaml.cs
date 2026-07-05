@@ -1,166 +1,188 @@
-﻿using FanKit.Transformer.Curves;
-using FanKit.Transformer.Mathematics;
-using FanKit.Transformer.Sample;
+﻿using FanKit.Transformer;
+using FanKit.Transformer.Cache;
+using FanKit.Transformer.Curves;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using Windows.UI;
-using Windows.UI.Input;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace FanKit.Transformer.TestApp
 {
     public sealed partial class CombinePathPage : Page
     {
-        // Source
-        readonly static Color LeftStrokeColor = Colors.OrangeRed;
-        readonly static Color LeftFillColor = Color.FromArgb(51, Colors.OrangeRed.R, Colors.OrangeRed.G, Colors.OrangeRed.B);
+        static readonly Bounds B0 = new Bounds(40, 40, 140, 140);
+        static readonly Bounds B1 = new Bounds(60, 110, 160, 210);
 
-        // Destination
-        readonly static Color RightStrokeColor = Colors.DeepSkyBlue;
-        readonly static Color RightFillColor = Color.FromArgb(51, Colors.DeepSkyBlue.R, Colors.DeepSkyBlue.G, Colors.DeepSkyBlue.B);
+        DemoGeometry Source0;
+        DemoGeometry Source1;
+        CanvasGeometry SourceCanvasGeometry0;
+        CanvasGeometry SourceCanvasGeometry1;
 
-        CanvasGeometryCombine Combine = CanvasGeometryCombine.Union;
+        DemoGeometry Union0;
+        DemoGeometry Union1;
+        DemoPath Union2;
+        CanvasGeometry UnionCanvasGeometry;
 
-        CanvasGeometry Curve0;
-        CanvasGeometry Curve1;
-        CanvasGeometry Curve;
+        DemoGeometry Intersect0;
+        DemoGeometry Intersect1;
+        DemoPath Intersect2;
+        CanvasGeometry IntersectCanvasGeometry;
 
-        readonly DemoPath Path0 = new DemoPath();
-        readonly DemoPath Path1 = new DemoPath();
-        readonly DemoPath Path = new DemoPath();
+        DemoGeometry Xor0;
+        DemoGeometry Xor1;
+        DemoPath Xor2;
+        CanvasGeometry XorCanvasGeometry;
 
-        readonly Matrix3x2 Offset = Matrix3x2.CreateTranslation(412f, 0f);
+        DemoGeometry Exclude0;
+        DemoGeometry Exclude1;
+        DemoPath Exclude2;
+        CanvasGeometry ExcludeCanvasGeometry;
 
         public CombinePathPage()
         {
             this.InitializeComponent();
-            this.ComboBox.SelectionChanged += delegate
+
+            this.CanvasControl00.CreateResources += (s, e) =>
             {
-                switch (this.ComboBox.SelectedIndex)
-                {
-                    case 0: this.Combine = CanvasGeometryCombine.Union; break;
-                    case 1: this.Combine = CanvasGeometryCombine.Intersect; break;
-                    case 2: this.Combine = CanvasGeometryCombine.Xor; break;
-                    case 3: this.Combine = CanvasGeometryCombine.Exclude; break;
-                    default: break;
-                }
+                this.Source0 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Source0.CreateEllipse(new Box1(B0));
 
-                this.Path.Clear();
-                this.Curve = this.Curve0.CombineWith(this.Curve1, Matrix3x2.Identity, this.Combine);
-                this.Curve.SendPathTo(this.Path);
+                this.Source1 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Source1.CreateEllipse(new Box1(B1));
 
-                this.CanvasControl.Invalidate();
+                this.SourceCanvasGeometry0 = CanvasGeometry.CreatePath(this.Source0.Builder);
+                this.SourceCanvasGeometry1 = CanvasGeometry.CreatePath(this.Source1.Builder);
             };
-
-            this.ToggleSwitch.Toggled += delegate { this.CanvasControl.Invalidate(); };
-            this.CanvasControl.CreateResources += (s, args) =>
+            this.CanvasControl01.CreateResources += (s, e) =>
             {
-                this.Curve0 = CanvasGeometry.CreateCircle(s, 130f, 200f, 108f);
-                this.Curve1 = CanvasGeometry.CreateCircle(s, 270f, 200f, 108f);
-                this.Curve = this.Curve0.CombineWith(this.Curve1, Matrix3x2.Identity, this.Combine);
+                this.Union0 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Union0.CreateEllipse(new Box1(B0));
 
-                this.Curve0.SendPathTo(this.Path0);
-                this.Curve1.SendPathTo(this.Path1);
-                this.Curve.SendPathTo(this.Path);
-            };
-            this.CanvasControl.Draw += (s, args) =>
-            {
-                args.DrawingSession.FillGeometry(this.Curve0, LeftFillColor);
-                args.DrawingSession.FillGeometry(this.Curve1, LeftFillColor);
-                args.DrawingSession.Transform = this.Offset;
-                args.DrawingSession.FillGeometry(this.Curve, RightFillColor);
-                args.DrawingSession.Transform = Matrix3x2.Identity;
+                this.Union1 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Union1.CreateEllipse(new Box1(B1));
 
-                args.DrawingSession.DrawGeometry(this.Curve0, LeftStrokeColor, 2f);
-                args.DrawingSession.DrawGeometry(this.Curve1, LeftStrokeColor, 2f);
-                args.DrawingSession.Transform = this.Offset;
-                args.DrawingSession.DrawGeometry(this.Curve, RightStrokeColor, 2f);
-                args.DrawingSession.Transform = Matrix3x2.Identity;
+                this.Union2 = new DemoPath();
 
-                if (this.ToggleSwitch.IsOn)
+                using (var left = CanvasGeometry.CreatePath(this.Union0.Builder))
+                using (var right = CanvasGeometry.CreatePath(this.Union1.Builder))
                 {
-                    foreach (List<Segment0> figure in this.Path0)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.LeftControlPoint);
-                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.RightControlPoint);
-                        }
-                    }
-                    foreach (List<Segment0> figure in this.Path1)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.LeftControlPoint);
-                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.RightControlPoint);
-                        }
-                    }
-                    args.DrawingSession.Transform = this.Offset;
-                    foreach (List<Segment0> figure in this.Path)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.LeftControlPoint);
-                            args.DrawingSession.DrawLine(item.Point.Point, item.Point.RightControlPoint);
-                        }
-                    }
-                    args.DrawingSession.Transform = Matrix3x2.Identity;
-
-                    foreach (List<Segment0> figure in this.Path0)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawNode(item.Point);
-                        }
-                    }
-                    foreach (List<Segment0> figure in this.Path1)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawNode(item.Point);
-                        }
-                    }
-                    args.DrawingSession.Transform = this.Offset;
-                    foreach (List<Segment0> figure in this.Path)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawNode(item.Point);
-                        }
-                    }
-                    //args.DrawingSession.Transform = Matrix3x2.Identity;
-                }
-                else
-                {
-                    foreach (List<Segment0> figure in this.Path0)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawNode3(item.Point.Point);
-                        }
-                    }
-                    foreach (List<Segment0> figure in this.Path1)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawNode3(item.Point.Point);
-                        }
-                    }
-                    args.DrawingSession.Transform = this.Offset;
-                    foreach (List<Segment0> figure in this.Path)
-                    {
-                        foreach (Segment0 item in figure)
-                        {
-                            args.DrawingSession.DrawNode3(item.Point.Point);
-                        }
-                    }
-                    //args.DrawingSession.Transform = Matrix3x2.Identity;
+                    const CanvasGeometryCombine combine = CanvasGeometryCombine.Union;
+                    this.UnionCanvasGeometry = left.CombineWith(right, Matrix3x2.Identity, combine);
+                    this.UnionCanvasGeometry.SendPathTo(this.Union2);
                 }
             };
+            this.CanvasControl02.CreateResources += (s, e) =>
+            {
+                this.Intersect0 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Intersect0.CreateEllipse(new Box1(B0));
+
+                this.Intersect1 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Intersect1.CreateEllipse(new Box1(B1));
+
+                this.Intersect2 = new DemoPath();
+
+                using (var left = CanvasGeometry.CreatePath(this.Intersect0.Builder))
+                using (var right = CanvasGeometry.CreatePath(this.Intersect1.Builder))
+                {
+                    const CanvasGeometryCombine combine = CanvasGeometryCombine.Intersect;
+                    this.IntersectCanvasGeometry = left.CombineWith(right, Matrix3x2.Identity, combine);
+                    this.IntersectCanvasGeometry.SendPathTo(this.Intersect2);
+                }
+            };
+            this.CanvasControl03.CreateResources += (s, e) =>
+            {
+                this.Xor0 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Xor0.CreateEllipse(new Box1(B0));
+
+                this.Xor1 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Xor1.CreateEllipse(new Box1(B1));
+
+                this.Xor2 = new DemoPath();
+
+                using (var left = CanvasGeometry.CreatePath(this.Xor0.Builder))
+                using (var right = CanvasGeometry.CreatePath(this.Xor1.Builder))
+                {
+                    const CanvasGeometryCombine combine = CanvasGeometryCombine.Xor;
+                    this.XorCanvasGeometry = left.CombineWith(right, Matrix3x2.Identity, combine);
+                    this.XorCanvasGeometry.SendPathTo(this.Xor2);
+                }
+            };
+            this.CanvasControl04.CreateResources += (s, e) =>
+            {
+                this.Exclude0 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Exclude0.CreateEllipse(new Box1(B0));
+
+                this.Exclude1 = new DemoGeometry { Builder = new CanvasPathBuilder(s) };
+                this.Exclude1.CreateEllipse(new Box1(B1));
+
+                this.Exclude2 = new DemoPath();
+
+                using (var left = CanvasGeometry.CreatePath(this.Exclude0.Builder))
+                using (var right = CanvasGeometry.CreatePath(this.Exclude1.Builder))
+                {
+                    const CanvasGeometryCombine combine = CanvasGeometryCombine.Exclude;
+                    this.ExcludeCanvasGeometry = left.CombineWith(right, Matrix3x2.Identity, combine);
+                    this.ExcludeCanvasGeometry.SendPathTo(this.Exclude2);
+                }
+            };
+
+            this.CanvasControl00.Draw += (s, e) =>
+            {
+                Draw(e.DrawingSession, this.SourceCanvasGeometry0, this.Source0);
+                Draw(e.DrawingSession, this.SourceCanvasGeometry1, this.Source1);
+            };
+            this.CanvasControl01.Draw += (s, e) => Draw(e.DrawingSession, this.UnionCanvasGeometry, this.Union2);
+            this.CanvasControl02.Draw += (s, e) => Draw(e.DrawingSession, this.IntersectCanvasGeometry, this.Intersect2);
+            this.CanvasControl03.Draw += (s, e) => Draw(e.DrawingSession, this.XorCanvasGeometry, this.Xor2);
+            this.CanvasControl04.Draw += (s, e) => Draw(e.DrawingSession, this.ExcludeCanvasGeometry, this.Exclude2);
+        }
+
+        private static void Draw(CanvasDrawingSession drawingSession, CanvasGeometry canvasGeometry, DemoPath path)
+        {
+            drawingSession.FillGeometry(canvasGeometry, Vector2.Zero, Windows.UI.Colors.Gray);
+            drawingSession.DrawGeometry(canvasGeometry, Vector2.Zero, Windows.UI.Colors.DeepSkyBlue, 2f);
+
+            DrawNodes(drawingSession, path);
+        }
+
+        private static void Draw(CanvasDrawingSession drawingSession, CanvasGeometry canvasGeometry, DemoGeometry geometry)
+        {
+            drawingSession.DrawGeometry(canvasGeometry, Vector2.Zero, Windows.UI.Colors.DeepSkyBlue, 2f);
+
+            DrawNodes(drawingSession, geometry);
+        }
+
+        private static void DrawNodes(CanvasDrawingSession drawingSession, List<List<Segment0>> path)
+        {
+            foreach (List<Segment0> figure in path)
+            {
+                foreach (Segment0 segment in figure)
+                {
+                    if (segment.IsSmooth)
+                    {
+                        drawingSession.DrawLine(segment.Point.Point, segment.Point.LeftControlPoint, Windows.UI.Colors.DeepSkyBlue, 1f);
+                        drawingSession.DrawLine(segment.Point.Point, segment.Point.RightControlPoint, Windows.UI.Colors.DeepSkyBlue, 1f);
+                    }
+                }
+            }
+
+            foreach (List<Segment0> figure in path)
+            {
+                foreach (Segment0 segment in figure)
+                {
+                    if (segment.IsSmooth)
+                    {
+                        drawingSession.FillCircle(segment.Point.LeftControlPoint, 2f, Windows.UI.Colors.DeepSkyBlue);
+                        drawingSession.FillCircle(segment.Point.RightControlPoint, 2f, Windows.UI.Colors.DeepSkyBlue);
+                    }
+
+                    drawingSession.FillCircle(segment.Point.Point, 3f, Windows.UI.Colors.DeepSkyBlue);
+                    drawingSession.FillCircle(segment.Point.Point, 2f, Windows.UI.Colors.White);
+                }
+            }
         }
     }
 }

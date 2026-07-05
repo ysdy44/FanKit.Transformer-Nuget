@@ -9,23 +9,66 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     >
 
-    <Canvas Margin="8" Width="824" Height="416" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-        <Rectangle Canvas.Left="8" Canvas.Top="8" Width="400" Height="400" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
-        <Rectangle Canvas.Left="416" Canvas.Top="8" Width="400" Height="400" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
-        <xaml:CanvasControl x:Name="CanvasControl" Width="808" Height="400"/>
+    <ScrollViewer
+        VerticalScrollMode="Enabled"
+        HorizontalScrollMode="Enabled"
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Auto"
+        >
 
-        <ToggleSwitch x:Name="ToggleSwitch" Canvas.Left="14" Canvas.Top="12">
-            <ToggleSwitch.Header>
-                Show Handles
-            </ToggleSwitch.Header>
-        </ToggleSwitch>
+        <Canvas Width="1068" Height="292" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-        <ComboBox x:Name="ComboBox" Canvas.Left="14" Canvas.Top="368" SelectedIndex="0">
-            <ComboBoxItem>Union</ComboBoxItem>
-            <ComboBoxItem>Intersect</ComboBoxItem>
-            <ComboBoxItem>Xor</ComboBoxItem>
-            <ComboBoxItem>Exclude</ComboBoxItem>
-        </ComboBox>
-    </Canvas>
+            <Grid Canvas.Left="10" Canvas.Top="10" Width="200" Height="272" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="250"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Source
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl00" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="222" Canvas.Top="10" Width="200" Height="272" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="250"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Union
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl01" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="434" Canvas.Top="10" Width="200" Height="272" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="250"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Intersect
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl02" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="646" Canvas.Top="10" Width="200" Height="272" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="250"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Xor
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl03" Grid.Row="1"/>
+            </Grid>
+            <Grid Canvas.Left="856" Canvas.Top="10" Width="200" Height="272" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="250"/>
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    Exclude
+                </TextBlock>
+                <xaml:CanvasControl x:Name="CanvasControl04" Grid.Row="1"/>
+            </Grid>
 
+        </Canvas>
+    </ScrollViewer>
 </Page>
