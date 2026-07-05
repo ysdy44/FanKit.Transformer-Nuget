@@ -21,5 +21,50 @@ namespace FanKit.Transformer
                 position.X * this.C - position.Y * this.S,
                 position.X * this.S + position.Y * this.C);
         }
+
+        public Vector2 Transform(float x, float y)
+        {
+            return new Vector2(
+                x * this.C - y * this.S,
+                x * this.S + y * this.C);
+        }
+
+        internal Vector2 Normalize()
+        {
+            return new Vector2(C, S);
+        }
+
+        internal Vector2 T1(Vector2 position) // Transform 1
+        {
+            return new Vector2(
+                -position.X * this.C - position.Y * this.S,
+                -position.X * this.S + position.Y * this.C);
+        }
+
+        internal Vector2 T2(Vector2 position) // Transform 2
+        {
+            return new Vector2(
+                position.X * this.C + position.Y * this.S,
+                position.X * this.S - position.Y * this.C);
+        }
+
+        internal Vector2 T3(Vector2 position) // Transform 3
+        {
+            return new Vector2(
+                -position.X * this.C + position.Y * this.S,
+                -position.X * this.S - position.Y * this.C);
+        }
+
+        internal Vector2 NP() // Normalize Point
+        {
+            return new Vector2(-this.C, -this.S);
+        }
+
+        internal Vector2 NCP(float sclae) // Normalize Control Point
+        {
+            return new Vector2(
+                -this.S * sclae - this.C, // Reflection.X + Point.X
+                this.C * sclae - this.S); // Reflection.Y + Point.Y
+        }
     }
 }
