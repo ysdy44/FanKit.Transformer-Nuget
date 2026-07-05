@@ -4,7 +4,7 @@ namespace FanKit.Transformer.Mathematics
 {
     public static partial class Math
     {
-        public const float PiTwice = Constants.PiTwice;
+        public const float PITwice = Constants.PITwice;
         public const float InvPI = Constants.InvPI;
         public const float PI = Constants.PI;
         public const float PIOver2 = Constants.PIOver2;

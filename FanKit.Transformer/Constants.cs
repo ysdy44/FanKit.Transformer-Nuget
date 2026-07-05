@@ -2,7 +2,7 @@
 {
     internal static partial class Constants
     {
-        internal const float PiTwice = (float)(System.Math.PI * 2.0);
+        internal const float PITwice = (float)(System.Math.PI * 2.0);
         internal const float InvPI = (float)(-System.Math.PI);
         internal const float PI = (float)System.Math.PI;
         internal const float PIOver2 = (float)(System.Math.PI / 2.0);

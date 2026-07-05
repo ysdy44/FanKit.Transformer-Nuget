@@ -11,11 +11,11 @@ namespace FanKit.Transformer.Input
         {
             if (v > Constants.PI)
             {
-                return R(v % Constants.PiTwice); // val
+                return R(v % Constants.PITwice); // val
             }
             else if (v < Constants.InvPI)
             {
-                return R(v % Constants.PiTwice); // val
+                return R(v % Constants.PITwice); // val
             }
             else
             {
