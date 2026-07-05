@@ -82,7 +82,7 @@ namespace FanKit.Transformer.TestApp
         {
             using (PathBuilder path = new PathBuilder(resourceCreator))
             {
-                path.CreatePointPath(this.Data, this.IsClosed);
+                path.CreatePath(this.Data, this.IsClosed);
                 using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                 {
                     drawingSession.DrawDashCurve(curve);
@@ -149,12 +149,12 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case SegmentIndexerMode.PointWithoutChecked:
                 case SegmentIndexerMode.PointWithChecked:
-                    this.Data[Indexer.Index] = this.Node.MovePoint(this.Point);
+                    this.Data[this.Indexer.Index] = this.Node.MovePoint(this.Point);
                     this.CanvasControl.Invalidate();
                     break;
                 case SegmentIndexerMode.LeftControlPoint:
                 case SegmentIndexerMode.RightControlPoint:
-                    this.Data[Indexer.Index] = this.Controller.ToNode(this.Point, this.Disconnected);
+                    this.Data[this.Indexer.Index] = this.Controller.ToNode(this.Point, this.Disconnected);
                     this.CanvasControl.Invalidate();
                     break;
                 default:

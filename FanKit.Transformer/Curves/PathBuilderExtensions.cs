@@ -1,11 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using FanKit.Transformer.Controllers;
+using System.Collections.Generic;
 
 namespace FanKit.Transformer.Curves
 {
-    public static class PathBuilderExtensions
+    public static partial class PathBuilderExtensions
     {
         const bool Closed = true;
         const bool Open = false;
+
+        // Radians
+        const float PI = Constants.PI;
+        const float PITwice = Constants.PITwice;
+        const float PIOver2 = Constants.PIOver2;
+
+        const float R360 = Constants.PI + Constants.PI;
+        const float R270 = Constants.PI + Constants.PIOver2;
+        const float R180 = Constants.PI;
+        const float R90 = Constants.PIOver2;
+        const float R0 = 0f;
 
         private static void CreatePoint(IPathBuilder pathBuilder, Segment0 previous, Segment0 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Point, next.Point);
@@ -101,23 +113,28 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Node
-        public static void CreatePointPath(this IPathBuilder pathBuilder, List<Node> segment, bool isClosed)
+        public static void CreatePath(this IPathBuilder pathBuilder, List<Node> segments, bool isClosed)
+        {
+            CreatePointPath(pathBuilder, segments, isClosed);
+        }
+
+        private static void CreatePointPath(IPathBuilder pathBuilder, List<Node> segments, bool isClosed)
         {
             // ?
 
-            Node first = segment[0];
+            Node first = segments[0];
             pathBuilder.BeginFigure(first.Point);
 
-            for (int i = 1; i < segment.Count; i++)
+            for (int i = 1; i < segments.Count; i++)
             {
-                Node previous = segment[i - 1];
-                Node next = segment[i];
+                Node previous = segments[i - 1];
+                Node next = segments[i];
                 AddBezier(pathBuilder, true, true, previous, next);
             }
 
             if (isClosed)
             {
-                Node last = segment[segment.Count - 1];
+                Node last = segments[segments.Count - 1];
                 AddBezier(pathBuilder, true, true, last, first);
 
                 pathBuilder.EndFigure(Closed);
@@ -132,23 +149,28 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment0
-        public static void CreatePointPath(this IPathBuilder pathBuilder, List<Segment0> segment, bool isClosed)
+        public static void CreatePath(this IPathBuilder pathBuilder, List<Segment0> figures, bool isClosed)
+        {
+            CreatePointPath(pathBuilder, figures, isClosed);
+        }
+
+        private static void CreatePointPath(IPathBuilder pathBuilder, List<Segment0> segments, bool isClosed)
         {
             // ?
 
-            Segment0 first = segment[0];
+            Segment0 first = segments[0];
             pathBuilder.BeginFigure(first.Point.Point);
 
-            for (int i = 1; i < segment.Count; i++)
+            for (int i = 1; i < segments.Count; i++)
             {
-                Segment0 previous = segment[i - 1];
-                Segment0 next = segment[i];
+                Segment0 previous = segments[i - 1];
+                Segment0 next = segments[i];
                 CreatePoint(pathBuilder, previous, next);
             }
 
             if (isClosed)
             {
-                Segment0 last = segment[segment.Count - 1];
+                Segment0 last = segments[segments.Count - 1];
                 CreatePoint(pathBuilder, last, first);
 
                 pathBuilder.EndFigure(Closed);
@@ -163,23 +185,38 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment1
-        public static void CreatePointPath(this IPathBuilder pathBuilder, List<Segment1> segment, bool isClosed)
+        public static void CreatePath(this IPathBuilder pathBuilder, NodePointUnits unit, List<Segment1> segments, bool isClosed)
+        {
+            switch (unit)
+            {
+                case NodePointUnits.Normal:
+                    CreatePointPath(pathBuilder, segments, isClosed);
+                    break;
+                case NodePointUnits.Actual:
+                    CreateActualPath(pathBuilder, segments, isClosed);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static void CreatePointPath(IPathBuilder pathBuilder, List<Segment1> segments, bool isClosed)
         {
             // ?
 
-            Segment1 first = segment[0];
+            Segment1 first = segments[0];
             pathBuilder.BeginFigure(first.Point.Point);
 
-            for (int i = 1; i < segment.Count; i++)
+            for (int i = 1; i < segments.Count; i++)
             {
-                Segment1 previous = segment[i - 1];
-                Segment1 next = segment[i];
+                Segment1 previous = segments[i - 1];
+                Segment1 next = segments[i];
                 CreatePoint(pathBuilder, previous, next);
             }
 
             if (isClosed)
             {
-                Segment1 last = segment[segment.Count - 1];
+                Segment1 last = segments[segments.Count - 1];
                 CreatePoint(pathBuilder, last, first);
 
                 pathBuilder.EndFigure(Closed);
@@ -192,23 +229,23 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        public static void CreateActualPath(this IPathBuilder pathBuilder, List<Segment1> segment, bool isClosed)
+        private static void CreateActualPath(IPathBuilder pathBuilder, List<Segment1> segments, bool isClosed)
         {
             // ?
 
-            Segment1 first = segment[0];
+            Segment1 first = segments[0];
             pathBuilder.BeginFigure(first.Actual.Point);
 
-            for (int i = 1; i < segment.Count; i++)
+            for (int i = 1; i < segments.Count; i++)
             {
-                Segment1 previous = segment[i - 1];
-                Segment1 next = segment[i];
+                Segment1 previous = segments[i - 1];
+                Segment1 next = segments[i];
                 CreateActual(pathBuilder, previous, next);
             }
 
             if (isClosed)
             {
-                Segment1 last = segment[segment.Count - 1];
+                Segment1 last = segments[segments.Count - 1];
                 CreateActual(pathBuilder, last, first);
 
                 pathBuilder.EndFigure(Closed);
@@ -223,7 +260,22 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment2
-        public static void CreateRawPath(this IPathBuilder pathBuilder, IEnumerable<Figure2> figures)
+        public static void CreatePath(this IPathBuilder pathBuilder, NodePointUnits unit, IEnumerable<Figure2> figures)
+        {
+            switch (unit)
+            {
+                case NodePointUnits.Normal:
+                    CreateRawPath(pathBuilder, figures);
+                    break;
+                case NodePointUnits.Actual:
+                    CreateMapPath(pathBuilder, figures);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static void CreateRawPath(IPathBuilder pathBuilder, IEnumerable<Figure2> figures)
         {
             // ?
 
@@ -255,7 +307,7 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        public static void CreateMapPath(this IPathBuilder pathBuilder, IEnumerable<Figure2> figures)
+        private static void CreateMapPath(IPathBuilder pathBuilder, IEnumerable<Figure2> figures)
         {
             // ?
 
@@ -289,7 +341,22 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment3
-        public static void CreateRawPath(this IPathBuilder pathBuilder, IEnumerable<Figure3> figures)
+        public static void CreatePath(this IPathBuilder pathBuilder, NodePointUnits unit, IEnumerable<Figure3> figures)
+        {
+            switch (unit)
+            {
+                case NodePointUnits.Normal:
+                    CreateRawPath(pathBuilder, figures);
+                    break;
+                case NodePointUnits.Actual:
+                    CreateActualPath(pathBuilder, figures);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static void CreateRawPath(IPathBuilder pathBuilder, IEnumerable<Figure3> figures)
         {
             // ?
 
@@ -321,7 +388,7 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        public static void CreateActualPath(this IPathBuilder pathBuilder, IEnumerable<Figure3> figures)
+        private static void CreateActualPath(IPathBuilder pathBuilder, IEnumerable<Figure3> figures)
         {
             // ?
 

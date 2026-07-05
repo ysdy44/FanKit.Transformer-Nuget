@@ -87,7 +87,7 @@ namespace FanKit.Transformer.TestApp
         {
             using (PathBuilder path = new PathBuilder(resourceCreator))
             {
-                path.CreatePointPath(this.Data, this.IsClosed);
+                path.CreatePath(this.Data, this.IsClosed);
                 using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                 {
                     drawingSession.DrawCurve(curve);

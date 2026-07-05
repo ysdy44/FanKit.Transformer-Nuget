@@ -325,7 +325,7 @@ namespace FanKit.Transformer.TestApp
             {
                 using (PathBuilder path = new PathBuilder(resourceCreator))
                 {
-                    path.CreateActualPath(item.Figures);
+                    path.CreatePath(NodePointUnits.Actual, item.Figures);
                     using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                     {
                         drawingSession.DrawDashCurve(curve, item.ActualStrokeWidth);
@@ -349,7 +349,7 @@ namespace FanKit.Transformer.TestApp
             {
                 using (PathBuilder path = new PathBuilder(resourceCreator))
                 {
-                    path.CreateRawPath(item.Figures);
+                    path.CreatePath(NodePointUnits.Normal, item.Figures);
                     using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                     {
                         drawingSession.DrawDashCurve(curve, item.StrokeWidth);

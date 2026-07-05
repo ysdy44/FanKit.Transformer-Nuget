@@ -19,7 +19,9 @@ namespace FanKit.Transformer.TestApp
             this.Receiver = new PathReceiver(startPoint);
         }
 
-        public void AddArc(Vector2 endPoint, float radiusX, float radiusY, float rotationAngle, CanvasSweepDirection sweepDirection, CanvasArcSize arcSize) { }
+        public void AddArc(Vector2 endPoint, float radiusX, float radiusY, float rotationAngle, CanvasSweepDirection sweepDirection, CanvasArcSize arcSize)
+        {
+        }
 
         public void AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint)
         {
@@ -39,9 +41,13 @@ namespace FanKit.Transformer.TestApp
             this.Receiver = this.Receiver.ToLine(endPoint);
         }
 
-        public void SetFilledRegionDetermination(CanvasFilledRegionDetermination filledRegionDetermination) { }
+        public void SetFilledRegionDetermination(CanvasFilledRegionDetermination filledRegionDetermination)
+        {
+        }
 
-        public void SetSegmentOptions(CanvasFigureSegmentOptions figureSegmentOptions) { }
+        public void SetSegmentOptions(CanvasFigureSegmentOptions figureSegmentOptions)
+        {
+        }
 
         public void EndFigure(CanvasFigureLoop figureLoop)
         {
@@ -68,7 +74,7 @@ namespace FanKit.Transformer.TestApp
                 List<Node> item = this[i];
                 using (PathBuilder path = new PathBuilder(resourceCreator))
                 {
-                    path.CreatePointPath(item, true);
+                    path.CreatePath(item, true);
                     paths[i] = CanvasGeometry.CreatePath(path.Builder);
                 }
             }

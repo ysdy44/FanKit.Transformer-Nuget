@@ -131,6 +131,7 @@ namespace FanKit.Transformer.TestApp
         readonly TopBar1 TopBar = new TopBar1();
         readonly ToolBox5 ToolBox5 = new ToolBox5
         {
+            Visibility = Visibility.Collapsed,
             Title = "Node"
         };
         readonly ToolBox8 ToolBox8 = new ToolBox8
@@ -204,7 +205,7 @@ namespace FanKit.Transformer.TestApp
         {
             using (PathBuilder path = new PathBuilder(resourceCreator))
             {
-                path.CreateActualPath(this.Layer.Segments, this.Layer.IsClosed);
+                path.CreatePath(NodePointUnits.Actual, this.Layer.Segments, this.Layer.IsClosed);
                 using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                 {
                     drawingSession.DrawDashCurve(curve, this.Layer.ActualStrokeWidth);
@@ -223,7 +224,7 @@ namespace FanKit.Transformer.TestApp
         {
             using (PathBuilder path = new PathBuilder(resourceCreator))
             {
-                path.CreatePointPath(this.Layer.Segments, this.Layer.IsClosed);
+                path.CreatePath(NodePointUnits.Normal, this.Layer.Segments, this.Layer.IsClosed);
                 using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                 {
                     drawingSession.DrawDashCurve(curve, this.Layer.StrokeWidth);
