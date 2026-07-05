@@ -45,6 +45,16 @@ namespace FanKit.Transformer.Cache
             LeftBottom = this.LeftBottom,
             RightBottom = this.RightBottom,
         };
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix3x2 Normalize() => new Matrix3x2
+        {
+            M11 = this.RightTop.X - this.LeftTop.X,
+            M12 = this.RightTop.Y - this.LeftTop.Y,
+            M21 = this.LeftBottom.X - this.LeftTop.X,
+            M22 = this.LeftBottom.Y - this.LeftTop.Y,
+            M31 = this.LeftTop.X,
+            M32 = this.LeftTop.Y,
+        };
 
         public bool ContainsPoint(Vector2 point)
         {
