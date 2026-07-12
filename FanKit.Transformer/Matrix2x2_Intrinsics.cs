@@ -21,6 +21,18 @@ namespace FanKit.Transformer
         }
         #endregion Constructors
 
+        #region Public Instance Methods
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(Matrix2x2 other)
+        {
+            return
+                this.TranslateX == other.TranslateX &&
+                this.TranslateY == other.TranslateY &&
+                this.ScaleX == other.ScaleX &&
+                this.ScaleY == other.ScaleY;
+        }
+        #endregion Public Instance Methods
+
         #region Public Static Operators
         public static Matrix2x2 operator *(Matrix2x2 left, Matrix2x2 right) => new Matrix2x2
         {

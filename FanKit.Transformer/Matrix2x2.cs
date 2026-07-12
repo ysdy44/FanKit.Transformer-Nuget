@@ -48,6 +48,24 @@ namespace FanKit.Transformer
         #endregion Public Static Properties
 
         #region Public instance methods
+        public override int GetHashCode()
+        {
+            int hashCode = 1368381790;
+            hashCode = hashCode * -1521134295 + TranslateX.GetHashCode();
+            hashCode = hashCode * -1521134295 + TranslateY.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleX.GetHashCode();
+            hashCode = hashCode * -1521134295 + ScaleY.GetHashCode();
+            return hashCode;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Matrix2x2))
+                return false;
+            return Equals((Matrix2x2)obj);
+        }
+
         public Matrix3x2 ToMatrix3x2() => new Matrix3x2
         {
             M11 = this.ScaleX,
