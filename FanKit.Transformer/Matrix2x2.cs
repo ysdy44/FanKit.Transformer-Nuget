@@ -168,6 +168,20 @@ namespace FanKit.Transformer
             TranslateX = centerPoint.X * (1 - scale),
             TranslateY = centerPoint.Y * (1 - scale)
         };
+
+        public static Matrix2x2 Invert(Matrix2x2 matrix)
+        {
+            float x = 1f / matrix.ScaleX;
+            float y = 1f / matrix.ScaleY;
+
+            return new Matrix2x2
+            {
+                ScaleX = x,
+                ScaleY = y,
+                TranslateX = -matrix.TranslateX * x,
+                TranslateY = -matrix.TranslateY * y
+            };
+        }
         #endregion Public Static Methods
     }
 }
