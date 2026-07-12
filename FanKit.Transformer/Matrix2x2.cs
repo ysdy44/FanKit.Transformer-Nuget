@@ -66,6 +66,25 @@ namespace FanKit.Transformer
             return Equals((Matrix2x2)obj);
         }
 
+        public override string ToString()
+        {
+            return ToString("G", CultureInfo.CurrentCulture);
+        }
+
+        public string ToString(string format)
+        {
+            return ToString(format, CultureInfo.CurrentCulture);
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return String.Format(formatProvider, "{{TranslateX:{0} TranslateY:{1} ScaleX:{2} ScaleY:{3}}}",
+                this.TranslateX.ToString(format, formatProvider),
+                this.TranslateY.ToString(format, formatProvider),
+                this.ScaleX.ToString(format, formatProvider),
+                this.ScaleY.ToString(format, formatProvider));
+        }
+
         public Matrix3x2 ToMatrix3x2() => new Matrix3x2
         {
             M11 = this.ScaleX,
