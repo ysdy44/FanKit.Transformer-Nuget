@@ -84,7 +84,7 @@
 
         private void ST4() // Crop
         {
-            const IndicatorSizeType st = IndicatorSizeType.Crop;
+            const IndicatorSizeType st = IndicatorSizeType.Cropper;
 
             if (ST != st)
             {
@@ -95,7 +95,7 @@
 
         private void ST5() // Transform
         {
-            const IndicatorSizeType st = IndicatorSizeType.Transform;
+            const IndicatorSizeType st = IndicatorSizeType.Transformer;
 
             if (ST != st)
             {

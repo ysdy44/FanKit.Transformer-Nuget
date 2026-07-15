@@ -86,8 +86,8 @@ namespace FanKit.Transformer.Indicators
                 case IndicatorSizeType.Point: return Point;
                 case IndicatorSizeType.RowLine: return RowLine;
                 case IndicatorSizeType.ColumnLine: return ColumnLine;
-                case IndicatorSizeType.Crop: return Crop;
-                case IndicatorSizeType.Transform: return Transform;
+                case IndicatorSizeType.Cropper: return Crop;
+                case IndicatorSizeType.Transformer: return Transform;
                 default: return Empty;
             }
         }
@@ -103,8 +103,8 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return Empty2Point;
                         case IndicatorSizeType.RowLine: return Empty2RowLine;
                         case IndicatorSizeType.ColumnLine: return Empty2ColumnLine;
-                        case IndicatorSizeType.Crop: return Empty2Crop;
-                        case IndicatorSizeType.Transform: return Empty2Transform;
+                        case IndicatorSizeType.Cropper: return Empty2Crop;
+                        case IndicatorSizeType.Transformer: return Empty2Transform;
                         default: return Empty;
                     }
                 case IndicatorSizeType.Point:
@@ -114,8 +114,8 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return Point2Point;
                         case IndicatorSizeType.RowLine: return Point2RowLine;
                         case IndicatorSizeType.ColumnLine: return Point2ColumnLine;
-                        case IndicatorSizeType.Crop: return Point2Crop;
-                        case IndicatorSizeType.Transform: return Point2Transform;
+                        case IndicatorSizeType.Cropper: return Point2Crop;
+                        case IndicatorSizeType.Transformer: return Point2Transform;
                         default: return Empty;
                     }
                 case IndicatorSizeType.RowLine:
@@ -125,8 +125,8 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return RowLine2Point;
                         case IndicatorSizeType.RowLine: return RowLine2RowLine;
                         case IndicatorSizeType.ColumnLine: return RowLine2ColumnLine;
-                        case IndicatorSizeType.Crop: return RowLine2Crop;
-                        case IndicatorSizeType.Transform: return RowLine2Transform;
+                        case IndicatorSizeType.Cropper: return RowLine2Crop;
+                        case IndicatorSizeType.Transformer: return RowLine2Transform;
                         default: return Empty;
                     }
                 case IndicatorSizeType.ColumnLine:
@@ -136,30 +136,30 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorSizeType.Point: return ColumnLine2Point;
                         case IndicatorSizeType.RowLine: return ColumnLine2RowLine;
                         case IndicatorSizeType.ColumnLine: return ColumnLine2ColumnLine;
-                        case IndicatorSizeType.Crop: return ColumnLine2Crop;
-                        case IndicatorSizeType.Transform: return ColumnLine2Transform;
+                        case IndicatorSizeType.Cropper: return ColumnLine2Crop;
+                        case IndicatorSizeType.Transformer: return ColumnLine2Transform;
                         default: return Empty;
                     }
-                case IndicatorSizeType.Crop:
+                case IndicatorSizeType.Cropper:
                     switch (newSizeType)
                     {
                         case IndicatorSizeType.Empty: return Crop2Empty;
                         case IndicatorSizeType.Point: return Crop2Point;
                         case IndicatorSizeType.RowLine: return Crop2RowLine;
                         case IndicatorSizeType.ColumnLine: return Crop2ColumnLine;
-                        case IndicatorSizeType.Crop: return Crop2Crop;
-                        case IndicatorSizeType.Transform: return Crop2Transform;
+                        case IndicatorSizeType.Cropper: return Crop2Crop;
+                        case IndicatorSizeType.Transformer: return Crop2Transform;
                         default: return Empty;
                     }
-                case IndicatorSizeType.Transform:
+                case IndicatorSizeType.Transformer:
                     switch (newSizeType)
                     {
                         case IndicatorSizeType.Empty: return Transform2Empty;
                         case IndicatorSizeType.Point: return Transform2Point;
                         case IndicatorSizeType.RowLine: return Transform2RowLine;
                         case IndicatorSizeType.ColumnLine: return Transform2ColumnLine;
-                        case IndicatorSizeType.Crop: return Transform2Crop;
-                        case IndicatorSizeType.Transform: return Transform2Transform;
+                        case IndicatorSizeType.Cropper: return Transform2Crop;
+                        case IndicatorSizeType.Transformer: return Transform2Transform;
                         default: return Empty;
                     }
                 default: return Empty;

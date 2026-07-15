@@ -125,8 +125,8 @@ namespace FanKit.Transformer.TestApp
                     this.ColumnComboBox.Visibility = Visibility.Visible;
                     this.ComboBox.Visibility = Visibility.Collapsed;
                     break;
-                case IndicatorSizeType.Crop:
-                case IndicatorSizeType.Transform:
+                case IndicatorSizeType.Cropper:
+                case IndicatorSizeType.Transformer:
                     this.RowComboBox.Visibility = Visibility.Collapsed;
                     this.ColumnComboBox.Visibility = Visibility.Collapsed;
                     this.ComboBox.Visibility = Visibility.Visible;

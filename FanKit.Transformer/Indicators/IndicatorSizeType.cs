@@ -9,7 +9,7 @@ namespace FanKit.Transformer.Indicators
         Point = 1,
         RowLine = 2, // OnlyWidth
         ColumnLine = 3, // OnlyHeight
-        Crop = 4, // WidthAndHeight
-        Transform = 5, // All
+        Cropper = 4, // WidthAndHeight
+        Transformer = 5, // All
     }
 }
