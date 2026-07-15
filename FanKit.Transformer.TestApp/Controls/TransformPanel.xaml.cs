@@ -3,7 +3,7 @@ using FanKit.Transformer.Sample;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static FanKit.Transformer.Indicators.IndicatorAvailability;
+using static FanKit.Transformer.Indicators.ParameterAvailability;
 
 namespace FanKit.Transformer.TestApp
 {
@@ -21,7 +21,7 @@ namespace FanKit.Transformer.TestApp
 
         IndicatorSizeType OldValue;
         IndicatorSizeType NewValue;
-        IndicatorAvailability Availability = Unavailable;
+        ParameterAvailability Availability = Unavailable;
 
         public TransformPanel()
         {

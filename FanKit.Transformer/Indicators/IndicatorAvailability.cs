@@ -1,10 +1,10 @@
 ﻿using System;
-using static FanKit.Transformer.Indicators.IndicatorAvailability;
+using static FanKit.Transformer.Indicators.ParameterAvailability;
 
 namespace FanKit.Transformer.Indicators
 {
     [Flags]
-    public enum IndicatorAvailability : short
+    public enum ParameterAvailability : short
     {
         None = 0,
 
@@ -28,57 +28,57 @@ namespace FanKit.Transformer.Indicators
     partial class Indicator
     {
         // 1
-        const IndicatorAvailability Empty = Unavailable;
-        const IndicatorAvailability Point = Unavailable | XValue | YValue;
-        const IndicatorAvailability RowLine = Unavailable | XValue | YValue | WidthValue | RotationValue;
-        const IndicatorAvailability ColumnLine = Unavailable | XValue | YValue | HeightValue | RotationValue;
-        const IndicatorAvailability Crop = Unavailable | XValue | YValue | WidthValue | HeightValue;
-        const IndicatorAvailability Transform = Available;
+        const ParameterAvailability Empty = Unavailable;
+        const ParameterAvailability Point = Unavailable | XValue | YValue;
+        const ParameterAvailability RowLine = Unavailable | XValue | YValue | WidthValue | RotationValue;
+        const ParameterAvailability ColumnLine = Unavailable | XValue | YValue | HeightValue | RotationValue;
+        const ParameterAvailability Crop = Unavailable | XValue | YValue | WidthValue | HeightValue;
+        const ParameterAvailability Transform = Available;
 
         // 2
-        const IndicatorAvailability Empty2Empty = 0;
-        const IndicatorAvailability Empty2Point = XHasValue | YHasValue | XValue | YValue;
-        const IndicatorAvailability Empty2RowLine = XHasValue | YHasValue | WidthHasValue | RotationHasValue | XValue | YValue | WidthValue | RotationValue;
-        const IndicatorAvailability Empty2ColumnLine = XHasValue | YHasValue | HeightHasValue | RotationHasValue | XValue | YValue | HeightValue | RotationValue;
-        const IndicatorAvailability Empty2Crop = XHasValue | YHasValue | WidthHasValue | HeightHasValue | XValue | YValue | WidthValue | HeightValue;
-        const IndicatorAvailability Empty2Transform = Available;
+        const ParameterAvailability Empty2Empty = 0;
+        const ParameterAvailability Empty2Point = XHasValue | YHasValue | XValue | YValue;
+        const ParameterAvailability Empty2RowLine = XHasValue | YHasValue | WidthHasValue | RotationHasValue | XValue | YValue | WidthValue | RotationValue;
+        const ParameterAvailability Empty2ColumnLine = XHasValue | YHasValue | HeightHasValue | RotationHasValue | XValue | YValue | HeightValue | RotationValue;
+        const ParameterAvailability Empty2Crop = XHasValue | YHasValue | WidthHasValue | HeightHasValue | XValue | YValue | WidthValue | HeightValue;
+        const ParameterAvailability Empty2Transform = Available;
 
-        const IndicatorAvailability Point2Empty = XHasValue | YHasValue;
-        const IndicatorAvailability Point2Point = 0;
-        const IndicatorAvailability Point2RowLine = WidthHasValue | RotationHasValue | WidthValue | RotationValue;
-        const IndicatorAvailability Point2ColumnLine = HeightHasValue | RotationHasValue | HeightValue | RotationValue;
-        const IndicatorAvailability Point2Crop = WidthHasValue | HeightHasValue | WidthValue | HeightValue;
-        const IndicatorAvailability Point2Transform = WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue | WidthValue | HeightValue | RotationValue | SkewValue;
+        const ParameterAvailability Point2Empty = XHasValue | YHasValue;
+        const ParameterAvailability Point2Point = 0;
+        const ParameterAvailability Point2RowLine = WidthHasValue | RotationHasValue | WidthValue | RotationValue;
+        const ParameterAvailability Point2ColumnLine = HeightHasValue | RotationHasValue | HeightValue | RotationValue;
+        const ParameterAvailability Point2Crop = WidthHasValue | HeightHasValue | WidthValue | HeightValue;
+        const ParameterAvailability Point2Transform = WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue | WidthValue | HeightValue | RotationValue | SkewValue;
 
-        const IndicatorAvailability RowLine2Empty = XHasValue | YHasValue | WidthHasValue | RotationHasValue;
-        const IndicatorAvailability RowLine2Point = WidthHasValue | RotationHasValue;
-        const IndicatorAvailability RowLine2RowLine = 0;
-        const IndicatorAvailability RowLine2ColumnLine = WidthHasValue | HeightHasValue | HeightValue;
-        const IndicatorAvailability RowLine2Crop = HeightHasValue | RotationHasValue | HeightValue;
-        const IndicatorAvailability RowLine2Transform = HeightHasValue | SkewHasValue | HeightValue | SkewValue;
+        const ParameterAvailability RowLine2Empty = XHasValue | YHasValue | WidthHasValue | RotationHasValue;
+        const ParameterAvailability RowLine2Point = WidthHasValue | RotationHasValue;
+        const ParameterAvailability RowLine2RowLine = 0;
+        const ParameterAvailability RowLine2ColumnLine = WidthHasValue | HeightHasValue | HeightValue;
+        const ParameterAvailability RowLine2Crop = HeightHasValue | RotationHasValue | HeightValue;
+        const ParameterAvailability RowLine2Transform = HeightHasValue | SkewHasValue | HeightValue | SkewValue;
 
-        const IndicatorAvailability ColumnLine2Empty = XHasValue | YHasValue | HeightHasValue | RotationHasValue;
-        const IndicatorAvailability ColumnLine2Point = HeightHasValue | RotationHasValue;
-        const IndicatorAvailability ColumnLine2RowLine = WidthHasValue | HeightHasValue | WidthValue;
-        const IndicatorAvailability ColumnLine2ColumnLine = 0;
-        const IndicatorAvailability ColumnLine2Crop = WidthHasValue | RotationHasValue | WidthValue;
-        const IndicatorAvailability ColumnLine2Transform = WidthHasValue | SkewHasValue | WidthValue | SkewValue;
+        const ParameterAvailability ColumnLine2Empty = XHasValue | YHasValue | HeightHasValue | RotationHasValue;
+        const ParameterAvailability ColumnLine2Point = HeightHasValue | RotationHasValue;
+        const ParameterAvailability ColumnLine2RowLine = WidthHasValue | HeightHasValue | WidthValue;
+        const ParameterAvailability ColumnLine2ColumnLine = 0;
+        const ParameterAvailability ColumnLine2Crop = WidthHasValue | RotationHasValue | WidthValue;
+        const ParameterAvailability ColumnLine2Transform = WidthHasValue | SkewHasValue | WidthValue | SkewValue;
 
-        const IndicatorAvailability Crop2Empty = XHasValue | YHasValue | WidthHasValue | HeightHasValue;
-        const IndicatorAvailability Crop2Point = WidthHasValue | HeightHasValue;
-        const IndicatorAvailability Crop2RowLine = HeightHasValue | RotationHasValue | RotationValue;
-        const IndicatorAvailability Crop2ColumnLine = WidthHasValue | RotationHasValue | RotationValue;
-        const IndicatorAvailability Crop2Crop = 0;
-        const IndicatorAvailability Crop2Transform = RotationHasValue | SkewHasValue | RotationValue | SkewValue;
+        const ParameterAvailability Crop2Empty = XHasValue | YHasValue | WidthHasValue | HeightHasValue;
+        const ParameterAvailability Crop2Point = WidthHasValue | HeightHasValue;
+        const ParameterAvailability Crop2RowLine = HeightHasValue | RotationHasValue | RotationValue;
+        const ParameterAvailability Crop2ColumnLine = WidthHasValue | RotationHasValue | RotationValue;
+        const ParameterAvailability Crop2Crop = 0;
+        const ParameterAvailability Crop2Transform = RotationHasValue | SkewHasValue | RotationValue | SkewValue;
 
-        const IndicatorAvailability Transform2Empty = Unavailable;
-        const IndicatorAvailability Transform2Point = WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue;
-        const IndicatorAvailability Transform2RowLine = HeightHasValue | SkewHasValue;
-        const IndicatorAvailability Transform2ColumnLine = WidthHasValue | SkewHasValue;
-        const IndicatorAvailability Transform2Crop = RotationHasValue | SkewHasValue;
-        const IndicatorAvailability Transform2Transform = 0;
+        const ParameterAvailability Transform2Empty = Unavailable;
+        const ParameterAvailability Transform2Point = WidthHasValue | HeightHasValue | RotationHasValue | SkewHasValue;
+        const ParameterAvailability Transform2RowLine = HeightHasValue | SkewHasValue;
+        const ParameterAvailability Transform2ColumnLine = WidthHasValue | SkewHasValue;
+        const ParameterAvailability Transform2Crop = RotationHasValue | SkewHasValue;
+        const ParameterAvailability Transform2Transform = 0;
 
-        public static IndicatorAvailability ToAvailability(IndicatorSizeType sizeType)
+        public static ParameterAvailability ToAvailability(IndicatorSizeType sizeType)
         {
             switch (sizeType)
             {
@@ -92,7 +92,7 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        public static IndicatorAvailability ToAvailabilityChange(IndicatorSizeType oldSizeType, IndicatorSizeType newSizeType)
+        public static ParameterAvailability ToAvailabilityChange(IndicatorSizeType oldSizeType, IndicatorSizeType newSizeType)
         {
             switch (oldSizeType)
             {
