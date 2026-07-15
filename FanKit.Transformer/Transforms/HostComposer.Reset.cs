@@ -10,13 +10,13 @@ namespace FanKit.Transformer.Transforms
     {
         public ComposerSizeType ComposerSizeType(IndicatorKind kind)
         {
-            return Indicator.ToComposerSizeType(this.SizeType, kind);
+            return Indicator.ToComposerSizeType(this.PointsDistribution, kind);
         }
 
         public void Reset()
         {
             this.Count = 0;
-            this.SizeType = SizeType.Empty;
+            this.PointsDistribution = ComposerPointsDistribution.Empty;
 
             this.Host.Matrix = Matrix3x2.Identity;
         }
@@ -24,7 +24,7 @@ namespace FanKit.Transformer.Transforms
         public void Reset(Triangle destination)
         {
             this.Count = 1;
-            this.SizeType = SizeType.Panel;
+            this.PointsDistribution = ComposerPointsDistribution.Panel;
 
             this.Panel.StartingTriangle = this.Panel.Triangle = destination;
 

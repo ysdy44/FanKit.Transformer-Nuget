@@ -3,7 +3,7 @@
 namespace FanKit.Transformer.Indicators
 {
     [Flags]
-    public enum SizeType : byte
+    public enum ComposerPointsDistribution : byte
     {
         Empty = 0,
         Point = 1,

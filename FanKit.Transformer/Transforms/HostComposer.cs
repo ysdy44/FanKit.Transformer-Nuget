@@ -10,7 +10,7 @@ namespace FanKit.Transformer.Transforms
     public partial class HostComposer
     {
         public int Count { get; private set; }
-        public SizeType SizeType { get; private set; }
+        public ComposerPointsDistribution PointsDistribution { get; private set; }
         Bounds SourceBounds;
 
         public float TranslationX => this.Host.Matrix.M31;

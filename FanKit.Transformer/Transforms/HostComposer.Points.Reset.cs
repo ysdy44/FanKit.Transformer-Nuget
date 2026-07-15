@@ -9,7 +9,7 @@ namespace FanKit.Transformer.Transforms
         public void ResetByPoint(Vector2 point)
         {
             this.Count = 1;
-            this.SizeType = SizeType.Point;
+            this.PointsDistribution = ComposerPointsDistribution.Point;
 
             this.Point.StartingPoint = this.Point.Point = point;
 
@@ -33,48 +33,48 @@ namespace FanKit.Transformer.Transforms
             switch (this.Count)
             {
                 case 0:
-                    this.SizeType = SizeType.Empty;
+                    this.PointsDistribution = ComposerPointsDistribution.Empty;
                     break;
                 case 1:
-                    this.SizeType = SizeType.Point;
+                    this.PointsDistribution = ComposerPointsDistribution.Point;
                     break;
                 default:
-                    this.SizeType = this.SourceBounds.IsWidthZero ?
-                        this.SourceBounds.IsHeightZero ? SizeType.Point : SizeType.ColumnLine :
-                        this.SourceBounds.IsHeightZero ? SizeType.RowLine : SizeType.Panel;
+                    this.PointsDistribution = this.SourceBounds.IsWidthZero ?
+                        this.SourceBounds.IsHeightZero ? ComposerPointsDistribution.Point : ComposerPointsDistribution.ColumnLine :
+                        this.SourceBounds.IsHeightZero ? ComposerPointsDistribution.RowLine : ComposerPointsDistribution.Panel;
                     break;
             }
 
             float cx = (this.SourceBounds.Left + this.SourceBounds.Right) / 2f;
             float cy = (this.SourceBounds.Top + this.SourceBounds.Bottom) / 2f;
 
-            switch (this.SizeType)
+            switch (this.PointsDistribution)
             {
-                case SizeType.Empty:
+                case ComposerPointsDistribution.Empty:
                     this.SourceBounds = Bounds.Infinity;
 
                     this.Panel.StartingTriangle = this.Panel.Triangle = Triangle.Empty;
 
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
-                case SizeType.Point:
+                case ComposerPointsDistribution.Point:
                     this.Point.Point = new Vector2(cx, cy);
 
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
-                case SizeType.RowLine:
+                case ComposerPointsDistribution.RowLine:
                     this.Line.Point0 = new Vector2(this.SourceBounds.Left, cy);
                     this.Line.Point1 = new Vector2(this.SourceBounds.Right, cy);
 
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
-                case SizeType.ColumnLine:
+                case ComposerPointsDistribution.ColumnLine:
                     this.Line.Point0 = new Vector2(cx, this.SourceBounds.Top);
                     this.Line.Point1 = new Vector2(cx, this.SourceBounds.Bottom);
 
                     this.Host.Matrix = Matrix3x2.Identity;
                     break;
-                case SizeType.Panel:
+                case ComposerPointsDistribution.Panel:
                     this.Panel.StartingTriangle = this.Panel.Triangle = new Triangle(this.SourceBounds);
 
                     this.Host.Matrix = Matrix3x2.Identity;

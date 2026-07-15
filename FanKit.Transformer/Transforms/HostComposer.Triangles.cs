@@ -16,7 +16,7 @@ namespace FanKit.Transformer.Transforms
         public void Reset(Bounds source, Triangle destination, Matrix3x2 transformMatrix)
         {
             this.Count = 1;
-            this.SizeType = SizeType.Panel;
+            this.PointsDistribution = ComposerPointsDistribution.Panel;
             this.SourceBounds = source;
 
             this.Panel.StartingTriangle = this.Panel.Triangle = destination;
@@ -177,13 +177,13 @@ namespace FanKit.Transformer.Transforms
             switch (this.Count)
             {
                 case 0:
-                    this.SizeType = SizeType.Empty;
+                    this.PointsDistribution = ComposerPointsDistribution.Empty;
                     break;
                 case 1:
-                    this.SizeType = SizeType.Panel;
+                    this.PointsDistribution = ComposerPointsDistribution.Panel;
                     break;
                 default:
-                    this.SizeType = SizeType.Panel;
+                    this.PointsDistribution = ComposerPointsDistribution.Panel;
 
                     this.Panel.StartingTriangle = this.Panel.Triangle = new Triangle(this.SourceBounds);
 

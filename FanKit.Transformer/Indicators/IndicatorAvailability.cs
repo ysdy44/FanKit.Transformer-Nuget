@@ -166,23 +166,23 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        public static ComposerSizeType ToComposerSizeType(SizeType sizeType, IndicatorKind kind)
+        public static ComposerSizeType ToComposerSizeType(ComposerPointsDistribution pointsDistribution, IndicatorKind kind)
         {
-            switch (sizeType)
+            switch (pointsDistribution)
             {
-                case Indicators.SizeType.Empty:
+                case ComposerPointsDistribution.Empty:
                     switch (kind)
                     {
                         default: return ComposerSizeType.Empty;
                     }
-                case Indicators.SizeType.Point:
+                case ComposerPointsDistribution.Point:
                     switch (kind)
                     {
                         case IndicatorKind.X: return ComposerSizeType.PointX;
                         case IndicatorKind.Y: return ComposerSizeType.PointY;
                         default: return ComposerSizeType.Empty;
                     }
-                case Indicators.SizeType.RowLine:
+                case ComposerPointsDistribution.RowLine:
                     switch (kind)
                     {
                         case IndicatorKind.X: return ComposerSizeType.RowLineX;
@@ -191,7 +191,7 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorKind.Rotation: return ComposerSizeType.RowLineRotation;
                         default: return ComposerSizeType.Empty;
                     }
-                case Indicators.SizeType.ColumnLine:
+                case ComposerPointsDistribution.ColumnLine:
                     switch (kind)
                     {
                         case IndicatorKind.X: return ComposerSizeType.ColumnLineX;
@@ -200,7 +200,7 @@ namespace FanKit.Transformer.Indicators
                         case IndicatorKind.Rotation: return ComposerSizeType.ColumnLineRotation;
                         default: return ComposerSizeType.Empty;
                     }
-                case Indicators.SizeType.Panel:
+                case ComposerPointsDistribution.Panel:
                     switch (kind)
                     {
                         case IndicatorKind.X: return ComposerSizeType.PanelX;

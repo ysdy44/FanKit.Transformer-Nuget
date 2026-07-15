@@ -17,29 +17,29 @@ namespace FanKit.Transformer.Demos
 
         public void UpdateCanvas()
         {
-            switch (this.SizeType)
+            switch (this.PointsDistribution)
             {
-                case SizeType.Empty:
+                case ComposerPointsDistribution.Empty:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case SizeType.Point:
+                case ComposerPointsDistribution.Point:
                     this.ActualPoint = this.PointPoint;
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case SizeType.RowLine:
+                case ComposerPointsDistribution.RowLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.LinePoint0, this.LinePoint1);
                     this.ActualBox = default;
                     break;
-                case SizeType.ColumnLine:
+                case ComposerPointsDistribution.ColumnLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.LinePoint0, this.LinePoint1);
                     this.ActualBox = default;
                     break;
-                case SizeType.Panel:
+                case ComposerPointsDistribution.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = new Box2(this.PanelDestination);
@@ -54,29 +54,29 @@ namespace FanKit.Transformer.Demos
 
         public void UpdateCanvas(ICanvasMatrix canvasMatrix)
         {
-            switch (this.SizeType)
+            switch (this.PointsDistribution)
             {
-                case SizeType.Empty:
+                case ComposerPointsDistribution.Empty:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case SizeType.Point:
+                case ComposerPointsDistribution.Point:
                     this.ActualPoint = canvasMatrix.Transform(this.PointPoint);
                     this.ActualLine = default;
                     this.ActualBox = default;
                     break;
-                case SizeType.RowLine:
+                case ComposerPointsDistribution.RowLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.LinePoint0, this.LinePoint1, canvasMatrix);
                     this.ActualBox = default;
                     break;
-                case SizeType.ColumnLine:
+                case ComposerPointsDistribution.ColumnLine:
                     this.ActualPoint = default;
                     this.ActualLine = new Line2(this.LinePoint0, this.LinePoint1, canvasMatrix);
                     this.ActualBox = default;
                     break;
-                case SizeType.Panel:
+                case ComposerPointsDistribution.Panel:
                     this.ActualPoint = default;
                     this.ActualLine = default;
                     this.ActualBox = new Box2(this.PanelDestination, canvasMatrix);

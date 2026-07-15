@@ -238,13 +238,13 @@ namespace FanKit.Transformer.TestApp
             {
                 case ToolType1.NodeMove: this.CacheSingle2(); break;
                 case ToolType1.NodeTransform:
-                    switch (this.Composer.SizeType)
+                    switch (this.Composer.PointsDistribution)
                     {
-                        case SizeType.Empty: this.CacheSingle3(); break;
-                        case SizeType.Point: this.CacheSingle4(); break;
-                        case SizeType.RowLine:
-                        case SizeType.ColumnLine: this.CacheSingle5(); break;
-                        case SizeType.Panel: this.CacheSingle6(); break;
+                        case ComposerPointsDistribution.Empty: this.CacheSingle3(); break;
+                        case ComposerPointsDistribution.Point: this.CacheSingle4(); break;
+                        case ComposerPointsDistribution.RowLine:
+                        case ComposerPointsDistribution.ColumnLine: this.CacheSingle5(); break;
+                        case ComposerPointsDistribution.Panel: this.CacheSingle6(); break;
                         default: break;
                     }
                     break;
@@ -258,13 +258,13 @@ namespace FanKit.Transformer.TestApp
             {
                 case ToolType1.NodeMove: this.Single2(); break;
                 case ToolType1.NodeTransform:
-                    switch (this.Composer.SizeType)
+                    switch (this.Composer.PointsDistribution)
                     {
-                        case SizeType.Empty: this.Single3(); break;
-                        case SizeType.Point: this.Single4(); break;
-                        case SizeType.RowLine: this.SingleRow5(); break;
-                        case SizeType.ColumnLine: this.SingleColumn5(); break;
-                        case SizeType.Panel: this.Single6(); break;
+                        case ComposerPointsDistribution.Empty: this.Single3(); break;
+                        case ComposerPointsDistribution.Point: this.Single4(); break;
+                        case ComposerPointsDistribution.RowLine: this.SingleRow5(); break;
+                        case ComposerPointsDistribution.ColumnLine: this.SingleColumn5(); break;
+                        case ComposerPointsDistribution.Panel: this.Single6(); break;
                         default: break;
                     }
                     break;
@@ -278,13 +278,13 @@ namespace FanKit.Transformer.TestApp
             {
                 case ToolType1.NodeMove: this.DisposeSingle2(); break;
                 case ToolType1.NodeTransform:
-                    switch (this.Composer.SizeType)
+                    switch (this.Composer.PointsDistribution)
                     {
-                        case SizeType.Empty: this.DisposeSingle3(); break;
-                        case SizeType.Point: this.DisposeSingle4(); break;
-                        case SizeType.RowLine:
-                        case SizeType.ColumnLine: this.DisposeSingle5(); break;
-                        case SizeType.Panel: this.DisposeSingle6(); break;
+                        case ComposerPointsDistribution.Empty: this.DisposeSingle3(); break;
+                        case ComposerPointsDistribution.Point: this.DisposeSingle4(); break;
+                        case ComposerPointsDistribution.RowLine:
+                        case ComposerPointsDistribution.ColumnLine: this.DisposeSingle5(); break;
+                        case ComposerPointsDistribution.Panel: this.DisposeSingle6(); break;
                         default: break;
                     }
                     break;
@@ -367,13 +367,13 @@ namespace FanKit.Transformer.TestApp
                 }
                 this.Composer.EndUnionByPoints();
 
-                switch (this.Composer.SizeType)
+                switch (this.Composer.PointsDistribution)
                 {
-                    case SizeType.Empty: this.Indicator.ClearAll(); break;
-                    case SizeType.Point: this.Indicator.ChangeAll(this.Composer.PointPoint); break;
-                    case SizeType.RowLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.RowMode); break;
-                    case SizeType.ColumnLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.ColumnMode); break;
-                    case SizeType.Panel: this.Indicator.ChangeAll(this.Composer.PanelDestination, this.ParameterPanel.Mode); break;
+                    case ComposerPointsDistribution.Empty: this.Indicator.ClearAll(); break;
+                    case ComposerPointsDistribution.Point: this.Indicator.ChangeAll(this.Composer.PointPoint); break;
+                    case ComposerPointsDistribution.RowLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.RowMode); break;
+                    case ComposerPointsDistribution.ColumnLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.ColumnMode); break;
+                    case ComposerPointsDistribution.Panel: this.Indicator.ChangeAll(this.Composer.PanelDestination, this.ParameterPanel.Mode); break;
                     default: break;
                 }
                 this.ParameterPanel.UpdateAll(this.Indicator);
@@ -883,18 +883,18 @@ namespace FanKit.Transformer.TestApp
             }
             else
             {
-                switch (this.Composer.SizeType)
+                switch (this.Composer.PointsDistribution)
                 {
-                    case SizeType.Empty:
+                    case ComposerPointsDistribution.Empty:
                         break;
-                    case SizeType.Point:
+                    case ComposerPointsDistribution.Point:
                         drawingSession.DrawNode(this.Composer.ActualPoint);
                         break;
-                    case SizeType.RowLine:
-                    case SizeType.ColumnLine:
+                    case ComposerPointsDistribution.RowLine:
+                    case ComposerPointsDistribution.ColumnLine:
                         drawingSession.DrawLine(this.Composer.ActualLine);
                         break;
-                    case SizeType.Panel:
+                    case ComposerPointsDistribution.Panel:
                         drawingSession.DrawBox(this.Composer.ActualBox);
                         break;
                     default:
@@ -989,29 +989,29 @@ namespace FanKit.Transformer.TestApp
                     }
                     break;
                 case SegmentIndexerMode.PointWithChecked:
-                    switch (this.Composer.SizeType)
+                    switch (this.Composer.PointsDistribution)
                     {
-                        case SizeType.Empty:
+                        case ComposerPointsDistribution.Empty:
                             break;
-                        case SizeType.Point:
+                        case ComposerPointsDistribution.Point:
                             this.Composer.PointCacheTranslation();
                             break;
-                        case SizeType.RowLine:
+                        case ComposerPointsDistribution.RowLine:
                             this.Composer.LineCacheTranslation();
                             break;
-                        case SizeType.ColumnLine:
+                        case ComposerPointsDistribution.ColumnLine:
                             this.Composer.LineCacheTranslation();
                             break;
-                        case SizeType.Panel:
+                        case ComposerPointsDistribution.Panel:
                             this.Composer.PanelCacheTranslation();
                             break;
                         default:
                             break;
                     }
 
-                    switch (this.Composer.SizeType)
+                    switch (this.Composer.PointsDistribution)
                     {
-                        case SizeType.Empty:
+                        case ComposerPointsDistribution.Empty:
                             break;
                         default:
                             this.CacheTranslationSelectedItems();
@@ -1066,29 +1066,29 @@ namespace FanKit.Transformer.TestApp
                     }
                     break;
                 case SegmentIndexerMode.PointWithChecked:
-                    switch (this.Composer.SizeType)
+                    switch (this.Composer.PointsDistribution)
                     {
-                        case SizeType.Empty:
+                        case ComposerPointsDistribution.Empty:
                             break;
-                        case SizeType.Point:
+                        case ComposerPointsDistribution.Point:
                             this.Composer.PointTranslate(this.Indicator, this.StartingPoint, this.Point);
                             break;
-                        case SizeType.RowLine:
+                        case ComposerPointsDistribution.RowLine:
                             this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.RowMode, this.StartingPoint, this.Point);
                             break;
-                        case SizeType.ColumnLine:
+                        case ComposerPointsDistribution.ColumnLine:
                             this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPoint, this.Point);
                             break;
-                        case SizeType.Panel:
+                        case ComposerPointsDistribution.Panel:
                             this.Composer.PanelTranslate(this.Indicator, this.ParameterPanel.Mode, this.StartingPoint, this.Point);
                             break;
                         default:
                             break;
                     }
 
-                    switch (this.Composer.SizeType)
+                    switch (this.Composer.PointsDistribution)
                     {
-                        case SizeType.Empty:
+                        case ComposerPointsDistribution.Empty:
                             break;
                         default:
                             this.TranslateSelectedItems();
@@ -1132,31 +1132,31 @@ namespace FanKit.Transformer.TestApp
 
         private void DisposeSingle2()
         {
-            switch (this.Composer.SizeType)
+            switch (this.Composer.PointsDistribution)
             {
-                case SizeType.Empty:
+                case ComposerPointsDistribution.Empty:
                     this.DisposeSingle3();
                     break;
-                case SizeType.Point:
+                case ComposerPointsDistribution.Point:
                     if (this.HasRectChoose)
-                        goto case SizeType.Empty;
+                        goto case ComposerPointsDistribution.Empty;
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateIndicator
                         | InvalidateModes.CanvasControl);
                     break;
-                case SizeType.RowLine:
-                case SizeType.ColumnLine:
+                case ComposerPointsDistribution.RowLine:
+                case ComposerPointsDistribution.ColumnLine:
                     if (this.HasRectChoose)
-                        goto case SizeType.Empty;
+                        goto case ComposerPointsDistribution.Empty;
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateIndicator
                         | InvalidateModes.CanvasControl);
                     break;
-                case SizeType.Panel:
+                case ComposerPointsDistribution.Panel:
                     if (this.HasRectChoose)
-                        goto case SizeType.Empty;
+                        goto case ComposerPointsDistribution.Empty;
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateIndicator
