@@ -1039,11 +1039,11 @@ namespace FanKit.Transformer.TestApp
         #region NodeTransform
         private void Apply1(IndicatorKind kind, float value)
         {
-            switch (this.Composer.ComposerSizeType(kind))
+            switch (this.Composer.ToParameterKind(kind))
             {
-                case ComposerSizeType.Empty:
+                case ComposerParameterKind.Empty:
                     break;
-                case ComposerSizeType.PointX:
+                case ComposerParameterKind.PointX:
                     {
                         float translateX = value - this.Indicator.X;
 
@@ -1052,7 +1052,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationXSelectedItems();
                     }
                     break;
-                case ComposerSizeType.PointY:
+                case ComposerParameterKind.PointY:
                     {
                         float translateY = value - this.Indicator.Y;
 
@@ -1061,7 +1061,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationYSelectedItems();
                     }
                     break;
-                case ComposerSizeType.RowLineX:
+                case ComposerParameterKind.RowLineX:
                     {
                         RowLineMode mode = this.ParameterPanel.RowMode;
 
@@ -1072,7 +1072,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationXSelectedItems();
                     }
                     break;
-                case ComposerSizeType.RowLineY:
+                case ComposerParameterKind.RowLineY:
                     {
                         RowLineMode mode = this.ParameterPanel.RowMode;
 
@@ -1083,7 +1083,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationYSelectedItems();
                     }
                     break;
-                case ComposerSizeType.RowLineWidth:
+                case ComposerParameterKind.RowLineWidth:
                     {
                         RowLineMode mode = this.ParameterPanel.RowMode;
 
@@ -1092,7 +1092,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTransformSelectedItems();
                     }
                     break;
-                case ComposerSizeType.RowLineRotation:
+                case ComposerParameterKind.RowLineRotation:
                     {
                         RowLineMode mode = this.ParameterPanel.RowMode;
 
@@ -1101,7 +1101,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTransformSelectedItems();
                     }
                     break;
-                case ComposerSizeType.ColumnLineX:
+                case ComposerParameterKind.ColumnLineX:
                     {
                         ColumnLineMode mode = this.ParameterPanel.ColumnMode;
 
@@ -1112,7 +1112,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationXSelectedItems();
                     }
                     break;
-                case ComposerSizeType.ColumnLineY:
+                case ComposerParameterKind.ColumnLineY:
                     {
                         ColumnLineMode mode = this.ParameterPanel.ColumnMode;
 
@@ -1123,7 +1123,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationYSelectedItems();
                     }
                     break;
-                case ComposerSizeType.ColumnLineHeight:
+                case ComposerParameterKind.ColumnLineHeight:
                     {
                         ColumnLineMode mode = this.ParameterPanel.ColumnMode;
 
@@ -1132,7 +1132,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTransformSelectedItems();
                     }
                     break;
-                case ComposerSizeType.ColumnLineRotation:
+                case ComposerParameterKind.ColumnLineRotation:
                     {
                         ColumnLineMode mode = this.ParameterPanel.ColumnMode;
 
@@ -1141,7 +1141,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTransformSelectedItems();
                     }
                     break;
-                case ComposerSizeType.PanelX:
+                case ComposerParameterKind.PanelX:
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
@@ -1152,7 +1152,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationXSelectedItems();
                     }
                     break;
-                case ComposerSizeType.PanelY:
+                case ComposerParameterKind.PanelY:
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
@@ -1163,7 +1163,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTranslationYSelectedItems();
                     }
                     break;
-                case ComposerSizeType.PanelWidth:
+                case ComposerParameterKind.PanelWidth:
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
@@ -1172,7 +1172,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTransformSelectedItems();
                     }
                     break;
-                case ComposerSizeType.PanelHeight:
+                case ComposerParameterKind.PanelHeight:
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
@@ -1181,7 +1181,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTransformSelectedItems();
                     }
                     break;
-                case ComposerSizeType.PanelRotation:
+                case ComposerParameterKind.PanelRotation:
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 
@@ -1190,7 +1190,7 @@ namespace FanKit.Transformer.TestApp
                         this.SetTransformSelectedItems();
                     }
                     break;
-                case ComposerSizeType.PanelSkew:
+                case ComposerParameterKind.PanelSkew:
                     {
                         BoxMode mode = this.ParameterPanel.Mode;
 

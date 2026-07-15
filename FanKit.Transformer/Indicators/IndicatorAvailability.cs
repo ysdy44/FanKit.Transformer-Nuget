@@ -166,52 +166,52 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        public static ComposerSizeType ToComposerSizeType(ComposerPointsDistribution pointsDistribution, IndicatorKind kind)
+        public static ComposerParameterKind ToComposerParameterKind(ComposerPointsDistribution pointsDistribution, IndicatorKind kind)
         {
             switch (pointsDistribution)
             {
                 case ComposerPointsDistribution.Empty:
                     switch (kind)
                     {
-                        default: return ComposerSizeType.Empty;
+                        default: return ComposerParameterKind.Empty;
                     }
                 case ComposerPointsDistribution.Point:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerSizeType.PointX;
-                        case IndicatorKind.Y: return ComposerSizeType.PointY;
-                        default: return ComposerSizeType.Empty;
+                        case IndicatorKind.X: return ComposerParameterKind.PointX;
+                        case IndicatorKind.Y: return ComposerParameterKind.PointY;
+                        default: return ComposerParameterKind.Empty;
                     }
                 case ComposerPointsDistribution.RowLine:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerSizeType.RowLineX;
-                        case IndicatorKind.Y: return ComposerSizeType.RowLineY;
-                        case IndicatorKind.Width: return ComposerSizeType.RowLineWidth;
-                        case IndicatorKind.Rotation: return ComposerSizeType.RowLineRotation;
-                        default: return ComposerSizeType.Empty;
+                        case IndicatorKind.X: return ComposerParameterKind.RowLineX;
+                        case IndicatorKind.Y: return ComposerParameterKind.RowLineY;
+                        case IndicatorKind.Width: return ComposerParameterKind.RowLineWidth;
+                        case IndicatorKind.Rotation: return ComposerParameterKind.RowLineRotation;
+                        default: return ComposerParameterKind.Empty;
                     }
                 case ComposerPointsDistribution.ColumnLine:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerSizeType.ColumnLineX;
-                        case IndicatorKind.Y: return ComposerSizeType.ColumnLineY;
-                        case IndicatorKind.Height: return ComposerSizeType.ColumnLineHeight;
-                        case IndicatorKind.Rotation: return ComposerSizeType.ColumnLineRotation;
-                        default: return ComposerSizeType.Empty;
+                        case IndicatorKind.X: return ComposerParameterKind.ColumnLineX;
+                        case IndicatorKind.Y: return ComposerParameterKind.ColumnLineY;
+                        case IndicatorKind.Height: return ComposerParameterKind.ColumnLineHeight;
+                        case IndicatorKind.Rotation: return ComposerParameterKind.ColumnLineRotation;
+                        default: return ComposerParameterKind.Empty;
                     }
                 case ComposerPointsDistribution.Panel:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerSizeType.PanelX;
-                        case IndicatorKind.Y: return ComposerSizeType.PanelY;
-                        case IndicatorKind.Width: return ComposerSizeType.PanelWidth;
-                        case IndicatorKind.Height: return ComposerSizeType.PanelHeight;
-                        case IndicatorKind.Rotation: return ComposerSizeType.PanelRotation;
-                        case IndicatorKind.Skew: return ComposerSizeType.PanelSkew;
-                        default: return ComposerSizeType.Empty;
+                        case IndicatorKind.X: return ComposerParameterKind.PanelX;
+                        case IndicatorKind.Y: return ComposerParameterKind.PanelY;
+                        case IndicatorKind.Width: return ComposerParameterKind.PanelWidth;
+                        case IndicatorKind.Height: return ComposerParameterKind.PanelHeight;
+                        case IndicatorKind.Rotation: return ComposerParameterKind.PanelRotation;
+                        case IndicatorKind.Skew: return ComposerParameterKind.PanelSkew;
+                        default: return ComposerParameterKind.Empty;
                     }
-                default: return ComposerSizeType.Empty;
+                default: return ComposerParameterKind.Empty;
             }
         }
 

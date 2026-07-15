@@ -8,9 +8,9 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostComposer
     {
-        public ComposerSizeType ComposerSizeType(IndicatorKind kind)
+        public ComposerParameterKind ToParameterKind(IndicatorKind kind)
         {
-            return Indicator.ToComposerSizeType(this.PointsDistribution, kind);
+            return Indicator.ToComposerParameterKind(this.PointsDistribution, kind);
         }
 
         public void Reset()
