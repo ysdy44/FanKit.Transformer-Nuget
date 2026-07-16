@@ -290,5 +290,19 @@ namespace FanKit.Transformer.Indicators
                     }
             }
         }
+
+        public static CropParameterKind ToCropParameterKind(IndicatorKind kind)
+        {
+            switch (kind)
+            {
+                case IndicatorKind.X: return CropParameterKind.X;
+                case IndicatorKind.Y: return CropParameterKind.Y;
+                case IndicatorKind.Width: return CropParameterKind.Width;
+                case IndicatorKind.Height: return CropParameterKind.Height;
+                //case IndicatorKind.Rotation: return CropParameterKind.Rotation;
+                //case IndicatorKind.Skew: return CropParameterKind.Skew;
+                default: return CropParameterKind.None;
+            }
+        }
     }
 }

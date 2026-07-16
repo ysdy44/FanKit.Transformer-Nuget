@@ -310,28 +310,30 @@ namespace FanKit.Transformer.TestApp
         {
             BoxMode mode = this.ParameterPanel.Mode;
 
-            switch (kind)
+            switch (Indicator.ToCropParameterKind(kind))
             {
-                case IndicatorKind.X:
+                case CropParameterKind.None:
+                    break;
+                case CropParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
                     this.Cropper.SetTranslationX(this.Indicator, mode, translateX);
                     break;
-                case IndicatorKind.Y:
+                case CropParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
                     this.Cropper.SetTranslationY(this.Indicator, mode, translateY);
                     break;
-                case IndicatorKind.Width:
+                case CropParameterKind.Width:
                     this.Cropper.SetWidth(this.Indicator, mode, value, this.KeepRatio);
                     break;
-                case IndicatorKind.Height:
+                case CropParameterKind.Height:
                     this.Cropper.SetHeight(this.Indicator, mode, value, this.KeepRatio);
                     break;
-                //case IndicatorKind.Rotation:
+                //case CropParameterKind.Rotation:
                 //    this.Cropper.SetRotation(this.Indicator, mode, value);
                 //    break;
-                //case IndicatorKind.Skew:
+                //case CropParameterKind.Skew:
                 //    this.Cropper.SetSkew(this.Indicator, mode, value);
                 //    break;
                 default:
