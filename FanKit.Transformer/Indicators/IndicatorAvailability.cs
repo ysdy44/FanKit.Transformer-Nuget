@@ -215,33 +215,33 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        public static TransformerSizeType ToTransformerSizeType(int count, IndicatorKind kind)
+        public static TransformsParameterKind ToTransformsParameterKind(int count, IndicatorKind kind)
         {
             switch (count)
             {
                 case 0:
-                    return TransformerSizeType.None;
+                    return TransformsParameterKind.None;
                 case 1:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return TransformerSizeType.X;
-                        case IndicatorKind.Y: return TransformerSizeType.Y;
-                        case IndicatorKind.Width: return TransformerSizeType.Width;
-                        case IndicatorKind.Height: return TransformerSizeType.Height;
-                        case IndicatorKind.Rotation: return TransformerSizeType.Rotation;
-                        case IndicatorKind.Skew: return TransformerSizeType.Skew;
-                        default: return TransformerSizeType.None;
+                        case IndicatorKind.X: return TransformsParameterKind.X;
+                        case IndicatorKind.Y: return TransformsParameterKind.Y;
+                        case IndicatorKind.Width: return TransformsParameterKind.Width;
+                        case IndicatorKind.Height: return TransformsParameterKind.Height;
+                        case IndicatorKind.Rotation: return TransformsParameterKind.Rotation;
+                        case IndicatorKind.Skew: return TransformsParameterKind.Skew;
+                        default: return TransformsParameterKind.None;
                     }
                 default:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return TransformerSizeType.MultiX;
-                        case IndicatorKind.Y: return TransformerSizeType.MultiY;
-                        case IndicatorKind.Width: return TransformerSizeType.MultiWidth;
-                        case IndicatorKind.Height: return TransformerSizeType.MultiHeight;
-                        case IndicatorKind.Rotation: return TransformerSizeType.MultiRotation;
-                        case IndicatorKind.Skew: return TransformerSizeType.MultiSkew;
-                        default: return TransformerSizeType.None;
+                        case IndicatorKind.X: return TransformsParameterKind.MultiX;
+                        case IndicatorKind.Y: return TransformsParameterKind.MultiY;
+                        case IndicatorKind.Width: return TransformsParameterKind.MultiWidth;
+                        case IndicatorKind.Height: return TransformsParameterKind.MultiHeight;
+                        case IndicatorKind.Rotation: return TransformsParameterKind.MultiRotation;
+                        case IndicatorKind.Skew: return TransformsParameterKind.MultiSkew;
+                        default: return TransformsParameterKind.None;
                     }
             }
         }

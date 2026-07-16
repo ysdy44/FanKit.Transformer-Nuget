@@ -2537,11 +2537,11 @@ namespace FanKit.Transformer.TestApp
         {
             BoxMode mode = this.ParameterPanel.Mode;
 
-            switch (this.Transformer.TransformerSizeType(kind))
+            switch (this.Transformer.ToParameterKind(kind))
             {
-                case TransformerSizeType.None:
+                case TransformsParameterKind.None:
                     break;
-                case TransformerSizeType.X:
+                case TransformsParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
                     this.Transformer.SetTranslationX(this.Indicator, mode, translateX);
@@ -2554,7 +2554,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.Y:
+                case TransformsParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
                     this.Transformer.SetTranslationY(this.Indicator, mode, translateY);
@@ -2567,7 +2567,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.Width:
+                case TransformsParameterKind.Width:
                     this.Transformer.SetWidth(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
@@ -2578,7 +2578,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.Height:
+                case TransformsParameterKind.Height:
                     this.Transformer.SetHeight(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
@@ -2589,7 +2589,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.Rotation:
+                case TransformsParameterKind.Rotation:
                     this.Transformer.SetRotation(this.Indicator, mode, value);
 
                     foreach (Layer item in this.Layers)
@@ -2600,7 +2600,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.Skew:
+                case TransformsParameterKind.Skew:
                     this.Transformer.SetSkew(this.Indicator, mode, value);
 
                     foreach (Layer item in this.Layers)
@@ -2611,7 +2611,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.MultiX:
+                case TransformsParameterKind.MultiX:
                     float translateXs = value - this.Indicator.X;
 
                     this.Transformer.SetTranslationX(this.Indicator, mode, translateXs);
@@ -2624,7 +2624,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.MultiY:
+                case TransformsParameterKind.MultiY:
                     float translateYs = value - this.Indicator.Y;
 
                     this.Transformer.SetTranslationY(this.Indicator, mode, translateYs);
@@ -2637,7 +2637,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.MultiWidth:
+                case TransformsParameterKind.MultiWidth:
                     this.Transformer.SetWidth(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
@@ -2648,7 +2648,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.MultiHeight:
+                case TransformsParameterKind.MultiHeight:
                     this.Transformer.SetHeight(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
@@ -2659,7 +2659,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.MultiRotation:
+                case TransformsParameterKind.MultiRotation:
                     this.Transformer.SetRotation(this.Indicator, mode, value);
 
                     foreach (Layer item in this.Layers)
@@ -2670,7 +2670,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case TransformerSizeType.MultiSkew:
+                case TransformsParameterKind.MultiSkew:
                     this.Transformer.SetSkew(this.Indicator, mode, value);
 
                     foreach (Layer item in this.Layers)

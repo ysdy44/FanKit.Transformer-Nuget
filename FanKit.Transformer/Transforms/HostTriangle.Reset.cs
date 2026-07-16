@@ -8,9 +8,9 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostTriangle
     {
-        public TransformerSizeType TransformerSizeType(IndicatorKind kind)
+        public TransformsParameterKind ToParameterKind(IndicatorKind kind)
         {
-            return Indicator.ToTransformerSizeType(this.Count, kind);
+            return Indicator.ToTransformsParameterKind(this.Count, kind);
         }
 
         public void Reset()

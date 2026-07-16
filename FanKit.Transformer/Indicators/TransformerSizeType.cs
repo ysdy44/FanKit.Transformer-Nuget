@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Indicators
 {
-    public enum TransformerSizeType : byte
+    public enum TransformsParameterKind : byte
     {
         None,
 
