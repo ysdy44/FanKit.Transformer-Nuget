@@ -246,33 +246,33 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        public static CropperSizeType ToCropperSizeType(int count, IndicatorKind kind)
+        public static CropsParameterKind ToCropsParameterKind(int count, IndicatorKind kind)
         {
             switch (count)
             {
                 case 0:
-                    return CropperSizeType.None;
+                    return CropsParameterKind.None;
                 case 1:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return CropperSizeType.X;
-                        case IndicatorKind.Y: return CropperSizeType.Y;
-                        case IndicatorKind.Width: return CropperSizeType.Width;
-                        case IndicatorKind.Height: return CropperSizeType.Height;
-                        //case IndicatorKind.Rotation: return CropperSizeType.Rotation;
-                        //case IndicatorKind.Skew: return CropperSizeType.Skew;
-                        default: return CropperSizeType.None;
+                        case IndicatorKind.X: return CropsParameterKind.X;
+                        case IndicatorKind.Y: return CropsParameterKind.Y;
+                        case IndicatorKind.Width: return CropsParameterKind.Width;
+                        case IndicatorKind.Height: return CropsParameterKind.Height;
+                        //case IndicatorKind.Rotation: return CropsParameterKind.Rotation;
+                        //case IndicatorKind.Skew: return CropsParameterKind.Skew;
+                        default: return CropsParameterKind.None;
                     }
                 default:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return CropperSizeType.MultiX;
-                        case IndicatorKind.Y: return CropperSizeType.MultiY;
-                        case IndicatorKind.Width: return CropperSizeType.MultiWidth;
-                        case IndicatorKind.Height: return CropperSizeType.MultiHeight;
-                        //case IndicatorKind.Rotation: return CropperSizeType.MultiRotation;
-                        //case IndicatorKind.Skew: return CropperSizeType.MultiSkew;
-                        default: return CropperSizeType.None;
+                        case IndicatorKind.X: return CropsParameterKind.MultiX;
+                        case IndicatorKind.Y: return CropsParameterKind.MultiY;
+                        case IndicatorKind.Width: return CropsParameterKind.MultiWidth;
+                        case IndicatorKind.Height: return CropsParameterKind.MultiHeight;
+                        //case IndicatorKind.Rotation: return CropsParameterKind.MultiRotation;
+                        //case IndicatorKind.Skew: return CropsParameterKind.MultiSkew;
+                        default: return CropsParameterKind.None;
                     }
             }
         }

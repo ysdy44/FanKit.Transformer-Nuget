@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Indicators
 {
-    public enum CropperSizeType : byte
+    public enum CropsParameterKind : byte
     {
         None,
 

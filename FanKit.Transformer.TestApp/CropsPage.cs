@@ -685,11 +685,11 @@ namespace FanKit.Transformer.TestApp
         {
             BoxMode mode = this.ParameterPanel.Mode;
 
-            switch (this.Cropper.CropperSizeType(kind))
+            switch (this.Cropper.ToParameterKind(kind))
             {
-                case CropperSizeType.None:
+                case CropsParameterKind.None:
                     break;
-                case CropperSizeType.X:
+                case CropsParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
                     this.Cropper.SetTranslationX(this.Indicator, mode, translateX);
@@ -702,7 +702,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case CropperSizeType.Y:
+                case CropsParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
                     this.Cropper.SetTranslationY(this.Indicator, mode, translateY);
@@ -715,7 +715,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case CropperSizeType.Width:
+                case CropsParameterKind.Width:
                     this.Cropper.SetWidth(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
@@ -726,7 +726,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case CropperSizeType.Height:
+                case CropsParameterKind.Height:
                     this.Cropper.SetHeight(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
@@ -737,7 +737,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case CropperSizeType.MultiX:
+                case CropsParameterKind.MultiX:
                     float translateXs = value - this.Indicator.X;
 
                     this.Cropper.SetTranslationX(this.Indicator, mode, translateXs);
@@ -750,7 +750,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case CropperSizeType.MultiY:
+                case CropsParameterKind.MultiY:
                     float translateYs = value - this.Indicator.Y;
 
                     this.Cropper.SetTranslationY(this.Indicator, mode, translateYs);
@@ -763,7 +763,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case CropperSizeType.MultiWidth:
+                case CropsParameterKind.MultiWidth:
                     this.Cropper.SetWidth(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
@@ -774,7 +774,7 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
-                case CropperSizeType.MultiHeight:
+                case CropsParameterKind.MultiHeight:
                     this.Cropper.SetHeight(this.Indicator, mode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)

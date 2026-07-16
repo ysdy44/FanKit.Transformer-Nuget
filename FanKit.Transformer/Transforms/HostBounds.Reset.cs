@@ -8,9 +8,9 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostBounds
     {
-        public CropperSizeType CropperSizeType(IndicatorKind kind)
+        public CropsParameterKind ToParameterKind(IndicatorKind kind)
         {
-            return Indicator.ToCropperSizeType(this.Count, kind);
+            return Indicator.ToCropsParameterKind(this.Count, kind);
         }
 
         public void Reset()
