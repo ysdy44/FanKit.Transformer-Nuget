@@ -9,6 +9,6 @@
         Height,
 
         Rotation,
-        Skew
+        Skew,
     }
 }

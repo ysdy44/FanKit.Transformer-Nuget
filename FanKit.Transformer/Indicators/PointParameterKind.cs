@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FanKit.Transformer.Indicators
+﻿namespace FanKit.Transformer.Indicators
 {
     public enum PointParameterKind : byte
     {

@@ -18,7 +18,7 @@ namespace FanKit.Transformer.Curves
         public readonly int Current;
         public readonly int Next;
 
-        public SegmentInserter(SegmentInserterMode mode, int current) : this()
+        public SegmentInserter(SegmentInserterMode mode, int current)
         {
             Mode = mode;
             Previous = -1;

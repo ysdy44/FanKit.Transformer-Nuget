@@ -9,7 +9,7 @@ namespace FanKit.Transformer.Input
 
         public readonly Coordinate Coord;
 
-        public Fit2(Viewport viewport, float padding)
+        internal Fit2(Viewport viewport, float padding)
         {
             s = viewport.ToFitScales();
 

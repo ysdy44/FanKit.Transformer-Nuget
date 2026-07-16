@@ -10,7 +10,7 @@ namespace FanKit.Transformer.Input
         public readonly Coordinate Coord;
         public readonly Rectangle Bounds;
 
-        public Fit1(Viewport viewport, float padding)
+        internal Fit1(Viewport viewport, float padding)
         {
             s = viewport.ToFitScales();
 
