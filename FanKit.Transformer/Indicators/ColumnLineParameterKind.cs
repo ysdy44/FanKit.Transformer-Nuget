@@ -1,13 +1,14 @@
-﻿using FanKit.Transformer.Indicators;
-using System;
+﻿using System;
 
-namespace FanKit.Transformer.Sample
+namespace FanKit.Transformer.Indicators
 {
-    public enum IndicatorColumnKind : byte
+    public enum ColumnLineParameterKind : byte
     {
-        X = IndicatorKind.X,
-        Y = IndicatorKind.Y,
-        Height = IndicatorKind.Height,
-        Rotation = IndicatorKind.Rotation,
+        None,
+
+        X,
+        Y,
+        Height,
+        Rotation,
     }
 }

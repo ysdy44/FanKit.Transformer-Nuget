@@ -325,22 +325,24 @@ namespace FanKit.Transformer.TestApp
         {
             RowLineMode mode = this.ParameterPanel.RowMode;
 
-            switch ((IndicatorRowKind)(byte)kind)
+            switch (Indicator.ToRowLineParameterKind(kind))
             {
-                case IndicatorRowKind.X:
+                case RowLineParameterKind.None:
+                    break;
+                case RowLineParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
                     this.Linear.SetTranslationX(this.Indicator, mode, translateX);
                     break;
-                case IndicatorRowKind.Y:
+                case RowLineParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
                     this.Linear.SetTranslationY(this.Indicator, mode, translateY);
                     break;
-                case IndicatorRowKind.Width:
+                case RowLineParameterKind.Width:
                     this.Linear.SetWidth(this.Indicator, mode, value);
                     break;
-                case IndicatorRowKind.Rotation:
+                case RowLineParameterKind.Rotation:
                     this.Linear.SetRotation(this.Indicator, mode, value);
                     break;
                 default:
@@ -356,22 +358,24 @@ namespace FanKit.Transformer.TestApp
         {
             ColumnLineMode mode = this.ParameterPanel.ColumnMode;
 
-            switch ((IndicatorColumnKind)(byte)kind)
+            switch (Indicator.ToColumnLineParameterKind(kind))
             {
-                case IndicatorColumnKind.X:
+                case ColumnLineParameterKind.None:
+                    break;
+                case ColumnLineParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
                     this.Linear.SetTranslationX(this.Indicator, mode, translateX);
                     break;
-                case IndicatorColumnKind.Y:
+                case ColumnLineParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
                     this.Linear.SetTranslationY(this.Indicator, mode, translateY);
                     break;
-                case IndicatorColumnKind.Height:
+                case ColumnLineParameterKind.Height:
                     this.Linear.SetHeight(this.Indicator, mode, value);
                     break;
-                case IndicatorColumnKind.Rotation:
+                case ColumnLineParameterKind.Rotation:
                     this.Linear.SetRotation(this.Indicator, mode, value);
                     break;
                 default:

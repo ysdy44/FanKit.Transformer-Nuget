@@ -304,5 +304,38 @@ namespace FanKit.Transformer.Indicators
                 default: return CropParameterKind.None;
             }
         }
+        public static ColumnLineParameterKind ToColumnLineParameterKind(IndicatorKind kind)
+        {
+            switch (kind)
+            {
+                case IndicatorKind.X: return ColumnLineParameterKind.X;
+                case IndicatorKind.Y: return ColumnLineParameterKind.Y;
+                case IndicatorKind.Height: return ColumnLineParameterKind.Height;
+                case IndicatorKind.Rotation: return ColumnLineParameterKind.Rotation;
+                default: return ColumnLineParameterKind.None;
+            }
+        }
+
+        public static RowLineParameterKind ToRowLineParameterKind(IndicatorKind kind)
+        {
+            switch (kind)
+            {
+                case IndicatorKind.X: return RowLineParameterKind.X;
+                case IndicatorKind.Y: return RowLineParameterKind.Y;
+                case IndicatorKind.Width: return RowLineParameterKind.Width;
+                case IndicatorKind.Rotation: return RowLineParameterKind.Rotation;
+                default: return RowLineParameterKind.None;
+            }
+        }
+
+        public static PointParameterKind ToPointParameterKind(IndicatorKind kind)
+        {
+            switch (kind)
+            {
+                case IndicatorKind.X: return PointParameterKind.X;
+                case IndicatorKind.Y: return PointParameterKind.Y;
+                default: return PointParameterKind.None;
+            }
+        }
     }
 }

@@ -1,11 +1,12 @@
-﻿using FanKit.Transformer.Indicators;
-using System;
+﻿using System;
 
-namespace FanKit.Transformer.Sample
+namespace FanKit.Transformer.Indicators
 {
-    public enum IndicatorPointKind : byte
+    public enum PointParameterKind : byte
     {
-        X = IndicatorKind.X,
-        Y = IndicatorKind.Y,
+        None,
+
+        X,
+        Y,
     }
 }
