@@ -601,8 +601,8 @@ namespace FanKit.Transformer.TestApp
                         {
                             case ComposerPointsDistribution.Empty: this.Indicator.ClearAll(); break;
                             case ComposerPointsDistribution.Point: this.Indicator.ChangeAll(this.Composer.PointPoint); break;
-                            case ComposerPointsDistribution.RowLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.RowMode); break;
-                            case ComposerPointsDistribution.ColumnLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.ColumnMode); break;
+                            case ComposerPointsDistribution.RowLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.RowLineAnchorMode); break;
+                            case ComposerPointsDistribution.ColumnLine: this.Indicator.ChangeAll(this.Composer.LinePoint0, this.Composer.LinePoint1, this.ParameterPanel.ColumnLineAnchorMode); break;
                             case ComposerPointsDistribution.Panel: this.Indicator.ChangeAll(this.Composer.PanelDestination, this.ParameterPanel.PanelAnchorMode); break;
                             default: break;
                         }
@@ -733,7 +733,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 /*
                 case LineContainsNodeMode.Handle0:
-                    this.Composer.LineElongatePoint0(this.Indicator, this.ParameterPanel.RowMode, this.StartingPoint, this.Point);
+                    this.Composer.LineElongatePoint0(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.StartingPoint, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -743,7 +743,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Handle1:
-                    this.Composer.LineElongatePoint1(this.Indicator, this.ParameterPanel.RowMode, this.StartingPoint, this.Point);
+                    this.Composer.LineElongatePoint1(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.StartingPoint, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -754,9 +754,9 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case LineContainsNodeMode.Handle:
                     if (this.HasStepFrequency)
-                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.RowMode, this.Point, StepFrequency);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Point, StepFrequency);
                     else
-                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.RowMode, this.Point);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -766,7 +766,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Center:
-                    this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.RowMode, this.StartingPoint, this.Point);
+                    this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.StartingPoint, this.Point);
 
                     this.TranslateSelectedItems();
 
@@ -777,7 +777,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                  */
                 case LineContainsNodeMode.Point0:
-                    this.Composer.LineMovePoint0(this.Indicator, this.ParameterPanel.RowMode, this.Point);
+                    this.Composer.LineMovePoint0(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -787,7 +787,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point1:
-                    this.Composer.LineMovePoint1(this.Indicator, this.ParameterPanel.RowMode, this.Point);
+                    this.Composer.LineMovePoint1(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -810,7 +810,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 /*
                 case LineContainsNodeMode.Handle0:
-                    this.Composer.LineElongatePoint0(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPoint, this.Point);
+                    this.Composer.LineElongatePoint0(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.StartingPoint, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -820,7 +820,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Handle1:
-                    this.Composer.LineElongatePoint1(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPoint, this.Point);
+                    this.Composer.LineElongatePoint1(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.StartingPoint, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -831,9 +831,9 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case LineContainsNodeMode.Handle:
                     if (this.HasStepFrequency)
-                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.ColumnMode, this.Point, StepFrequency);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Point, StepFrequency);
                     else
-                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.ColumnMode, this.Point);
+                        this.Composer.LineRotate(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -843,7 +843,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Center:
-                    this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPoint, this.Point);
+                    this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.StartingPoint, this.Point);
 
                     this.TranslateSelectedItems();
 
@@ -854,7 +854,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                  */
                 case LineContainsNodeMode.Point0:
-                    this.Composer.LineMovePoint0(this.Indicator, this.ParameterPanel.ColumnMode, this.Point);
+                    this.Composer.LineMovePoint0(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -864,7 +864,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point1:
-                    this.Composer.LineMovePoint1(this.Indicator, this.ParameterPanel.ColumnMode, this.Point);
+                    this.Composer.LineMovePoint1(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Point);
 
                     this.TransformSelectedItems();
 
@@ -1953,10 +1953,10 @@ namespace FanKit.Transformer.TestApp
                             this.Composer.PointTranslate(this.Indicator, this.StartingPoint, this.Point);
                             break;
                         case ComposerPointsDistribution.RowLine:
-                            this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.RowMode, this.StartingPoint, this.Point);
+                            this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.StartingPoint, this.Point);
                             break;
                         case ComposerPointsDistribution.ColumnLine:
-                            this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.ColumnMode, this.StartingPoint, this.Point);
+                            this.Composer.LineTranslate(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.StartingPoint, this.Point);
                             break;
                         case ComposerPointsDistribution.Panel:
                             this.Composer.PanelTranslate(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.StartingPoint, this.Point);
@@ -2215,7 +2215,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.RowLineX:
                     {
-                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowMode;
+                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowLineAnchorMode;
 
                         float translateX = value - this.Indicator.X;
 
@@ -2226,7 +2226,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.RowLineY:
                     {
-                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowMode;
+                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowLineAnchorMode;
 
                         float translateY = value - this.Indicator.Y;
 
@@ -2237,7 +2237,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.RowLineWidth:
                     {
-                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowMode;
+                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowLineAnchorMode;
 
                         this.Composer.LineSetWidth(this.Indicator, anchorMode, value);
 
@@ -2246,7 +2246,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.RowLineRotation:
                     {
-                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowMode;
+                        RowLineAnchorMode anchorMode = this.ParameterPanel.RowLineAnchorMode;
 
                         this.Composer.LineSetRotation(this.Indicator, anchorMode, value);
 
@@ -2255,7 +2255,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.ColumnLineX:
                     {
-                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnMode;
+                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnLineAnchorMode;
 
                         float translateX = value - this.Indicator.X;
 
@@ -2266,7 +2266,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.ColumnLineY:
                     {
-                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnMode;
+                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnLineAnchorMode;
 
                         float translateY = value - this.Indicator.Y;
 
@@ -2277,7 +2277,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.ColumnLineHeight:
                     {
-                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnMode;
+                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnLineAnchorMode;
 
                         this.Composer.LineSetHeight(this.Indicator, anchorMode, value);
 
@@ -2286,7 +2286,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case ComposerParameterKind.ColumnLineRotation:
                     {
-                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnMode;
+                        ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnLineAnchorMode;
 
                         this.Composer.LineSetRotation(this.Indicator, anchorMode, value);
 

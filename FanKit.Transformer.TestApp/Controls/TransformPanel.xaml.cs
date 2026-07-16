@@ -15,8 +15,8 @@ namespace FanKit.Transformer.TestApp
         public EventHandler<ParameterKind> Apply;
 
         public PanelAnchorMode PanelAnchorMode;
-        public RowLineAnchorMode RowMode;
-        public ColumnLineAnchorMode ColumnMode;
+        public RowLineAnchorMode RowLineAnchorMode;
+        public ColumnLineAnchorMode ColumnLineAnchorMode;
         public float Value;
 
         IndicatorSizeType OldValue;
@@ -54,8 +54,8 @@ namespace FanKit.Transformer.TestApp
             };
 
             this.ComboBox.SelectedIndex = (byte)this.PanelAnchorMode;
-            this.RowComboBox.SelectedIndex = (int)(byte)this.RowMode;
-            this.ColumnComboBox.SelectedIndex = (int)(byte)this.ColumnMode;
+            this.RowComboBox.SelectedIndex = (int)(byte)this.RowLineAnchorMode;
+            this.ColumnComboBox.SelectedIndex = (int)(byte)this.ColumnLineAnchorMode;
 
             this.ComboBox.SelectionChanged += delegate
             {
@@ -64,13 +64,13 @@ namespace FanKit.Transformer.TestApp
             };
             this.RowComboBox.SelectionChanged += delegate
             {
-                this.RowMode = (RowLineAnchorMode)(byte)this.RowComboBox.SelectedIndex;
-                this.RowLineAnchorModeChanged?.Invoke(this, this.RowMode);
+                this.RowLineAnchorMode = (RowLineAnchorMode)(byte)this.RowComboBox.SelectedIndex;
+                this.RowLineAnchorModeChanged?.Invoke(this, this.RowLineAnchorMode);
             };
             this.ColumnComboBox.SelectionChanged += delegate
             {
-                this.ColumnMode = (ColumnLineAnchorMode)(byte)this.ColumnComboBox.SelectedIndex;
-                this.ColumnLineAnchorModeChanged?.Invoke(this, this.ColumnMode);
+                this.ColumnLineAnchorMode = (ColumnLineAnchorMode)(byte)this.ColumnComboBox.SelectedIndex;
+                this.ColumnLineAnchorModeChanged?.Invoke(this, this.ColumnLineAnchorMode);
             };
 
             this.XButton.Click += delegate
