@@ -9,14 +9,14 @@ namespace FanKit.Transformer.TestApp
 {
     public sealed partial class TransformPanel : UserControl
     {
-        public EventHandler<BoxMode> ModeChanged;
-        public EventHandler<RowLineMode> RowModeChanged;
-        public EventHandler<ColumnLineMode> ColumnModeChanged;
-        public EventHandler<IndicatorKind> Apply;
+        public EventHandler<PanelAnchorMode> PanelAnchorModeChanged;
+        public EventHandler<RowLineAnchorMode> RowLineAnchorModeChanged;
+        public EventHandler<ColumnLineAnchorMode> ColumnLineAnchorModeChanged;
+        public EventHandler<ParameterKind> Apply;
 
-        public BoxMode Mode;
-        public RowLineMode RowMode;
-        public ColumnLineMode ColumnMode;
+        public PanelAnchorMode PanelAnchorMode;
+        public RowLineAnchorMode RowMode;
+        public ColumnLineAnchorMode ColumnMode;
         public float Value;
 
         IndicatorSizeType OldValue;
@@ -53,55 +53,55 @@ namespace FanKit.Transformer.TestApp
                 "Bottom",
             };
 
-            this.ComboBox.SelectedIndex = (byte)this.Mode;
+            this.ComboBox.SelectedIndex = (byte)this.PanelAnchorMode;
             this.RowComboBox.SelectedIndex = (int)(byte)this.RowMode;
             this.ColumnComboBox.SelectedIndex = (int)(byte)this.ColumnMode;
 
             this.ComboBox.SelectionChanged += delegate
             {
-                this.Mode = (BoxMode)(byte)this.ComboBox.SelectedIndex;
-                this.ModeChanged?.Invoke(this, this.Mode);
+                this.PanelAnchorMode = (PanelAnchorMode)(byte)this.ComboBox.SelectedIndex;
+                this.PanelAnchorModeChanged?.Invoke(this, this.PanelAnchorMode);
             };
             this.RowComboBox.SelectionChanged += delegate
             {
-                this.RowMode = (RowLineMode)(byte)this.RowComboBox.SelectedIndex;
-                this.RowModeChanged?.Invoke(this, this.RowMode);
+                this.RowMode = (RowLineAnchorMode)(byte)this.RowComboBox.SelectedIndex;
+                this.RowLineAnchorModeChanged?.Invoke(this, this.RowMode);
             };
             this.ColumnComboBox.SelectionChanged += delegate
             {
-                this.ColumnMode = (ColumnLineMode)(byte)this.ColumnComboBox.SelectedIndex;
-                this.ColumnModeChanged?.Invoke(this, this.ColumnMode);
+                this.ColumnMode = (ColumnLineAnchorMode)(byte)this.ColumnComboBox.SelectedIndex;
+                this.ColumnLineAnchorModeChanged?.Invoke(this, this.ColumnMode);
             };
 
             this.XButton.Click += delegate
             {
                 if (float.TryParse(XTextBox.Text, out this.Value))
-                    this.Apply?.Invoke(this, IndicatorKind.X);
+                    this.Apply?.Invoke(this, ParameterKind.X);
             };
             this.YButton.Click += delegate
             {
                 if (float.TryParse(YTextBox.Text, out this.Value))
-                    this.Apply?.Invoke(this, IndicatorKind.Y);
+                    this.Apply?.Invoke(this, ParameterKind.Y);
             };
             this.WButton.Click += delegate
             {
                 if (float.TryParse(WTextBox.Text, out this.Value))
-                    this.Apply?.Invoke(this, IndicatorKind.Width);
+                    this.Apply?.Invoke(this, ParameterKind.Width);
             };
             this.HButton.Click += delegate
             {
                 if (float.TryParse(HTextBox.Text, out this.Value))
-                    this.Apply?.Invoke(this, IndicatorKind.Height);
+                    this.Apply?.Invoke(this, ParameterKind.Height);
             };
             this.RButton.Click += delegate
             {
                 if (float.TryParse(RTextBox.Text, out this.Value))
-                    this.Apply?.Invoke(this, IndicatorKind.Rotation);
+                    this.Apply?.Invoke(this, ParameterKind.Rotation);
             };
             this.SButton.Click += delegate
             {
                 if (float.TryParse(STextBox.Text, out this.Value))
-                    this.Apply?.Invoke(this, IndicatorKind.Skew);
+                    this.Apply?.Invoke(this, ParameterKind.Skew);
             };
         }
 

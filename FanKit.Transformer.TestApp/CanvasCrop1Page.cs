@@ -88,7 +88,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Destination, e);
+            this.ParameterPanel.PanelAnchorModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Destination, e);
 
             this.ParameterPanel.Apply += (s, e) =>
             {
@@ -187,7 +187,7 @@ namespace FanKit.Transformer.TestApp
 
             if (modes.HasFlag(InvalidateModes.InitIndicator))
             {
-                this.Indicator.ChangeAll(this.Cropper.Destination, this.ParameterPanel.Mode);
+                this.Indicator.ChangeAll(this.Cropper.Destination, this.ParameterPanel.PanelAnchorMode);
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
 
@@ -259,7 +259,7 @@ namespace FanKit.Transformer.TestApp
                 case BoxContainsNodeMode.None:
                     break;
                 case BoxContainsNodeMode.Contains:
-                    this.Cropper.Translate(this.Indicator, this.ParameterPanel.Mode, this.StartingPosition, this.Position);
+                    this.Cropper.Translate(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers
@@ -294,7 +294,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                     */
                 default:
-                    this.Cropper.TransformSize(this.Indicator, this.ParameterPanel.Mode, this.Position, this.KeepRatio, this.CenteredScaling);
+                    this.Cropper.TransformSize(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.Position, this.KeepRatio, this.CenteredScaling);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers
@@ -306,9 +306,9 @@ namespace FanKit.Transformer.TestApp
         #endregion
 
         #region Panel
-        private void Apply(IndicatorKind kind, float value)
+        private void Apply(ParameterKind kind, float value)
         {
-            BoxMode mode = this.ParameterPanel.Mode;
+            PanelAnchorMode anchorMode = this.ParameterPanel.PanelAnchorMode;
 
             switch (Indicator.ToCropParameterKind(kind))
             {
@@ -317,24 +317,24 @@ namespace FanKit.Transformer.TestApp
                 case CropParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
-                    this.Cropper.SetTranslationX(this.Indicator, mode, translateX);
+                    this.Cropper.SetTranslationX(this.Indicator, anchorMode, translateX);
                     break;
                 case CropParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
-                    this.Cropper.SetTranslationY(this.Indicator, mode, translateY);
+                    this.Cropper.SetTranslationY(this.Indicator, anchorMode, translateY);
                     break;
                 case CropParameterKind.Width:
-                    this.Cropper.SetWidth(this.Indicator, mode, value, this.KeepRatio);
+                    this.Cropper.SetWidth(this.Indicator, anchorMode, value, this.KeepRatio);
                     break;
                 case CropParameterKind.Height:
-                    this.Cropper.SetHeight(this.Indicator, mode, value, this.KeepRatio);
+                    this.Cropper.SetHeight(this.Indicator, anchorMode, value, this.KeepRatio);
                     break;
                 //case CropParameterKind.Rotation:
-                //    this.Cropper.SetRotation(this.Indicator, mode, value);
+                //    this.Cropper.SetRotation(this.Indicator, anchorMode, value);
                 //    break;
                 //case CropParameterKind.Skew:
-                //    this.Cropper.SetSkew(this.Indicator, mode, value);
+                //    this.Cropper.SetSkew(this.Indicator, anchorMode, value);
                 //    break;
                 default:
                     break;

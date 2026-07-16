@@ -26,13 +26,13 @@ namespace FanKit.Transformer.Compute
 
             this.Find();
         }
-        internal void TWH1(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling)
+        internal void TWH1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 point, bool keepRatio, bool centeredScaling)
         {
             this.Bounds = this.Controller.Crop(this.StartingBounds, point, keepRatio, centeredScaling);
 
             this.Find();
 
-            indicator.ChangeXYWH(this.Bounds, mode);
+            indicator.ChangeXYWH(this.Bounds, anchorMode);
         }
         #endregion
     }

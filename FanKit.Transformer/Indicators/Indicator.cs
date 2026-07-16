@@ -115,19 +115,19 @@ namespace FanKit.Transformer.Indicators
             ES();
         }
 
-        public void ChangeXY(Vector2 point0, Vector2 point1, ColumnLineMode mode)
+        public void ChangeXY(Vector2 point0, Vector2 point1, ColumnLineAnchorMode anchorMode)
         {
-            XY(point0, point1, mode);
+            XY(point0, point1, anchorMode);
         }
-        public void ChangeXY(Vector2 point0, Vector2 point1, RowLineMode mode)
+        public void ChangeXY(Vector2 point0, Vector2 point1, RowLineAnchorMode anchorMode)
         {
-            XY(point0, point1, mode);
+            XY(point0, point1, anchorMode);
         }
 
-        public void ChangeAll(Vector2 point0, Vector2 point1, ColumnLineMode mode)
+        public void ChangeAll(Vector2 point0, Vector2 point1, ColumnLineAnchorMode anchorMode)
         {
             ST3();
-            XY(point0, point1, mode);
+            XY(point0, point1, anchorMode);
 
             if (point1.Y == point0.Y)
             {
@@ -217,10 +217,10 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        public void ChangeAll(Vector2 point0, Vector2 point1, RowLineMode mode)
+        public void ChangeAll(Vector2 point0, Vector2 point1, RowLineAnchorMode anchorMode)
         {
             ST2();
-            XY(point0, point1, mode);
+            XY(point0, point1, anchorMode);
 
             if (point1.Y == point0.Y)
             {
@@ -392,18 +392,18 @@ namespace FanKit.Transformer.Indicators
         }
 
         // XY
-        private void XY(Vector2 point0, Vector2 point1, ColumnLineMode mode)
+        private void XY(Vector2 point0, Vector2 point1, ColumnLineAnchorMode anchorMode)
         {
-            switch (mode)
+            switch (anchorMode)
             {
-                case ColumnLineMode.Top:
+                case ColumnLineAnchorMode.Top:
                     c = point0;
                     break;
-                case ColumnLineMode.Center:
+                case ColumnLineAnchorMode.Center:
                     c = new Vector2((point0.X + point1.X) / 2f,
                         (point0.Y + point1.Y) / 2f);
                     break;
-                case ColumnLineMode.Bottom:
+                case ColumnLineAnchorMode.Bottom:
                     c = point1;
                     break;
                 default:
@@ -423,18 +423,18 @@ namespace FanKit.Transformer.Indicators
                 this.YChanged?.Invoke(this, Y);
             }
         }
-        private void XY(Vector2 point0, Vector2 point1, RowLineMode mode)
+        private void XY(Vector2 point0, Vector2 point1, RowLineAnchorMode anchorMode)
         {
-            switch (mode)
+            switch (anchorMode)
             {
-                case RowLineMode.Left:
+                case RowLineAnchorMode.Left:
                     c = point0;
                     break;
-                case RowLineMode.Center:
+                case RowLineAnchorMode.Center:
                     c = new Vector2((point0.X + point1.X) / 2f,
                         (point0.Y + point1.Y) / 2f);
                     break;
-                case RowLineMode.Right:
+                case RowLineAnchorMode.Right:
                     c = point1;
                     break;
                 default:
@@ -536,40 +536,40 @@ namespace FanKit.Transformer.Indicators
         }
 
         #region Bounds
-        public void ChangeX(Bounds bounds, BoxMode mode)
+        public void ChangeX(Bounds bounds, PanelAnchorMode anchorMode)
         {
-            XY(bounds, mode);
+            XY(bounds, anchorMode);
         }
-        public void ChangeY(Bounds bounds, BoxMode mode)
+        public void ChangeY(Bounds bounds, PanelAnchorMode anchorMode)
         {
-            XY(bounds, mode);
+            XY(bounds, anchorMode);
         }
-        public void ChangeXY(Bounds bounds, BoxMode mode)
+        public void ChangeXY(Bounds bounds, PanelAnchorMode anchorMode)
         {
-            XY(bounds, mode);
+            XY(bounds, anchorMode);
         }
 
-        public void ChangeXYWH(Bounds bounds, BoxMode mode)
+        public void ChangeXYWH(Bounds bounds, PanelAnchorMode anchorMode)
         {
-            XY(bounds, mode);
+            XY(bounds, anchorMode);
             WH(bounds);
         }
 
-        //public void ChangeXYWHRS(Bounds bounds, BoxMode mode)
+        //public void ChangeXYWHRS(Bounds bounds, PanelAnchorMode anchorMode)
         //{
-        //XY(bounds, mode);
+        //XY(bounds, anchorMode);
         //WH(bounds);
         //RS();
         //}
-        public void ChangeAll(Bounds bounds, BoxMode mode)
+        public void ChangeAll(Bounds bounds, PanelAnchorMode anchorMode)
         {
-            XY(bounds, mode);
+            XY(bounds, anchorMode);
             WH(bounds);
             //RS();
         }
 
-        //public Bounds CreateWidth(Bounds bounds, BoxMode mode, float value, bool keepRatio) => Resize(bounds, mode, value, keepRatio, false);
-        public Bounds CreateWidth(Bounds bounds, BoxMode mode, float value, bool keepRatio)
+        //public Bounds CreateWidth(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(bounds, anchorMode, value, keepRatio, false);
+        public Bounds CreateWidth(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
             if (keepRatio)
             {
@@ -579,9 +579,9 @@ namespace FanKit.Transformer.Indicators
                 float c = (bounds.Bottom + bounds.Top) / 2f;
                 float s = value * y / x;
 
-                switch (mode)
+                switch (anchorMode)
                 {
-                    case BoxMode.LeftTop:
+                    case PanelAnchorMode.LeftTop:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -589,7 +589,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Left + value,
                             Bottom = c + s,
                         };
-                    case BoxMode.LeftBottom:
+                    case PanelAnchorMode.LeftBottom:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -597,7 +597,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Left + value,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.RightTop:
+                    case PanelAnchorMode.RightTop:
                         return new Bounds
                         {
                             Left = bounds.Left - value,
@@ -605,7 +605,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = c + s,
                         };
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.RightBottom:
                         return new Bounds
                         {
                             Left = bounds.Left - value,
@@ -613,7 +613,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.CenterTop:
+                    case PanelAnchorMode.CenterTop:
                         return new Bounds
                         {
                             Left = (bounds.Left + bounds.Right - value) / 2f,
@@ -621,7 +621,7 @@ namespace FanKit.Transformer.Indicators
                             Right = (bounds.Left + bounds.Right + value) / 2f,
                             Bottom = c + s,
                         };
-                    case BoxMode.CenterLeft:
+                    case PanelAnchorMode.CenterLeft:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -629,7 +629,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Left + value,
                             Bottom = c + s / 2f,
                         };
-                    case BoxMode.CenterBottom:
+                    case PanelAnchorMode.CenterBottom:
                         return new Bounds
                         {
                             Left = (bounds.Left + bounds.Right - value) / 2f,
@@ -637,7 +637,7 @@ namespace FanKit.Transformer.Indicators
                             Right = (bounds.Left + bounds.Right + value) / 2f,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.CenterRight:
+                    case PanelAnchorMode.CenterRight:
                         return new Bounds
                         {
                             Left = bounds.Right - value,
@@ -645,7 +645,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = c + s / 2f,
                         };
-                    case BoxMode.Center:
+                    case PanelAnchorMode.Center:
                         return new Bounds
                         {
                             Left = (bounds.Left + bounds.Right - value) / 2f,
@@ -659,11 +659,11 @@ namespace FanKit.Transformer.Indicators
             }
             else
             {
-                switch (mode)
+                switch (anchorMode)
                 {
-                    case BoxMode.LeftTop:
-                    case BoxMode.CenterLeft:
-                    case BoxMode.LeftBottom:
+                    case PanelAnchorMode.LeftTop:
+                    case PanelAnchorMode.CenterLeft:
+                    case PanelAnchorMode.LeftBottom:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -671,9 +671,9 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Left + value,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.CenterTop:
-                    case BoxMode.Center:
-                    case BoxMode.CenterBottom:
+                    case PanelAnchorMode.CenterTop:
+                    case PanelAnchorMode.Center:
+                    case PanelAnchorMode.CenterBottom:
                         return new Bounds
                         {
                             Left = (bounds.Left + bounds.Right - value) / 2f,
@@ -681,9 +681,9 @@ namespace FanKit.Transformer.Indicators
                             Right = (bounds.Left + bounds.Right + value) / 2f,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.RightTop:
-                    case BoxMode.CenterRight:
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.RightTop:
+                    case PanelAnchorMode.CenterRight:
+                    case PanelAnchorMode.RightBottom:
                         return new Bounds
                         {
                             Left = bounds.Right - value,
@@ -696,8 +696,8 @@ namespace FanKit.Transformer.Indicators
                 }
             }
         }
-        //public Bounds CreateHeight(Bounds bounds, BoxMode mode, float value, bool keepRatio) => Resize(bounds, mode, value, keepRatio, false);
-        public Bounds CreateHeight(Bounds bounds, BoxMode mode, float value, bool keepRatio)
+        //public Bounds CreateHeight(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(bounds, anchorMode, value, keepRatio, false);
+        public Bounds CreateHeight(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
             if (keepRatio)
             {
@@ -707,9 +707,9 @@ namespace FanKit.Transformer.Indicators
                 float c = (bounds.Right + bounds.Left) / 2f;
                 float s = value * x / y;
 
-                switch (mode)
+                switch (anchorMode)
                 {
-                    case BoxMode.LeftTop:
+                    case PanelAnchorMode.LeftTop:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -717,7 +717,7 @@ namespace FanKit.Transformer.Indicators
                             Right = c + s,
                             Bottom = bounds.Top + value,
                         };
-                    case BoxMode.RightTop:
+                    case PanelAnchorMode.RightTop:
                         return new Bounds
                         {
                             Left = c - s,
@@ -725,7 +725,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = bounds.Top + value,
                         };
-                    case BoxMode.LeftBottom:
+                    case PanelAnchorMode.LeftBottom:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -733,7 +733,7 @@ namespace FanKit.Transformer.Indicators
                             Right = c + s,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.RightBottom:
                         return new Bounds
                         {
                             Left = c - s,
@@ -741,7 +741,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.CenterLeft:
+                    case PanelAnchorMode.CenterLeft:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -749,7 +749,7 @@ namespace FanKit.Transformer.Indicators
                             Right = c + s,
                             Bottom = (bounds.Top + bounds.Bottom + value) / 2f,
                         };
-                    case BoxMode.CenterTop:
+                    case PanelAnchorMode.CenterTop:
                         return new Bounds
                         {
                             Left = c - s / 2f,
@@ -757,7 +757,7 @@ namespace FanKit.Transformer.Indicators
                             Right = c + s / 2f,
                             Bottom = bounds.Top + value,
                         };
-                    case BoxMode.CenterRight:
+                    case PanelAnchorMode.CenterRight:
                         return new Bounds
                         {
                             Left = c - s,
@@ -765,7 +765,7 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = (bounds.Top + bounds.Bottom + value) / 2f,
                         };
-                    case BoxMode.CenterBottom:
+                    case PanelAnchorMode.CenterBottom:
                         return new Bounds
                         {
                             Left = c - s / 2f,
@@ -773,7 +773,7 @@ namespace FanKit.Transformer.Indicators
                             Right = c + s / 2f,
                             Bottom = bounds.Bottom,
                         };
-                    case BoxMode.Center:
+                    case PanelAnchorMode.Center:
                         return new Bounds
                         {
                             Left = c - s / 2f,
@@ -787,11 +787,11 @@ namespace FanKit.Transformer.Indicators
             }
             else
             {
-                switch (mode)
+                switch (anchorMode)
                 {
-                    case BoxMode.LeftTop:
-                    case BoxMode.CenterTop:
-                    case BoxMode.RightTop:
+                    case PanelAnchorMode.LeftTop:
+                    case PanelAnchorMode.CenterTop:
+                    case PanelAnchorMode.RightTop:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -799,9 +799,9 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = bounds.Top + value,
                         };
-                    case BoxMode.CenterLeft:
-                    case BoxMode.Center:
-                    case BoxMode.CenterRight:
+                    case PanelAnchorMode.CenterLeft:
+                    case PanelAnchorMode.Center:
+                    case PanelAnchorMode.CenterRight:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -809,9 +809,9 @@ namespace FanKit.Transformer.Indicators
                             Right = bounds.Right,
                             Bottom = (bounds.Top + bounds.Bottom + value) / 2f,
                         };
-                    case BoxMode.LeftBottom:
-                    case BoxMode.CenterBottom:
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.LeftBottom:
+                    case PanelAnchorMode.CenterBottom:
+                    case PanelAnchorMode.RightBottom:
                         return new Bounds
                         {
                             Left = bounds.Left,
@@ -825,43 +825,43 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        //public Bounds CreateSkew(Bounds bounds, BoxMode mode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(bounds, mode, skewAngleInDegrees, minimum, maximum);
+        //public Bounds CreateSkew(Bounds bounds, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(bounds, anchorMode, skewAngleInDegrees, minimum, maximum);
 
-        private void XY(Bounds t, BoxMode m)
+        private void XY(Bounds t, PanelAnchorMode m)
         {
             switch (m)
             {
-                case BoxMode.LeftTop:
+                case PanelAnchorMode.LeftTop:
                     c = new Vector2(t.Left, t.Top);
                     break;
-                case BoxMode.RightTop:
+                case PanelAnchorMode.RightTop:
                     c = new Vector2(t.Right, t.Top);
                     break;
-                case BoxMode.LeftBottom:
+                case PanelAnchorMode.LeftBottom:
                     c = new Vector2(t.Left, t.Bottom);
                     break;
-                case BoxMode.RightBottom:
+                case PanelAnchorMode.RightBottom:
                     c = new Vector2(t.Right, t.Bottom);
                     break;
 
-                case BoxMode.CenterLeft:
+                case PanelAnchorMode.CenterLeft:
                     c = new Vector2(t.Left,
                     (t.Top + t.Bottom) / 2f);
                     break;
-                case BoxMode.CenterTop:
+                case PanelAnchorMode.CenterTop:
                     c = new Vector2((t.Left + t.Right) / 2f,
                     t.Top);
                     break;
-                case BoxMode.CenterRight:
+                case PanelAnchorMode.CenterRight:
                     c = new Vector2(t.Right,
                     (t.Top + t.Bottom) / 2f);
                     break;
-                case BoxMode.CenterBottom:
+                case PanelAnchorMode.CenterBottom:
                     c = new Vector2((t.Left + t.Right) / 2f,
                     t.Bottom);
                     break;
 
-                case BoxMode.Center:
+                case PanelAnchorMode.Center:
                     c = new Vector2((t.Left + t.Right) / 2f,
                     (t.Top + t.Bottom) / 2f);
                     break;
@@ -913,79 +913,79 @@ namespace FanKit.Transformer.Indicators
         #endregion
 
         #region Triangles
-        public void ChangeX(Triangle triangle, BoxMode mode)
+        public void ChangeX(Triangle triangle, PanelAnchorMode anchorMode)
         {
-            XY(triangle, mode);
+            XY(triangle, anchorMode);
         }
-        public void ChangeY(Triangle triangle, BoxMode mode)
+        public void ChangeY(Triangle triangle, PanelAnchorMode anchorMode)
         {
-            XY(triangle, mode);
+            XY(triangle, anchorMode);
         }
-        public void ChangeXY(Triangle triangle, BoxMode mode)
+        public void ChangeXY(Triangle triangle, PanelAnchorMode anchorMode)
         {
-            XY(triangle, mode);
+            XY(triangle, anchorMode);
         }
 
-        public void ChangeXYWH(Triangle triangle, BoxMode mode)
+        public void ChangeXYWH(Triangle triangle, PanelAnchorMode anchorMode)
         {
-            XY(triangle, mode);
+            XY(triangle, anchorMode);
             WH(triangle);
         }
 
-        public void ChangeXYWHRS(Triangle triangle, BoxMode mode)
+        public void ChangeXYWHRS(Triangle triangle, PanelAnchorMode anchorMode)
         {
-            XY(triangle, mode);
-            WH(triangle);
-            RS();
-        }
-        public void ChangeAll(Triangle triangle, BoxMode mode)
-        {
-            XY(triangle, mode);
+            XY(triangle, anchorMode);
             WH(triangle);
             RS();
         }
+        public void ChangeAll(Triangle triangle, PanelAnchorMode anchorMode)
+        {
+            XY(triangle, anchorMode);
+            WH(triangle);
+            RS();
+        }
 
-        public Triangle CreateWidth(Triangle triangle, BoxMode mode, float value, bool keepRatio) => Resize(triangle, mode, value, keepRatio, true);
-        public Triangle CreateHeight(Triangle triangle, BoxMode mode, float value, bool keepRatio) => Resize(triangle, mode, value, keepRatio, false);
+        public Triangle CreateWidth(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(triangle, anchorMode, value, keepRatio, true);
+        public Triangle CreateHeight(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(triangle, anchorMode, value, keepRatio, false);
 
-        public Triangle CreateSkew(Triangle triangle, BoxMode mode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(triangle, mode, skewAngleInDegrees, minimum, maximum);
+        public Triangle CreateSkew(Triangle triangle, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(triangle, anchorMode, skewAngleInDegrees, minimum, maximum);
 
-        private void XY(Triangle t, BoxMode m)
+        private void XY(Triangle t, PanelAnchorMode m)
         {
             switch (m)
             {
-                case BoxMode.LeftTop:
+                case PanelAnchorMode.LeftTop:
                     c = t.LeftTop;
                     break;
-                case BoxMode.RightTop:
+                case PanelAnchorMode.RightTop:
                     c = t.RightTop;
                     break;
-                case BoxMode.LeftBottom:
+                case PanelAnchorMode.LeftBottom:
                     c = t.LeftBottom;
                     break;
-                case BoxMode.RightBottom:
+                case PanelAnchorMode.RightBottom:
                     c = new Vector2(t.RightTop.X + t.LeftBottom.X - t.LeftTop.X,
                         t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y);
                     break;
 
-                case BoxMode.CenterLeft:
+                case PanelAnchorMode.CenterLeft:
                     c = new Vector2((t.LeftTop.X + t.LeftBottom.X) / 2f,
                         (t.LeftTop.Y + t.LeftBottom.Y) / 2f);
                     break;
-                case BoxMode.CenterTop:
+                case PanelAnchorMode.CenterTop:
                     c = new Vector2((t.LeftTop.X + t.RightTop.X) / 2f,
                         (t.LeftTop.Y + t.RightTop.Y) / 2f);
                     break;
-                case BoxMode.CenterRight:
+                case PanelAnchorMode.CenterRight:
                     c = new Vector2(t.RightTop.X + (t.LeftBottom.X - t.LeftTop.X) / 2f,
                         t.RightTop.Y + (t.LeftBottom.Y - t.LeftTop.Y) / 2f);
                     break;
-                case BoxMode.CenterBottom:
+                case PanelAnchorMode.CenterBottom:
                     c = new Vector2(t.LeftBottom.X + (t.RightTop.X - t.LeftTop.X) / 2f,
                         t.LeftBottom.Y + (t.RightTop.Y - t.LeftTop.Y) / 2f);
                     break;
 
-                case BoxMode.Center:
+                case PanelAnchorMode.Center:
                     c = new Vector2((t.RightTop.X + t.LeftBottom.X) / 2f,
                         (t.RightTop.Y + t.LeftBottom.Y) / 2f);
                     break;
@@ -1035,7 +1035,7 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        private Triangle Resize(Triangle t, BoxMode m, float v, bool k, bool w)
+        private Triangle Resize(Triangle t, PanelAnchorMode m, float v, bool k, bool w)
         {
             if (k)
             {
@@ -1043,7 +1043,7 @@ namespace FanKit.Transformer.Indicators
 
                 switch (m)
                 {
-                    case BoxMode.LeftTop:
+                    case PanelAnchorMode.LeftTop:
                         {
                             float x = t.LeftTop.X - t.LeftTop.X * s;
                             float y = t.LeftTop.Y - t.LeftTop.Y * s;
@@ -1055,7 +1055,7 @@ namespace FanKit.Transformer.Indicators
                                 LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.RightTop:
+                    case PanelAnchorMode.RightTop:
                         {
                             float x = t.RightTop.X - t.RightTop.X * s;
                             float y = t.RightTop.Y - t.RightTop.Y * s;
@@ -1067,7 +1067,7 @@ namespace FanKit.Transformer.Indicators
                                 LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.LeftBottom:
+                    case PanelAnchorMode.LeftBottom:
                         {
                             float x = t.LeftBottom.X - t.LeftBottom.X * s;
                             float y = t.LeftBottom.Y - t.LeftBottom.Y * s;
@@ -1079,7 +1079,7 @@ namespace FanKit.Transformer.Indicators
                                 LeftBottom = t.LeftBottom,
                             };
                         }
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.RightBottom:
                         {
                             float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
                             float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
@@ -1094,7 +1094,7 @@ namespace FanKit.Transformer.Indicators
                                 LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.CenterLeft:
+                    case PanelAnchorMode.CenterLeft:
                         {
                             float ra = (1f + s) / 2f;
                             float rs = (1f - s) / 2f;
@@ -1116,7 +1116,7 @@ namespace FanKit.Transformer.Indicators
                                 RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
                             };
                         }
-                    case BoxMode.CenterTop:
+                    case PanelAnchorMode.CenterTop:
                         {
                             float ra = (1f + s) / 2f;
                             float rs = (1f - s) / 2f;
@@ -1138,7 +1138,7 @@ namespace FanKit.Transformer.Indicators
                                 LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.CenterRight:
+                    case PanelAnchorMode.CenterRight:
                         {
                             float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
                             float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
@@ -1163,7 +1163,7 @@ namespace FanKit.Transformer.Indicators
                                 LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.CenterBottom:
+                    case PanelAnchorMode.CenterBottom:
                         {
                             float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
                             float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
@@ -1188,7 +1188,7 @@ namespace FanKit.Transformer.Indicators
                                 RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
                             };
                         }
-                    case BoxMode.Center:
+                    case PanelAnchorMode.Center:
                     default:
                         {
                             const float f = 1f / 4f;
@@ -1211,9 +1211,9 @@ namespace FanKit.Transformer.Indicators
                 float scale = v / hl - 1f;
                 switch (m)
                 {
-                    case BoxMode.LeftTop:
-                    case BoxMode.CenterLeft:
-                    case BoxMode.LeftBottom:
+                    case PanelAnchorMode.LeftTop:
+                    case PanelAnchorMode.CenterLeft:
+                    case PanelAnchorMode.LeftBottom:
                         {
                             float x = hx * scale;
                             float y = hy * scale;
@@ -1227,9 +1227,9 @@ namespace FanKit.Transformer.Indicators
                             };
                         }
 
-                    case BoxMode.RightTop:
-                    case BoxMode.CenterRight:
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.RightTop:
+                    case PanelAnchorMode.CenterRight:
+                    case PanelAnchorMode.RightBottom:
                         {
                             float x = hx * scale;
                             float y = hy * scale;
@@ -1263,9 +1263,9 @@ namespace FanKit.Transformer.Indicators
                 float scale = v / vl - 1f;
                 switch (m)
                 {
-                    case BoxMode.LeftTop:
-                    case BoxMode.CenterTop:
-                    case BoxMode.RightTop:
+                    case PanelAnchorMode.LeftTop:
+                    case PanelAnchorMode.CenterTop:
+                    case PanelAnchorMode.RightTop:
                         {
                             float x = vx * scale;
                             float y = vy * scale;
@@ -1279,9 +1279,9 @@ namespace FanKit.Transformer.Indicators
                             };
                         }
 
-                    case BoxMode.LeftBottom:
-                    case BoxMode.CenterBottom:
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.LeftBottom:
+                    case PanelAnchorMode.CenterBottom:
+                    case PanelAnchorMode.RightBottom:
                         {
                             float x = vx * scale;
                             float y = vy * scale;
@@ -1312,7 +1312,7 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        private Triangle Reskew(Triangle t, BoxMode m, float a, float min, float max)
+        private Triangle Reskew(Triangle t, PanelAnchorMode m, float a, float min, float max)
         {
             this.K = new IndicatorSkew(hr, t, m, a, min, max);
 
@@ -1321,27 +1321,27 @@ namespace FanKit.Transformer.Indicators
 
             switch (m)
             {
-                case BoxMode.LeftTop:
-                case BoxMode.CenterTop:
-                case BoxMode.RightTop:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterTop:
+                case PanelAnchorMode.RightTop:
                     return new Triangle
                     {
                         LeftTop = t.LeftTop,
                         RightTop = t.RightTop,
                         LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
                     };
-                case BoxMode.LeftBottom:
-                case BoxMode.CenterBottom:
-                case BoxMode.RightBottom:
+                case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.CenterBottom:
+                case PanelAnchorMode.RightBottom:
                     return new Triangle
                     {
                         LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
                         RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
                         LeftBottom = t.LeftBottom,
                     };
-                case BoxMode.CenterLeft:
-                case BoxMode.CenterRight:
-                case BoxMode.Center:
+                case PanelAnchorMode.CenterLeft:
+                case PanelAnchorMode.CenterRight:
+                case PanelAnchorMode.Center:
                     return new Triangle
                     {
                         LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
@@ -1355,78 +1355,78 @@ namespace FanKit.Transformer.Indicators
         #endregion
 
         #region Quadrilaterals
-        public void ChangeX(Quadrilateral quad, BoxMode mode)
+        public void ChangeX(Quadrilateral quad, PanelAnchorMode anchorMode)
         {
-            XY(quad, mode);
+            XY(quad, anchorMode);
         }
-        public void ChangeY(Quadrilateral quad, BoxMode mode)
+        public void ChangeY(Quadrilateral quad, PanelAnchorMode anchorMode)
         {
-            XY(quad, mode);
+            XY(quad, anchorMode);
         }
-        public void ChangeXY(Quadrilateral quad, BoxMode mode)
+        public void ChangeXY(Quadrilateral quad, PanelAnchorMode anchorMode)
         {
-            XY(quad, mode);
+            XY(quad, anchorMode);
         }
 
-        public void ChangeXYWH(Quadrilateral quad, BoxMode mode)
+        public void ChangeXYWH(Quadrilateral quad, PanelAnchorMode anchorMode)
         {
-            XY(quad, mode);
+            XY(quad, anchorMode);
             WH(quad);
         }
 
-        public void ChangeXYWHRS(Quadrilateral quad, BoxMode mode)
+        public void ChangeXYWHRS(Quadrilateral quad, PanelAnchorMode anchorMode)
         {
-            XY(quad, mode);
-            WH(quad);
-            RS();
-        }
-        public void ChangeAll(Quadrilateral quad, BoxMode mode)
-        {
-            XY(quad, mode);
+            XY(quad, anchorMode);
             WH(quad);
             RS();
         }
+        public void ChangeAll(Quadrilateral quad, PanelAnchorMode anchorMode)
+        {
+            XY(quad, anchorMode);
+            WH(quad);
+            RS();
+        }
 
-        public Quadrilateral CreateWidth(Quadrilateral quad, BoxMode mode, float value, bool keepRatio) => Resize(quad, mode, value, keepRatio, true);
-        public Quadrilateral CreateHeight(Quadrilateral quad, BoxMode mode, float value, bool keepRatio) => Resize(quad, mode, value, keepRatio, false);
+        public Quadrilateral CreateWidth(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(quad, anchorMode, value, keepRatio, true);
+        public Quadrilateral CreateHeight(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(quad, anchorMode, value, keepRatio, false);
 
-        public Quadrilateral CreateSkew(Quadrilateral quad, BoxMode mode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(quad, mode, skewAngleInDegrees, minimum, maximum);
+        public Quadrilateral CreateSkew(Quadrilateral quad, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(quad, anchorMode, skewAngleInDegrees, minimum, maximum);
 
-        private void XY(Quadrilateral t, BoxMode m)
+        private void XY(Quadrilateral t, PanelAnchorMode m)
         {
             switch (m)
             {
-                case BoxMode.LeftTop:
+                case PanelAnchorMode.LeftTop:
                     c = t.LeftTop;
                     break;
-                case BoxMode.RightTop:
+                case PanelAnchorMode.RightTop:
                     c = t.RightTop;
                     break;
-                case BoxMode.LeftBottom:
+                case PanelAnchorMode.LeftBottom:
                     c = t.LeftBottom;
                     break;
-                case BoxMode.RightBottom:
+                case PanelAnchorMode.RightBottom:
                     c = t.RightBottom;
                     break;
 
-                case BoxMode.CenterLeft:
+                case PanelAnchorMode.CenterLeft:
                     c = new Vector2((t.LeftTop.X + t.LeftBottom.X) / 2f,
                         (t.LeftTop.Y + t.LeftBottom.Y) / 2f);
                     break;
-                case BoxMode.CenterTop:
+                case PanelAnchorMode.CenterTop:
                     c = new Vector2((t.LeftTop.X + t.RightTop.X) / 2f,
                         (t.LeftTop.Y + t.RightTop.Y) / 2f);
                     break;
-                case BoxMode.CenterRight:
+                case PanelAnchorMode.CenterRight:
                     c = new Vector2((t.RightTop.X + t.RightBottom.X) / 2f,
                         (t.RightTop.Y + t.RightBottom.Y) / 2f);
                     break;
-                case BoxMode.CenterBottom:
+                case PanelAnchorMode.CenterBottom:
                     c = new Vector2((t.RightBottom.X + t.LeftBottom.X) / 2f,
                         (t.RightBottom.Y + t.LeftBottom.Y) / 2f);
                     break;
 
-                case BoxMode.Center:
+                case PanelAnchorMode.Center:
                     c = new Vector2((t.LeftTop.X + t.RightTop.X + t.RightBottom.X + t.LeftBottom.X) / 4f,
                         (t.LeftTop.Y + t.RightTop.Y + t.RightBottom.Y + t.LeftBottom.Y) / 4f);
                     break;
@@ -1476,7 +1476,7 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        private Quadrilateral Resize(Quadrilateral t, BoxMode m, float v, bool k, bool w)
+        private Quadrilateral Resize(Quadrilateral t, PanelAnchorMode m, float v, bool k, bool w)
         {
             if (k)
             {
@@ -1484,7 +1484,7 @@ namespace FanKit.Transformer.Indicators
 
                 switch (m)
                 {
-                    case BoxMode.LeftTop:
+                    case PanelAnchorMode.LeftTop:
                         {
                             float x = t.LeftTop.X - t.LeftTop.X * s;
                             float y = t.LeftTop.Y - t.LeftTop.Y * s;
@@ -1497,7 +1497,7 @@ namespace FanKit.Transformer.Indicators
                                 RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.RightTop:
+                    case PanelAnchorMode.RightTop:
                         {
                             float x = t.RightTop.X - t.RightTop.X * s;
                             float y = t.RightTop.Y - t.RightTop.Y * s;
@@ -1510,7 +1510,7 @@ namespace FanKit.Transformer.Indicators
                                 RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.LeftBottom:
+                    case PanelAnchorMode.LeftBottom:
                         {
                             float x = t.LeftBottom.X - t.LeftBottom.X * s;
                             float y = t.LeftBottom.Y - t.LeftBottom.Y * s;
@@ -1523,7 +1523,7 @@ namespace FanKit.Transformer.Indicators
                                 RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.RightBottom:
                         {
                             float x = t.RightBottom.X - t.RightBottom.X * s;
                             float y = t.RightBottom.Y - t.RightBottom.Y * s;
@@ -1536,7 +1536,7 @@ namespace FanKit.Transformer.Indicators
                                 RightBottom = t.RightBottom,
                             };
                         }
-                    case BoxMode.CenterLeft:
+                    case PanelAnchorMode.CenterLeft:
                         {
                             float ra = (1f + s) / 2f;
                             float rs = (1f - s) / 2f;
@@ -1559,7 +1559,7 @@ namespace FanKit.Transformer.Indicators
                                 RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.CenterTop:
+                    case PanelAnchorMode.CenterTop:
                         {
                             float ra = (1f + s) / 2f;
                             float rs = (1f - s) / 2f;
@@ -1582,7 +1582,7 @@ namespace FanKit.Transformer.Indicators
                                 RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.CenterRight:
+                    case PanelAnchorMode.CenterRight:
                         {
                             float ra = (1f + s) / 2f;
                             float rs = (1f - s) / 2f;
@@ -1605,7 +1605,7 @@ namespace FanKit.Transformer.Indicators
                                 LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
                             };
                         }
-                    case BoxMode.CenterBottom:
+                    case PanelAnchorMode.CenterBottom:
                         {
                             float ra = (1f + s) / 2f;
                             float rs = (1f - s) / 2f;
@@ -1628,7 +1628,7 @@ namespace FanKit.Transformer.Indicators
                                 RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
                             };
                         }
-                    case BoxMode.Center:
+                    case PanelAnchorMode.Center:
                     default:
                         {
                             const float f = 1f / 4f;
@@ -1652,9 +1652,9 @@ namespace FanKit.Transformer.Indicators
                 float scale = v / hl - 1f;
                 switch (m)
                 {
-                    case BoxMode.LeftTop:
-                    case BoxMode.CenterLeft:
-                    case BoxMode.LeftBottom:
+                    case PanelAnchorMode.LeftTop:
+                    case PanelAnchorMode.CenterLeft:
+                    case PanelAnchorMode.LeftBottom:
                         {
                             float x = hx * scale;
                             float y = hy * scale;
@@ -1669,9 +1669,9 @@ namespace FanKit.Transformer.Indicators
                             };
                         }
 
-                    case BoxMode.RightTop:
-                    case BoxMode.CenterRight:
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.RightTop:
+                    case PanelAnchorMode.CenterRight:
+                    case PanelAnchorMode.RightBottom:
                         {
                             float x = hx * scale;
                             float y = hy * scale;
@@ -1707,9 +1707,9 @@ namespace FanKit.Transformer.Indicators
                 float scale = v / vl - 1f;
                 switch (m)
                 {
-                    case BoxMode.LeftTop:
-                    case BoxMode.CenterTop:
-                    case BoxMode.RightTop:
+                    case PanelAnchorMode.LeftTop:
+                    case PanelAnchorMode.CenterTop:
+                    case PanelAnchorMode.RightTop:
                         {
                             float x = vx * scale;
                             float y = vy * scale;
@@ -1724,9 +1724,9 @@ namespace FanKit.Transformer.Indicators
                             };
                         }
 
-                    case BoxMode.LeftBottom:
-                    case BoxMode.CenterBottom:
-                    case BoxMode.RightBottom:
+                    case PanelAnchorMode.LeftBottom:
+                    case PanelAnchorMode.CenterBottom:
+                    case PanelAnchorMode.RightBottom:
                         {
                             float x = vx * scale;
                             float y = vy * scale;
@@ -1759,7 +1759,7 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        private Quadrilateral Reskew(Quadrilateral t, BoxMode m, float a, float min, float max)
+        private Quadrilateral Reskew(Quadrilateral t, PanelAnchorMode m, float a, float min, float max)
         {
             this.K = new IndicatorSkew(hr, t, m, a, min, max);
 
@@ -1768,9 +1768,9 @@ namespace FanKit.Transformer.Indicators
 
             switch (m)
             {
-                case BoxMode.LeftTop:
-                case BoxMode.CenterTop:
-                case BoxMode.RightTop:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterTop:
+                case PanelAnchorMode.RightTop:
                     return new Quadrilateral
                     {
                         LeftTop = t.LeftTop,
@@ -1778,9 +1778,9 @@ namespace FanKit.Transformer.Indicators
                         RightBottom = new Vector2(this.K.fx0 + hx2, this.K.fy0 + hy2),
                         LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
                     };
-                case BoxMode.LeftBottom:
-                case BoxMode.CenterBottom:
-                case BoxMode.RightBottom:
+                case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.CenterBottom:
+                case PanelAnchorMode.RightBottom:
                     return new Quadrilateral
                     {
                         LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
@@ -1788,9 +1788,9 @@ namespace FanKit.Transformer.Indicators
                         RightBottom = t.RightBottom,
                         LeftBottom = t.LeftBottom,
                     };
-                case BoxMode.CenterLeft:
-                case BoxMode.CenterRight:
-                case BoxMode.Center:
+                case PanelAnchorMode.CenterLeft:
+                case PanelAnchorMode.CenterRight:
+                case PanelAnchorMode.Center:
                     return new Quadrilateral
                     {
                         LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),

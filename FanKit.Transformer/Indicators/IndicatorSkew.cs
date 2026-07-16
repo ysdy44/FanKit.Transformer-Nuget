@@ -22,11 +22,11 @@
         internal readonly float fy0, fy1;
 
         #region Triangles
-        public IndicatorSkew(float horizontalAngleInRadians, Triangle triangle, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
+        public IndicatorSkew(float horizontalAngleInRadians, Triangle triangle, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
         {
             var hr = horizontalAngleInRadians;
             var t = triangle;
-            var m = mode;
+            var m = anchorMode;
 
             var d = skewAngleInDegrees;
             var min = minimum;
@@ -34,9 +34,9 @@
 
             switch (m)
             {
-                case BoxMode.LeftTop:
-                case BoxMode.CenterTop:
-                case BoxMode.RightTop:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterTop:
+                case PanelAnchorMode.RightTop:
                     //y = tan*(x - rx) + ry;
                     // (y-y2)/ (y1-y2) = (x-x2)/ (x1-x2)
                     rx = (t.LeftTop.X + t.RightTop.X) / 2f;
@@ -90,9 +90,9 @@
                     f0 = tan * fx0;
                     fy0 = f0 - v + ry;
                     break;
-                case BoxMode.LeftBottom:
-                case BoxMode.CenterBottom:
-                case BoxMode.RightBottom:
+                case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.CenterBottom:
+                case PanelAnchorMode.RightBottom:
                     //y = tan*(x - rx) + ry;
                     // (y-y2)/ (y1-y2) = (x-x2)/ (x1-x2)
                     rx = t.LeftBottom.X + (t.RightTop.X - t.LeftTop.X) / 2f;
@@ -146,9 +146,9 @@
                     f1 = tan * fx1;
                     fy1 = f1 - v + ry;
                     break;
-                case BoxMode.CenterLeft:
-                case BoxMode.CenterRight:
-                case BoxMode.Center:
+                case PanelAnchorMode.CenterLeft:
+                case PanelAnchorMode.CenterRight:
+                case PanelAnchorMode.Center:
                     //y = tan*(x - rx) + ry;
                     // (y-y2)/ (y1-y2) = (x-x2)/ (x1-x2)
                     rx = (t.RightTop.X + t.LeftBottom.X) / 2f;
@@ -241,11 +241,11 @@
         #endregion
 
         #region Quadrilaterals
-        public IndicatorSkew(float horizontalAngleInRadians, Quadrilateral quad, BoxMode mode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
+        public IndicatorSkew(float horizontalAngleInRadians, Quadrilateral quad, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum = -85f, float maximum = 85f)
         {
             var hr = horizontalAngleInRadians;
             var t = quad;
-            var m = mode;
+            var m = anchorMode;
 
             var d = skewAngleInDegrees;
             var min = minimum;
@@ -253,9 +253,9 @@
 
             switch (m)
             {
-                case BoxMode.LeftTop:
-                case BoxMode.CenterTop:
-                case BoxMode.RightTop:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterTop:
+                case PanelAnchorMode.RightTop:
                     //y = tan*(x - rx) + ry;
                     // (y-y2)/ (y1-y2) = (x-x2)/ (x1-x2)
                     rx = (t.LeftTop.X + t.RightTop.X) / 2f;
@@ -309,9 +309,9 @@
                     f0 = tan * fx0;
                     fy0 = f0 - v + ry;
                     break;
-                case BoxMode.LeftBottom:
-                case BoxMode.CenterBottom:
-                case BoxMode.RightBottom:
+                case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.CenterBottom:
+                case PanelAnchorMode.RightBottom:
                     //y = tan*(x - rx) + ry;
                     // (y-y2)/ (y1-y2) = (x-x2)/ (x1-x2)
                     rx = (t.RightBottom.X + t.LeftBottom.X) / 2f;
@@ -365,9 +365,9 @@
                     f1 = tan * fx1;
                     fy1 = f1 - v + ry;
                     break;
-                case BoxMode.CenterLeft:
-                case BoxMode.CenterRight:
-                case BoxMode.Center:
+                case PanelAnchorMode.CenterLeft:
+                case PanelAnchorMode.CenterRight:
+                case PanelAnchorMode.Center:
                     //y = tan*(x - rx) + ry;
                     // (y-y2)/ (y1-y2) = (x-x2)/ (x1-x2)
                     rx = (t.LeftTop.X + t.RightTop.X + t.RightBottom.X + t.LeftBottom.X) / 4f;

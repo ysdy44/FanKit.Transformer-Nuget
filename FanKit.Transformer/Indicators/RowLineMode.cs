@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Indicators
 {
-    public enum RowLineMode : byte
+    public enum RowLineAnchorMode : byte
     {
         Left,
         Center,

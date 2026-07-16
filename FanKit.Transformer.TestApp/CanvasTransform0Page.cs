@@ -87,7 +87,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Transformer.Destination, e);
+            this.ParameterPanel.PanelAnchorModeChanged += (s, e) => this.Indicator.ChangeXY(this.Transformer.Destination, e);
 
             this.ParameterPanel.Apply += (s, e) =>
             {
@@ -186,7 +186,7 @@ namespace FanKit.Transformer.TestApp
 
             if (modes.HasFlag(InvalidateModes.InitIndicator))
             {
-                this.Indicator.ChangeAll(this.Transformer.Destination, this.ParameterPanel.Mode);
+                this.Indicator.ChangeAll(this.Transformer.Destination, this.ParameterPanel.PanelAnchorMode);
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
 
@@ -258,7 +258,7 @@ namespace FanKit.Transformer.TestApp
                 case BoxContainsNodeMode.None:
                     break;
                 case BoxContainsNodeMode.Contains:
-                    this.Transformer.Translate(this.Indicator, this.ParameterPanel.Mode, this.StartingPosition, this.Position);
+                    this.Transformer.Translate(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers
@@ -293,7 +293,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                     */
                 default:
-                    this.Transformer.TransformSize(this.Indicator, this.ParameterPanel.Mode, this.Position, this.KeepRatio, this.CenteredScaling);
+                    this.Transformer.TransformSize(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.Position, this.KeepRatio, this.CenteredScaling);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers
@@ -305,9 +305,9 @@ namespace FanKit.Transformer.TestApp
         #endregion
 
         #region Panel
-        private void Apply(IndicatorKind kind, float value)
+        private void Apply(ParameterKind kind, float value)
         {
-            BoxMode mode = this.ParameterPanel.Mode;
+            PanelAnchorMode anchorMode = this.ParameterPanel.PanelAnchorMode;
 
             switch (Indicator.ToTransformParameterKind(kind))
             {
@@ -316,24 +316,24 @@ namespace FanKit.Transformer.TestApp
                 case TransformParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
-                    this.Transformer.SetTranslationX(this.Indicator, mode, translateX);
+                    this.Transformer.SetTranslationX(this.Indicator, anchorMode, translateX);
                     break;
                 case TransformParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
-                    this.Transformer.SetTranslationY(this.Indicator, mode, translateY);
+                    this.Transformer.SetTranslationY(this.Indicator, anchorMode, translateY);
                     break;
                 case TransformParameterKind.Width:
-                    this.Transformer.SetWidth(this.Indicator, mode, value, this.KeepRatio);
+                    this.Transformer.SetWidth(this.Indicator, anchorMode, value, this.KeepRatio);
                     break;
                 case TransformParameterKind.Height:
-                    this.Transformer.SetHeight(this.Indicator, mode, value, this.KeepRatio);
+                    this.Transformer.SetHeight(this.Indicator, anchorMode, value, this.KeepRatio);
                     break;
                 case TransformParameterKind.Rotation:
-                    this.Transformer.SetRotation(this.Indicator, mode, value);
+                    this.Transformer.SetRotation(this.Indicator, anchorMode, value);
                     break;
                 case TransformParameterKind.Skew:
-                    this.Transformer.SetSkew(this.Indicator, mode, value);
+                    this.Transformer.SetSkew(this.Indicator, anchorMode, value);
                     break;
                 default:
                     break;

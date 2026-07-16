@@ -206,19 +206,19 @@ namespace FanKit.Transformer.Transforms
 
         #region Bounds.Set
         public void SetTranslation(Vector2 translate) => this.Panel.ST0(translate);
-        public void SetTranslation(IIndicator indicator, BoxMode mode, Vector2 translate) => this.Panel.ST1(indicator, mode, translate);
+        public void SetTranslation(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 translate) => this.Panel.ST1(indicator, anchorMode, translate);
 
         public void SetTranslationX(float translateX) => this.Panel.STX0(translateX);
-        public void SetTranslationX(IIndicator indicator, BoxMode mode, float translateX) => this.Panel.STX1(indicator, mode, translateX);
+        public void SetTranslationX(IIndicator indicator, PanelAnchorMode anchorMode, float translateX) => this.Panel.STX1(indicator, anchorMode, translateX);
 
         public void SetTranslationY(float translateY) => this.Panel.STY0(translateY);
-        public void SetTranslationY(IIndicator indicator, BoxMode mode, float translateY) => this.Panel.STY1(indicator, mode, translateY);
+        public void SetTranslationY(IIndicator indicator, PanelAnchorMode anchorMode, float translateY) => this.Panel.STY1(indicator, anchorMode, translateY);
 
         public void SetTransform(Matrix2x2 matrix) => this.Panel.SF0(matrix);
-        public void SetTransform(IIndicator indicator, BoxMode mode, Matrix2x2 matrix) => this.Panel.SF1(indicator, mode, matrix);
+        public void SetTransform(IIndicator indicator, PanelAnchorMode anchorMode, Matrix2x2 matrix) => this.Panel.SF1(indicator, anchorMode, matrix);
 
-        public void SetWidth(IIndicator indicator, BoxMode mode, float value, bool keepRatio) => this.Panel.SW(indicator, mode, value, keepRatio);
-        public void SetHeight(IIndicator indicator, BoxMode mode, float value, bool keepRatio) => this.Panel.SH(indicator, mode, value, keepRatio);
+        public void SetWidth(IIndicator indicator, PanelAnchorMode anchorMode, float value, bool keepRatio) => this.Panel.SW(indicator, anchorMode, value, keepRatio);
+        public void SetHeight(IIndicator indicator, PanelAnchorMode anchorMode, float value, bool keepRatio) => this.Panel.SH(indicator, anchorMode, value, keepRatio);
         #endregion
 
         #region Bounds.Transform
@@ -227,29 +227,29 @@ namespace FanKit.Transformer.Transforms
         public void CacheTransform() => this.Panel.CF0();
 
         public void Translate(Vector2 startingPoint, Vector2 point) => this.Panel.TD0(startingPoint, point);
-        public void Translate(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point) => this.Panel.TD1(indicator, mode, startingPoint, point);
+        public void Translate(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 startingPoint, Vector2 point) => this.Panel.TD1(indicator, anchorMode, startingPoint, point);
 
         public void Translate(Vector2 translate) => this.Panel.T0(translate);
-        public void Translate(IIndicator indicator, BoxMode mode, Vector2 translate) => this.Panel.T1(indicator, mode, translate);
+        public void Translate(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 translate) => this.Panel.T1(indicator, anchorMode, translate);
 
         public void Translate(float translateX, float translateY) => this.Panel.TXY0(translateX, translateY);
-        public void Translate(IIndicator indicator, BoxMode mode, float translateX, float translateY) => this.Panel.TXY1(indicator, mode, translateX, translateY);
+        public void Translate(IIndicator indicator, PanelAnchorMode anchorMode, float translateX, float translateY) => this.Panel.TXY1(indicator, anchorMode, translateX, translateY);
 
         public void TranslateX(float translateX) => this.Panel.TX0(translateX);
-        public void TranslateX(IIndicator indicator, BoxMode mode, float translateX) => this.Panel.TX1(indicator, mode, translateX);
+        public void TranslateX(IIndicator indicator, PanelAnchorMode anchorMode, float translateX) => this.Panel.TX1(indicator, anchorMode, translateX);
 
         public void TranslateY(float translateY) => this.Panel.TY0(translateY);
-        public void TranslateY(IIndicator indicator, BoxMode mode, float translateY) => this.Panel.TY1(indicator, mode, translateY);
+        public void TranslateY(IIndicator indicator, PanelAnchorMode anchorMode, float translateY) => this.Panel.TY1(indicator, anchorMode, translateY);
 
         public void Transform(Matrix2x2 matrix) => this.Panel.F0(matrix);
-        public void Transform(IIndicator indicator, BoxMode mode, Matrix2x2 matrix) => this.Panel.F1(indicator, mode, matrix);
+        public void Transform(IIndicator indicator, PanelAnchorMode anchorMode, Matrix2x2 matrix) => this.Panel.F1(indicator, anchorMode, matrix);
         #endregion
 
         #region Bounds.Transform2
         public void CacheTransform(CropMode mode) => this.Panel.CF1(mode);
 
         public void TransformSize(Vector2 point, bool keepRatio, bool centeredScaling) => this.Panel.TWH0(point, keepRatio, centeredScaling);
-        public void TransformSize(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling) => this.Panel.TWH1(indicator, mode, point, keepRatio, centeredScaling);
+        public void TransformSize(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 point, bool keepRatio, bool centeredScaling) => this.Panel.TWH1(indicator, anchorMode, point, keepRatio, centeredScaling);
         #endregion
     }
 }

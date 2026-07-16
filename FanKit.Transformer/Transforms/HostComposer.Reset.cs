@@ -8,7 +8,7 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostComposer
     {
-        public ComposerParameterKind ToParameterKind(IndicatorKind kind)
+        public ComposerParameterKind ToParameterKind(ParameterKind kind)
         {
             return Indicator.ToComposerParameterKind(this.PointsDistribution, kind);
         }

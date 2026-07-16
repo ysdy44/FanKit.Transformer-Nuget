@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.Indicators
 {
-    public enum BoxMode : byte
+    public enum PanelAnchorMode : byte
     {
         LeftTop,
         RightTop,

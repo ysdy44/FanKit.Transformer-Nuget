@@ -119,7 +119,7 @@ namespace FanKit.Transformer.TestApp
             this.Indicator.RotationChanged += (s, e) => this.ParameterPanel.UpdateRotation(e);
             this.Indicator.SkewChanged += (s, e) => this.ParameterPanel.UpdateSkew(e);
 
-            this.ParameterPanel.ModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Destination, e);
+            this.ParameterPanel.PanelAnchorModeChanged += (s, e) => this.Indicator.ChangeXY(this.Cropper.Destination, e);
 
             this.ParameterPanel.Apply += (s, e) =>
             {
@@ -331,7 +331,7 @@ namespace FanKit.Transformer.TestApp
                 switch (this.Cropper.Count)
                 {
                     case 0: this.Indicator.ClearAll(); break;
-                    default: this.Indicator.ChangeAll(this.Cropper.Destination, this.ParameterPanel.Mode); break;
+                    default: this.Indicator.ChangeAll(this.Cropper.Destination, this.ParameterPanel.PanelAnchorMode); break;
                 }
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
@@ -522,7 +522,7 @@ namespace FanKit.Transformer.TestApp
                     this.Invalidate(InvalidateModes.CanvasControl);
                     break;
                 case BoxContainsNodeMode.Contains:
-                    this.Cropper.Translate(this.Indicator, this.ParameterPanel.Mode, this.StartingPoint, this.Point);
+                    this.Cropper.Translate(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.StartingPoint, this.Point);
 
                     this.Translate();
 
@@ -563,7 +563,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                  */
                 default:
-                    this.Cropper.TransformSize(this.Indicator, this.ParameterPanel.Mode, this.Point, this.KeepRatio, this.CenteredScaling);
+                    this.Cropper.TransformSize(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.Point, this.KeepRatio, this.CenteredScaling);
 
                     this.Transform();
 
@@ -681,9 +681,9 @@ namespace FanKit.Transformer.TestApp
             }
         }
 
-        private void Apply(IndicatorKind kind, float value)
+        private void Apply(ParameterKind kind, float value)
         {
-            BoxMode mode = this.ParameterPanel.Mode;
+            PanelAnchorMode anchorMode = this.ParameterPanel.PanelAnchorMode;
 
             switch (this.Cropper.ToParameterKind(kind))
             {
@@ -692,7 +692,7 @@ namespace FanKit.Transformer.TestApp
                 case CropsParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
-                    this.Cropper.SetTranslationX(this.Indicator, mode, translateX);
+                    this.Cropper.SetTranslationX(this.Indicator, anchorMode, translateX);
 
                     foreach (Layer item in this.Layers)
                     {
@@ -705,7 +705,7 @@ namespace FanKit.Transformer.TestApp
                 case CropsParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
-                    this.Cropper.SetTranslationY(this.Indicator, mode, translateY);
+                    this.Cropper.SetTranslationY(this.Indicator, anchorMode, translateY);
 
                     foreach (Layer item in this.Layers)
                     {
@@ -716,7 +716,7 @@ namespace FanKit.Transformer.TestApp
                     }
                     break;
                 case CropsParameterKind.Width:
-                    this.Cropper.SetWidth(this.Indicator, mode, value, this.KeepRatio);
+                    this.Cropper.SetWidth(this.Indicator, anchorMode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
                     {
@@ -727,7 +727,7 @@ namespace FanKit.Transformer.TestApp
                     }
                     break;
                 case CropsParameterKind.Height:
-                    this.Cropper.SetHeight(this.Indicator, mode, value, this.KeepRatio);
+                    this.Cropper.SetHeight(this.Indicator, anchorMode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
                     {
@@ -740,7 +740,7 @@ namespace FanKit.Transformer.TestApp
                 case CropsParameterKind.MultiX:
                     float translateXs = value - this.Indicator.X;
 
-                    this.Cropper.SetTranslationX(this.Indicator, mode, translateXs);
+                    this.Cropper.SetTranslationX(this.Indicator, anchorMode, translateXs);
 
                     foreach (Layer item in this.Layers)
                     {
@@ -753,7 +753,7 @@ namespace FanKit.Transformer.TestApp
                 case CropsParameterKind.MultiY:
                     float translateYs = value - this.Indicator.Y;
 
-                    this.Cropper.SetTranslationY(this.Indicator, mode, translateYs);
+                    this.Cropper.SetTranslationY(this.Indicator, anchorMode, translateYs);
 
                     foreach (Layer item in this.Layers)
                     {
@@ -764,7 +764,7 @@ namespace FanKit.Transformer.TestApp
                     }
                     break;
                 case CropsParameterKind.MultiWidth:
-                    this.Cropper.SetWidth(this.Indicator, mode, value, this.KeepRatio);
+                    this.Cropper.SetWidth(this.Indicator, anchorMode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
                     {
@@ -775,7 +775,7 @@ namespace FanKit.Transformer.TestApp
                     }
                     break;
                 case CropsParameterKind.MultiHeight:
-                    this.Cropper.SetHeight(this.Indicator, mode, value, this.KeepRatio);
+                    this.Cropper.SetHeight(this.Indicator, anchorMode, value, this.KeepRatio);
 
                     foreach (Layer item in this.Layers)
                     {

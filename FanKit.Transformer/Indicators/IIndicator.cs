@@ -30,49 +30,49 @@ namespace FanKit.Transformer.Indicators
         void ClearAll();
         void ChangeAll(Vector2 point);
 
-        void ChangeAll(Vector2 point0, Vector2 point1, RowLineMode mode);
-        void ChangeXY(Vector2 point0, Vector2 point1, RowLineMode mode);
+        void ChangeAll(Vector2 point0, Vector2 point1, RowLineAnchorMode anchorMode);
+        void ChangeXY(Vector2 point0, Vector2 point1, RowLineAnchorMode anchorMode);
 
-        void ChangeAll(Vector2 point0, Vector2 point1, ColumnLineMode mode);
-        void ChangeXY(Vector2 point0, Vector2 point1, ColumnLineMode mode);
+        void ChangeAll(Vector2 point0, Vector2 point1, ColumnLineAnchorMode anchorMode);
+        void ChangeXY(Vector2 point0, Vector2 point1, ColumnLineAnchorMode anchorMode);
 
         #region Bounds
-        void ChangeX(Bounds bounds, BoxMode mode);
-        void ChangeY(Bounds bounds, BoxMode mode);
-        void ChangeXY(Bounds bounds, BoxMode mode);
-        void ChangeXYWH(Bounds bounds, BoxMode mode);
-        //void ChangeXYWHRS(Bounds bounds, BoxMode mode);
-        void ChangeAll(Bounds bounds, BoxMode mode);
+        void ChangeX(Bounds bounds, PanelAnchorMode anchorMode);
+        void ChangeY(Bounds bounds, PanelAnchorMode anchorMode);
+        void ChangeXY(Bounds bounds, PanelAnchorMode anchorMode);
+        void ChangeXYWH(Bounds bounds, PanelAnchorMode anchorMode);
+        //void ChangeXYWHRS(Bounds bounds, PanelAnchorMode anchorMode);
+        void ChangeAll(Bounds bounds, PanelAnchorMode anchorMode);
 
-        Bounds CreateWidth(Bounds bounds, BoxMode mode, float value, bool keepRatio);
-        Bounds CreateHeight(Bounds bounds, BoxMode mode, float value, bool keepRatio);
-        //Bounds CreateSkew(Bounds bounds, BoxMode mode, float skewAngleInDegrees, float minimum, float maximum);
+        Bounds CreateWidth(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio);
+        Bounds CreateHeight(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio);
+        //Bounds CreateSkew(Bounds bounds, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum);
         #endregion
 
         #region Triangles
-        void ChangeX(Triangle triangle, BoxMode mode);
-        void ChangeY(Triangle triangle, BoxMode mode);
-        void ChangeXY(Triangle triangle, BoxMode mode);
-        void ChangeXYWH(Triangle triangle, BoxMode mode);
-        void ChangeXYWHRS(Triangle triangle, BoxMode mode);
-        void ChangeAll(Triangle triangle, BoxMode mode);
+        void ChangeX(Triangle triangle, PanelAnchorMode anchorMode);
+        void ChangeY(Triangle triangle, PanelAnchorMode anchorMode);
+        void ChangeXY(Triangle triangle, PanelAnchorMode anchorMode);
+        void ChangeXYWH(Triangle triangle, PanelAnchorMode anchorMode);
+        void ChangeXYWHRS(Triangle triangle, PanelAnchorMode anchorMode);
+        void ChangeAll(Triangle triangle, PanelAnchorMode anchorMode);
 
-        Triangle CreateWidth(Triangle triangle, BoxMode mode, float value, bool keepRatio);
-        Triangle CreateHeight(Triangle triangle, BoxMode mode, float value, bool keepRatio);
-        Triangle CreateSkew(Triangle triangle, BoxMode mode, float skewAngleInDegrees, float minimum, float maximum);
+        Triangle CreateWidth(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio);
+        Triangle CreateHeight(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio);
+        Triangle CreateSkew(Triangle triangle, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum);
         #endregion
 
         #region Quadrilaterals
-        void ChangeX(Quadrilateral quad, BoxMode mode);
-        void ChangeY(Quadrilateral quad, BoxMode mode);
-        void ChangeXY(Quadrilateral quad, BoxMode mode);
-        void ChangeXYWH(Quadrilateral quad, BoxMode mode);
-        void ChangeXYWHRS(Quadrilateral quad, BoxMode mode);
-        void ChangeAll(Quadrilateral quad, BoxMode mode);
+        void ChangeX(Quadrilateral quad, PanelAnchorMode anchorMode);
+        void ChangeY(Quadrilateral quad, PanelAnchorMode anchorMode);
+        void ChangeXY(Quadrilateral quad, PanelAnchorMode anchorMode);
+        void ChangeXYWH(Quadrilateral quad, PanelAnchorMode anchorMode);
+        void ChangeXYWHRS(Quadrilateral quad, PanelAnchorMode anchorMode);
+        void ChangeAll(Quadrilateral quad, PanelAnchorMode anchorMode);
 
-        Quadrilateral CreateWidth(Quadrilateral quad, BoxMode mode, float value, bool keepRatio);
-        Quadrilateral CreateHeight(Quadrilateral quad, BoxMode mode, float value, bool keepRatio);
-        Quadrilateral CreateSkew(Quadrilateral quad, BoxMode mode, float skewAngleInDegrees, float minimum, float maximum);
+        Quadrilateral CreateWidth(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio);
+        Quadrilateral CreateHeight(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio);
+        Quadrilateral CreateSkew(Quadrilateral quad, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum);
         #endregion
     }
 }

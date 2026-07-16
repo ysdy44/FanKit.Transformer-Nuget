@@ -43,7 +43,7 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
         }
-        internal void ST1(IIndicator indicator, BoxMode mode, Vector2 translate)
+        internal void ST1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 translate)
         {
             this.Host = Matrix3x2.CreateTranslation(translate);
 
@@ -53,7 +53,7 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = Math.Translate(this.StartingMatrix, this.Host.M31, this.Host.M32);
 
-            indicator.ChangeXY(this.Triangle, mode);
+            indicator.ChangeXY(this.Triangle, anchorMode);
         }
 
         internal void STX0(float translateX)
@@ -66,7 +66,7 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
         }
-        internal void STX1(IIndicator indicator, BoxMode mode, float translateX)
+        internal void STX1(IIndicator indicator, PanelAnchorMode anchorMode, float translateX)
         {
             this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
 
@@ -76,7 +76,7 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = Math.TranslateX(this.StartingMatrix, this.Host.M31);
 
-            indicator.ChangeX(this.Triangle, mode);
+            indicator.ChangeX(this.Triangle, anchorMode);
         }
 
         internal void STY0(float translateY)
@@ -89,7 +89,7 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
         }
-        internal void STY1(IIndicator indicator, BoxMode mode, float translateY)
+        internal void STY1(IIndicator indicator, PanelAnchorMode anchorMode, float translateY)
         {
             this.Host = Matrix3x2.CreateTranslation(0f, translateY);
 
@@ -99,7 +99,7 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = Math.TranslateY(this.StartingMatrix, this.Host.M32);
 
-            indicator.ChangeY(this.Triangle, mode);
+            indicator.ChangeY(this.Triangle, anchorMode);
         }
 
         internal void SF0(Matrix3x2 matrix)
@@ -112,7 +112,7 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = this.StartingMatrix * this.Host;
         }
-        internal void SF1(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
+        internal void SF1(IIndicator indicator, PanelAnchorMode anchorMode, Matrix3x2 matrix)
         {
             this.Host = matrix;
 
@@ -122,29 +122,29 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = this.StartingMatrix * this.Host;
 
-            indicator.ChangeAll(this.Triangle, mode);
+            indicator.ChangeAll(this.Triangle, anchorMode);
         }
 
-        internal void SW(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
+        internal void SW(IIndicator indicator, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
             this.StartingTriangle = this.Triangle;
-            this.Triangle = indicator.CreateWidth(this.StartingTriangle, mode, value, keepRatio);
+            this.Triangle = indicator.CreateWidth(this.StartingTriangle, anchorMode, value, keepRatio);
 
             this.Find();
 
-            indicator.ChangeXYWH(this.Triangle, mode);
+            indicator.ChangeXYWH(this.Triangle, anchorMode);
         }
-        internal void SH(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
+        internal void SH(IIndicator indicator, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
             this.StartingTriangle = this.Triangle;
-            this.Triangle = indicator.CreateHeight(this.StartingTriangle, mode, value, keepRatio);
+            this.Triangle = indicator.CreateHeight(this.StartingTriangle, anchorMode, value, keepRatio);
 
             this.Find();
 
-            indicator.ChangeXYWH(this.Triangle, mode);
+            indicator.ChangeXYWH(this.Triangle, anchorMode);
         }
 
-        internal void SR(IIndicator indicator, BoxMode mode, float rotationAngleInDegrees)
+        internal void SR(IIndicator indicator, PanelAnchorMode anchorMode, float rotationAngleInDegrees)
         {
             this.Host = indicator.CreateRotation(rotationAngleInDegrees);
 
@@ -154,16 +154,16 @@ namespace FanKit.Transformer.Compute
             this.StartingMatrix = this.Matrix;
             this.Matrix = this.StartingMatrix * this.Host;
 
-            indicator.ChangeXYWHRS(this.Triangle, mode);
+            indicator.ChangeXYWHRS(this.Triangle, anchorMode);
         }
-        internal void SS(IIndicator indicator, BoxMode mode, float skewAngleInDegrees, float minimum, float maximum)
+        internal void SS(IIndicator indicator, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum)
         {
             this.StartingTriangle = this.Triangle;
-            this.Triangle = indicator.CreateSkew(this.StartingTriangle, mode, skewAngleInDegrees, minimum, maximum);
+            this.Triangle = indicator.CreateSkew(this.StartingTriangle, anchorMode, skewAngleInDegrees, minimum, maximum);
 
             this.Find();
 
-            indicator.ChangeXYWHRS(this.Triangle, mode);
+            indicator.ChangeXYWHRS(this.Triangle, anchorMode);
         }
         #endregion
 
@@ -189,11 +189,11 @@ namespace FanKit.Transformer.Compute
             this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
             this.T();
         }
-        internal void TD1(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
+        internal void TD1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 startingPoint, Vector2 point)
         {
             this.Host = Matrix3x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
             this.T();
-            indicator.ChangeXY(this.Triangle, mode);
+            indicator.ChangeXY(this.Triangle, anchorMode);
         }
 
         internal void T0(Vector2 translate)
@@ -201,11 +201,11 @@ namespace FanKit.Transformer.Compute
             this.Host = Matrix3x2.CreateTranslation(translate);
             this.T();
         }
-        internal void T1(IIndicator indicator, BoxMode mode, Vector2 translate)
+        internal void T1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 translate)
         {
             this.Host = Matrix3x2.CreateTranslation(translate);
             this.T();
-            indicator.ChangeXY(this.Triangle, mode);
+            indicator.ChangeXY(this.Triangle, anchorMode);
         }
 
         internal void TXY0(float translateX, float translateY)
@@ -213,11 +213,11 @@ namespace FanKit.Transformer.Compute
             this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
             this.T();
         }
-        internal void TXY1(IIndicator indicator, BoxMode mode, float translateX, float translateY)
+        internal void TXY1(IIndicator indicator, PanelAnchorMode anchorMode, float translateX, float translateY)
         {
             this.Host = Matrix3x2.CreateTranslation(translateX, translateY);
             this.T();
-            indicator.ChangeXY(this.Triangle, mode);
+            indicator.ChangeXY(this.Triangle, anchorMode);
         }
 
         internal void TX0(float translateX)
@@ -225,11 +225,11 @@ namespace FanKit.Transformer.Compute
             this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
             this.TX();
         }
-        internal void TX1(IIndicator indicator, BoxMode mode, float translateX)
+        internal void TX1(IIndicator indicator, PanelAnchorMode anchorMode, float translateX)
         {
             this.Host = Matrix3x2.CreateTranslation(translateX, 0f);
             this.TX();
-            indicator.ChangeXY(this.Triangle, mode);
+            indicator.ChangeXY(this.Triangle, anchorMode);
         }
 
         internal void TY0(float translateY)
@@ -237,11 +237,11 @@ namespace FanKit.Transformer.Compute
             this.Host = Matrix3x2.CreateTranslation(0f, translateY);
             this.TY();
         }
-        internal void TY1(IIndicator indicator, BoxMode mode, float translateY)
+        internal void TY1(IIndicator indicator, PanelAnchorMode anchorMode, float translateY)
         {
             this.Host = Matrix3x2.CreateTranslation(0f, translateY);
             this.TY();
-            indicator.ChangeXY(this.Triangle, mode);
+            indicator.ChangeXY(this.Triangle, anchorMode);
         }
 
         internal void F0(Matrix3x2 matrix)
@@ -251,14 +251,14 @@ namespace FanKit.Transformer.Compute
             this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
             this.Matrix = this.StartingMatrix * this.Host;
         }
-        internal void F1(IIndicator indicator, BoxMode mode, Matrix3x2 matrix)
+        internal void F1(IIndicator indicator, PanelAnchorMode anchorMode, Matrix3x2 matrix)
         {
             this.Host = matrix;
 
             this.Triangle = Triangle.Transform(this.StartingTriangle, this.Host);
             this.Matrix = this.StartingMatrix * this.Host;
 
-            indicator.ChangeAll(this.Triangle, mode);
+            indicator.ChangeAll(this.Triangle, anchorMode);
         }
 
         private void T()

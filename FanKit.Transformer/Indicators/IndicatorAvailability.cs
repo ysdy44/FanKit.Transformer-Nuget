@@ -166,7 +166,7 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        public static ComposerParameterKind ToComposerParameterKind(ComposerPointsDistribution pointsDistribution, IndicatorKind kind)
+        public static ComposerParameterKind ToComposerParameterKind(ComposerPointsDistribution pointsDistribution, ParameterKind kind)
         {
             switch (pointsDistribution)
             {
@@ -178,44 +178,44 @@ namespace FanKit.Transformer.Indicators
                 case ComposerPointsDistribution.Point:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerParameterKind.PointX;
-                        case IndicatorKind.Y: return ComposerParameterKind.PointY;
+                        case ParameterKind.X: return ComposerParameterKind.PointX;
+                        case ParameterKind.Y: return ComposerParameterKind.PointY;
                         default: return ComposerParameterKind.Empty;
                     }
                 case ComposerPointsDistribution.RowLine:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerParameterKind.RowLineX;
-                        case IndicatorKind.Y: return ComposerParameterKind.RowLineY;
-                        case IndicatorKind.Width: return ComposerParameterKind.RowLineWidth;
-                        case IndicatorKind.Rotation: return ComposerParameterKind.RowLineRotation;
+                        case ParameterKind.X: return ComposerParameterKind.RowLineX;
+                        case ParameterKind.Y: return ComposerParameterKind.RowLineY;
+                        case ParameterKind.Width: return ComposerParameterKind.RowLineWidth;
+                        case ParameterKind.Rotation: return ComposerParameterKind.RowLineRotation;
                         default: return ComposerParameterKind.Empty;
                     }
                 case ComposerPointsDistribution.ColumnLine:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerParameterKind.ColumnLineX;
-                        case IndicatorKind.Y: return ComposerParameterKind.ColumnLineY;
-                        case IndicatorKind.Height: return ComposerParameterKind.ColumnLineHeight;
-                        case IndicatorKind.Rotation: return ComposerParameterKind.ColumnLineRotation;
+                        case ParameterKind.X: return ComposerParameterKind.ColumnLineX;
+                        case ParameterKind.Y: return ComposerParameterKind.ColumnLineY;
+                        case ParameterKind.Height: return ComposerParameterKind.ColumnLineHeight;
+                        case ParameterKind.Rotation: return ComposerParameterKind.ColumnLineRotation;
                         default: return ComposerParameterKind.Empty;
                     }
                 case ComposerPointsDistribution.Panel:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return ComposerParameterKind.PanelX;
-                        case IndicatorKind.Y: return ComposerParameterKind.PanelY;
-                        case IndicatorKind.Width: return ComposerParameterKind.PanelWidth;
-                        case IndicatorKind.Height: return ComposerParameterKind.PanelHeight;
-                        case IndicatorKind.Rotation: return ComposerParameterKind.PanelRotation;
-                        case IndicatorKind.Skew: return ComposerParameterKind.PanelSkew;
+                        case ParameterKind.X: return ComposerParameterKind.PanelX;
+                        case ParameterKind.Y: return ComposerParameterKind.PanelY;
+                        case ParameterKind.Width: return ComposerParameterKind.PanelWidth;
+                        case ParameterKind.Height: return ComposerParameterKind.PanelHeight;
+                        case ParameterKind.Rotation: return ComposerParameterKind.PanelRotation;
+                        case ParameterKind.Skew: return ComposerParameterKind.PanelSkew;
                         default: return ComposerParameterKind.Empty;
                     }
                 default: return ComposerParameterKind.Empty;
             }
         }
 
-        public static TransformsParameterKind ToTransformsParameterKind(int count, IndicatorKind kind)
+        public static TransformsParameterKind ToTransformsParameterKind(int count, ParameterKind kind)
         {
             switch (count)
             {
@@ -224,43 +224,43 @@ namespace FanKit.Transformer.Indicators
                 case 1:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return TransformsParameterKind.X;
-                        case IndicatorKind.Y: return TransformsParameterKind.Y;
-                        case IndicatorKind.Width: return TransformsParameterKind.Width;
-                        case IndicatorKind.Height: return TransformsParameterKind.Height;
-                        case IndicatorKind.Rotation: return TransformsParameterKind.Rotation;
-                        case IndicatorKind.Skew: return TransformsParameterKind.Skew;
+                        case ParameterKind.X: return TransformsParameterKind.X;
+                        case ParameterKind.Y: return TransformsParameterKind.Y;
+                        case ParameterKind.Width: return TransformsParameterKind.Width;
+                        case ParameterKind.Height: return TransformsParameterKind.Height;
+                        case ParameterKind.Rotation: return TransformsParameterKind.Rotation;
+                        case ParameterKind.Skew: return TransformsParameterKind.Skew;
                         default: return TransformsParameterKind.None;
                     }
                 default:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return TransformsParameterKind.MultiX;
-                        case IndicatorKind.Y: return TransformsParameterKind.MultiY;
-                        case IndicatorKind.Width: return TransformsParameterKind.MultiWidth;
-                        case IndicatorKind.Height: return TransformsParameterKind.MultiHeight;
-                        case IndicatorKind.Rotation: return TransformsParameterKind.MultiRotation;
-                        case IndicatorKind.Skew: return TransformsParameterKind.MultiSkew;
+                        case ParameterKind.X: return TransformsParameterKind.MultiX;
+                        case ParameterKind.Y: return TransformsParameterKind.MultiY;
+                        case ParameterKind.Width: return TransformsParameterKind.MultiWidth;
+                        case ParameterKind.Height: return TransformsParameterKind.MultiHeight;
+                        case ParameterKind.Rotation: return TransformsParameterKind.MultiRotation;
+                        case ParameterKind.Skew: return TransformsParameterKind.MultiSkew;
                         default: return TransformsParameterKind.None;
                     }
             }
         }
 
-        public static TransformParameterKind ToTransformParameterKind(IndicatorKind kind)
+        public static TransformParameterKind ToTransformParameterKind(ParameterKind kind)
         {
             switch (kind)
             {
-                case IndicatorKind.X: return TransformParameterKind.X;
-                case IndicatorKind.Y: return TransformParameterKind.Y;
-                case IndicatorKind.Width: return TransformParameterKind.Width;
-                case IndicatorKind.Height: return TransformParameterKind.Height;
-                case IndicatorKind.Rotation: return TransformParameterKind.Rotation;
-                case IndicatorKind.Skew: return TransformParameterKind.Skew;
+                case ParameterKind.X: return TransformParameterKind.X;
+                case ParameterKind.Y: return TransformParameterKind.Y;
+                case ParameterKind.Width: return TransformParameterKind.Width;
+                case ParameterKind.Height: return TransformParameterKind.Height;
+                case ParameterKind.Rotation: return TransformParameterKind.Rotation;
+                case ParameterKind.Skew: return TransformParameterKind.Skew;
                 default: return TransformParameterKind.None;
             }
         }
 
-        public static CropsParameterKind ToCropsParameterKind(int count, IndicatorKind kind)
+        public static CropsParameterKind ToCropsParameterKind(int count, ParameterKind kind)
         {
             switch (count)
             {
@@ -269,71 +269,71 @@ namespace FanKit.Transformer.Indicators
                 case 1:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return CropsParameterKind.X;
-                        case IndicatorKind.Y: return CropsParameterKind.Y;
-                        case IndicatorKind.Width: return CropsParameterKind.Width;
-                        case IndicatorKind.Height: return CropsParameterKind.Height;
-                        //case IndicatorKind.Rotation: return CropsParameterKind.Rotation;
-                        //case IndicatorKind.Skew: return CropsParameterKind.Skew;
+                        case ParameterKind.X: return CropsParameterKind.X;
+                        case ParameterKind.Y: return CropsParameterKind.Y;
+                        case ParameterKind.Width: return CropsParameterKind.Width;
+                        case ParameterKind.Height: return CropsParameterKind.Height;
+                        //case ParameterKind.Rotation: return CropsParameterKind.Rotation;
+                        //case ParameterKind.Skew: return CropsParameterKind.Skew;
                         default: return CropsParameterKind.None;
                     }
                 default:
                     switch (kind)
                     {
-                        case IndicatorKind.X: return CropsParameterKind.MultiX;
-                        case IndicatorKind.Y: return CropsParameterKind.MultiY;
-                        case IndicatorKind.Width: return CropsParameterKind.MultiWidth;
-                        case IndicatorKind.Height: return CropsParameterKind.MultiHeight;
-                        //case IndicatorKind.Rotation: return CropsParameterKind.MultiRotation;
-                        //case IndicatorKind.Skew: return CropsParameterKind.MultiSkew;
+                        case ParameterKind.X: return CropsParameterKind.MultiX;
+                        case ParameterKind.Y: return CropsParameterKind.MultiY;
+                        case ParameterKind.Width: return CropsParameterKind.MultiWidth;
+                        case ParameterKind.Height: return CropsParameterKind.MultiHeight;
+                        //case ParameterKind.Rotation: return CropsParameterKind.MultiRotation;
+                        //case ParameterKind.Skew: return CropsParameterKind.MultiSkew;
                         default: return CropsParameterKind.None;
                     }
             }
         }
 
-        public static CropParameterKind ToCropParameterKind(IndicatorKind kind)
+        public static CropParameterKind ToCropParameterKind(ParameterKind kind)
         {
             switch (kind)
             {
-                case IndicatorKind.X: return CropParameterKind.X;
-                case IndicatorKind.Y: return CropParameterKind.Y;
-                case IndicatorKind.Width: return CropParameterKind.Width;
-                case IndicatorKind.Height: return CropParameterKind.Height;
-                //case IndicatorKind.Rotation: return CropParameterKind.Rotation;
-                //case IndicatorKind.Skew: return CropParameterKind.Skew;
+                case ParameterKind.X: return CropParameterKind.X;
+                case ParameterKind.Y: return CropParameterKind.Y;
+                case ParameterKind.Width: return CropParameterKind.Width;
+                case ParameterKind.Height: return CropParameterKind.Height;
+                //case ParameterKind.Rotation: return CropParameterKind.Rotation;
+                //case ParameterKind.Skew: return CropParameterKind.Skew;
                 default: return CropParameterKind.None;
             }
         }
-        public static ColumnLineParameterKind ToColumnLineParameterKind(IndicatorKind kind)
+        public static ColumnLineParameterKind ToColumnLineParameterKind(ParameterKind kind)
         {
             switch (kind)
             {
-                case IndicatorKind.X: return ColumnLineParameterKind.X;
-                case IndicatorKind.Y: return ColumnLineParameterKind.Y;
-                case IndicatorKind.Height: return ColumnLineParameterKind.Height;
-                case IndicatorKind.Rotation: return ColumnLineParameterKind.Rotation;
+                case ParameterKind.X: return ColumnLineParameterKind.X;
+                case ParameterKind.Y: return ColumnLineParameterKind.Y;
+                case ParameterKind.Height: return ColumnLineParameterKind.Height;
+                case ParameterKind.Rotation: return ColumnLineParameterKind.Rotation;
                 default: return ColumnLineParameterKind.None;
             }
         }
 
-        public static RowLineParameterKind ToRowLineParameterKind(IndicatorKind kind)
+        public static RowLineParameterKind ToRowLineParameterKind(ParameterKind kind)
         {
             switch (kind)
             {
-                case IndicatorKind.X: return RowLineParameterKind.X;
-                case IndicatorKind.Y: return RowLineParameterKind.Y;
-                case IndicatorKind.Width: return RowLineParameterKind.Width;
-                case IndicatorKind.Rotation: return RowLineParameterKind.Rotation;
+                case ParameterKind.X: return RowLineParameterKind.X;
+                case ParameterKind.Y: return RowLineParameterKind.Y;
+                case ParameterKind.Width: return RowLineParameterKind.Width;
+                case ParameterKind.Rotation: return RowLineParameterKind.Rotation;
                 default: return RowLineParameterKind.None;
             }
         }
 
-        public static PointParameterKind ToPointParameterKind(IndicatorKind kind)
+        public static PointParameterKind ToPointParameterKind(ParameterKind kind)
         {
             switch (kind)
             {
-                case IndicatorKind.X: return PointParameterKind.X;
-                case IndicatorKind.Y: return PointParameterKind.Y;
+                case ParameterKind.X: return PointParameterKind.X;
+                case ParameterKind.Y: return PointParameterKind.Y;
                 default: return PointParameterKind.None;
             }
         }

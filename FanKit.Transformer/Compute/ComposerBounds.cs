@@ -41,14 +41,14 @@ namespace FanKit.Transformer.Compute
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.Translate(this.StartingBounds, this.Host.Matrix.TranslateX, this.Host.Matrix.TranslateY);
         }
-        internal void ST1(IIndicator indicator, BoxMode mode, Vector2 translate)
+        internal void ST1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 translate)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(translate);
 
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.Translate(this.StartingBounds, this.Host.Matrix.TranslateX, this.Host.Matrix.TranslateY);
 
-            indicator.ChangeXY(this.Bounds, mode);
+            indicator.ChangeXY(this.Bounds, anchorMode);
         }
 
         internal void STX0(float translateX)
@@ -58,14 +58,14 @@ namespace FanKit.Transformer.Compute
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.TranslateX(this.StartingBounds, this.Host.Matrix.TranslateX);
         }
-        internal void STX1(IIndicator indicator, BoxMode mode, float translateX)
+        internal void STX1(IIndicator indicator, PanelAnchorMode anchorMode, float translateX)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(translateX, 0f);
 
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.TranslateX(this.StartingBounds, this.Host.Matrix.TranslateX);
 
-            indicator.ChangeX(this.Bounds, mode);
+            indicator.ChangeX(this.Bounds, anchorMode);
         }
 
         internal void STY0(float translateY)
@@ -75,14 +75,14 @@ namespace FanKit.Transformer.Compute
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.TranslateY(this.StartingBounds, this.Host.Matrix.TranslateY);
         }
-        internal void STY1(IIndicator indicator, BoxMode mode, float translateY)
+        internal void STY1(IIndicator indicator, PanelAnchorMode anchorMode, float translateY)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(0f, translateY);
 
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.TranslateY(this.StartingBounds, this.Host.Matrix.TranslateY);
 
-            indicator.ChangeY(this.Bounds, mode);
+            indicator.ChangeY(this.Bounds, anchorMode);
         }
 
         internal void SF0(Matrix2x2 matrix)
@@ -92,35 +92,35 @@ namespace FanKit.Transformer.Compute
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.Transform(this.StartingBounds, this.Host.Matrix);
         }
-        internal void SF1(IIndicator indicator, BoxMode mode, Matrix2x2 matrix)
+        internal void SF1(IIndicator indicator, PanelAnchorMode anchorMode, Matrix2x2 matrix)
         {
             this.Host.Matrix = matrix;
 
             this.StartingBounds = this.Bounds;
             this.Bounds = Bounds.Transform(this.StartingBounds, this.Host.Matrix);
 
-            indicator.ChangeAll(this.Bounds, mode);
+            indicator.ChangeAll(this.Bounds, anchorMode);
         }
 
-        internal void SW(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
+        internal void SW(IIndicator indicator, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
             this.StartingBounds = this.Bounds;
-            this.Bounds = indicator.CreateWidth(this.StartingBounds, mode, value, keepRatio);
+            this.Bounds = indicator.CreateWidth(this.StartingBounds, anchorMode, value, keepRatio);
 
             this.HostSourceNorm = this.StartingBounds.Normalize();
             this.FindHomography();
 
-            indicator.ChangeXYWH(this.Bounds, mode);
+            indicator.ChangeXYWH(this.Bounds, anchorMode);
         }
-        internal void SH(IIndicator indicator, BoxMode mode, float value, bool keepRatio)
+        internal void SH(IIndicator indicator, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
             this.StartingBounds = this.Bounds;
-            this.Bounds = indicator.CreateHeight(this.StartingBounds, mode, value, keepRatio);
+            this.Bounds = indicator.CreateHeight(this.StartingBounds, anchorMode, value, keepRatio);
 
             this.HostSourceNorm = this.StartingBounds.Normalize();
             this.FindHomography();
 
-            indicator.ChangeXYWH(this.Bounds, mode);
+            indicator.ChangeXYWH(this.Bounds, anchorMode);
         }
         #endregion
 
@@ -145,11 +145,11 @@ namespace FanKit.Transformer.Compute
             this.Host.Matrix = Matrix2x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
             this.T();
         }
-        internal void TD1(IIndicator indicator, BoxMode mode, Vector2 startingPoint, Vector2 point)
+        internal void TD1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 startingPoint, Vector2 point)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(point.X - startingPoint.X, point.Y - startingPoint.Y);
             this.T();
-            indicator.ChangeXY(this.Bounds, mode);
+            indicator.ChangeXY(this.Bounds, anchorMode);
         }
 
         internal void T0(Vector2 translate)
@@ -157,11 +157,11 @@ namespace FanKit.Transformer.Compute
             this.Host.Matrix = Matrix2x2.CreateTranslation(translate);
             this.T();
         }
-        internal void T1(IIndicator indicator, BoxMode mode, Vector2 translate)
+        internal void T1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 translate)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(translate);
             this.T();
-            indicator.ChangeXY(this.Bounds, mode);
+            indicator.ChangeXY(this.Bounds, anchorMode);
         }
 
         internal void TXY0(float translateX, float translateY)
@@ -169,11 +169,11 @@ namespace FanKit.Transformer.Compute
             this.Host.Matrix = Matrix2x2.CreateTranslation(translateX, translateY);
             this.T();
         }
-        internal void TXY1(IIndicator indicator, BoxMode mode, float translateX, float translateY)
+        internal void TXY1(IIndicator indicator, PanelAnchorMode anchorMode, float translateX, float translateY)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(translateX, translateY);
             this.T();
-            indicator.ChangeXY(this.Bounds, mode);
+            indicator.ChangeXY(this.Bounds, anchorMode);
         }
 
         internal void TX0(float translateX)
@@ -181,11 +181,11 @@ namespace FanKit.Transformer.Compute
             this.Host.Matrix = Matrix2x2.CreateTranslation(translateX, 0f);
             this.TX();
         }
-        internal void TX1(IIndicator indicator, BoxMode mode, float translateX)
+        internal void TX1(IIndicator indicator, PanelAnchorMode anchorMode, float translateX)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(translateX, 0f);
             this.TX();
-            indicator.ChangeXY(this.Bounds, mode);
+            indicator.ChangeXY(this.Bounds, anchorMode);
         }
 
         internal void TY0(float translateY)
@@ -193,11 +193,11 @@ namespace FanKit.Transformer.Compute
             this.Host.Matrix = Matrix2x2.CreateTranslation(0f, translateY);
             this.TY();
         }
-        internal void TY1(IIndicator indicator, BoxMode mode, float translateY)
+        internal void TY1(IIndicator indicator, PanelAnchorMode anchorMode, float translateY)
         {
             this.Host.Matrix = Matrix2x2.CreateTranslation(0f, translateY);
             this.TY();
-            indicator.ChangeXY(this.Bounds, mode);
+            indicator.ChangeXY(this.Bounds, anchorMode);
         }
 
         internal void F0(Matrix2x2 matrix)
@@ -206,13 +206,13 @@ namespace FanKit.Transformer.Compute
 
             this.Bounds = Bounds.Transform(this.StartingBounds, this.Host.Matrix);
         }
-        internal void F1(IIndicator indicator, BoxMode mode, Matrix2x2 matrix)
+        internal void F1(IIndicator indicator, PanelAnchorMode anchorMode, Matrix2x2 matrix)
         {
             this.Host.Matrix = matrix;
 
             this.Bounds = Bounds.Transform(this.StartingBounds, this.Host.Matrix);
 
-            indicator.ChangeAll(this.Bounds, mode);
+            indicator.ChangeAll(this.Bounds, anchorMode);
         }
 
         private void T()
@@ -246,13 +246,13 @@ namespace FanKit.Transformer.Compute
 
             this.FindHomography();
         }
-        internal void TWH1(IIndicator indicator, BoxMode mode, Vector2 point, bool keepRatio, bool centeredScaling)
+        internal void TWH1(IIndicator indicator, PanelAnchorMode anchorMode, Vector2 point, bool keepRatio, bool centeredScaling)
         {
             this.Bounds = this.Controller.Crop(this.StartingBounds, point, keepRatio, centeredScaling);
 
             this.FindHomography();
 
-            indicator.ChangeXYWH(this.Bounds, mode);
+            indicator.ChangeXYWH(this.Bounds, anchorMode);
         }
         #endregion
     }

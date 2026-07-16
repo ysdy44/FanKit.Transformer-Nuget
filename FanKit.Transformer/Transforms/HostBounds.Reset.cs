@@ -8,7 +8,7 @@ namespace FanKit.Transformer.Transforms
 {
     partial class HostBounds
     {
-        public CropsParameterKind ToParameterKind(IndicatorKind kind)
+        public CropsParameterKind ToParameterKind(ParameterKind kind)
         {
             return Indicator.ToCropsParameterKind(this.Count, kind);
         }
