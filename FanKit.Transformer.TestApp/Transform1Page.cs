@@ -299,28 +299,30 @@ namespace FanKit.Transformer.TestApp
         {
             BoxMode mode = this.ParameterPanel.Mode;
 
-            switch (kind)
+            switch (Indicator.ToTransformParameterKind(kind))
             {
-                case IndicatorKind.X:
+                case TransformParameterKind.None:
+                    break;
+                case TransformParameterKind.X:
                     float translateX = value - this.Indicator.X;
 
                     this.Transformer.SetTranslationX(this.Indicator, mode, translateX);
                     break;
-                case IndicatorKind.Y:
+                case TransformParameterKind.Y:
                     float translateY = value - this.Indicator.Y;
 
                     this.Transformer.SetTranslationY(this.Indicator, mode, translateY);
                     break;
-                case IndicatorKind.Width:
+                case TransformParameterKind.Width:
                     this.Transformer.SetWidth(this.Indicator, mode, value, this.KeepRatio);
                     break;
-                case IndicatorKind.Height:
+                case TransformParameterKind.Height:
                     this.Transformer.SetHeight(this.Indicator, mode, value, this.KeepRatio);
                     break;
-                case IndicatorKind.Rotation:
+                case TransformParameterKind.Rotation:
                     this.Transformer.SetRotation(this.Indicator, mode, value);
                     break;
-                case IndicatorKind.Skew:
+                case TransformParameterKind.Skew:
                     this.Transformer.SetSkew(this.Indicator, mode, value);
                     break;
                 default:

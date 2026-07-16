@@ -246,6 +246,20 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
+        public static TransformParameterKind ToTransformParameterKind(IndicatorKind kind)
+        {
+            switch (kind)
+            {
+                case IndicatorKind.X: return TransformParameterKind.X;
+                case IndicatorKind.Y: return TransformParameterKind.Y;
+                case IndicatorKind.Width: return TransformParameterKind.Width;
+                case IndicatorKind.Height: return TransformParameterKind.Height;
+                case IndicatorKind.Rotation: return TransformParameterKind.Rotation;
+                case IndicatorKind.Skew: return TransformParameterKind.Skew;
+                default: return TransformParameterKind.None;
+            }
+        }
+
         public static CropsParameterKind ToCropsParameterKind(int count, IndicatorKind kind)
         {
             switch (count)
