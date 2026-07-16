@@ -10,9 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Enums\BezierType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums\IndicatorColumnKind.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums\IndicatorPointKind.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums\IndicatorRowKind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes12.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\InvalidateModes123.cs" />
