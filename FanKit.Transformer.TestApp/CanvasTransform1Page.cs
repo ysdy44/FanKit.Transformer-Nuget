@@ -40,6 +40,12 @@ namespace FanKit.Transformer.TestApp
 
         bool HasStepFrequency => this.IsShift;
 
+        //ToolType ToolType => this.TopBar.ToolType;
+
+        PanelAnchorMode PanelAnchorMode => this.ParameterPanel.PanelAnchorMode;
+        //RowLineAnchorMode RowLineAnchorMode => this.ParameterPanel.RowLineAnchorMode;
+        //ColumnLineAnchorMode ColumnLineAnchorMode => this.ParameterPanel.ColumnLineAnchorMode;
+
         //@Const
         const float X = 78;
         const float Y = 123;
@@ -186,7 +192,7 @@ namespace FanKit.Transformer.TestApp
 
             if (modes.HasFlag(InvalidateModes.InitIndicator))
             {
-                this.Indicator.ChangeAll(this.Transformer.Destination, this.ParameterPanel.PanelAnchorMode);
+                this.Indicator.ChangeAll(this.Transformer.Destination, this.PanelAnchorMode);
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
 
@@ -258,7 +264,7 @@ namespace FanKit.Transformer.TestApp
                 case BoxContainsNodeMode.None:
                     break;
                 case BoxContainsNodeMode.Contains:
-                    this.Transformer.Translate(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.StartingPosition, this.Position);
+                    this.Transformer.Translate(this.Indicator, this.PanelAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers
@@ -293,7 +299,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                     */
                 default:
-                    this.Transformer.TransformSize(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.Position, this.KeepRatio, this.CenteredScaling);
+                    this.Transformer.TransformSize(this.Indicator, this.PanelAnchorMode, this.Position, this.KeepRatio, this.CenteredScaling);
 
                     this.Invalidate(InvalidateModes.None
                         //| InvalidateModes.UpdateLayers
@@ -307,7 +313,7 @@ namespace FanKit.Transformer.TestApp
         #region Panel
         private void Apply(ParameterKind kind, float value)
         {
-            PanelAnchorMode anchorMode = this.ParameterPanel.PanelAnchorMode;
+            PanelAnchorMode anchorMode = this.PanelAnchorMode;
 
             switch (Indicator.ToTransformParameterKind(kind))
             {
