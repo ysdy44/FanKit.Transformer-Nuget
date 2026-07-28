@@ -43,6 +43,12 @@ namespace FanKit.Transformer.TestApp
 
         //bool HasStepFrequency => this.IsShift;
 
+        ToolType0 ToolType => this.TopBar.ToolType;
+
+        PanelAnchorMode PanelAnchorMode => this.ParameterPanel.PanelAnchorMode;
+        //RowLineAnchorMode RowLineAnchorMode => this.ParameterPanel.RowLineAnchorMode;
+        //ColumnLineAnchorMode ColumnLineAnchorMode => this.ParameterPanel.ColumnLineAnchorMode;
+
         //@Const
         const float X = -72;
         const float Y = 123;
@@ -191,7 +197,7 @@ namespace FanKit.Transformer.TestApp
 
         public override void CacheSingle()
         {
-            switch (this.TopBar.ToolType)
+            switch (this.ToolType)
             {
                 case ToolType0.Transform:
                     this.CacheSingle0();
@@ -206,7 +212,7 @@ namespace FanKit.Transformer.TestApp
 
         public override void Single()
         {
-            switch (this.TopBar.ToolType)
+            switch (this.ToolType)
             {
                 case ToolType0.Transform:
                     this.Single0();
@@ -221,7 +227,7 @@ namespace FanKit.Transformer.TestApp
 
         public override void DisposeSingle()
         {
-            switch (this.TopBar.ToolType)
+            switch (this.ToolType)
             {
                 case ToolType0.Transform:
                     this.DisposeSingle0();
@@ -337,7 +343,7 @@ namespace FanKit.Transformer.TestApp
                 switch (this.Cropper.Count)
                 {
                     case 0: this.Indicator.ClearAll(); break;
-                    default: this.Indicator.ChangeAll(this.Cropper.Destination, this.ParameterPanel.PanelAnchorMode); break;
+                    default: this.Indicator.ChangeAll(this.Cropper.Destination, this.PanelAnchorMode); break;
                 }
 
                 this.ParameterPanel.UpdateAll(this.Indicator);
@@ -533,7 +539,7 @@ namespace FanKit.Transformer.TestApp
                     this.Invalidate(InvalidateModes.CanvasControl);
                     break;
                 case BoxContainsNodeMode.Contains:
-                    this.Cropper.Translate(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.StartingPosition, this.Position);
+                    this.Cropper.Translate(this.Indicator, this.PanelAnchorMode, this.StartingPosition, this.Position);
 
                     this.Translate();
 
@@ -574,7 +580,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                  */
                 default:
-                    this.Cropper.TransformSize(this.Indicator, this.ParameterPanel.PanelAnchorMode, this.Position, this.KeepRatio, this.CenteredScaling);
+                    this.Cropper.TransformSize(this.Indicator, this.PanelAnchorMode, this.Position, this.KeepRatio, this.CenteredScaling);
 
                     this.Transform();
 
@@ -696,7 +702,7 @@ namespace FanKit.Transformer.TestApp
 
         private void Apply(ParameterKind kind, float value)
         {
-            PanelAnchorMode anchorMode = this.ParameterPanel.PanelAnchorMode;
+            PanelAnchorMode anchorMode = this.PanelAnchorMode;
 
             switch (this.Cropper.ToParameterKind(kind))
             {
