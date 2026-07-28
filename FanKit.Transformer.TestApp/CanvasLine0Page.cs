@@ -29,6 +29,12 @@ namespace FanKit.Transformer.TestApp
 
         bool HasStepFrequency => this.IsShift;
 
+        //ToolType ToolType => this.TopBar.ToolType;
+
+        //PanelAnchorMode PanelAnchorMode => this.ParameterPanel.PanelAnchorMode;
+        RowLineAnchorMode RowLineAnchorMode => this.ParameterPanel.RowLineAnchorMode;
+        ColumnLineAnchorMode ColumnLineAnchorMode => this.ParameterPanel.ColumnLineAnchorMode;
+
         //@Const
         const float X = 256f;
         const float Y = 256f;
@@ -199,7 +205,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 /*
                 case LineContainsNodeMode.Handle0:
-                    this.Linear.ElongatePoint0(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.StartingPosition, this.Position);
+                    this.Linear.ElongatePoint0(this.Indicator, this.RowLineAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -207,7 +213,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Handle1:
-                    this.Linear.ElongatePoint1(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.StartingPosition, this.Position);
+                    this.Linear.ElongatePoint1(this.Indicator, this.RowLineAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -216,9 +222,9 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case LineContainsNodeMode.Handle:
                     if (this.HasStepFrequency)
-                        this.Linear.Rotate(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Position, StepFrequency);
+                        this.Linear.Rotate(this.Indicator, this.RowLineAnchorMode, this.Position, StepFrequency);
                     else
-                        this.Linear.Rotate(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Position);
+                        this.Linear.Rotate(this.Indicator, this.RowLineAnchorMode, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -226,7 +232,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Center:
-                    this.Linear.Translate(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.StartingPosition, this.Position);
+                    this.Linear.Translate(this.Indicator, this.RowLineAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -235,7 +241,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                  */
                 case LineContainsNodeMode.Point0:
-                    this.Linear.MovePoint0(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Position);
+                    this.Linear.MovePoint0(this.Indicator, this.RowLineAnchorMode, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -243,7 +249,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point1:
-                    this.Linear.MovePoint1(this.Indicator, this.ParameterPanel.RowLineAnchorMode, this.Position);
+                    this.Linear.MovePoint1(this.Indicator, this.RowLineAnchorMode, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -263,7 +269,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                 /*
                 case LineContainsNodeMode.Handle0:
-                    this.Linear.ElongatePoint0(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.StartingPosition, this.Position);
+                    this.Linear.ElongatePoint0(this.Indicator, this.ColumnLineAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -271,7 +277,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Handle1:
-                    this.Linear.ElongatePoint1(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.StartingPosition, this.Position);
+                    this.Linear.ElongatePoint1(this.Indicator, this.ColumnLineAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -280,9 +286,9 @@ namespace FanKit.Transformer.TestApp
                     break;
                 case LineContainsNodeMode.Handle:
                     if (this.HasStepFrequency)
-                        this.Linear.Rotate(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Position, StepFrequency);
+                        this.Linear.Rotate(this.Indicator, this.ColumnLineAnchorMode, this.Position, StepFrequency);
                     else
-                        this.Linear.Rotate(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Position);
+                        this.Linear.Rotate(this.Indicator, this.ColumnLineAnchorMode, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -290,7 +296,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Center:
-                    this.Linear.Translate(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.StartingPosition, this.Position);
+                    this.Linear.Translate(this.Indicator, this.ColumnLineAnchorMode, this.StartingPosition, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -299,7 +305,7 @@ namespace FanKit.Transformer.TestApp
                     break;
                  */
                 case LineContainsNodeMode.Point0:
-                    this.Linear.MovePoint0(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Position);
+                    this.Linear.MovePoint0(this.Indicator, this.ColumnLineAnchorMode, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -307,7 +313,7 @@ namespace FanKit.Transformer.TestApp
                         | InvalidateModes.CanvasControl);
                     break;
                 case LineContainsNodeMode.Point1:
-                    this.Linear.MovePoint1(this.Indicator, this.ParameterPanel.ColumnLineAnchorMode, this.Position);
+                    this.Linear.MovePoint1(this.Indicator, this.ColumnLineAnchorMode, this.Position);
 
                     this.Invalidate(InvalidateModes.None
                         | InvalidateModes.UpdateLayers
@@ -323,7 +329,7 @@ namespace FanKit.Transformer.TestApp
         #region Line
         private void ApplyRow(ParameterKind kind, float value)
         {
-            RowLineAnchorMode anchorMode = this.ParameterPanel.RowLineAnchorMode;
+            RowLineAnchorMode anchorMode = this.RowLineAnchorMode;
 
             switch (Indicator.ToRowLineParameterKind(kind))
             {
@@ -356,7 +362,7 @@ namespace FanKit.Transformer.TestApp
         }
         private void ApplyColumn(ParameterKind kind, float value)
         {
-            ColumnLineAnchorMode anchorMode = this.ParameterPanel.ColumnLineAnchorMode;
+            ColumnLineAnchorMode anchorMode = this.ColumnLineAnchorMode;
 
             switch (Indicator.ToColumnLineParameterKind(kind))
             {
