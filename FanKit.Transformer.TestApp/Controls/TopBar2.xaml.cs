@@ -13,7 +13,20 @@ namespace FanKit.Transformer.TestApp
             add => this.ToolListBox.SelectionChanged += value;
         }
 
-        public ToolType2 ToolType => (ToolType2)this.ToolListBox.SelectedIndex;
+        public ToolType2 ToolType
+        {
+            get
+            {
+                switch (this.ToolListBox.SelectedIndex)
+                {
+                    case 0: return ToolType2.Transform;
+                    case 1: return ToolType2.NodeCreateNew;
+                    case 2: return ToolType2.NodeMove;
+                    case 3: return ToolType2.NodeTransform;
+                    default: return ToolType2.Transform;
+                }
+            }
+        }
 
         public TopBar2()
         {
