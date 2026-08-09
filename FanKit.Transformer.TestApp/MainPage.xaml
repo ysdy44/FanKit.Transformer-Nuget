@@ -2443,6 +2443,15 @@
 
                     </VariableSizedWrapGrid>
 
+                </StackPanel>
+            </ScrollViewer>
+
+            <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <FrameworkElement.Tag>
+                    Cache
+                </FrameworkElement.Tag>
+                <StackPanel Margin="8">
+
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         Bounds
                     </TextBlock>
@@ -2917,6 +2926,14 @@
                             </StackPanel>
                         </Button>
 
+                    </VariableSizedWrapGrid>
+
+                    <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
+                        Scroll
+                    </TextBlock>
+
+                    <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
+
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
                             <ButtonBase.CommandParameter>
                                 Scroller
@@ -2998,7 +3015,7 @@
 
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
-                    Beziers
+                    Paths
                 </FrameworkElement.Tag>
                 <StackPanel Margin="8">
 
@@ -3191,6 +3208,15 @@
                         </Button>
 
                     </VariableSizedWrapGrid>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <FrameworkElement.Tag>
+                    Beziers
+                </FrameworkElement.Tag>
+                <StackPanel Margin="8">
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         Closest

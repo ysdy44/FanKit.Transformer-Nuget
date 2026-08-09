@@ -337,7 +337,9 @@ namespace FanKit.Transformer.TestApp
                 new Kvp("Bounds", "Bounds", typeof(BoundsPage)),
                 new Kvp("Triangle", "Triangle", typeof(TrianglePage)),
                 new Kvp("Quadrilateral", "Quadrilateral", typeof(QuadrilateralPage)),
-                default,
+            },
+            ["Cache"] = new Kvp[]
+            {
                 new Kvp("BoundsBox0", "Bounds & Box 0", typeof(BoundsBox0Page)),
                 new Kvp("BoundsBox1", "Bounds & Box 1", typeof(BoundsBox1Page)),
                 default,
@@ -364,19 +366,22 @@ namespace FanKit.Transformer.TestApp
                 default,
                 new Kvp("Carousel", "Carousel", typeof(CarouselPage)),
                 new Kvp("Carousels", "Carousels", typeof(CarouselsPage)),
+                default,
                 new Kvp("Scroller", "Scroller", typeof(ScrollerPage)),
                 default,
                 new Kvp("Flyout", "Flyout", typeof(FlyoutPage)),
                 new Kvp("FlyoutPlacement", "Flyout Placement", typeof(FlyoutPlacementPage)),
             },
-            ["Beziers"] = new Kvp[]
+            ["Paths"] = new Kvp[]
             {
                 new Kvp("MovePolyline", "Move Polyline", typeof(MovePolylinePage)),
                 new Kvp("MoveCurve", "Move Curve", typeof(MoveCurvePage)),
                 default,
                 new Kvp("InsertPolyline", "Insert Polyline", typeof(InsertPolylinePage)),
                 new Kvp("InsertCurve", "Insert Curve", typeof(InsertCurvePage)),
-                default,
+            },
+            ["Beziers"] = new Kvp[]
+            {
                 new Kvp("ClosestCubicBezier", "Closest Cubic Bezier", typeof(ClosestCubicBezierPage)),
                 new Kvp("ClosestQuadraticBezier", "Closest Quadratic Bezier", typeof(ClosestQuadraticBezierPage)),
                 new Kvp("ClosestLinearBezier", "Closest Linear Bezier", typeof(ClosestLinearBezierPage)),
