@@ -27,16 +27,16 @@ namespace FanKit.Transformer.Mathematics
             InverseScaleFactor = 1f / ScaleFactor;
         }
 
-        //public static Coordinate Animation(Coordinate form, Coordinate to, float amout)
-        public Coordinate(Coordinate form, Coordinate to, float amout)
+        //public static Coordinate Animation(Coordinate form, Coordinate to, float amount)
+        public Coordinate(Coordinate form, Coordinate to, float amount)
         {
-            if (amout <= 0f)
+            if (amount <= 0f)
             {
                 Translate = form.Translate;
                 ScaleFactor = form.ScaleFactor;
                 InverseScaleFactor = form.InverseScaleFactor;
             }
-            else if (amout >= 1f)
+            else if (amount >= 1f)
             {
                 Translate = to.Translate;
                 ScaleFactor = to.ScaleFactor;
@@ -44,15 +44,15 @@ namespace FanKit.Transformer.Mathematics
             }
             else
             {
-                var r = 1f - amout;
+                var r = 1f - amount;
 
                 Translate = new Vector2
                 {
-                    X = form.Translate.X * r + to.Translate.X * amout,
-                    Y = form.Translate.Y * r + to.Translate.Y * amout,
+                    X = form.Translate.X * r + to.Translate.X * amount,
+                    Y = form.Translate.Y * r + to.Translate.Y * amount,
                 };
-                ScaleFactor = form.ScaleFactor * r + to.ScaleFactor * amout;
-                InverseScaleFactor = form.InverseScaleFactor * r + to.InverseScaleFactor * amout;
+                ScaleFactor = form.ScaleFactor * r + to.ScaleFactor * amount;
+                InverseScaleFactor = form.InverseScaleFactor * r + to.InverseScaleFactor * amount;
             }
         }
 

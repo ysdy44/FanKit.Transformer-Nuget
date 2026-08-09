@@ -70,9 +70,9 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public CarouselItem1 ToItem1(float centerX, float centerY, float amout)
+        public CarouselItem1 ToItem1(float centerX, float centerY, float amount)
         {
-            return new CarouselItem1(this, centerX, centerY, amout);
+            return new CarouselItem1(this, centerX, centerY, amount);
         }
 
         public CarouselItem2 ToItem2(int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
@@ -93,12 +93,12 @@ namespace FanKit.Transformer.UI
         // +0.0: Center
         // +0.5: Right
         // +1.0: Max
-        public Quadrilateral LerpBox(Vector2 center, float amout) => LB(center.X, center.Y, amout);
-        public Quadrilateral LerpBox(float centerX, float centerY, float amout) => LB(centerX, centerY, amout);
+        public Quadrilateral LerpBox(Vector2 center, float amount) => LB(center.X, center.Y, amount);
+        public Quadrilateral LerpBox(float centerX, float centerY, float amount) => LB(centerX, centerY, amount);
 
-        private Quadrilateral LB(float centerX, float centerY, float amout)
+        private Quadrilateral LB(float centerX, float centerY, float amount)
         {
-            float r = amout * Constants.PI;
+            float r = amount * Constants.PI;
             float c = (float)System.Math.Cos(r);
 
             float v = 1f - c;
@@ -106,10 +106,10 @@ namespace FanKit.Transformer.UI
 
             Vector4 y = new Vector4
             {
-                X = -h2 + h4 * amout,
-                Y = -h2 - h4 * amout,
-                Z = h2 + h4 * amout,
-                W = h2 - h4 * amout,
+                X = -h2 + h4 * amount,
+                Y = -h2 - h4 * amount,
+                Z = h2 + h4 * amount,
+                W = h2 - h4 * amount,
             };
 
             return new Quadrilateral

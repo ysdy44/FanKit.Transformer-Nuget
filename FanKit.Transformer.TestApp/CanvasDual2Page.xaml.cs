@@ -382,10 +382,10 @@ namespace FanKit.Transformer.TestApp
             this.FormFit = this.FormView.ToFit2(1f);
             this.AnimatePad.ValueChanged += (s, e) =>
             {
-                float amout = (float)(e.NewValue / 100);
+                float amount = (float)(e.NewValue / 100);
                 Coordinate form = this.FormFit.Coord;
                 Coordinate to = this.Fit.Coord;
-                this.Canvas.Fit(new Coordinate(form, to, amout));
+                this.Canvas.Fit(new Coordinate(form, to, amount));
 
                 this.UpdateCanvasControl2();
             };
@@ -395,7 +395,7 @@ namespace FanKit.Transformer.TestApp
                 this.FormView.ViewportY = e.Y;
                 this.FormFit = this.FormView.ToFit2(1f);
 
-                float amout = (float)(this.AnimatePad.Value / 100);
+                float amount = (float)(this.AnimatePad.Value / 100);
 
                 this.UpdateCanvasControl2();
             };
