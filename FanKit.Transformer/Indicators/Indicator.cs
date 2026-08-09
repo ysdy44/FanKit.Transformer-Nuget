@@ -576,9 +576,13 @@ namespace FanKit.Transformer.Indicators
                 float x = bounds.Right - bounds.Left;
                 float y = bounds.Bottom - bounds.Top;
 
+                /*
                 float c = (bounds.Bottom + bounds.Top) / 2f;
+                 */
                 float s = value * y / x;
+                return Resize(bounds, anchorMode, value, s);
 
+                /*
                 switch (anchorMode)
                 {
                     case PanelAnchorMode.LeftTop:
@@ -656,6 +660,7 @@ namespace FanKit.Transformer.Indicators
                     default:
                         return bounds;
                 }
+                 */
             }
             else
             {
@@ -704,9 +709,13 @@ namespace FanKit.Transformer.Indicators
                 float x = bounds.Right - bounds.Left;
                 float y = bounds.Bottom - bounds.Top;
 
+                /*
                 float c = (bounds.Right + bounds.Left) / 2f;
+                 */
                 float s = value * x / y;
+                return Resize(bounds, anchorMode, s, value);
 
+                /*
                 switch (anchorMode)
                 {
                     case PanelAnchorMode.LeftTop:
@@ -784,6 +793,7 @@ namespace FanKit.Transformer.Indicators
                     default:
                         return bounds;
                 }
+                 */
             }
             else
             {
@@ -822,6 +832,87 @@ namespace FanKit.Transformer.Indicators
                     default:
                         return bounds;
                 }
+            }
+        }
+
+        private static Bounds Resize(Bounds bounds, PanelAnchorMode anchorMode, float width, float height)
+        {
+            switch (anchorMode)
+            {
+                case PanelAnchorMode.LeftTop:
+                    return new Bounds
+                    {
+                        Left = bounds.Left,
+                        Top = bounds.Top,
+                        Right = bounds.Left + width,
+                        Bottom = bounds.Top + height,
+                    };
+                case PanelAnchorMode.RightTop:
+                    return new Bounds
+                    {
+                        Left = bounds.Right - width,
+                        Top = bounds.Top,
+                        Right = bounds.Right,
+                        Bottom = bounds.Top + height,
+                    };
+                case PanelAnchorMode.LeftBottom:
+                    return new Bounds
+                    {
+                        Left = bounds.Left,
+                        Top = bounds.Bottom - height,
+                        Right = bounds.Left + width,
+                        Bottom = bounds.Bottom,
+                    };
+                case PanelAnchorMode.RightBottom:
+                    return new Bounds
+                    {
+                        Left = bounds.Right - width,
+                        Top = bounds.Bottom - height,
+                        Right = bounds.Right,
+                        Bottom = bounds.Bottom,
+                    };
+                case PanelAnchorMode.CenterLeft:
+                    return new Bounds
+                    {
+                        Left = bounds.Left,
+                        Top = (bounds.Top + bounds.Bottom - height) / 2f,
+                        Right = bounds.Left + width,
+                        Bottom = (bounds.Top + bounds.Bottom + height) / 2f,
+                    };
+                case PanelAnchorMode.CenterTop:
+                    return new Bounds
+                    {
+                        Left = (bounds.Left + bounds.Right - width) / 2f,
+                        Top = bounds.Top,
+                        Right = (bounds.Left + bounds.Right + width) / 2f,
+                        Bottom = bounds.Top + height,
+                    };
+                case PanelAnchorMode.CenterRight:
+                    return new Bounds
+                    {
+                        Left = bounds.Right - width,
+                        Top = (bounds.Top + bounds.Bottom - height) / 2f,
+                        Right = bounds.Right,
+                        Bottom = (bounds.Top + bounds.Bottom + height) / 2f,
+                    };
+                case PanelAnchorMode.CenterBottom:
+                    return new Bounds
+                    {
+                        Left = (bounds.Left + bounds.Right - width) / 2f,
+                        Top = bounds.Bottom - height,
+                        Right = (bounds.Left + bounds.Right + width) / 2f,
+                        Bottom = bounds.Bottom,
+                    };
+                case PanelAnchorMode.Center:
+                    return new Bounds
+                    {
+                        Left = (bounds.Left + bounds.Right - width) / 2f,
+                        Top = (bounds.Top + bounds.Bottom - height) / 2f,
+                        Right = (bounds.Left + bounds.Right + width) / 2f,
+                        Bottom = (bounds.Top + bounds.Bottom + height) / 2f,
+                    };
+                default:
+                    return bounds;
             }
         }
 
@@ -945,8 +1036,15 @@ namespace FanKit.Transformer.Indicators
             RS();
         }
 
-        public Triangle CreateWidth(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(triangle, anchorMode, value, keepRatio, true);
-        public Triangle CreateHeight(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(triangle, anchorMode, value, keepRatio, false);
+        public Triangle CreateWidth(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio)
+        {
+                return Resize(triangle, anchorMode, value, keepRatio, true);
+        }
+
+        public Triangle CreateHeight(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio)
+        {
+                return Resize(triangle, anchorMode, value, keepRatio, false);
+        }
 
         public Triangle CreateSkew(Triangle triangle, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(triangle, anchorMode, skewAngleInDegrees, minimum, maximum);
 
@@ -1516,8 +1614,15 @@ namespace FanKit.Transformer.Indicators
             RS();
         }
 
-        public Quadrilateral CreateWidth(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(quad, anchorMode, value, keepRatio, true);
-        public Quadrilateral CreateHeight(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(quad, anchorMode, value, keepRatio, false);
+        public Quadrilateral CreateWidth(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio)
+        {
+                return Resize(quad, anchorMode, value, keepRatio, true);
+        }
+
+        public Quadrilateral CreateHeight(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio)
+        {
+                return Resize(quad, anchorMode, value, keepRatio, false);
+        }
 
         public Quadrilateral CreateSkew(Quadrilateral quad, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(quad, anchorMode, skewAngleInDegrees, minimum, maximum);
 
