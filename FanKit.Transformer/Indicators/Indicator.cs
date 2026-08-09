@@ -1314,42 +1314,133 @@ namespace FanKit.Transformer.Indicators
 
         private Triangle Reskew(Triangle t, PanelAnchorMode m, float a, float min, float max)
         {
-            this.K = new IndicatorSkew(hr, t, m, a, min, max);
-
-            float hx2 = hx / 2;
-            float hy2 = hy / 2;
-
-            switch (m)
+            if (hy == 0f)
             {
-                case PanelAnchorMode.LeftTop:
-                case PanelAnchorMode.CenterTop:
-                case PanelAnchorMode.RightTop:
-                    return new Triangle
-                    {
-                        LeftTop = t.LeftTop,
-                        RightTop = t.RightTop,
-                        LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
-                    };
-                case PanelAnchorMode.LeftBottom:
-                case PanelAnchorMode.CenterBottom:
-                case PanelAnchorMode.RightBottom:
-                    return new Triangle
-                    {
-                        LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
-                        RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
-                        LeftBottom = t.LeftBottom,
-                    };
-                case PanelAnchorMode.CenterLeft:
-                case PanelAnchorMode.CenterRight:
-                case PanelAnchorMode.Center:
-                    return new Triangle
-                    {
-                        LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
-                        RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
-                        LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
-                    };
-                default:
+                if (hx == 0f)
+                {
                     return t;
+                }
+                else
+                {
+                    this.K = new IndicatorSkew(hr, t, m, a, min, max);
+
+                    float hx2 = hx / 2;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Triangle
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1),
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1),
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0),
+                            };
+                        default:
+                            return t;
+                    }
+                }
+            }
+            else
+            {
+                if (hx == 0f)
+                {
+                    this.K = new IndicatorSkew(hr, t, m, a, min, max);
+
+                    float hy2 = hy / 2;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Triangle
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                LeftBottom = new Vector2(this.K.fx0, this.K.fy0 - hy2),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(this.K.fx1, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1, this.K.fy1 + hy2),
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(this.K.fx1, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1, this.K.fy1 + hy2),
+                                LeftBottom = new Vector2(this.K.fx0, this.K.fy0 - hy2),
+                            };
+                        default:
+                            return t;
+                    }
+                }
+                else
+                {
+                    this.K = new IndicatorSkew(hr, t, m, a, min, max);
+
+                    float hx2 = hx / 2;
+                    float hy2 = hy / 2;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Triangle
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
+                            };
+                        default:
+                            return t;
+                    }
+                }
             }
         }
         #endregion
@@ -1761,45 +1852,142 @@ namespace FanKit.Transformer.Indicators
 
         private Quadrilateral Reskew(Quadrilateral t, PanelAnchorMode m, float a, float min, float max)
         {
-            this.K = new IndicatorSkew(hr, t, m, a, min, max);
-
-            float hx2 = hx / 2;
-            float hy2 = hy / 2;
-
-            switch (m)
+            if (hy == 0f)
             {
-                case PanelAnchorMode.LeftTop:
-                case PanelAnchorMode.CenterTop:
-                case PanelAnchorMode.RightTop:
-                    return new Quadrilateral
-                    {
-                        LeftTop = t.LeftTop,
-                        RightTop = t.RightTop,
-                        RightBottom = new Vector2(this.K.fx0 + hx2, this.K.fy0 + hy2),
-                        LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
-                    };
-                case PanelAnchorMode.LeftBottom:
-                case PanelAnchorMode.CenterBottom:
-                case PanelAnchorMode.RightBottom:
-                    return new Quadrilateral
-                    {
-                        LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
-                        RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
-                        RightBottom = t.RightBottom,
-                        LeftBottom = t.LeftBottom,
-                    };
-                case PanelAnchorMode.CenterLeft:
-                case PanelAnchorMode.CenterRight:
-                case PanelAnchorMode.Center:
-                    return new Quadrilateral
-                    {
-                        LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
-                        RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
-                        RightBottom = new Vector2(this.K.fx0 + hx2, this.K.fy0 + hy2),
-                        LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
-                    };
-                default:
+                if (hx == 0f)
+                {
                     return t;
+                }
+                else
+                {
+                    this.K = new IndicatorSkew(hr, t, m, a, min, max);
+
+                    float hx2 = hx / 2;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Quadrilateral
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                RightBottom = new Vector2(this.K.fx0 + hx2, this.K.fy0),
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1),
+                                RightBottom = t.RightBottom,
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1),
+                                RightBottom = new Vector2(this.K.fx0 + hx2, this.K.fy0),
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0),
+                            };
+                        default:
+                            return t;
+                    }
+                }
+            }
+            else
+            {
+                if (hx == 0f)
+                {
+                    this.K = new IndicatorSkew(hr, t, m, a, min, max);
+
+                    float hy2 = hy / 2;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Quadrilateral
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                RightBottom = new Vector2(this.K.fx0, this.K.fy0 + hy2),
+                                LeftBottom = new Vector2(this.K.fx0, this.K.fy0 - hy2),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(this.K.fx1, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1, this.K.fy1 + hy2),
+                                RightBottom = t.RightBottom,
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(this.K.fx1, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1, this.K.fy1 + hy2),
+                                RightBottom = new Vector2(this.K.fx0, this.K.fy0 + hy2),
+                                LeftBottom = new Vector2(this.K.fx0, this.K.fy0 - hy2),
+                            };
+                        default:
+                            return t;
+                    }
+                }
+                else
+                {
+                    this.K = new IndicatorSkew(hr, t, m, a, min, max);
+
+                    float hx2 = hx / 2;
+                    float hy2 = hy / 2;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Quadrilateral
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                RightBottom = new Vector2(this.K.fx0 + hx2, this.K.fy0 + hy2),
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
+                                RightBottom = t.RightBottom,
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(this.K.fx1 - hx2, this.K.fy1 - hy2),
+                                RightTop = new Vector2(this.K.fx1 + hx2, this.K.fy1 + hy2),
+                                RightBottom = new Vector2(this.K.fx0 + hx2, this.K.fy0 + hy2),
+                                LeftBottom = new Vector2(this.K.fx0 - hx2, this.K.fy0 - hy2),
+                            };
+                        default:
+                            return t;
+                    }
+                }
             }
         }
         #endregion
