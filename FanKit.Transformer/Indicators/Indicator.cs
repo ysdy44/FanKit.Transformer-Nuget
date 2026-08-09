@@ -1320,6 +1320,44 @@ namespace FanKit.Transformer.Indicators
                 {
                     return t;
                 }
+                else if (a == 0f)
+                {
+                    this.K = default;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Triangle
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                LeftBottom = new Vector2(t.LeftTop.X, t.LeftBottom.Y),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(t.LeftBottom.X, t.LeftTop.Y),
+                                RightTop = new Vector2(t.RightTop.X + t.LeftBottom.X - t.LeftTop.X, t.RightTop.Y),
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            var c = (t.LeftTop.X - t.LeftBottom.X) / 2f;
+                            return new Triangle
+                            {
+                                LeftTop = new Vector2(t.LeftTop.X - c, t.LeftTop.Y),
+                                RightTop = new Vector2(t.RightTop.X - c, t.RightTop.Y),
+                                LeftBottom = new Vector2(t.LeftBottom.X + c, t.LeftBottom.Y),
+                            };
+                        default:
+                            return t;
+                    }
+                }
                 else
                 {
                     this.K = new IndicatorSkew(hr, t, m, a, min, max);
@@ -1857,6 +1895,47 @@ namespace FanKit.Transformer.Indicators
                 if (hx == 0f)
                 {
                     return t;
+                }
+                else if (a == 0f)
+                {
+                    this.K = default;
+
+                    switch (m)
+                    {
+                        case PanelAnchorMode.LeftTop:
+                        case PanelAnchorMode.CenterTop:
+                        case PanelAnchorMode.RightTop:
+                            return new Quadrilateral
+                            {
+                                LeftTop = t.LeftTop,
+                                RightTop = t.RightTop,
+                                RightBottom = new Vector2(t.RightTop.X, t.RightBottom.Y),
+                                LeftBottom = new Vector2(t.LeftTop.X, t.LeftBottom.Y),
+                            };
+                        case PanelAnchorMode.LeftBottom:
+                        case PanelAnchorMode.CenterBottom:
+                        case PanelAnchorMode.RightBottom:
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(t.LeftBottom.X, t.LeftTop.Y),
+                                RightTop = new Vector2(t.RightTop.X + t.LeftBottom.X - t.LeftTop.X, t.RightTop.Y),
+                                RightBottom = t.RightBottom,
+                                LeftBottom = t.LeftBottom,
+                            };
+                        case PanelAnchorMode.CenterLeft:
+                        case PanelAnchorMode.CenterRight:
+                        case PanelAnchorMode.Center:
+                            var c = (t.LeftTop.X + t.RightTop.X - t.RightBottom.X - t.LeftBottom.X) / 4f;
+                            return new Quadrilateral
+                            {
+                                LeftTop = new Vector2(t.LeftTop.X - c, t.LeftTop.Y),
+                                RightTop = new Vector2(t.RightTop.X - c, t.RightTop.Y),
+                                RightBottom = new Vector2(t.RightBottom.X + c, t.RightBottom.Y),
+                                LeftBottom = new Vector2(t.LeftBottom.X + c, t.LeftBottom.Y),
+                            };
+                        default:
+                            return t;
+                    }
                 }
                 else
                 {
