@@ -2374,6 +2374,74 @@
                             </StackPanel>
                         </Button>
 
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                IndicatorBounds
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Polygon IsHitTestVisible="False" StrokeThickness="2" Stroke="DeepSkyBlue">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.1" Color="DeepSkyBlue"/>
+                                        </Shape.Fill>
+                                        <Polygon.Points>
+                                            36,18
+                                            90,18
+                                            90,64
+                                            36,64
+                                        </Polygon.Points>
+                                    </Polygon>
+                                    <Ellipse Canvas.Left="33" Canvas.Top="15" Width="6" Height="6" IsHitTestVisible="False" Fill="Fuchsia"/>
+                                </Canvas>
+                                <TextBlock Text="Indicator Bounds" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                IndicatorTriangle
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Polygon IsHitTestVisible="False" StrokeThickness="2" Stroke="DeepSkyBlue">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.1" Color="DeepSkyBlue"/>
+                                        </Shape.Fill>
+                                        <Polygon.Points>
+                                            36,18
+                                            90,18
+                                            36,64
+                                        </Polygon.Points>
+                                    </Polygon>
+                                    <Ellipse Canvas.Left="33" Canvas.Top="15" Width="6" Height="6" IsHitTestVisible="False" Fill="Fuchsia"/>
+                                </Canvas>
+                                <TextBlock Text="Indicator Triangle" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                IndicatorQuadrilateral
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Polygon IsHitTestVisible="False" StrokeThickness="2" Stroke="DeepSkyBlue">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.1" Color="DeepSkyBlue"/>
+                                        </Shape.Fill>
+                                        <Polygon.Points>
+                                            36,18
+                                            90,18
+                                            90,64
+                                            36,64
+                                        </Polygon.Points>
+                                    </Polygon>
+                                    <Ellipse Canvas.Left="33" Canvas.Top="15" Width="6" Height="6" IsHitTestVisible="False" Fill="Fuchsia"/>
+                                </Canvas>
+                                <TextBlock Text="Indicator Quadrilateral" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
                     </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">

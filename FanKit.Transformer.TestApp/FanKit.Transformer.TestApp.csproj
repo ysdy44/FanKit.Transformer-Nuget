@@ -403,6 +403,15 @@
     <Compile Include="Icons\ThreeBoxs.xaml.cs">
       <DependentUpon>ThreeBoxs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IndicatorBoundsPage.xaml.cs">
+      <DependentUpon>IndicatorBoundsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IndicatorQuadrilateralPage.xaml.cs">
+      <DependentUpon>IndicatorQuadrilateralPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IndicatorTrianglePage.xaml.cs">
+      <DependentUpon>IndicatorTrianglePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InsertCurvePage.xaml.cs">
       <DependentUpon>InsertCurvePage.xaml</DependentUpon>
     </Compile>
@@ -781,6 +790,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Icons\ThreeBoxs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="IndicatorBoundsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="IndicatorQuadrilateralPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="IndicatorTrianglePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

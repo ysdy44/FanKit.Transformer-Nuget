@@ -334,6 +334,9 @@ namespace FanKit.Transformer.TestApp
             ["Shapes"] = new Kvp[]
             {
                 new Kvp("Convert", "Convert", typeof(ConvertPage)),
+                new Kvp("IndicatorBounds", "Indicator Bounds", typeof(IndicatorBoundsPage)),
+                new Kvp("IndicatorTriangle", "Indicator Triangle", typeof(IndicatorTrianglePage)),
+                new Kvp("IndicatorQuadrilateral", "Indicator Quadrilateral", typeof(IndicatorQuadrilateralPage)),
                 default,
                 new Kvp("Rectangle", "Rectangle", typeof(RectanglePage)),
                 new Kvp("Bounds", "Bounds", typeof(BoundsPage)),

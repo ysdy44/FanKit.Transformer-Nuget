@@ -1,0 +1,142 @@
+﻿<Page
+    x:Class="FanKit.Transformer.TestApp.IndicatorQuadrilateralPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:FanKit.Transformer.TestApp"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
+
+    <SplitView PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="265" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <SplitView.Pane>
+            <ScrollViewer>
+                <StackPanel Margin="0,12,12,12">
+
+                    <Border Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <StackPanel>
+
+                            <!--Indicator-->
+                            <Border Height="32" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                <TextBlock Margin="14,0" VerticalAlignment="Center">
+                                    Indicator
+                                </TextBlock>
+                            </Border>
+
+                            <Slider x:Name="XSlider" Margin="12,2" Minimum="0.0" Maximum="400.0">
+                                <Slider.Header>
+                                    <TextBlock>
+                                        X
+                                        <Run FontWeight="Bold" Text="{x:Bind XSlider.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            <Slider x:Name="YSlider" Margin="12,2" Minimum="0.0" Maximum="400.0">
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Y
+                                        <Run FontWeight="Bold" Text="{x:Bind YSlider.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+
+                            <Slider x:Name="WidthSlider" Margin="12,2" Minimum="1.0" Maximum="400.0">
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Width
+                                        <Run FontWeight="Bold" Text="{x:Bind WidthSlider.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            <Slider x:Name="HeightSlider" Margin="12,2" Minimum="1.0" Maximum="400.0">
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Height
+                                        <Run FontWeight="Bold" Text="{x:Bind HeightSlider.Value, Mode=OneWay}"/>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+
+                            <Slider x:Name="RotationSlider" Margin="12,2" Minimum="-180.0" Maximum="180.0">
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Rotation
+                                        <Run FontWeight="Bold" Text="{x:Bind RotationSlider.Value, Mode=OneWay}"/><Run FontWeight="Bold">°</Run>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            <Slider x:Name="SkewSlider" Margin="12,2" Minimum=" -85.0" Maximum="85.0">
+                                <Slider.Header>
+                                    <TextBlock>
+                                        Skew
+                                        <Run FontWeight="Bold" Text="{x:Bind SkewSlider.Value, Mode=OneWay}"/><Run FontWeight="Bold">°</Run>
+                                    </TextBlock>
+                                </Slider.Header>
+                            </Slider>
+                            
+                            <TextBlock Margin="12,0" Text="Keep Ratio"/>
+                            <ToggleSwitch x:Name="RatioButton" Margin="12,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <Rectangle Height="12"/>
+
+                    <Border Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <StackPanel>
+
+                            <!--Channel-->
+                            <Border Height="32" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                <TextBlock Margin="14,0" VerticalAlignment="Center">
+                                    Channel
+                                </TextBlock>
+                            </Border>
+
+                            <TextBlock Margin="14,0">
+                                LeftTop: (<Run x:Name="Point0XRun"/>, <Run x:Name="Point0YRun"/>)
+                                <LineBreak/>
+                                RightTop: (<Run x:Name="Point1XRun"/>, <Run x:Name="Point1YRun"/>)
+                                <LineBreak/>
+                                RightBottom: (<Run x:Name="Point2XRun"/>, <Run x:Name="Point2YRun"/>)
+                                <LineBreak/>
+                                LeftBottom: (<Run x:Name="Point3XRun"/>, <Run x:Name="Point3YRun"/>)
+                            </TextBlock>
+
+                            <Button x:Name="ResetButton" Margin="12,8" Content="Reset"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Rectangle Height="12"/>
+
+                    <Border Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <StackPanel>
+                            <!--Fixed-->
+                            <Border Height="32" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                <TextBlock Margin="14,0" VerticalAlignment="Center">
+                                    Anchor Mode
+                                </TextBlock>
+                            </Border>
+                            <ListView
+                                x:Name="AnchorModeListView"
+                                SelectionMode="Single"
+                                IsItemClickEnabled="True"
+                                />
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </SplitView.Pane>
+
+        <Canvas Width="500" Height="500" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <Line x:Name="Line01" IsHitTestVisible="False" StrokeThickness="2" Stroke="OrangeRed"/>
+            <Line x:Name="Line12" IsHitTestVisible="False" StrokeThickness="2" Stroke="Orange"/>
+            <Line x:Name="Line23" IsHitTestVisible="False" StrokeThickness="2" Stroke="Gold"/>
+            <Line x:Name="Line30" IsHitTestVisible="False" StrokeThickness="2" Stroke="GreenYellow"/>
+            <Ellipse x:Name="Ellipse" IsHitTestVisible="False" Width="8" Height="8" Fill="Fuchsia"/>
+        </Canvas>
+
+    </SplitView>
+</Page>
