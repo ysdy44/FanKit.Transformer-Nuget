@@ -576,91 +576,8 @@ namespace FanKit.Transformer.Indicators
                 float x = bounds.Right - bounds.Left;
                 float y = bounds.Bottom - bounds.Top;
 
-                /*
-                float c = (bounds.Bottom + bounds.Top) / 2f;
-                 */
                 float s = value * y / x;
                 return Resize(bounds, anchorMode, value, s);
-
-                /*
-                switch (anchorMode)
-                {
-                    case PanelAnchorMode.LeftTop:
-                        return new Bounds
-                        {
-                            Left = bounds.Left,
-                            Top = bounds.Top,
-                            Right = bounds.Left + value,
-                            Bottom = c + s,
-                        };
-                    case PanelAnchorMode.LeftBottom:
-                        return new Bounds
-                        {
-                            Left = bounds.Left,
-                            Top = c - s,
-                            Right = bounds.Left + value,
-                            Bottom = bounds.Bottom,
-                        };
-                    case PanelAnchorMode.RightTop:
-                        return new Bounds
-                        {
-                            Left = bounds.Left - value,
-                            Top = bounds.Top,
-                            Right = bounds.Right,
-                            Bottom = c + s,
-                        };
-                    case PanelAnchorMode.RightBottom:
-                        return new Bounds
-                        {
-                            Left = bounds.Left - value,
-                            Top = c - s,
-                            Right = bounds.Right,
-                            Bottom = bounds.Bottom,
-                        };
-                    case PanelAnchorMode.CenterTop:
-                        return new Bounds
-                        {
-                            Left = (bounds.Left + bounds.Right - value) / 2f,
-                            Top = bounds.Top,
-                            Right = (bounds.Left + bounds.Right + value) / 2f,
-                            Bottom = c + s,
-                        };
-                    case PanelAnchorMode.CenterLeft:
-                        return new Bounds
-                        {
-                            Left = bounds.Left,
-                            Top = c - s / 2f,
-                            Right = bounds.Left + value,
-                            Bottom = c + s / 2f,
-                        };
-                    case PanelAnchorMode.CenterBottom:
-                        return new Bounds
-                        {
-                            Left = (bounds.Left + bounds.Right - value) / 2f,
-                            Top = c - s,
-                            Right = (bounds.Left + bounds.Right + value) / 2f,
-                            Bottom = bounds.Bottom,
-                        };
-                    case PanelAnchorMode.CenterRight:
-                        return new Bounds
-                        {
-                            Left = bounds.Right - value,
-                            Top = c - s / 2f,
-                            Right = bounds.Right,
-                            Bottom = c + s / 2f,
-                        };
-                    case PanelAnchorMode.Center:
-                        return new Bounds
-                        {
-                            Left = (bounds.Left + bounds.Right - value) / 2f,
-                            Top = c - s / 2f,
-                            Right = (bounds.Left + bounds.Right + value) / 2f,
-                            Bottom = c + s / 2f,
-                        };
-                    default:
-                        return bounds;
-                }
-                 */
             }
             else
             {
@@ -701,6 +618,7 @@ namespace FanKit.Transformer.Indicators
                 }
             }
         }
+
         //public Bounds CreateHeight(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio) => Resize(bounds, anchorMode, value, keepRatio, false);
         public Bounds CreateHeight(Bounds bounds, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
@@ -709,91 +627,8 @@ namespace FanKit.Transformer.Indicators
                 float x = bounds.Right - bounds.Left;
                 float y = bounds.Bottom - bounds.Top;
 
-                /*
-                float c = (bounds.Right + bounds.Left) / 2f;
-                 */
                 float s = value * x / y;
                 return Resize(bounds, anchorMode, s, value);
-
-                /*
-                switch (anchorMode)
-                {
-                    case PanelAnchorMode.LeftTop:
-                        return new Bounds
-                        {
-                            Left = bounds.Left,
-                            Top = bounds.Top,
-                            Right = c + s,
-                            Bottom = bounds.Top + value,
-                        };
-                    case PanelAnchorMode.RightTop:
-                        return new Bounds
-                        {
-                            Left = c - s,
-                            Top = bounds.Top,
-                            Right = bounds.Right,
-                            Bottom = bounds.Top + value,
-                        };
-                    case PanelAnchorMode.LeftBottom:
-                        return new Bounds
-                        {
-                            Left = bounds.Left,
-                            Top = bounds.Top - value,
-                            Right = c + s,
-                            Bottom = bounds.Bottom,
-                        };
-                    case PanelAnchorMode.RightBottom:
-                        return new Bounds
-                        {
-                            Left = c - s,
-                            Top = bounds.Top - value,
-                            Right = bounds.Right,
-                            Bottom = bounds.Bottom,
-                        };
-                    case PanelAnchorMode.CenterLeft:
-                        return new Bounds
-                        {
-                            Left = bounds.Left,
-                            Top = (bounds.Top + bounds.Bottom - value) / 2f,
-                            Right = c + s,
-                            Bottom = (bounds.Top + bounds.Bottom + value) / 2f,
-                        };
-                    case PanelAnchorMode.CenterTop:
-                        return new Bounds
-                        {
-                            Left = c - s / 2f,
-                            Top = bounds.Top,
-                            Right = c + s / 2f,
-                            Bottom = bounds.Top + value,
-                        };
-                    case PanelAnchorMode.CenterRight:
-                        return new Bounds
-                        {
-                            Left = c - s,
-                            Top = (bounds.Top + bounds.Bottom - value) / 2f,
-                            Right = bounds.Right,
-                            Bottom = (bounds.Top + bounds.Bottom + value) / 2f,
-                        };
-                    case PanelAnchorMode.CenterBottom:
-                        return new Bounds
-                        {
-                            Left = c - s / 2f,
-                            Top = bounds.Bottom - value,
-                            Right = c + s / 2f,
-                            Bottom = bounds.Bottom,
-                        };
-                    case PanelAnchorMode.Center:
-                        return new Bounds
-                        {
-                            Left = c - s / 2f,
-                            Top = (bounds.Top + bounds.Bottom - value) / 2f,
-                            Right = c + s / 2f,
-                            Bottom = (bounds.Top + bounds.Bottom + value) / 2f,
-                        };
-                    default:
-                        return bounds;
-                }
-                 */
             }
             else
             {
