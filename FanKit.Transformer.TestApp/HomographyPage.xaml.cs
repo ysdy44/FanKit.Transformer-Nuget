@@ -93,9 +93,9 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
-        private async Task CreateResourcesAsync(ICanvasResourceCreator sender)
+        private async Task CreateResourcesAsync(ICanvasResourceCreator resourceCreator)
         {
-            this.InitializeSource(await CanvasBitmap.LoadAsync(sender, "Images/avatar.jpg"));
+            this.InitializeSource(await CanvasBitmap.LoadAsync(resourceCreator, "Images/avatar.jpg"));
             this.InitializeMatrix();
         }
 
