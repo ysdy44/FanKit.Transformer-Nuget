@@ -43,7 +43,7 @@
                     ry = (t.LeftTop.Y + t.RightTop.Y) / 2f;
 
                     if (d < min)
-                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
+                        rad = Constants.PIOver2 + hr - min * Constants.DegreesToRadians;
                     else if (d > max)
                         rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
@@ -99,7 +99,7 @@
                     ry = t.LeftBottom.Y + (t.RightTop.Y - t.LeftTop.Y) / 2f;
 
                     if (d < min)
-                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
+                        rad = Constants.PIOver2 + hr - min * Constants.DegreesToRadians;
                     else if (d > max)
                         rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
@@ -155,7 +155,7 @@
                     ry = (t.RightTop.Y + t.LeftBottom.Y) / 2f;
 
                     if (d < min)
-                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
+                        rad = Constants.PIOver2 + hr - min * Constants.DegreesToRadians;
                     else if (d > max)
                         rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
@@ -262,7 +262,7 @@
                     ry = (t.LeftTop.Y + t.RightTop.Y) / 2f;
 
                     if (d < min)
-                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
+                        rad = Constants.PIOver2 + hr - min * Constants.DegreesToRadians;
                     else if (d > max)
                         rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
@@ -318,7 +318,7 @@
                     ry = (t.RightBottom.Y + t.LeftBottom.Y) / 2f;
 
                     if (d < min)
-                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
+                        rad = Constants.PIOver2 + hr - min * Constants.DegreesToRadians;
                     else if (d > max)
                         rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
@@ -374,7 +374,7 @@
                     ry = (t.LeftTop.Y + t.RightTop.Y + t.RightBottom.Y + t.LeftBottom.Y) / 4f;
 
                     if (d < min)
-                        rad = Constants.PIOver2 + hr + min * Constants.DegreesToRadians;
+                        rad = Constants.PIOver2 + hr - min * Constants.DegreesToRadians;
                     else if (d > max)
                         rad = Constants.PIOver2 + hr - max * Constants.DegreesToRadians;
                     else
