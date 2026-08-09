@@ -13,7 +13,7 @@ namespace FanKit.Transformer.UI
         // 0.0~1.0
         float Scale;
         float Reverse;
-        float Amout;
+        float Amount;
 
         public float Form { get; private set; }
         public float To { get; private set; }
@@ -25,7 +25,7 @@ namespace FanKit.Transformer.UI
 
             Scale = 1f;
             Reverse = 1f;
-            Amout = 0f;
+            Amount = 0f;
 
             Form = offset;
             To = offset - item.Raw;
@@ -38,7 +38,7 @@ namespace FanKit.Transformer.UI
 
             Scale = 1f;
             Reverse = 1f;
-            Amout = 0f;
+            Amount = 0f;
 
             Form = form;
             To = to;
@@ -55,9 +55,9 @@ namespace FanKit.Transformer.UI
 
             Scale = 1f - Time / TotalTimeF;
             Reverse = Scale * Scale;
-            Amout = 1f - Reverse;
+            Amount = 1f - Reverse;
 
-            Value = Reverse * Form + Amout * To;
+            Value = Reverse * Form + Amount * To;
             return true;
         }
     }

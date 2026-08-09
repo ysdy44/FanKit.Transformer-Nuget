@@ -14,7 +14,7 @@ namespace FanKit.Transformer.UI
         // 0.0~1.0
         float Scale;
         float Reverse;
-        float Amout;
+        float Amount;
 
         public float StartingY { get; private set; }
         public ScrollerDirection Direction { get; private set; }
@@ -30,7 +30,7 @@ namespace FanKit.Transformer.UI
 
             Scale = 1f;
             Reverse = 1f;
-            Amout = 0f;
+            Amount = 0f;
 
             StartingY = startingY;
             Direction = bounds.EndDirection(form.X);
@@ -62,9 +62,9 @@ namespace FanKit.Transformer.UI
 
             Scale = 1f - Time / TotalTimeF;
             Reverse = Scale * Scale;
-            Amout = 1f - Reverse;
+            Amount = 1f - Reverse;
 
-            Value = Reverse * Form + Amout * To;
+            Value = Reverse * Form + Amount * To;
             return true;
         }
     }

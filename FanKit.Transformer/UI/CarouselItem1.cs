@@ -3,33 +3,33 @@
     public readonly struct CarouselItem1
     {
         public readonly CarouselPlacment Placment;
-        public readonly float Amout;
+        public readonly float Amount;
 
         public readonly Quadrilateral Box;
 
         // -0.5 ~ +0.5
-        internal CarouselItem1(Carousel carousel, float centerX, float centerY, float amout)
+        internal CarouselItem1(Carousel carousel, float centerX, float centerY, float amount)
         {
-            if (amout < -0.5f)
+            if (amount < -0.5f)
             {
                 Placment = CarouselPlacment.Start;
-                Amout = -0.5f;
+                Amount = -0.5f;
 
                 Box = carousel.LeftBox(centerX, centerY);
             }
-            else if (amout > 0.5f)
+            else if (amount > 0.5f)
             {
                 Placment = CarouselPlacment.End;
-                Amout = 0.5f;
+                Amount = 0.5f;
 
                 Box = carousel.RightBox(centerX, centerY);
             }
             else
             {
                 Placment = CarouselPlacment.Lerp;
-                Amout = amout;
+                Amount = amount;
 
-                Box = carousel.LerpBox(centerX, centerY, this.Amout);
+                Box = carousel.LerpBox(centerX, centerY, this.Amount);
             }
         }
     }

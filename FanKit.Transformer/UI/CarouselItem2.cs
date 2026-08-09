@@ -3,7 +3,7 @@
     public readonly struct CarouselItem2
     {
         public readonly CarouselPlacment Placment;
-        public readonly float Amout;
+        public readonly float Amount;
 
         public readonly float Raw;
         public readonly float Actual;
@@ -17,7 +17,7 @@
             if (Raw < -itemMargin)
             {
                 Placment = CarouselPlacment.Start;
-                Amout = default;
+                Amount = default;
 
                 Actual = centerX + Raw - itemMargin;
 
@@ -26,16 +26,16 @@
             else if (Raw < itemMargin)
             {
                 Placment = CarouselPlacment.Lerp;
-                Amout = Raw / itemMargin / 2f;
+                Amount = Raw / itemMargin / 2f;
 
                 Actual = centerX + Raw + Raw;
 
-                Box = carousel.LerpBox(Actual, centerY, Amout);
+                Box = carousel.LerpBox(Actual, centerY, Amount);
             }
             else
             {
                 Placment = CarouselPlacment.End;
-                Amout = default;
+                Amount = default;
 
                 Actual = centerX + Raw + itemMargin;
 
