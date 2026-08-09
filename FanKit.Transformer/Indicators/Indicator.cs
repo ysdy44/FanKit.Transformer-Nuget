@@ -873,12 +873,18 @@ namespace FanKit.Transformer.Indicators
 
         public Triangle CreateWidth(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
-                return Resize(triangle, anchorMode, value, keepRatio, true);
+            if (keepRatio)
+                return Resize(triangle, anchorMode, value, true);
+            else
+                return Rewidth(triangle, anchorMode, value);
         }
 
         public Triangle CreateHeight(Triangle triangle, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
-                return Resize(triangle, anchorMode, value, keepRatio, false);
+            if (keepRatio)
+                return Resize(triangle, anchorMode, value, false);
+            else
+                return Reheight(triangle, anchorMode, value);
         }
 
         public Triangle CreateSkew(Triangle triangle, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(triangle, anchorMode, skewAngleInDegrees, minimum, maximum);
@@ -968,280 +974,279 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        private Triangle Resize(Triangle t, PanelAnchorMode m, float v, bool k, bool w)
+        private Triangle Resize(Triangle t, PanelAnchorMode m, float v, bool w)
         {
-            if (k)
+            float s = w ? v / hl : v / vl;
+
+            switch (m)
             {
-                float s = w ? v / hl : v / vl;
+                case PanelAnchorMode.LeftTop:
+                    {
+                        float x = t.LeftTop.X - t.LeftTop.X * s;
+                        float y = t.LeftTop.Y - t.LeftTop.Y * s;
 
-                switch (m)
-                {
-                    case PanelAnchorMode.LeftTop:
+                        return new Triangle
                         {
-                            float x = t.LeftTop.X - t.LeftTop.X * s;
-                            float y = t.LeftTop.Y - t.LeftTop.Y * s;
+                            LeftTop = t.LeftTop,
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.RightTop:
+                    {
+                        float x = t.RightTop.X - t.RightTop.X * s;
+                        float y = t.RightTop.Y - t.RightTop.Y * s;
 
-                            return new Triangle
-                            {
-                                LeftTop = t.LeftTop,
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.RightTop:
+                        return new Triangle
                         {
-                            float x = t.RightTop.X - t.RightTop.X * s;
-                            float y = t.RightTop.Y - t.RightTop.Y * s;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = t.RightTop,
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.LeftBottom:
+                    {
+                        float x = t.LeftBottom.X - t.LeftBottom.X * s;
+                        float y = t.LeftBottom.Y - t.LeftBottom.Y * s;
 
-                            return new Triangle
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = t.RightTop,
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.LeftBottom:
+                        return new Triangle
                         {
-                            float x = t.LeftBottom.X - t.LeftBottom.X * s;
-                            float y = t.LeftBottom.Y - t.LeftBottom.Y * s;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = t.LeftBottom,
+                        };
+                    }
+                case PanelAnchorMode.RightBottom:
+                    {
+                        float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
+                        float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
 
-                            return new Triangle
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = t.LeftBottom,
-                            };
-                        }
-                    case PanelAnchorMode.RightBottom:
+                        float x = rbx - rbx * s;
+                        float y = rby - rby * s;
+
+                        return new Triangle
                         {
-                            float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
-                            float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.CenterLeft:
+                    {
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            float x = rbx - rbx * s;
-                            float y = rby - rby * s;
+                        float cx = t.LeftBottom.X + t.LeftTop.X;
+                        float cy = t.LeftBottom.Y + t.LeftTop.Y;
 
-                            return new Triangle
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.CenterLeft:
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
+
+                        float x = rx / 2f;
+                        float y = ry / 2f;
+
+                        return new Triangle
                         {
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            LeftBottom = new Vector2(t.LeftBottom.X * ra + t.LeftTop.X * rs, t.LeftBottom.Y * ra + t.LeftTop.Y * rs),
+                            LeftTop = new Vector2(t.LeftTop.X * ra + t.LeftBottom.X * rs, t.LeftTop.Y * ra + t.LeftBottom.Y * rs),
 
-                            float cx = t.LeftBottom.X + t.LeftTop.X;
-                            float cy = t.LeftBottom.Y + t.LeftTop.Y;
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.CenterTop:
+                    {
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
+                        float cx = t.LeftTop.X + t.RightTop.X;
+                        float cy = t.LeftTop.Y + t.RightTop.Y;
 
-                            float x = rx / 2f;
-                            float y = ry / 2f;
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
 
-                            return new Triangle
-                            {
-                                LeftBottom = new Vector2(t.LeftBottom.X * ra + t.LeftTop.X * rs, t.LeftBottom.Y * ra + t.LeftTop.Y * rs),
-                                LeftTop = new Vector2(t.LeftTop.X * ra + t.LeftBottom.X * rs, t.LeftTop.Y * ra + t.LeftBottom.Y * rs),
+                        float x = rx / 2f;
+                        float y = ry / 2f;
 
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.CenterTop:
+                        return new Triangle
                         {
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            LeftTop = new Vector2(t.LeftTop.X * ra + t.RightTop.X * rs, t.LeftTop.Y * ra + t.RightTop.Y * rs),
+                            RightTop = new Vector2(t.RightTop.X * ra + t.LeftTop.X * rs, t.RightTop.Y * ra + t.LeftTop.Y * rs),
 
-                            float cx = t.LeftTop.X + t.RightTop.X;
-                            float cy = t.LeftTop.Y + t.RightTop.Y;
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.CenterRight:
+                    {
+                        float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
+                        float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            float x = rx / 2f;
-                            float y = ry / 2f;
+                        float cx = t.RightTop.X + rbx;
+                        float cy = t.RightTop.Y + rby;
 
-                            return new Triangle
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * ra + t.RightTop.X * rs, t.LeftTop.Y * ra + t.RightTop.Y * rs),
-                                RightTop = new Vector2(t.RightTop.X * ra + t.LeftTop.X * rs, t.RightTop.Y * ra + t.LeftTop.Y * rs),
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
 
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.CenterRight:
+                        float x = rx / 2f;
+                        float y = ry / 2f;
+
+                        return new Triangle
                         {
-                            float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
-                            float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
+                            RightTop = new Vector2(t.RightTop.X * ra + rbx * rs, t.RightTop.Y * ra + rby * rs),
 
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.CenterBottom:
+                    {
+                        float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
+                        float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
 
-                            float cx = t.RightTop.X + rbx;
-                            float cy = t.RightTop.Y + rby;
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
+                        float cx = rbx + t.LeftBottom.X;
+                        float cy = rby + t.LeftBottom.Y;
 
-                            float x = rx / 2f;
-                            float y = ry / 2f;
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
 
-                            return new Triangle
-                            {
-                                RightTop = new Vector2(t.RightTop.X * ra + rbx * rs, t.RightTop.Y * ra + rby * rs),
+                        float x = rx / 2f;
+                        float y = ry / 2f;
 
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.CenterBottom:
+                        return new Triangle
                         {
-                            float rbx = t.RightTop.X + t.LeftBottom.X - t.LeftTop.X;
-                            float rby = t.RightTop.Y + t.LeftBottom.Y - t.LeftTop.Y;
+                            LeftBottom = new Vector2(t.LeftBottom.X * ra + rbx * rs, t.LeftBottom.Y * ra + rby * rs),
 
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.Center:
+                default:
+                    {
+                        const float f = 1f / 4f;
 
-                            float cx = rbx + t.LeftBottom.X;
-                            float cy = rby + t.LeftBottom.Y;
+                        float fs = f - s / 4f;
+                        float x = (t.RightTop.X + t.LeftBottom.X) * 2f * fs;
+                        float y = (t.RightTop.Y + t.LeftBottom.Y) * 2f * fs;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
-
-                            float x = rx / 2f;
-                            float y = ry / 2f;
-
-                            return new Triangle
-                            {
-                                LeftBottom = new Vector2(t.LeftBottom.X * ra + rbx * rs, t.LeftBottom.Y * ra + rby * rs),
-
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.Center:
-                    default:
+                        return new Triangle
                         {
-                            const float f = 1f / 4f;
-
-                            float fs = f - s / 4f;
-                            float x = (t.RightTop.X + t.LeftBottom.X) * 2f * fs;
-                            float y = (t.RightTop.Y + t.LeftBottom.Y) * 2f * fs;
-
-                            return new Triangle
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                            };
-                        }
-                }
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                        };
+                    }
             }
-            else if (w)
+        }
+
+        private Triangle Rewidth(Triangle t, PanelAnchorMode m, float v)
+        {
+            float scale = v / hl - 1f;
+            switch (m)
             {
-                float scale = v / hl - 1f;
-                switch (m)
-                {
-                    case PanelAnchorMode.LeftTop:
-                    case PanelAnchorMode.CenterLeft:
-                    case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterLeft:
+                case PanelAnchorMode.LeftBottom:
+                    {
+                        float x = hx * scale;
+                        float y = hy * scale;
+
+                        return new Triangle
                         {
-                            float x = hx * scale;
-                            float y = hy * scale;
+                            LeftTop = t.LeftTop,
+                            LeftBottom = t.LeftBottom,
 
-                            return new Triangle
-                            {
-                                LeftTop = t.LeftTop,
-                                LeftBottom = t.LeftBottom,
+                            RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
+                        };
+                    }
 
-                                RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
-                            };
-                        }
+                case PanelAnchorMode.RightTop:
+                case PanelAnchorMode.CenterRight:
+                case PanelAnchorMode.RightBottom:
+                    {
+                        float x = hx * scale;
+                        float y = hy * scale;
 
-                    case PanelAnchorMode.RightTop:
-                    case PanelAnchorMode.CenterRight:
-                    case PanelAnchorMode.RightBottom:
+                        return new Triangle
                         {
-                            float x = hx * scale;
-                            float y = hy * scale;
+                            RightTop = t.RightTop,
 
-                            return new Triangle
-                            {
-                                RightTop = t.RightTop,
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
+                        };
+                    }
 
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
-                            };
-                        }
+                default:
+                    {
+                        float x = hx * scale / 2f;
+                        float y = hy * scale / 2f;
 
-                    default:
+                        return new Triangle
                         {
-                            float x = hx * scale / 2f;
-                            float y = hy * scale / 2f;
+                            RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
 
-                            return new Triangle
-                            {
-                                RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
-
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
-                            };
-                        }
-                }
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
+                        };
+                    }
             }
-            else
+        }
+
+        private Triangle Reheight(Triangle t, PanelAnchorMode m, float v)
+        {
+            float scale = v / vl - 1f;
+            switch (m)
             {
-                float scale = v / vl - 1f;
-                switch (m)
-                {
-                    case PanelAnchorMode.LeftTop:
-                    case PanelAnchorMode.CenterTop:
-                    case PanelAnchorMode.RightTop:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterTop:
+                case PanelAnchorMode.RightTop:
+                    {
+                        float x = vx * scale;
+                        float y = vy * scale;
+
+                        return new Triangle
                         {
-                            float x = vx * scale;
-                            float y = vy * scale;
+                            LeftTop = t.LeftTop,
+                            RightTop = t.RightTop,
 
-                            return new Triangle
-                            {
-                                LeftTop = t.LeftTop,
-                                RightTop = t.RightTop,
+                            LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
+                        };
+                    }
 
-                                LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
-                            };
-                        }
+                case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.CenterBottom:
+                case PanelAnchorMode.RightBottom:
+                    {
+                        float x = vx * scale;
+                        float y = vy * scale;
 
-                    case PanelAnchorMode.LeftBottom:
-                    case PanelAnchorMode.CenterBottom:
-                    case PanelAnchorMode.RightBottom:
+                        return new Triangle
                         {
-                            float x = vx * scale;
-                            float y = vy * scale;
+                            LeftBottom = t.LeftBottom,
 
-                            return new Triangle
-                            {
-                                LeftBottom = t.LeftBottom,
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
+                        };
+                    }
 
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
-                            };
-                        }
+                default:
+                    {
+                        float x = vx * scale / 2f;
+                        float y = vy * scale / 2f;
 
-                    default:
+                        return new Triangle
                         {
-                            float x = vx * scale / 2f;
-                            float y = vy * scale / 2f;
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
 
-                            return new Triangle
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
-
-                                LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
-                            };
-                        }
-                }
+                            LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
+                        };
+                    }
             }
         }
 
@@ -1451,12 +1456,18 @@ namespace FanKit.Transformer.Indicators
 
         public Quadrilateral CreateWidth(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
-                return Resize(quad, anchorMode, value, keepRatio, true);
+            if (keepRatio)
+                return Resize(quad, anchorMode, value, true);
+            else
+                return Rewidth(quad, anchorMode, value);
         }
 
         public Quadrilateral CreateHeight(Quadrilateral quad, PanelAnchorMode anchorMode, float value, bool keepRatio)
         {
-                return Resize(quad, anchorMode, value, keepRatio, false);
+            if (keepRatio)
+                return Resize(quad, anchorMode, value, false);
+            else
+                return Reheight(quad, anchorMode, value);
         }
 
         public Quadrilateral CreateSkew(Quadrilateral quad, PanelAnchorMode anchorMode, float skewAngleInDegrees, float minimum, float maximum) => Reskew(quad, anchorMode, skewAngleInDegrees, minimum, maximum);
@@ -1545,286 +1556,285 @@ namespace FanKit.Transformer.Indicators
             }
         }
 
-        private Quadrilateral Resize(Quadrilateral t, PanelAnchorMode m, float v, bool k, bool w)
+        private Quadrilateral Resize(Quadrilateral t, PanelAnchorMode m, float v, bool w)
         {
-            if (k)
+            float s = w ? v / hl : v / vl;
+
+            switch (m)
             {
-                float s = w ? v / hl : v / vl;
+                case PanelAnchorMode.LeftTop:
+                    {
+                        float x = t.LeftTop.X - t.LeftTop.X * s;
+                        float y = t.LeftTop.Y - t.LeftTop.Y * s;
 
-                switch (m)
-                {
-                    case PanelAnchorMode.LeftTop:
+                        return new Quadrilateral
                         {
-                            float x = t.LeftTop.X - t.LeftTop.X * s;
-                            float y = t.LeftTop.Y - t.LeftTop.Y * s;
+                            LeftTop = t.LeftTop,
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                            RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.RightTop:
+                    {
+                        float x = t.RightTop.X - t.RightTop.X * s;
+                        float y = t.RightTop.Y - t.RightTop.Y * s;
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = t.LeftTop,
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                                RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.RightTop:
+                        return new Quadrilateral
                         {
-                            float x = t.RightTop.X - t.RightTop.X * s;
-                            float y = t.RightTop.Y - t.RightTop.Y * s;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = t.RightTop,
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                            RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.LeftBottom:
+                    {
+                        float x = t.LeftBottom.X - t.LeftBottom.X * s;
+                        float y = t.LeftBottom.Y - t.LeftBottom.Y * s;
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = t.RightTop,
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                                RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.LeftBottom:
+                        return new Quadrilateral
                         {
-                            float x = t.LeftBottom.X - t.LeftBottom.X * s;
-                            float y = t.LeftBottom.Y - t.LeftBottom.Y * s;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = t.LeftBottom,
+                            RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.RightBottom:
+                    {
+                        float x = t.RightBottom.X - t.RightBottom.X * s;
+                        float y = t.RightBottom.Y - t.RightBottom.Y * s;
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = t.LeftBottom,
-                                RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.RightBottom:
+                        return new Quadrilateral
                         {
-                            float x = t.RightBottom.X - t.RightBottom.X * s;
-                            float y = t.RightBottom.Y - t.RightBottom.Y * s;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                            RightBottom = t.RightBottom,
+                        };
+                    }
+                case PanelAnchorMode.CenterLeft:
+                    {
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                                RightBottom = t.RightBottom,
-                            };
-                        }
-                    case PanelAnchorMode.CenterLeft:
+                        float cx = t.LeftBottom.X + t.LeftTop.X;
+                        float cy = t.LeftBottom.Y + t.LeftTop.Y;
+
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
+
+                        float x = rx / 2f;
+                        float y = ry / 2f;
+
+                        return new Quadrilateral
                         {
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            LeftBottom = new Vector2(t.LeftBottom.X * ra + t.LeftTop.X * rs, t.LeftBottom.Y * ra + t.LeftTop.Y * rs),
+                            LeftTop = new Vector2(t.LeftTop.X * ra + t.LeftBottom.X * rs, t.LeftTop.Y * ra + t.LeftBottom.Y * rs),
 
-                            float cx = t.LeftBottom.X + t.LeftTop.X;
-                            float cy = t.LeftBottom.Y + t.LeftTop.Y;
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.CenterTop:
+                    {
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
+                        float cx = t.LeftTop.X + t.RightTop.X;
+                        float cy = t.LeftTop.Y + t.RightTop.Y;
 
-                            float x = rx / 2f;
-                            float y = ry / 2f;
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
 
-                            return new Quadrilateral
-                            {
-                                LeftBottom = new Vector2(t.LeftBottom.X * ra + t.LeftTop.X * rs, t.LeftBottom.Y * ra + t.LeftTop.Y * rs),
-                                LeftTop = new Vector2(t.LeftTop.X * ra + t.LeftBottom.X * rs, t.LeftTop.Y * ra + t.LeftBottom.Y * rs),
+                        float x = rx / 2f;
+                        float y = ry / 2f;
 
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.CenterTop:
+                        return new Quadrilateral
                         {
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            LeftTop = new Vector2(t.LeftTop.X * ra + t.RightTop.X * rs, t.LeftTop.Y * ra + t.RightTop.Y * rs),
+                            RightTop = new Vector2(t.RightTop.X * ra + t.LeftTop.X * rs, t.RightTop.Y * ra + t.LeftTop.Y * rs),
 
-                            float cx = t.LeftTop.X + t.RightTop.X;
-                            float cy = t.LeftTop.Y + t.RightTop.Y;
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                            RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.CenterRight:
+                    {
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
+                        float cx = t.RightTop.X + t.RightBottom.X;
+                        float cy = t.RightTop.Y + t.RightBottom.Y;
 
-                            float x = rx / 2f;
-                            float y = ry / 2f;
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * ra + t.RightTop.X * rs, t.LeftTop.Y * ra + t.RightTop.Y * rs),
-                                RightTop = new Vector2(t.RightTop.X * ra + t.LeftTop.X * rs, t.RightTop.Y * ra + t.LeftTop.Y * rs),
+                        float x = rx / 2f;
+                        float y = ry / 2f;
 
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                                RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.CenterRight:
+                        return new Quadrilateral
                         {
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            RightTop = new Vector2(t.RightTop.X * ra + t.RightBottom.X * rs, t.RightTop.Y * ra + t.RightBottom.Y * rs),
+                            RightBottom = new Vector2(t.RightBottom.X * ra + t.RightTop.X * rs, t.RightBottom.Y * ra + t.RightTop.Y * rs),
 
-                            float cx = t.RightTop.X + t.RightBottom.X;
-                            float cy = t.RightTop.Y + t.RightBottom.Y;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.CenterBottom:
+                    {
+                        float ra = (1f + s) / 2f;
+                        float rs = (1f - s) / 2f;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
+                        float cx = t.RightBottom.X + t.LeftBottom.X;
+                        float cy = t.RightBottom.Y + t.LeftBottom.Y;
 
-                            float x = rx / 2f;
-                            float y = ry / 2f;
+                        float rx = cx - cx * s;
+                        float ry = cy - cy * s;
 
-                            return new Quadrilateral
-                            {
-                                RightTop = new Vector2(t.RightTop.X * ra + t.RightBottom.X * rs, t.RightTop.Y * ra + t.RightBottom.Y * rs),
-                                RightBottom = new Vector2(t.RightBottom.X * ra + t.RightTop.X * rs, t.RightBottom.Y * ra + t.RightTop.Y * rs),
+                        float x = rx / 2f;
+                        float y = ry / 2f;
 
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.CenterBottom:
+                        return new Quadrilateral
                         {
-                            float ra = (1f + s) / 2f;
-                            float rs = (1f - s) / 2f;
+                            RightBottom = new Vector2(t.RightBottom.X * ra + t.LeftBottom.X * rs, t.RightBottom.Y * ra + t.LeftBottom.Y * rs),
+                            LeftBottom = new Vector2(t.LeftBottom.X * ra + t.RightBottom.X * rs, t.LeftBottom.Y * ra + t.RightBottom.Y * rs),
 
-                            float cx = t.RightBottom.X + t.LeftBottom.X;
-                            float cy = t.RightBottom.Y + t.LeftBottom.Y;
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                        };
+                    }
+                case PanelAnchorMode.Center:
+                default:
+                    {
+                        const float f = 1f / 4f;
 
-                            float rx = cx - cx * s;
-                            float ry = cy - cy * s;
+                        float fs = f - s / 4f;
+                        float x = (t.LeftTop.X + t.RightTop.X + t.RightBottom.X + t.LeftBottom.X) * fs;
+                        float y = (t.LeftTop.Y + t.RightTop.Y + t.RightBottom.Y + t.LeftBottom.Y) * fs;
 
-                            float x = rx / 2f;
-                            float y = ry / 2f;
-
-                            return new Quadrilateral
-                            {
-                                RightBottom = new Vector2(t.RightBottom.X * ra + t.LeftBottom.X * rs, t.RightBottom.Y * ra + t.LeftBottom.Y * rs),
-                                LeftBottom = new Vector2(t.LeftBottom.X * ra + t.RightBottom.X * rs, t.LeftBottom.Y * ra + t.RightBottom.Y * rs),
-
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                            };
-                        }
-                    case PanelAnchorMode.Center:
-                    default:
+                        return new Quadrilateral
                         {
-                            const float f = 1f / 4f;
-
-                            float fs = f - s / 4f;
-                            float x = (t.LeftTop.X + t.RightTop.X + t.RightBottom.X + t.LeftBottom.X) * fs;
-                            float y = (t.LeftTop.Y + t.RightTop.Y + t.RightBottom.Y + t.LeftBottom.Y) * fs;
-
-                            return new Quadrilateral
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
-                                RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
-                                LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
-                                RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
-                            };
-                        }
-                }
+                            LeftTop = new Vector2(t.LeftTop.X * s + x, t.LeftTop.Y * s + y),
+                            RightTop = new Vector2(t.RightTop.X * s + x, t.RightTop.Y * s + y),
+                            LeftBottom = new Vector2(t.LeftBottom.X * s + x, t.LeftBottom.Y * s + y),
+                            RightBottom = new Vector2(t.RightBottom.X * s + x, t.RightBottom.Y * s + y),
+                        };
+                    }
             }
-            else if (w)
+        }
+
+        private Quadrilateral Rewidth(Quadrilateral t, PanelAnchorMode m, float v)
+        {
+            float scale = v / hl - 1f;
+            switch (m)
             {
-                float scale = v / hl - 1f;
-                switch (m)
-                {
-                    case PanelAnchorMode.LeftTop:
-                    case PanelAnchorMode.CenterLeft:
-                    case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterLeft:
+                case PanelAnchorMode.LeftBottom:
+                    {
+                        float x = hx * scale;
+                        float y = hy * scale;
+
+                        return new Quadrilateral
                         {
-                            float x = hx * scale;
-                            float y = hy * scale;
+                            LeftTop = t.LeftTop,
+                            LeftBottom = t.LeftBottom,
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = t.LeftTop,
-                                LeftBottom = t.LeftBottom,
+                            RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
+                            RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
+                        };
+                    }
 
-                                RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
-                                RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
-                            };
-                        }
+                case PanelAnchorMode.RightTop:
+                case PanelAnchorMode.CenterRight:
+                case PanelAnchorMode.RightBottom:
+                    {
+                        float x = hx * scale;
+                        float y = hy * scale;
 
-                    case PanelAnchorMode.RightTop:
-                    case PanelAnchorMode.CenterRight:
-                    case PanelAnchorMode.RightBottom:
+                        return new Quadrilateral
                         {
-                            float x = hx * scale;
-                            float y = hy * scale;
+                            RightTop = t.RightTop,
+                            RightBottom = t.RightBottom,
 
-                            return new Quadrilateral
-                            {
-                                RightTop = t.RightTop,
-                                RightBottom = t.RightBottom,
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
+                        };
+                    }
 
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
-                            };
-                        }
+                default:
+                    {
+                        float x = hx * scale / 2f;
+                        float y = hy * scale / 2f;
 
-                    default:
+                        return new Quadrilateral
                         {
-                            float x = hx * scale / 2f;
-                            float y = hy * scale / 2f;
+                            RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
+                            RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
 
-                            return new Quadrilateral
-                            {
-                                RightTop = new Vector2(t.RightTop.X + x, t.RightTop.Y + y),
-                                RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
-
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
-                            };
-                        }
-                }
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            LeftBottom = new Vector2(t.LeftBottom.X - x, t.LeftBottom.Y - y),
+                        };
+                    }
             }
-            else
+        }
+
+        private Quadrilateral Reheight(Quadrilateral t, PanelAnchorMode m, float v)
+        {
+            float scale = v / vl - 1f;
+            switch (m)
             {
-                float scale = v / vl - 1f;
-                switch (m)
-                {
-                    case PanelAnchorMode.LeftTop:
-                    case PanelAnchorMode.CenterTop:
-                    case PanelAnchorMode.RightTop:
+                case PanelAnchorMode.LeftTop:
+                case PanelAnchorMode.CenterTop:
+                case PanelAnchorMode.RightTop:
+                    {
+                        float x = vx * scale;
+                        float y = vy * scale;
+
+                        return new Quadrilateral
                         {
-                            float x = vx * scale;
-                            float y = vy * scale;
+                            LeftTop = t.LeftTop,
+                            RightTop = t.RightTop,
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = t.LeftTop,
-                                RightTop = t.RightTop,
+                            LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
+                            RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
+                        };
+                    }
 
-                                LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
-                                RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
-                            };
-                        }
+                case PanelAnchorMode.LeftBottom:
+                case PanelAnchorMode.CenterBottom:
+                case PanelAnchorMode.RightBottom:
+                    {
+                        float x = vx * scale;
+                        float y = vy * scale;
 
-                    case PanelAnchorMode.LeftBottom:
-                    case PanelAnchorMode.CenterBottom:
-                    case PanelAnchorMode.RightBottom:
+                        return new Quadrilateral
                         {
-                            float x = vx * scale;
-                            float y = vy * scale;
+                            LeftBottom = t.LeftBottom,
+                            RightBottom = t.RightBottom,
 
-                            return new Quadrilateral
-                            {
-                                LeftBottom = t.LeftBottom,
-                                RightBottom = t.RightBottom,
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
+                        };
+                    }
 
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
-                            };
-                        }
+                default:
+                    {
+                        float x = vx * scale / 2f;
+                        float y = vy * scale / 2f;
 
-                    default:
+                        return new Quadrilateral
                         {
-                            float x = vx * scale / 2f;
-                            float y = vy * scale / 2f;
+                            LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
+                            RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
 
-                            return new Quadrilateral
-                            {
-                                LeftTop = new Vector2(t.LeftTop.X - x, t.LeftTop.Y - y),
-                                RightTop = new Vector2(t.RightTop.X - x, t.RightTop.Y - y),
-
-                                LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
-                                RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
-                            };
-                        }
-                }
+                            LeftBottom = new Vector2(t.LeftBottom.X + x, t.LeftBottom.Y + y),
+                            RightBottom = new Vector2(t.RightBottom.X + x, t.RightBottom.Y + y),
+                        };
+                    }
             }
         }
 
