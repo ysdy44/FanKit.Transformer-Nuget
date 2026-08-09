@@ -333,13 +333,19 @@ namespace FanKit.Transformer.TestApp
             },
             ["Shapes"] = new Kvp[]
             {
+                new Kvp("Convert", "Convert", typeof(ConvertPage)),
+                default,
                 new Kvp("Rectangle", "Rectangle", typeof(RectanglePage)),
                 new Kvp("Bounds", "Bounds", typeof(BoundsPage)),
                 new Kvp("Triangle", "Triangle", typeof(TrianglePage)),
                 new Kvp("Quadrilateral", "Quadrilateral", typeof(QuadrilateralPage)),
+                default,
+                new Kvp("CombineBounds", "Combine Bounds", typeof(CombineBoundsPage)),
+                new Kvp("ContainsBounds", "Contains Bounds", typeof(ContainsBoundsPage)),
             },
             ["Cache"] = new Kvp[]
             {
+                new Kvp("Box", "Box", typeof(BoxPage)),
                 new Kvp("BoundsBox0", "Bounds & Box 0", typeof(BoundsBox0Page)),
                 new Kvp("BoundsBox1", "Bounds & Box 1", typeof(BoundsBox1Page)),
                 default,
@@ -355,12 +361,6 @@ namespace FanKit.Transformer.TestApp
             },
             ["Controls"] = new Kvp[]
             {
-                new Kvp("Convert", "Convert", typeof(ConvertPage)),
-                new Kvp("Box", "Box", typeof(BoxPage)),
-                default,
-                new Kvp("CombineBounds", "Combine Bounds", typeof(CombineBoundsPage)),
-                new Kvp("ContainsBounds", "Contains Bounds", typeof(ContainsBoundsPage)),
-                default,
                 new Kvp("Carousel", "Carousel", typeof(CarouselPage)),
                 new Kvp("Carousels", "Carousels", typeof(CarouselsPage)),
                 default,
