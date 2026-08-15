@@ -6,13 +6,13 @@ using System.Numerics;
 
 namespace FanKit.Transformer.TestApp
 {
-    public class DemoGeometry : List<List<Segment0>>, IPathBuilder
+    public class DemoGeometry : List<List<Segment0>>, IPathBuilder0
     {
         PathReceiver Receiver;
 
         public CanvasPathBuilder Builder;
 
-        #region IPathBuilder
+        #region IPathBuilder0
         public void BeginFigure(Vector2 startPoint)
         {
             this.Add(new List<Segment0>());

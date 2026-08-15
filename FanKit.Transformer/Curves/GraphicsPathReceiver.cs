@@ -17,7 +17,7 @@ namespace FanKit.Transformer.Curves
     */
     public static class GraphicsPathReceiver
     {
-        public static void SendPathTo(this IPathBuilder builder, int length, byte[] types, Vector2[] points)
+        public static void SendPathTo(this IPathBuilder0 builder, int length, byte[] types, Vector2[] points)
         {
             const byte Start = 0;
             const byte Line = 1;

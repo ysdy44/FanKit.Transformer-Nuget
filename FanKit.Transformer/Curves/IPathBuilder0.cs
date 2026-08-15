@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace FanKit.Transformer.Curves
 {
-    public interface IPathBuilder
+    public interface IPathBuilder0
     {
         void BeginFigure(Vector2 startPoint);
         void AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint);
@@ -16,28 +16,28 @@ namespace FanKit.Transformer.Curves
 
     partial class PathBuilderExtensions
     {
-        private static void CreatePoint(IPathBuilder pathBuilder, Segment0 previous, Segment0 next)
+        private static void CreatePoint(IPathBuilder0 pathBuilder, Segment0 previous, Segment0 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Point, next.Point);
 
-        private static void CreatePoint(IPathBuilder pathBuilder, Segment1 previous, Segment1 next)
+        private static void CreatePoint(IPathBuilder0 pathBuilder, Segment1 previous, Segment1 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Point, next.Point);
 
-        private static void CreateActual(IPathBuilder pathBuilder, Segment1 previous, Segment1 next)
+        private static void CreateActual(IPathBuilder0 pathBuilder, Segment1 previous, Segment1 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Actual, next.Actual);
 
-        private static void CreateRaw(IPathBuilder pathBuilder, Segment2 previous, Segment2 next)
+        private static void CreateRaw(IPathBuilder0 pathBuilder, Segment2 previous, Segment2 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Raw, next.Raw);
 
-        private static void CreateMap(IPathBuilder pathBuilder, Segment2 previous, Segment2 next)
+        private static void CreateMap(IPathBuilder0 pathBuilder, Segment2 previous, Segment2 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Map, next.Map);
 
-        private static void CreateRaw(IPathBuilder pathBuilder, Segment3 previous, Segment3 next)
+        private static void CreateRaw(IPathBuilder0 pathBuilder, Segment3 previous, Segment3 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Raw, next.Raw);
 
-        private static void CreateActual(IPathBuilder pathBuilder, Segment3 previous, Segment3 next)
+        private static void CreateActual(IPathBuilder0 pathBuilder, Segment3 previous, Segment3 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Actual, next.Actual);
 
-        private static void AddBezier(IPathBuilder pathBuilder, bool previousIsSmooth, bool nextIsSmooth, Node previousPoint, Node nextPoint)
+        private static void AddBezier(IPathBuilder0 pathBuilder, bool previousIsSmooth, bool nextIsSmooth, Node previousPoint, Node nextPoint)
         {
             if (nextIsSmooth)
             {
@@ -56,7 +56,7 @@ namespace FanKit.Transformer.Curves
         }
 
         #region ClosestPointer
-        public static void CreatePreviousPath(this IPathBuilder pathBuilder, ClosestPointer closest)
+        public static void CreatePreviousPath(this IPathBuilder0 pathBuilder, ClosestPointer closest)
         {
             // ?
 
@@ -69,7 +69,7 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        public static void CreateNextPath(this IPathBuilder pathBuilder, ClosestPointer closest)
+        public static void CreateNextPath(this IPathBuilder0 pathBuilder, ClosestPointer closest)
         {
             // ?
 
@@ -84,12 +84,12 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Node
-        public static void CreatePath(this IPathBuilder pathBuilder, List<Node> segments, bool isClosed)
+        public static void CreatePath(this IPathBuilder0 pathBuilder, List<Node> segments, bool isClosed)
         {
             CreatePointPath(pathBuilder, segments, isClosed);
         }
 
-        private static void CreatePointPath(IPathBuilder pathBuilder, List<Node> segments, bool isClosed)
+        private static void CreatePointPath(IPathBuilder0 pathBuilder, List<Node> segments, bool isClosed)
         {
             // ?
 
@@ -120,12 +120,12 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment0
-        public static void CreatePath(this IPathBuilder pathBuilder, List<Segment0> figures, bool isClosed)
+        public static void CreatePath(this IPathBuilder0 pathBuilder, List<Segment0> figures, bool isClosed)
         {
             CreatePointPath(pathBuilder, figures, isClosed);
         }
 
-        private static void CreatePointPath(IPathBuilder pathBuilder, List<Segment0> segments, bool isClosed)
+        private static void CreatePointPath(IPathBuilder0 pathBuilder, List<Segment0> segments, bool isClosed)
         {
             // ?
 
@@ -156,7 +156,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment1
-        public static void CreatePath(this IPathBuilder pathBuilder, NodePointUnits unit, List<Segment1> segments, bool isClosed)
+        public static void CreatePath(this IPathBuilder0 pathBuilder, NodePointUnits unit, List<Segment1> segments, bool isClosed)
         {
             switch (unit)
             {
@@ -171,7 +171,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        private static void CreatePointPath(IPathBuilder pathBuilder, List<Segment1> segments, bool isClosed)
+        private static void CreatePointPath(IPathBuilder0 pathBuilder, List<Segment1> segments, bool isClosed)
         {
             // ?
 
@@ -200,7 +200,7 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        private static void CreateActualPath(IPathBuilder pathBuilder, List<Segment1> segments, bool isClosed)
+        private static void CreateActualPath(IPathBuilder0 pathBuilder, List<Segment1> segments, bool isClosed)
         {
             // ?
 
@@ -231,7 +231,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment2
-        public static void CreatePath(this IPathBuilder pathBuilder, NodePointUnits unit, IEnumerable<Figure2> figures)
+        public static void CreatePath(this IPathBuilder0 pathBuilder, NodePointUnits unit, IEnumerable<Figure2> figures)
         {
             switch (unit)
             {
@@ -246,7 +246,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        private static void CreateRawPath(IPathBuilder pathBuilder, IEnumerable<Figure2> figures)
+        private static void CreateRawPath(IPathBuilder0 pathBuilder, IEnumerable<Figure2> figures)
         {
             // ?
 
@@ -278,7 +278,7 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        private static void CreateMapPath(IPathBuilder pathBuilder, IEnumerable<Figure2> figures)
+        private static void CreateMapPath(IPathBuilder0 pathBuilder, IEnumerable<Figure2> figures)
         {
             // ?
 
@@ -312,7 +312,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment3
-        public static void CreatePath(this IPathBuilder pathBuilder, NodePointUnits unit, IEnumerable<Figure3> figures)
+        public static void CreatePath(this IPathBuilder0 pathBuilder, NodePointUnits unit, IEnumerable<Figure3> figures)
         {
             switch (unit)
             {
@@ -327,7 +327,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        private static void CreateRawPath(IPathBuilder pathBuilder, IEnumerable<Figure3> figures)
+        private static void CreateRawPath(IPathBuilder0 pathBuilder, IEnumerable<Figure3> figures)
         {
             // ?
 
@@ -359,7 +359,7 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        private static void CreateActualPath(IPathBuilder pathBuilder, IEnumerable<Figure3> figures)
+        private static void CreateActualPath(IPathBuilder0 pathBuilder, IEnumerable<Figure3> figures)
         {
             // ?
 
@@ -395,27 +395,27 @@ namespace FanKit.Transformer.Curves
         // ---------------------------------------------- Geometry 0 ---------------------------------------------- //
 
         #region Rectangle
-        public static void CreateRectangle(this IPathBuilder pathBuilder, Box0 bounds)
+        public static void CreateRectangle(this IPathBuilder0 pathBuilder, Box0 bounds)
         {
             CreateRectangleCore(pathBuilder, bounds.LeftTop, bounds.RightTop, bounds.RightBottom, bounds.LeftBottom);
         }
 
-        public static void CreateRectangle(this IPathBuilder pathBuilder, Box0 bounds, Matrix3x2 matrix)
+        public static void CreateRectangle(this IPathBuilder0 pathBuilder, Box0 bounds, Matrix3x2 matrix)
         {
             CreateRectangle(pathBuilder, bounds.LeftTop, bounds.RightTop, bounds.RightBottom, bounds.LeftBottom, matrix);
         }
 
-        public static void CreateRectangle(this IPathBuilder pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom)
+        public static void CreateRectangle(this IPathBuilder0 pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom)
         {
             CreateRectangleCore(pathBuilder, leftTop, rightTop, rightBottom, leftBottom);
         }
 
-        public static void CreateRectangle(this IPathBuilder pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, Matrix3x2 matrix)
+        public static void CreateRectangle(this IPathBuilder0 pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, Matrix3x2 matrix)
         {
             CreateRectangleCore(pathBuilder, Vector2.Transform(leftTop, matrix), Vector2.Transform(rightTop, matrix), Vector2.Transform(rightBottom, matrix), Vector2.Transform(leftBottom, matrix));
         }
 
-        private static void CreateRectangleCore(IPathBuilder pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom)
+        private static void CreateRectangleCore(IPathBuilder0 pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom)
         {
             // Points
             pathBuilder.BeginFigure(leftTop);
@@ -429,27 +429,27 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Ellipse
-        public static void CreateEllipse(this IPathBuilder pathBuilder, Box1 bounds)
+        public static void CreateEllipse(this IPathBuilder0 pathBuilder, Box1 bounds)
         {
             CreateEllipseCore(pathBuilder, bounds.CenterLeft, bounds.CenterTop, bounds.CenterRight, bounds.CenterBottom);
         }
 
-        public static void CreateEllipse(this IPathBuilder pathBuilder, Box1 bounds, Matrix3x2 matrix)
+        public static void CreateEllipse(this IPathBuilder0 pathBuilder, Box1 bounds, Matrix3x2 matrix)
         {
             CreateEllipse(pathBuilder, bounds.CenterLeft, bounds.CenterTop, bounds.CenterRight, bounds.CenterBottom, matrix);
         }
 
-        public static void CreateEllipse(this IPathBuilder pathBuilder, Vector2 centerLeft, Vector2 centerTop, Vector2 centerRight, Vector2 centerBottom)
+        public static void CreateEllipse(this IPathBuilder0 pathBuilder, Vector2 centerLeft, Vector2 centerTop, Vector2 centerRight, Vector2 centerBottom)
         {
             CreateEllipseCore(pathBuilder, centerLeft, centerTop, centerRight, centerBottom);
         }
 
-        public static void CreateEllipse(this IPathBuilder pathBuilder, Vector2 centerLeft, Vector2 centerTop, Vector2 centerRight, Vector2 centerBottom, Matrix3x2 matrix)
+        public static void CreateEllipse(this IPathBuilder0 pathBuilder, Vector2 centerLeft, Vector2 centerTop, Vector2 centerRight, Vector2 centerBottom, Matrix3x2 matrix)
         {
             CreateEllipseCore(pathBuilder, Vector2.Transform(centerLeft, matrix), Vector2.Transform(centerTop, matrix), Vector2.Transform(centerRight, matrix), Vector2.Transform(centerBottom, matrix));
         }
 
-        private static void CreateEllipseCore(IPathBuilder pathBuilder, Vector2 centerLeft, Vector2 centerTop, Vector2 centerRight, Vector2 centerBottom)
+        private static void CreateEllipseCore(IPathBuilder0 pathBuilder, Vector2 centerLeft, Vector2 centerTop, Vector2 centerRight, Vector2 centerBottom)
         {
             // HV
             Vector2 horizontal = (centerRight - centerLeft);
@@ -481,7 +481,7 @@ namespace FanKit.Transformer.Curves
         // ---------------------------------------------- Geometry 1 ---------------------------------------------- //
 
         #region RoundRectangle
-        public static void CreateRoundRectangle(this IPathBuilder pathBuilder, Box1 bounds, float cornerRadius = 0.12f)
+        public static void CreateRoundRectangle(this IPathBuilder0 pathBuilder, Box1 bounds, float cornerRadius = 0.12f)
         {
             CreateRoundRectangleCore(pathBuilder,
                 bounds.LeftTop,
@@ -497,7 +497,7 @@ namespace FanKit.Transformer.Curves
                 cornerRadius);
         }
 
-        public static void CreateRoundRectangle(this IPathBuilder pathBuilder, Box1 bounds, Matrix3x2 matrix, float cornerRadius = 0.12f)
+        public static void CreateRoundRectangle(this IPathBuilder0 pathBuilder, Box1 bounds, Matrix3x2 matrix, float cornerRadius = 0.12f)
         {
             CreateRoundRectangleCore(pathBuilder,
                 Vector2.Transform(bounds.LeftTop, matrix),
@@ -513,7 +513,7 @@ namespace FanKit.Transformer.Curves
                 cornerRadius);
         }
 
-        private static void CreateRoundRectangleCore(IPathBuilder pathBuilder,
+        private static void CreateRoundRectangleCore(IPathBuilder0 pathBuilder,
             Vector2 leftTop,
             Vector2 rightTop,
             Vector2 rightBottom,
@@ -585,27 +585,27 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Triangle
-        public static void CreateTriangle(this IPathBuilder pathBuilder, Box0 bounds, float center = 0.5f)
+        public static void CreateTriangle(this IPathBuilder0 pathBuilder, Box0 bounds, float center = 0.5f)
         {
             CreateTriangleCore(pathBuilder, bounds.LeftTop, bounds.RightTop, bounds.RightBottom, bounds.LeftBottom, center);
         }
 
-        public static void CreateTriangle(this IPathBuilder pathBuilder, Box0 bounds, Matrix3x2 matrix, float center = 0.5f)
+        public static void CreateTriangle(this IPathBuilder0 pathBuilder, Box0 bounds, Matrix3x2 matrix, float center = 0.5f)
         {
             CreateTriangleCore(pathBuilder, Vector2.Transform(bounds.LeftTop, matrix), Vector2.Transform(bounds.RightTop, matrix), Vector2.Transform(bounds.RightBottom, matrix), Vector2.Transform(bounds.LeftBottom, matrix), center);
         }
 
-        public static void CreateTriangle(this IPathBuilder pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, float center)
+        public static void CreateTriangle(this IPathBuilder0 pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, float center)
         {
             CreateTriangleCore(pathBuilder, leftTop, rightTop, rightBottom, leftBottom, center);
         }
 
-        public static void CreateTriangle(this IPathBuilder pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, Matrix3x2 matrix, float center)
+        public static void CreateTriangle(this IPathBuilder0 pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, Matrix3x2 matrix, float center)
         {
             CreateTriangleCore(pathBuilder, Vector2.Transform(leftTop, matrix), Vector2.Transform(rightTop, matrix), Vector2.Transform(rightBottom, matrix), Vector2.Transform(leftBottom, matrix), center);
         }
 
-        private static void CreateTriangleCore(IPathBuilder pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, float center)
+        private static void CreateTriangleCore(IPathBuilder0 pathBuilder, Vector2 leftTop, Vector2 rightTop, Vector2 rightBottom, Vector2 leftBottom, float center)
         {
             float minusValue = 1.0f - center;
             Vector2 center2 = leftTop * minusValue + rightTop * center;
@@ -621,7 +621,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Diamond
-        public static void CreateDiamond(this IPathBuilder pathBuilder, Box1 bounds, float mid = 0.5f)
+        public static void CreateDiamond(this IPathBuilder0 pathBuilder, Box1 bounds, float mid = 0.5f)
         {
             CreateDiamondCore(pathBuilder,
                  bounds.LeftTop,
@@ -636,7 +636,7 @@ namespace FanKit.Transformer.Curves
             );
         }
 
-        public static void CreateDiamond(this IPathBuilder pathBuilder, Box1 bounds, Matrix3x2 matrix, float mid = 0.5f)
+        public static void CreateDiamond(this IPathBuilder0 pathBuilder, Box1 bounds, Matrix3x2 matrix, float mid = 0.5f)
         {
             CreateDiamondCore(pathBuilder,
                Vector2.Transform(bounds.LeftTop, matrix),
@@ -651,7 +651,7 @@ namespace FanKit.Transformer.Curves
             );
         }
 
-        private static void CreateDiamondCore(IPathBuilder pathBuilder,
+        private static void CreateDiamondCore(IPathBuilder0 pathBuilder,
             Vector2 leftTop,
             Vector2 rightTop,
             Vector2 rightBottom,
@@ -680,14 +680,14 @@ namespace FanKit.Transformer.Curves
         // ---------------------------------------------- Geometry 2 ---------------------------------------------- //
 
         #region Pentagon
-        public static void CreatePentagon(this IPathBuilder pathBuilder, Triangle bounds, int points = 5, float startAngle = R0)
+        public static void CreatePentagon(this IPathBuilder0 pathBuilder, Triangle bounds, int points = 5, float startAngle = R0)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
 
             CreatePentagonCore(pathBuilder, points, startAngle, oneMatrix);
         }
 
-        public static void CreatePentagon(this IPathBuilder pathBuilder, Triangle bounds, Matrix3x2 matrix, int points = 5, float startAngle = R0)
+        public static void CreatePentagon(this IPathBuilder0 pathBuilder, Triangle bounds, Matrix3x2 matrix, int points = 5, float startAngle = R0)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
             Matrix3x2 oneMatrix2 = oneMatrix * matrix;
@@ -695,7 +695,7 @@ namespace FanKit.Transformer.Curves
             CreatePentagonCore(pathBuilder, points, startAngle, oneMatrix2);
         }
 
-        private static void CreatePentagonCore(IPathBuilder pathBuilder, int points, float startAngle, Matrix3x2 oneMatrix)
+        private static void CreatePentagonCore(IPathBuilder0 pathBuilder, int points, float startAngle, Matrix3x2 oneMatrix)
         {
             float rotation = startAngle - PIOver2;
             float angle = PITwice / points;
@@ -718,14 +718,14 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Star
-        public static void CreateStar(this IPathBuilder pathBuilder, Triangle bounds, int points = 5, float innerRadius = 0.4f, float startAngle = R0)
+        public static void CreateStar(this IPathBuilder0 pathBuilder, Triangle bounds, int points = 5, float innerRadius = 0.4f, float startAngle = R0)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
 
             CreateStarCore(pathBuilder, points, innerRadius, startAngle, oneMatrix);
         }
 
-        public static void CreateStar(this IPathBuilder pathBuilder, Triangle bounds, Matrix3x2 matrix, int points = 5, float innerRadius = 0.4f, float startAngle = R0)
+        public static void CreateStar(this IPathBuilder0 pathBuilder, Triangle bounds, Matrix3x2 matrix, int points = 5, float innerRadius = 0.4f, float startAngle = R0)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
             Matrix3x2 oneMatrix2 = oneMatrix * matrix;
@@ -733,7 +733,7 @@ namespace FanKit.Transformer.Curves
             CreateStarCore(pathBuilder, points, innerRadius, startAngle, oneMatrix2);
         }
 
-        private static void CreateStarCore(IPathBuilder pathBuilder, int points, float innerRadius, float startAngle, Matrix3x2 oneMatrix)
+        private static void CreateStarCore(IPathBuilder0 pathBuilder, int points, float innerRadius, float startAngle, Matrix3x2 oneMatrix)
         {
             float rotation = startAngle - PIOver2;
             float angle = PI / points;
@@ -763,14 +763,14 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Cog
-        public static void CreateCog(this IPathBuilder pathBuilder, Triangle bounds, int count = 8, float innerRadius = 0.7f, float tooth = 0.3f, float notch = 0.6f)
+        public static void CreateCog(this IPathBuilder0 pathBuilder, Triangle bounds, int count = 8, float innerRadius = 0.7f, float tooth = 0.3f, float notch = 0.6f)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
 
             CreateCogCore(pathBuilder, count, innerRadius, tooth, notch, oneMatrix);
         }
 
-        public static void CreateCog(this IPathBuilder pathBuilder, Triangle bounds, Matrix3x2 matrix, int count = 8, float innerRadius = 0.7f, float tooth = 0.3f, float notch = 0.6f)
+        public static void CreateCog(this IPathBuilder0 pathBuilder, Triangle bounds, Matrix3x2 matrix, int count = 8, float innerRadius = 0.7f, float tooth = 0.3f, float notch = 0.6f)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
             Matrix3x2 oneMatrix2 = oneMatrix * matrix;
@@ -778,7 +778,7 @@ namespace FanKit.Transformer.Curves
             CreateCogCore(pathBuilder, count, innerRadius, tooth, notch, oneMatrix2);
         }
 
-        private static void CreateCogCore(IPathBuilder pathBuilder, int count, float innerRadius, float tooth, float notch, Matrix3x2 oneMatrix)
+        private static void CreateCogCore(IPathBuilder0 pathBuilder, int count, float innerRadius, float tooth, float notch, Matrix3x2 oneMatrix)
         {
             float angle = PITwice / count; // angle
             float angleTooth = angle * tooth; // angle tooth
@@ -843,7 +843,7 @@ namespace FanKit.Transformer.Curves
         // ---------------------------------------------- Geometry 3 ---------------------------------------------- //
 
         #region Donut
-        public static void CreateDonut(this IPathBuilder pathBuilder, Box1 bounds, float holeRadius = 0.5f)
+        public static void CreateDonut(this IPathBuilder0 pathBuilder, Box1 bounds, float holeRadius = 0.5f)
         {
             bool zeroHoleRadius = holeRadius == 0f;
             CreateEllipse(pathBuilder, bounds);
@@ -858,7 +858,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        public static void CreateDonut(this IPathBuilder pathBuilder, Box1 bounds, Matrix3x2 matrix, float holeRadius = 0.5f)
+        public static void CreateDonut(this IPathBuilder0 pathBuilder, Box1 bounds, Matrix3x2 matrix, float holeRadius = 0.5f)
         {
             bool zeroHoleRadius = holeRadius == 0f;
             CreateEllipse(pathBuilder, bounds, matrix);
@@ -873,7 +873,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        private static void CreateDonutCore(IPathBuilder pathBuilder, Box1 bounds, float holeRadius, Vector2 center)
+        private static void CreateDonutCore(IPathBuilder0 pathBuilder, Box1 bounds, float holeRadius, Vector2 center)
         {
             // Donut
             Matrix3x2 holeMatrix = Matrix3x2.CreateTranslation(-center) * Matrix3x2.CreateScale(holeRadius) * Matrix3x2.CreateTranslation(center);
@@ -882,7 +882,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Pie
-        public static void CreatePie(this IPathBuilder pathBuilder, Box1 bounds, float startAngle = R0, float sweepAngle = R270)
+        public static void CreatePie(this IPathBuilder0 pathBuilder, Box1 bounds, float startAngle = R0, float sweepAngle = R270)
         {
             bool zeroSweepAngle = sweepAngle == 0f;
 
@@ -896,7 +896,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        public static void CreatePie(this IPathBuilder pathBuilder, Box1 bounds, Matrix3x2 matrix, float startAngle = R0, float sweepAngle = R270)
+        public static void CreatePie(this IPathBuilder0 pathBuilder, Box1 bounds, Matrix3x2 matrix, float startAngle = R0, float sweepAngle = R270)
         {
             bool zeroSweepAngle = sweepAngle == 0f;
 
@@ -911,7 +911,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        private static void CreatePieCore(IPathBuilder pathBuilder, Matrix3x2 oneMatrix, float startAngle, float sweepAngle)
+        private static void CreatePieCore(IPathBuilder0 pathBuilder, Matrix3x2 oneMatrix, float startAngle, float sweepAngle)
         {
             pathBuilder.BeginFigure(oneMatrix.Translation);
 
@@ -926,7 +926,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Cookie
-        public static void CreateCookie(this IPathBuilder pathBuilder, Box1 bounds, float innerRadius = 0.5f, float startAngle = R0, float sweepAngle = R270)
+        public static void CreateCookie(this IPathBuilder0 pathBuilder, Box1 bounds, float innerRadius = 0.5f, float startAngle = R0, float sweepAngle = R270)
         {
             bool zeroInnerRadius = innerRadius == 0f;
             bool zeroSweepAngle = sweepAngle == 0f;
@@ -955,7 +955,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        public static void CreateCookie(this IPathBuilder pathBuilder, Box1 bounds, Matrix3x2 matrix, float innerRadius = 0.5f, float startAngle = R0, float sweepAngle = R270)
+        public static void CreateCookie(this IPathBuilder0 pathBuilder, Box1 bounds, Matrix3x2 matrix, float innerRadius = 0.5f, float startAngle = R0, float sweepAngle = R270)
         {
             bool zeroInnerRadius = innerRadius == 0f;
             bool zeroSweepAngle = sweepAngle == 0f;
@@ -985,7 +985,7 @@ namespace FanKit.Transformer.Curves
             }
         }
 
-        private static void CreateCookieCore(IPathBuilder pathBuilder, Matrix3x2 oneMatrix, float innerRadius, float startAngle, float sweepAngle)
+        private static void CreateCookieCore(IPathBuilder0 pathBuilder, Matrix3x2 oneMatrix, float innerRadius, float startAngle, float sweepAngle)
         {
             // notch point
             Matrix3x2 innerOneMatrix = Matrix3x2.CreateScale(innerRadius) * oneMatrix;
@@ -1002,7 +1002,7 @@ namespace FanKit.Transformer.Curves
         // ---------------------------------------------- Geometry 4 ---------------------------------------------- //
 
         #region Arrow
-        public static void CreateArrow(this IPathBuilder pathBuilder, Box2 bounds, bool isAbsolute = false, float width = 10f, float value = 0.5f, GeometryArrowTailType leftTail = GeometryArrowTailType.None, GeometryArrowTailType rightTail = GeometryArrowTailType.Arrow)
+        public static void CreateArrow(this IPathBuilder0 pathBuilder, Box2 bounds, bool isAbsolute = false, float width = 10f, float value = 0.5f, GeometryArrowTailType leftTail = GeometryArrowTailType.None, GeometryArrowTailType rightTail = GeometryArrowTailType.Arrow)
         {
             Vector2 center = bounds.Center;
             Vector2 centerLeft = bounds.CenterLeft;
@@ -1044,7 +1044,7 @@ namespace FanKit.Transformer.Curves
                 rightTail);
         }
 
-        public static void CreateArrow(this IPathBuilder pathBuilder, Box2 bounds, Matrix3x2 matrix, bool isAbsolute = false, float width = 10f, float value = 0.5f, GeometryArrowTailType leftTail = GeometryArrowTailType.None, GeometryArrowTailType rightTail = GeometryArrowTailType.Arrow)
+        public static void CreateArrow(this IPathBuilder0 pathBuilder, Box2 bounds, Matrix3x2 matrix, bool isAbsolute = false, float width = 10f, float value = 0.5f, GeometryArrowTailType leftTail = GeometryArrowTailType.None, GeometryArrowTailType rightTail = GeometryArrowTailType.Arrow)
         {
             Vector2 center = Vector2.Transform(bounds.Center, matrix);
             Vector2 centerLeft = Vector2.Transform(bounds.CenterLeft, matrix);
@@ -1086,7 +1086,7 @@ namespace FanKit.Transformer.Curves
                 rightTail);
         }
 
-        private static void CreateArrowCore(IPathBuilder pathBuilder,
+        private static void CreateArrowCore(IPathBuilder0 pathBuilder,
             Vector2 widthVectorTransform,
 
             // Left
@@ -1168,7 +1168,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Capsule
-        public static void CreateCapsule(this IPathBuilder pathBuilder, Box2 bounds)
+        public static void CreateCapsule(this IPathBuilder0 pathBuilder, Box2 bounds)
         {
             Vector2 centerLeft = bounds.CenterLeft;
             Vector2 centerTop = bounds.CenterTop;
@@ -1201,7 +1201,7 @@ namespace FanKit.Transformer.Curves
             );
         }
 
-        public static void CreateCapsule(this IPathBuilder pathBuilder, Box1 bounds, Matrix3x2 matrix)
+        public static void CreateCapsule(this IPathBuilder0 pathBuilder, Box1 bounds, Matrix3x2 matrix)
         {
             Vector2 leftTop = Vector2.Transform(bounds.LeftTop, matrix);
             Vector2 rightTop = Vector2.Transform(bounds.RightTop, matrix);
@@ -1238,7 +1238,7 @@ namespace FanKit.Transformer.Curves
                 leftBottom);
         }
 
-        private static void CreateCapsuleCore(IPathBuilder pathBuilder,
+        private static void CreateCapsuleCore(IPathBuilder0 pathBuilder,
             float verticalLength,
             Vector2 horizontalUnit,
 
@@ -1293,14 +1293,14 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Heart
-        public static void CreateHeart(this IPathBuilder pathBuilder, Triangle bounds, float spread = 0.8f)
+        public static void CreateHeart(this IPathBuilder0 pathBuilder, Triangle bounds, float spread = 0.8f)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
 
             CreateHeartCore(pathBuilder, spread, oneMatrix);
         }
 
-        public static void CreateHeart(this IPathBuilder pathBuilder, Triangle bounds, Matrix3x2 matrix, float spread = 0.8f)
+        public static void CreateHeart(this IPathBuilder0 pathBuilder, Triangle bounds, Matrix3x2 matrix, float spread = 0.8f)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
             Matrix3x2 oneMatrix2 = oneMatrix * matrix;
@@ -1308,7 +1308,7 @@ namespace FanKit.Transformer.Curves
             CreateHeartCore(pathBuilder, spread, oneMatrix2);
         }
 
-        private static void CreateHeartCore(IPathBuilder pathBuilder, float spread, Matrix3x2 oneMatrix)
+        private static void CreateHeartCore(IPathBuilder0 pathBuilder, float spread, Matrix3x2 oneMatrix)
         {
             Vector2 bottom = new Vector2(0, 1);
 
@@ -1347,7 +1347,7 @@ namespace FanKit.Transformer.Curves
         // ---------------------------------------------- Geometry 5 ---------------------------------------------- //
 
         #region Arc
-        public static void CreateArc(this IPathBuilder pathBuilder, Triangle bounds, float startAngle = R0, float sweepAngle = R270)
+        public static void CreateArc(this IPathBuilder0 pathBuilder, Triangle bounds, float startAngle = R0, float sweepAngle = R270)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
 
@@ -1355,7 +1355,7 @@ namespace FanKit.Transformer.Curves
             pathBuilder.EndFigure(Open);
         }
 
-        public static void CreateArc(this IPathBuilder pathBuilder, Triangle bounds, Matrix3x2 matrix, float startAngle = R0, float sweepAngle = R270)
+        public static void CreateArc(this IPathBuilder0 pathBuilder, Triangle bounds, Matrix3x2 matrix, float startAngle = R0, float sweepAngle = R270)
         {
             Matrix3x2 oneMatrix = bounds.Normalize();
             Matrix3x2 oneMatrix2 = oneMatrix * matrix;
@@ -1364,7 +1364,7 @@ namespace FanKit.Transformer.Curves
             pathBuilder.EndFigure(Open);
         }
 
-        private static void CreateArcCore(IPathBuilder pathBuilder, Matrix3x2 oneMatrix, float startAngle, float sweepAngle, bool isBegin, bool isClosed = false)
+        private static void CreateArcCore(IPathBuilder0 pathBuilder, Matrix3x2 oneMatrix, float startAngle, float sweepAngle, bool isBegin, bool isClosed = false)
         {
             float start = startAngle + R90;
             Rotation2x2 r = new Rotation2x2(start);

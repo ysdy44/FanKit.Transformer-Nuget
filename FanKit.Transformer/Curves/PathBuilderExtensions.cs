@@ -6,7 +6,7 @@ namespace FanKit.Transformer.Curves
     public static partial class PathBuilderExtensions
     {
         #region ClosestPointer
-        public static void CreatePreviousPath(this IPathBuilder pathBuilder, ClosestPointer closest, ICanvasMatrix canvasMatrix)
+        public static void CreatePreviousPath(this IPathBuilder0 pathBuilder, ClosestPointer closest, ICanvasMatrix canvasMatrix)
         {
             // ?
 
@@ -19,7 +19,7 @@ namespace FanKit.Transformer.Curves
             // return
         }
 
-        public static void CreateNextPath(this IPathBuilder pathBuilder, ClosestPointer closest, ICanvasMatrix canvasMatrix)
+        public static void CreateNextPath(this IPathBuilder0 pathBuilder, ClosestPointer closest, ICanvasMatrix canvasMatrix)
         {
             // ?
 
