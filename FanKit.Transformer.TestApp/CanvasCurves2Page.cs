@@ -1658,7 +1658,7 @@ namespace FanKit.Transformer.TestApp
                 {
                     using (PathBuilder path = new PathBuilder(resourceCreator))
                     {
-                        path.CreatePreviousPath(this.Closest, this.Canvas);
+                        path.CreatePreviousPath(this.Canvas, this.Closest);
                         using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                         {
                             drawingSession.DrawPreviousCurve(curve);
@@ -1667,7 +1667,7 @@ namespace FanKit.Transformer.TestApp
 
                     using (PathBuilder path = new PathBuilder(resourceCreator))
                     {
-                        path.CreateNextPath(this.Closest, this.Canvas);
+                        path.CreateNextPath(this.Canvas, this.Closest);
                         using (CanvasGeometry curve = CanvasGeometry.CreatePath(path.Builder))
                         {
                             drawingSession.DrawNextCurve(curve);
