@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Curves
 {
-    public struct PathReceiver
+    public partial struct PathReceiver
     {
         const byte b = 0; // BeginFigure
         const byte l = 1; // Line
@@ -63,6 +63,7 @@ namespace FanKit.Transformer.Curves
         }
         #endregion Constructors
 
+        /*
         #region Node
         public Node AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, out PathReceiver result)
         {
@@ -162,9 +163,10 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
         #endregion
+         */
 
         #region Segment0
-        public Segment0 AddCubicBezier0(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, out PathReceiver result)
+        public Segment0 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, out PathReceiver result)
         {
             Segment0 segment;
 
@@ -189,7 +191,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment0 AddQuadraticBezier0(Vector2 controlPoint, Vector2 endPoint, out PathReceiver result)
+        public Segment0 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, out PathReceiver result)
         {
             Segment0 segment;
 
@@ -214,7 +216,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment0 AddLine0(Vector2 endPoint, out PathReceiver result)
+        public Segment0 AddLine(Vector2 endPoint, out PathReceiver result)
         {
             Segment0 segment;
 
@@ -240,7 +242,7 @@ namespace FanKit.Transformer.Curves
         }
 
         // Closed
-        public Segment0 EndFigure0()
+        public Segment0 EndFigure()
         {
             Segment0 segment;
 
@@ -264,7 +266,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment1
-        public Segment1 AddCubicBezier1(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment1 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
             Segment1 segment;
 
@@ -289,7 +291,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment1 AddQuadraticBezier1(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment1 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
             Segment1 segment;
 
@@ -314,7 +316,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment1 AddLine1(Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment1 AddLine(Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
             Segment1 segment;
 
@@ -340,7 +342,7 @@ namespace FanKit.Transformer.Curves
         }
 
         // Closed
-        public Segment1 EndFigure1(ICanvasMatrix canvasMatrix)
+        public Segment1 EndFigure(ICanvasMatrix canvasMatrix)
         {
             Segment1 segment;
 
@@ -364,7 +366,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment2
-        public Segment2 AddCubicBezier2(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
+        public Segment2 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
         {
             Segment2 segment;
 
@@ -389,7 +391,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment2 AddQuadraticBezier2(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
+        public Segment2 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
         {
             Segment2 segment;
 
@@ -414,7 +416,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment2 AddLine2(Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
+        public Segment2 AddLine(Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
         {
             Segment2 segment;
 
@@ -440,7 +442,7 @@ namespace FanKit.Transformer.Curves
         }
 
         // Closed
-        public Segment2 EndFigure2(Matrix3x2 homographyMatrix)
+        public Segment2 EndFigure(Matrix3x2 homographyMatrix)
         {
             Segment2 segment;
 
@@ -464,7 +466,7 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment3
-        public Segment3 AddCubicBezier3(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment3 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
             Segment3 segment;
 
@@ -489,7 +491,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment3 AddQuadraticBezier3(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment3 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
             Segment3 segment;
 
@@ -514,7 +516,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment3 AddLine3(Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment3 AddLine(Vector2 endPoint, Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix, out PathReceiver result)
         {
             Segment3 segment;
 
@@ -540,7 +542,7 @@ namespace FanKit.Transformer.Curves
         }
 
         // Closed
-        public Segment3 EndFigure3(Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
+        public Segment3 EndFigure(Matrix3x2 homographyMatrix, ICanvasMatrix canvasMatrix)
         {
             Segment3 segment;
 
