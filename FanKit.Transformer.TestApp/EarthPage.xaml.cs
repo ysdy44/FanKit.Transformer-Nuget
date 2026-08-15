@@ -27,6 +27,20 @@ namespace FanKit.Transformer.TestApp
 {
     public sealed partial class EarthPage : Page
     {
+        struct Stellite
+        {
+            public Vector3 Vector;
+            public Vector3 RotateVector;
+            public bool PointIsFarSide;
+            public Vector2 Vertex;
+        }
+
+        const float TouchPadWidth = 409.6f;
+        const float TouchPadHeight = 204.8f;
+
+        const float DeemoScaleX = TouchPadWidth / EarthTextureSize.DemoBitmapWidth;
+        const float DeemoScaleY = TouchPadHeight / EarthTextureSize.DemoBitmapHeight;
+
         Vector2 StartingPoint;
         Vector2 Point;
 
@@ -36,18 +50,21 @@ namespace FanKit.Transformer.TestApp
         EarthLayout EarthLayout;
         EarthTextureSize EarthTextureSize;
         EarthRotation EarthRotation = new EarthRotation(Vector3.Zero);
+        Stellite? Mouse = null;
 
         readonly Earth Earth = new Earth();
         readonly CanvasBitmap[,] Textures = new CanvasBitmap[EarthTextureSize.V, EarthTextureSize.U];
+        readonly List<Stellite> Stellites = new List<Stellite>();
 
         readonly CanvasOperator1 CanvasOperator;
 
         readonly Color VertexColor = Color.FromArgb(63, 81, 177, 255);
-        readonly Color DemoSeaColor = Color.FromArgb(255, 18, 54, 106);
+        readonly Color DemoSeaColor = Color.FromArgb(255, 13, 35, 64);
         readonly Color DemoLandColor = Color.FromArgb(255, 90, 98, 46);
         readonly Color AtmosphereColor3 = Color.FromArgb(255, 6, 137, 249);
         readonly Color AtmosphereColor2 = Color.FromArgb(255, 42, 226, 249);
         readonly Color AtmosphereColor = Color.FromArgb(255, 2, 5, 20);
+        readonly SolidColorBrush DemoLandBrush = new SolidColorBrush(Color.FromArgb(255, 89, 103, 59));
         readonly CanvasGradientStop[] AtmosphereGradientStops = new CanvasGradientStop[]
         {
             new CanvasGradientStop
@@ -88,12 +105,28 @@ namespace FanKit.Transformer.TestApp
                 this.CanvasControl = null;
             };
 
+            foreach (var item in EarthTextureSize.DemoBitmapPolygons)
+            {
+                this.Touchpad.Children.Add(this.CreatePolygon(item));
+            }
+
             this.CanvasControl.CreateResources += (s, args) =>
             {
                 this.CreateResources(s, args);
             };
             this.CanvasControl.Draw += (s, e) =>
             {
+                if (this.Mouse.HasValue)
+                {
+                    e.DrawingSession.FillCircle(this.Mouse.Value.Vertex, 4f, Colors.OrangeRed);
+                    e.DrawingSession.DrawCircle(this.Mouse.Value.Vertex, 4f, Colors.White);
+                }
+                foreach (Stellite item in this.Stellites)
+                {
+                    e.DrawingSession.FillCircle(item.Vertex, 4f, Colors.DodgerBlue);
+                    e.DrawingSession.DrawCircle(item.Vertex, 4f, Colors.White);
+                }
+
                 e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 3f, this.AtmosphereColor3);
                 e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 1f, this.AtmosphereColor2);
                 e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, this.AtmosphereColor);
@@ -108,6 +141,22 @@ namespace FanKit.Transformer.TestApp
                         TransformMatrix = this.Earth.TransformMatrixes[vi, ui],
                         Source = this.Textures[vi, ui]
                     });
+                }
+
+                if (!this.Earth.NorthVectorIsFarSide)
+                {
+                    using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.NorthPolePolygon))
+                    {
+                        e.DrawingSession.FillGeometry(geometry, 0f, 0f, this.DemoSeaColor);
+                    }
+                }
+
+                if (!this.Earth.SouthVectorIsFarSide)
+                {
+                    using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.SouthPolePolygon))
+                    {
+                        e.DrawingSession.FillGeometry(geometry, 0f, 0f, this.DemoLandColor);
+                    }
                 }
 
                 using (CanvasRadialGradientBrush brush = new CanvasRadialGradientBrush(s, this.AtmosphereGradientStops)
@@ -132,6 +181,20 @@ namespace FanKit.Transformer.TestApp
                 {
                     e.DrawingSession.FillCircle(item, 2f, this.VertexColor);
                 }
+
+                if (this.Mouse.HasValue && !this.Mouse.Value.PointIsFarSide)
+                {
+                    e.DrawingSession.FillCircle(this.Mouse.Value.Vertex, 4f, Colors.OrangeRed);
+                    e.DrawingSession.DrawCircle(this.Mouse.Value.Vertex, 4f, Colors.White);
+                }
+                foreach (Stellite item in this.Stellites)
+                {
+                    if (!item.PointIsFarSide)
+                    {
+                        e.DrawingSession.FillCircle(item.Vertex, 4f, Colors.DodgerBlue);
+                        e.DrawingSession.DrawCircle(item.Vertex, 4f, Colors.White);
+                    }
+                }
             };
             this.CanvasControl.SizeChanged += (s, e) =>
             {
@@ -152,6 +215,7 @@ namespace FanKit.Transformer.TestApp
                 };
 
                 this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+                for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
             };
 
@@ -171,7 +235,12 @@ namespace FanKit.Transformer.TestApp
                 this.EarthRotation = new EarthRotation(this.Radians);
 
                 this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+                for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
+
+                this.XTextBlock.Text = $"{(int)(180f * this.Radians.X / Mathematics.Math.PI)}°";
+                this.ZTextBlock.Text = $"{(int)(180f * this.Radians.Z / Mathematics.Math.PI)}°";
+                this.YTextBlock.Text = $"{(int)(180f * this.Radians.Y / Mathematics.Math.PI)}°";
             };
             this.CanvasOperator.Single_Complete += (x, y, p) => { };
 
@@ -180,15 +249,31 @@ namespace FanKit.Transformer.TestApp
                 this.EarthLayout.Radius = d > 0 ? this.EarthLayout.Radius * 1.04f : this.EarthLayout.Radius / 1.04f;
 
                 this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+                for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
             };
 
-            this.ResetButton.Click += delegate
+            this.ResetButton.Click += delegate { this.ResetRotation(); };
+            this.Touchpad.PointerExited += (s, e) =>
             {
-                this.Radians = Vector3.Zero;
-                this.EarthRotation = new EarthRotation(Vector3.Zero);
+                this.Mouse = null;
+            };
+            this.Touchpad.PointerMoved += (s, e) =>
+            {
+                var pp = e.GetCurrentPoint(this.Touchpad);
+                float uAmount = (float)(pp.Position.X / TouchPadWidth);
+                float vAmount = (float)(pp.Position.Y / TouchPadHeight);
 
-                this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+                this.Mouse = this.GetStellite(uAmount, vAmount);
+                this.CanvasControl.Invalidate();
+            };
+            this.Touchpad.PointerPressed += (s, e) =>
+            {
+                var pp = e.GetCurrentPoint(this.Touchpad);
+                float uAmount = (float)(pp.Position.X / TouchPadWidth);
+                float vAmount = (float)(pp.Position.Y / TouchPadHeight);
+
+                this.Stellites.Add(this.GetStellite(uAmount, vAmount));
                 this.CanvasControl.Invalidate();
             };
         }
@@ -198,6 +283,22 @@ namespace FanKit.Transformer.TestApp
 
         public Vector2 GetVertex(Vector3 vector) => this.EarthLayout.GetVertex(vector);
         public Vector2 GetVertexEx(Vector3 vector) => this.EarthLayout.GetVertex(vector, this.EarthLayout.Radius * 1.1f);
+
+        private Stellite GetStellite(float uAmount, float vAmount) => GetStellite(GetVector(uAmount, vAmount));
+        private Stellite GetStellite(Stellite stellite) => GetStellite(stellite.Vector);
+        private Stellite GetStellite(Vector3 v)
+        {
+            Vector3 t = RotateVector(v);
+            Vector2 p = GetVertex(t);
+
+            return new Stellite
+            {
+                Vector = v,
+                RotateVector = t,
+                PointIsFarSide = t.Z < 0f,
+                Vertex = p
+            };
+        }
 
         //private void CreateResources(ICanvasResourceCreator resourceCreator, CanvasCreateResourcesEventArgs args)
         //{
@@ -209,6 +310,7 @@ namespace FanKit.Transformer.TestApp
         //    {
         //        this.CreateTextures(resourceCreator, bitmap);
         //        this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+        //        for (int i = 0; i< this.Stellites.Count; i++) this.Stellites [i] = this.GetStellite(this.Stellites[i]);
         //    }
         //}
         private void CreateResources(ICanvasResourceCreator resourceCreator, CanvasCreateResourcesEventArgs args)
@@ -230,6 +332,7 @@ namespace FanKit.Transformer.TestApp
 
                 this.CreateTextures(resourceCreator, renderTarget);
                 this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+                for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             }
         }
 
@@ -257,6 +360,73 @@ namespace FanKit.Transformer.TestApp
                 int ui = item.Index.U;
                 this.Textures[vi, ui] = texture;
             }
+        }
+
+        private Windows.UI.Xaml.Shapes.Polygon CreatePolygon(Vector2[] demoBitmapPolygon)
+        {
+            var polygon = new Windows.UI.Xaml.Shapes.Polygon
+            {
+                IsHitTestVisible = false,
+                Fill = this.DemoLandBrush,
+            };
+
+            foreach (var p in demoBitmapPolygon)
+            {
+                polygon.Points.Add(new Point
+                {
+                    X = p.X * DeemoScaleX,
+                    Y = p.Y * DeemoScaleY,
+                });
+            }
+
+            return polygon;
+        }
+
+        private void ResetRotation()
+        {
+            this.Radians = Vector3.Zero;
+            this.EarthRotation = new EarthRotation(Vector3.Zero);
+
+            this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+            for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
+            this.CanvasControl.Invalidate();
+
+            this.XTextBlock.Text = "0";
+            this.ZTextBlock.Text = "0";
+            this.YTextBlock.Text = "0";
+        }
+        private void RotateXTo(float value) // -180~180
+        {
+            this.Radians.X = Mathematics.Math.PI * value / 360f;
+            this.EarthRotation = new EarthRotation(this.Radians);
+
+            this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+            for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
+            this.CanvasControl.Invalidate();
+
+            this.XTextBlock.Text = $"{(int)(180f * this.Radians.X / Mathematics.Math.PI)}°";
+        }
+        private void RotateZTo(float value) // -180~180
+        {
+            this.Radians.Z = Mathematics.Math.PI * value / 360f;
+            this.EarthRotation = new EarthRotation(this.Radians);
+
+            this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+            for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
+            this.CanvasControl.Invalidate();
+
+            this.ZTextBlock.Text = $"{(int)(180f * this.Radians.Z / Mathematics.Math.PI)}°";
+        }
+        private void RotateYTo(float value) // -360~360
+        {
+            this.Radians.Y = Mathematics.Math.PI * value / 360f;
+            this.EarthRotation = new EarthRotation(this.Radians);
+
+            this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
+            for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
+            this.CanvasControl.Invalidate();
+
+            this.YTextBlock.Text = $"{(int)(180f * this.Radians.Y / Mathematics.Math.PI)}°";
         }
     }
 }

@@ -17,16 +17,52 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"/>
+
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="26"/>
+
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="26"/>
+
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="26"/>
+
                     <RowDefinition Height="8"/>
                     <RowDefinition Height="32"/>
+
                     <RowDefinition Height="12"/>
                 </Grid.RowDefinitions>
+
                 <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                     <TextBlock Margin="14,0" VerticalAlignment="Center" Text="Rotation"/>
                 </Border>
-                <Button x:Name="ResetButton" Grid.Row="2" Margin="12,0,0,0" Content="Reset"/>
+
+                <Grid Grid.Row="2" Margin="14,0,8,0">
+                    <TextBlock HorizontalAlignment="Left" Text="X"/>
+                    <TextBlock x:Name="XTextBlock" Text="0°" HorizontalAlignment="Right" FontWeight="Bold"/>
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="14,0,8,0">
+                    <TextBlock HorizontalAlignment="Left" Text="Z"/>
+                    <TextBlock x:Name="ZTextBlock" Text="0°" HorizontalAlignment="Right" FontWeight="Bold"/>
+                </Grid>
+
+                <Grid Grid.Row="6" Margin="14,0,8,0">
+                    <TextBlock HorizontalAlignment="Left" Text="Y"/>
+                    <TextBlock x:Name="YTextBlock" Text="0°" HorizontalAlignment="Right" FontWeight="Bold"/>
+                </Grid>
+
+                <Button x:Name="ResetButton" Grid.Row="8" Margin="12,0,0,0" Content="Reset"/>
+
             </Grid>
         </Border>
+
+        <Canvas x:Name="Touchpad" Margin="12" Width="409.6" Height="204.8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="Transparent">
+            <Rectangle x:Name="Rectangle" IsHitTestVisible="False" Width="409.6" Height="204.8" StrokeThickness="1" Stroke="Gray" Fill="#132F50"/>
+            <!--<Polygon IsHitTestVisible="False" Fill="#59673B" Points="..."/>-->
+            <!--<Polygon IsHitTestVisible="False" Fill="#59673B" Points="..."/>-->
+            <!--<Polygon IsHitTestVisible="False" Fill="#59673B" Points="..."/>-->
+        </Canvas>
 
     </Grid>
 </Page>
