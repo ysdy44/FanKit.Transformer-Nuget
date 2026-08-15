@@ -331,6 +331,9 @@
     <Compile Include="DualPage.xaml.cs">
       <DependentUpon>DualPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EarthPage.xaml.cs">
+      <DependentUpon>EarthPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\CanvasDrawingSessionExtensions.cs" />
     <Compile Include="Extensions\DemoGeometry.cs" />
     <Compile Include="Extensions\DemoPath.cs" />
@@ -702,6 +705,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="DualPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EarthPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
