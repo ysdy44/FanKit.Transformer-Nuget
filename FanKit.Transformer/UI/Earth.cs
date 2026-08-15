@@ -11,8 +11,8 @@ namespace FanKit.Transformer.UI
         const float PolarEpsilonRadians = 4f / PolarEpsilon;
 
         // Textures
-        readonly bool[,] QuadIsFarSides = new bool[VCountPlus, UCount];
-        readonly Quadrilateral[,] Quads = new Quadrilateral[VCountPlus, UCount];
+        public readonly bool[,] QuadIsFarSides = new bool[VCountPlus, UCount];
+        public readonly Quadrilateral[,] Quads = new Quadrilateral[VCountPlus, UCount];
         public readonly Matrix4x4[,] TransformMatrixes = new Matrix4x4[VCountPlus, UCount];
 
         // Vectors
@@ -21,14 +21,17 @@ namespace FanKit.Transformer.UI
         readonly Vector3[,] Vectors = new Vector3[VCountPlus, UCount];
 
         // Vector IsFarSide
-        bool NorthVectorIsFarSide;
-        bool SouthVectorIsFarSide;
+        public bool NorthVectorIsFarSide;
+        public bool SouthVectorIsFarSide;
         readonly bool[,] VectorIsFarSides = new bool[VCountPlus, UCount];
 
         // Vertexes
         Vector2 NorthVertex;
         Vector2 SouthVertex;
         readonly Vector2[,] Vertexes = new Vector2[VCountPlus, UCount];
+
+        public Vector2[] NorthPolePolygon = new Vector2[UCount];
+        public Vector2[] SouthPolePolygon = new Vector2[UCount];
 
         public Earth()
         {
@@ -42,7 +45,7 @@ namespace FanKit.Transformer.UI
 
                 for (int vi = 1; vi < VCount; vi++)
                 {
-                    float vScale = 0.5f / VCountMinusTwiceF + (vi - 1) / VCountMinusTwiceF;
+                    float vScale = ((float)(vi - 1) + 0.5f) / VCountMinusTwiceF;
 
                     Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PITwice * vScale);
                     float vSin = vRadians.S;
@@ -295,7 +298,12 @@ namespace FanKit.Transformer.UI
                     Vector3 e = this.Vectors[vi, ui];
                     Vector3 t = rotation.RotateVector(e);
 
-                    this.Vertexes[vi, ui] = layout.GetVertex(t);
+                    if (vi == 0)
+                        this.Vertexes[vi, ui] = this.NorthPolePolygon[ui] = layout.GetVertex(t);
+                    else if (vi == VCount)
+                        this.Vertexes[vi, ui] = this.SouthPolePolygon[ui] = layout.GetVertex(t);
+                    else
+                        this.Vertexes[vi, ui] = layout.GetVertex(t);
 
                     this.VectorIsFarSides[vi, ui] = t.Z < 0f;
                 }
@@ -478,19 +486,9 @@ namespace FanKit.Transformer.UI
 
         public static Vector3 GetVector(float uAmount, float vAmount)
         {
-            /*
-            float ui = uAmount * UCount;
-            float uScale = ui / UCountHalfF;
-             */
-
             Rotation2x2 uRadians = new Rotation2x2(Mathematics.Math.PI + Mathematics.Math.PITwice * uAmount);
             float uSin = uRadians.S;
             float uCos = uRadians.C;
-
-            /*
-            float vi = vAmount * VCount;
-            float vScale = 0.5f / VCountMinusTwiceF + (vi - 1f) / VCountMinusTwiceF;
-             */
 
             Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PI * vAmount);
             float vSin = vRadians.S;
