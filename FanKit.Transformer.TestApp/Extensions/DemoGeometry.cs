@@ -23,21 +23,24 @@ namespace FanKit.Transformer.TestApp
 
         public void AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint)
         {
-            this.Last().Add(this.Receiver.AddCubicBezier0(controlPoint1, controlPoint2, endPoint, out this.Receiver));
+            var figure = this.Last();
+            figure.Add(this.Receiver.AddCubicBezier0(controlPoint1, controlPoint2, endPoint, out this.Receiver));
 
             this.Builder.AddCubicBezier(controlPoint1, controlPoint2, endPoint);
         }
 
         public void AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint)
         {
-            this.Last().Add(this.Receiver.AddQuadraticBezier0(controlPoint, endPoint, out this.Receiver));
+            var figure = this.Last();
+            figure.Add(this.Receiver.AddQuadraticBezier0(controlPoint, endPoint, out this.Receiver));
 
             this.Builder.AddQuadraticBezier(controlPoint, endPoint);
         }
 
         public void AddLine(Vector2 endPoint)
         {
-            this.Last().Add(this.Receiver.AddLine0(endPoint, out this.Receiver));
+            var figure = this.Last();
+            figure.Add(this.Receiver.AddLine0(endPoint, out this.Receiver));
 
             this.Builder.AddLine(endPoint);
         }
@@ -46,12 +49,17 @@ namespace FanKit.Transformer.TestApp
         {
             if (isClosed)
             {
-                this.Last().Add(this.Receiver.EndFigure0());
+                var figure = this.Last();
+                //figure.IsClosed = true;
+                figure.Add(this.Receiver.EndFigure0());
 
                 this.Builder.EndFigure(CanvasFigureLoop.Closed);
             }
             else
             {
+                //var figure = this.Last();
+                //figure.IsClosed = false;
+
                 this.Builder.EndFigure(CanvasFigureLoop.Open);
             }
         }

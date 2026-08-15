@@ -14,12 +14,12 @@ namespace FanKit.Transformer.TestApp
     public class PathBuilder : IPathBuilder, IDisposable
     {
         public readonly CanvasPathBuilder Builder;
-        public PathBuilder(ICanvasResourceCreator resourceCreator) => Builder = new CanvasPathBuilder(resourceCreator);
-        public void BeginFigure(Vector2 startPoint) => Builder.BeginFigure(startPoint);
-        public void AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint) => Builder.AddCubicBezier(controlPoint1, controlPoint2, endPoint);
-        public void AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint) => Builder.AddQuadraticBezier(controlPoint, endPoint);
-        public void AddLine(Vector2 endPoint) => Builder.AddLine(endPoint);
-        public void EndFigure(bool isClosed) => Builder.EndFigure(isClosed ? CanvasFigureLoop.Closed : CanvasFigureLoop.Open);
-        public void Dispose() => Builder.Dispose();
+        public PathBuilder(ICanvasResourceCreator resourceCreator) => this.Builder = new CanvasPathBuilder(resourceCreator);
+        public void BeginFigure(Vector2 startPoint) => this.Builder.BeginFigure(startPoint);
+        public void AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint) => this.Builder.AddCubicBezier(controlPoint1, controlPoint2, endPoint);
+        public void AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint) => this.Builder.AddQuadraticBezier(controlPoint, endPoint);
+        public void AddLine(Vector2 endPoint) => this.Builder.AddLine(endPoint);
+        public void EndFigure(bool isClosed) => this.Builder.EndFigure(isClosed ? CanvasFigureLoop.Closed : CanvasFigureLoop.Open);
+        public void Dispose() => this.Builder.Dispose();
     }
 }

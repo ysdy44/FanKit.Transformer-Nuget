@@ -1,7 +1,12 @@
 ﻿using FanKit.Transformer;
 using FanKit.Transformer.Cache;
-using FanKit.Transformer.TestApp;
+using FanKit.Transformer.Curves;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Geometry;
+using System;
+using System.Collections.Generic;
 using System.Numerics;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 namespace FanKit.Transformer.TestApp
