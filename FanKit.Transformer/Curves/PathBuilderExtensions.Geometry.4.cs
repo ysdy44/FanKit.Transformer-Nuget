@@ -169,20 +169,6 @@ namespace FanKit.Transformer.Curves
             // Closed
             pathBuilder.EndFigure(Closed);
         }
-
-        private static Vector2 GetArrowFocusVector(float verticalLength, float horizontalLength, Vector2 horizontal)
-        {
-            if (verticalLength < horizontalLength)
-                return 0.5f * (verticalLength / horizontalLength) * horizontal;
-            else
-                return 0.5f * horizontal;
-        }
-
-        private static Vector2 GetArrowWidthVector(bool isAbsolute, float width2, float value, Vector2 vertical, float verticalLength)
-        {
-            float width = isAbsolute ? width2 : value * verticalLength;
-            return vertical * (width / verticalLength) / 2;
-        }
         #endregion
 
         #region Capsule
@@ -359,16 +345,6 @@ namespace FanKit.Transformer.Curves
 
             pathBuilder.AddCubicBezier(Vector2.Transform(rightTop2, oneMatrix), Vector2.Transform(rightBottom1, oneMatrix), Vector2.Transform(rightBottom, oneMatrix));
             pathBuilder.EndFigure(Closed);
-        }
-
-        private static Vector2 HeartTopSpread(float spread)
-        {
-            // Rang
-            //   x: 0~1
-            //   y: 1.0~ - 0.8
-            //  y=1 - 1.8x
-            float topSpread = 1f - spread * 1.8f;
-            return new Vector2(0, topSpread);
         }
         #endregion
     }

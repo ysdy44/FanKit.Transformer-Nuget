@@ -5,9 +5,6 @@ namespace FanKit.Transformer.Curves
 {
     partial class PathBuilderExtensions
     {
-        const float Z276 = 0.276114f;
-        const float Z552 = 0.55228f;
-
         #region Rectangle
         public static void CreateRectangle(this IPathBuilder pathBuilder, Box0 bounds)
         {

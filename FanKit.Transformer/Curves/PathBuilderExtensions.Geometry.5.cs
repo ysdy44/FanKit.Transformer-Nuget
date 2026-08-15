@@ -5,47 +5,6 @@ namespace FanKit.Transformer.Curves
 {
     partial class PathBuilderExtensions
     {
-        // Radians Quadrant
-        const float RQ = R90;
-
-        // Radians Positive
-        const float RP360 = R360;
-        const float RP270 = R270;
-        const float RP180 = R180;
-        const float RP90 = R90;
-
-        // Radians Zero
-        const float RZ0 = R0;
-
-        // Radians Negative
-        const float RN90 = -R90;
-        const float RN180 = -R180;
-        const float RN270 = -R270;
-        const float RN360 = -R360;
-
-        // Arc Positive
-        const byte P360 = 0;
-        const byte P270T360 = 1;
-        const byte P270 = 2;
-        const byte P180T270 = 3;
-        const byte P180 = 4;
-        const byte P90T180 = 5;
-        const byte P90 = 6;
-        const byte P0T90 = 7;
-
-        // Arc Zero
-        const byte Z0 = 8;
-
-        // Arc Negative
-        const byte N0T90 = 9;
-        const byte N90 = 10;
-        const byte N90T180 = 11;
-        const byte N180 = 12;
-        const byte N180T270 = 13;
-        const byte N270 = 14;
-        const byte N270T360 = 15;
-        const byte N360 = 16;
-
         #region Arc
         public static void CreateArc(this IPathBuilder pathBuilder, Triangle bounds, float startAngle = R0, float sweepAngle = R270)
         {
@@ -385,71 +344,6 @@ namespace FanKit.Transformer.Curves
                     break;
                 default:
                     break;
-            }
-        }
-
-        private static byte GetArcMode(float sweepAngle)
-        {
-            switch (sweepAngle.CompareTo(RZ0))
-            {
-                case 1:
-                    switch (sweepAngle.CompareTo(RP90))
-                    {
-                        case 1:
-                            switch (sweepAngle.CompareTo(RP180))
-                            {
-                                case 1:
-                                    switch (sweepAngle.CompareTo(RP270))
-                                    {
-                                        case 1:
-                                            switch (sweepAngle.CompareTo(RP360))
-                                            {
-                                                case 1: case 0: return P360;
-                                                case -1: return P270T360;
-                                                default: return Z0;
-                                            }
-                                        case 0: return P270;
-                                        case -1: return P180T270;
-                                        default: return Z0;
-                                    }
-                                case 0: return P180;
-                                case -1: return P90T180;
-                                default: return Z0;
-                            }
-                        case 0: return P90;
-                        case -1: return P0T90;
-                        default: return Z0;
-                    }
-                case 0: return Z0;
-                case -1:
-                    switch (sweepAngle.CompareTo(RN90))
-                    {
-                        case 1: return N0T90;
-                        case 0: return N90;
-                        case -1:
-                            switch (sweepAngle.CompareTo(RN180))
-                            {
-                                case 1: return N90T180;
-                                case 0: return N180;
-                                case -1:
-                                    switch (sweepAngle.CompareTo(RN270))
-                                    {
-                                        case 1: return N180T270;
-                                        case 0: return N270;
-                                        case -1:
-                                            switch (sweepAngle.CompareTo(RN360))
-                                            {
-                                                case 1: return N270T360;
-                                                case 0: case -1: return N360;
-                                                default: return Z0;
-                                            }
-                                        default: return Z0;
-                                    }
-                                default: return Z0;
-                            }
-                        default: return Z0;
-                    }
-                default: return Z0;
             }
         }
         #endregion

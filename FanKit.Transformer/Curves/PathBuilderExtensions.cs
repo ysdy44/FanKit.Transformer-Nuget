@@ -5,20 +5,6 @@ namespace FanKit.Transformer.Curves
 {
     public static partial class PathBuilderExtensions
     {
-        const bool Closed = true;
-        const bool Open = false;
-
-        // Radians
-        const float PI = Constants.PI;
-        const float PITwice = Constants.PITwice;
-        const float PIOver2 = Constants.PIOver2;
-
-        const float R360 = Constants.PI + Constants.PI;
-        const float R270 = Constants.PI + Constants.PIOver2;
-        const float R180 = Constants.PI;
-        const float R90 = Constants.PIOver2;
-        const float R0 = 0f;
-
         private static void CreatePoint(IPathBuilder pathBuilder, Segment0 previous, Segment0 next)
             => AddBezier(pathBuilder, previous.IsSmooth, next.IsSmooth, previous.Point, next.Point);
 
