@@ -14,6 +14,107 @@ namespace FanKit.Transformer.Curves
         void EndFigure(bool isClosed);
     }
 
+    partial struct PathReceiver
+    {
+        public Segment0 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, out PathReceiver result)
+        {
+            Segment0 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment0(false, new Node(s, s, controlPoint1));
+                    break;
+                case l:
+                    segment = new Segment0(false, new Node(e, e, controlPoint1));
+                    break;
+                case q:
+                case u:
+                    segment = new Segment0(false, new Node(e, c, controlPoint1));
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
+        }
+
+        public Segment0 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, out PathReceiver result)
+        {
+            Segment0 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment0(false, new Node(s, s, controlPoint));
+                    break;
+                case l:
+                    segment = new Segment0(false, new Node(e, e, controlPoint));
+                    break;
+                case q:
+                case u:
+                    segment = new Segment0(false, new Node(e, c, controlPoint));
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
+        }
+
+        public Segment0 AddLine(Vector2 endPoint, out PathReceiver result)
+        {
+            Segment0 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment0(false, s);
+                    break;
+                case l:
+                    segment = new Segment0(false, e);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment0(false, new Node(e, c, endPoint));
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToLine(endPoint);
+            return segment;
+        }
+
+        // Closed
+        public Segment0 EndFigure()
+        {
+            Segment0 segment;
+
+            switch (m)
+            {
+                case b:
+                case l:
+                    segment = new Segment0(false, e);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment0(false, new Node(e, c, e));
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            return segment;
+        }
+    }
+
     partial class PathBuilderExtensions
     {
         private static void CreatePoint(IPathBuilder0 pathBuilder, Segment0 previous, Segment0 next)
@@ -120,9 +221,9 @@ namespace FanKit.Transformer.Curves
         #endregion
 
         #region Segment0
-        public static void CreatePath(this IPathBuilder0 pathBuilder, List<Segment0> figures, bool isClosed)
+        public static void CreatePath(this IPathBuilder0 pathBuilder, List<Segment0> segments, bool isClosed)
         {
-            CreatePointPath(pathBuilder, figures, isClosed);
+            CreatePointPath(pathBuilder, segments, isClosed);
         }
 
         private static void CreatePointPath(IPathBuilder0 pathBuilder, List<Segment0> segments, bool isClosed)

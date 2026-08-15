@@ -14,6 +14,107 @@ namespace FanKit.Transformer.Curves
         void EndFigure(ICanvasMatrix canvasMatrix, bool isClosed);
     }
 
+    partial struct PathReceiver
+    {
+        public Segment1 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        {
+            Segment1 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment1(false, new Node(s, s, controlPoint1), canvasMatrix);
+                    break;
+                case l:
+                    segment = new Segment1(false, new Node(e, e, controlPoint1), canvasMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment1(false, new Node(e, c, controlPoint1), canvasMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
+        }
+
+        public Segment1 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        {
+            Segment1 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment1(false, new Node(s, s, controlPoint), canvasMatrix);
+                    break;
+                case l:
+                    segment = new Segment1(false, new Node(e, e, controlPoint), canvasMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment1(false, new Node(e, c, controlPoint), canvasMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
+        }
+
+        public Segment1 AddLine(Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        {
+            Segment1 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment1(false, s, canvasMatrix);
+                    break;
+                case l:
+                    segment = new Segment1(false, e, canvasMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment1(false, new Node(e, c, endPoint), canvasMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToLine(endPoint);
+            return segment;
+        }
+
+        // Closed
+        public Segment1 EndFigure(ICanvasMatrix canvasMatrix)
+        {
+            Segment1 segment;
+
+            switch (m)
+            {
+                case b:
+                case l:
+                    segment = new Segment1(false, e, canvasMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment1(false, new Node(e, c, e), canvasMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            return segment;
+        }
+    }
+
     partial class PathBuilderExtensions
     {
         private static void CreatePoint(IPathBuilder1 pathBuilder, ICanvasMatrix canvasMatrix, Segment0 previous, Segment0 next)

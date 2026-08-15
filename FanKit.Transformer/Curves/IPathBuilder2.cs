@@ -14,6 +14,107 @@ namespace FanKit.Transformer.Curves
         void EndFigure(Matrix3x2 homographyMatrix, bool isClosed);
     }
 
+    partial struct PathReceiver
+    {
+        public Segment2 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
+        {
+            Segment2 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment2(false, new Node(s, s, controlPoint1), homographyMatrix);
+                    break;
+                case l:
+                    segment = new Segment2(false, new Node(e, e, controlPoint1), homographyMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment2(false, new Node(e, c, controlPoint1), homographyMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToCubicBezier(controlPoint2, endPoint);
+            return segment;
+        }
+
+        public Segment2 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
+        {
+            Segment2 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment2(false, new Node(s, s, controlPoint), homographyMatrix);
+                    break;
+                case l:
+                    segment = new Segment2(false, new Node(e, e, controlPoint), homographyMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment2(false, new Node(e, c, controlPoint), homographyMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToQuadraticBezier(controlPoint, endPoint);
+            return segment;
+        }
+
+        public Segment2 AddLine(Vector2 endPoint, Matrix3x2 homographyMatrix, out PathReceiver result)
+        {
+            Segment2 segment;
+
+            switch (m)
+            {
+                case b:
+                    segment = new Segment2(false, s, homographyMatrix);
+                    break;
+                case l:
+                    segment = new Segment2(false, e, homographyMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment2(false, new Node(e, c, endPoint), homographyMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            result = ToLine(endPoint);
+            return segment;
+        }
+
+        // Closed
+        public Segment2 EndFigure(Matrix3x2 homographyMatrix)
+        {
+            Segment2 segment;
+
+            switch (m)
+            {
+                case b:
+                case l:
+                    segment = new Segment2(false, e, homographyMatrix);
+                    break;
+                case q:
+                case u:
+                    segment = new Segment2(false, new Node(e, c, e), homographyMatrix);
+                    break;
+                default:
+                    segment = default;
+                    break;
+            }
+
+            return segment;
+        }
+    }
+
     partial class PathBuilderExtensions
     {
         private static void CreatePoint(IPathBuilder2 pathBuilder, Matrix3x2 homographyMatrix, Segment0 previous, Segment0 next)
