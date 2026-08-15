@@ -117,12 +117,12 @@ namespace FanKit.Transformer.UI
 
                 for (int ui = 0; ui < UCount; ui++)
                 {
-                    int ui2 = ui;
+                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
 
                     bool f3 = this.VectorIsFarSides[vi2, ui2];
                     if (!f3)
                     {
-                        int ui1 = ui == 0 ? UCountMinus : ui - 1;
+                        int ui1 = ui;
 
                         bool f4 = this.VectorIsFarSides[vi2, ui1];
 
@@ -166,12 +166,12 @@ namespace FanKit.Transformer.UI
                 const int vi = 1;
                 const int vi2 = vi;
 
-                int ui2 = ui;
+                int ui2 = ui == UCountMinus ? 0 : ui + 1;
 
                 bool f3 = this.VectorIsFarSides[vi2, ui2];
                 if (!f3)
                 {
-                    int ui1 = ui == 0 ? UCountMinus : ui - 1;
+                    int ui1 = ui;
 
                     bool f4 = this.VectorIsFarSides[vi2, ui1];
 
@@ -214,12 +214,12 @@ namespace FanKit.Transformer.UI
                 const int vi = VCount;
                 const int vi1 = vi - 1;
 
-                int ui2 = ui;
+                int ui2 = ui == UCountMinus ? 0 : ui + 1;
 
                 bool f2 = this.VectorIsFarSides[vi1, ui2];
                 if (!f2)
                 {
-                    int ui1 = ui == 0 ? UCountMinus : ui - 1;
+                    int ui1 = ui;
 
                     bool f3 = this.SouthVectorIsFarSide;
 
@@ -326,8 +326,8 @@ namespace FanKit.Transformer.UI
 
                 for (int ui = 0; ui < UCount; ui++)
                 {
-                    int ui1 = ui == 0 ? UCountMinus : ui - 1;
-                    int ui2 = ui;
+                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                    int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
                     if (!f1)
@@ -378,8 +378,8 @@ namespace FanKit.Transformer.UI
 
                 for (int ui = 0; ui < UCount; ui++)
                 {
-                    int ui1 = ui == 0 ? UCountMinus : ui - 1;
-                    int ui2 = ui;
+                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                    int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
                     if (!f1)
@@ -430,8 +430,8 @@ namespace FanKit.Transformer.UI
 
                 for (int ui = 0; ui < UCount; ui++)
                 {
-                    int ui1 = ui == 0 ? UCountMinus : ui - 1;
-                    int ui2 = ui;
+                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                    int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
                     if (!f1)
@@ -478,17 +478,21 @@ namespace FanKit.Transformer.UI
 
         public static Vector3 GetVector(float uAmount, float vAmount)
         {
+            /*
             float ui = uAmount * UCount;
             float uScale = ui / UCountHalfF;
+             */
 
-            Rotation2x2 uRadians = new Rotation2x2(Mathematics.Math.PI + Mathematics.Math.PI * uScale);
+            Rotation2x2 uRadians = new Rotation2x2(Mathematics.Math.PI + Mathematics.Math.PITwice * uAmount);
             float uSin = uRadians.S;
             float uCos = uRadians.C;
 
+            /*
             float vi = vAmount * VCount;
             float vScale = 0.5f / VCountMinusTwiceF + (vi - 1f) / VCountMinusTwiceF;
+             */
 
-            Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PITwice * vScale);
+            Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PI * vAmount);
             float vSin = vRadians.S;
             float vCos = vRadians.C;
 
