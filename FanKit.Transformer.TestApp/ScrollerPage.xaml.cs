@@ -5,7 +5,9 @@ using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.Text;
+using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
@@ -25,7 +27,7 @@ namespace FanKit.Transformer.TestApp
         Linear FloatLinear;
 
         int PageIndex;
-        CanvasRenderTarget[] Bitmaps;
+        CanvasBitmap[] Bitmaps;
 
         readonly ScrollerAnimation Animation = new ScrollerAnimation();
         readonly CanvasOperator1 CanvasOperator;
@@ -75,6 +77,7 @@ namespace FanKit.Transformer.TestApp
             this.CanvasControl.CreateResources += (s, args) =>
             {
                 this.IsFlipX = this.FlowDirection == Windows.UI.Xaml.FlowDirection.RightToLeft;
+                //args.TrackAsyncAction(CreateResourcesAsync(s).AsAsyncAction());
                 this.CreateResourcesAsync(s);
             };
             this.CanvasControl.Update += (s, e) =>
@@ -125,16 +128,18 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
+        //private async Task CreateResourcesAsync(ICanvasResourceCreator resourceCreator)
+        //{
+        //    this.Bitmaps = new CanvasBitmap[]
+        //    {
+        //        await CanvasBitmap.LoadAsync(resourceCreator, "Images/1.png"),
+        //        await CanvasBitmap.LoadAsync(resourceCreator, "Images/2.png"),
+        //        await CanvasBitmap.LoadAsync(resourceCreator, "Images/3.png"),
+        //        await CanvasBitmap.LoadAsync(resourceCreator, "Images/4.png"),
+        //    };
+        //}
         private void CreateResourcesAsync(ICanvasResourceCreator resourceCreator)
         {
-            this.Bitmaps = new CanvasRenderTarget[]
-            {
-                new CanvasRenderTarget(resourceCreator, 720f, 1080f, 96f),
-                new CanvasRenderTarget(resourceCreator, 720f, 1080f, 96f),
-                new CanvasRenderTarget(resourceCreator, 720f, 1080f, 96f),
-                new CanvasRenderTarget(resourceCreator, 720f, 1080f, 96f),
-            };
-
             using (CanvasTextFormat textFormat = new CanvasTextFormat
             {
                 HorizontalAlignment = CanvasHorizontalAlignment.Center,
@@ -143,17 +148,28 @@ namespace FanKit.Transformer.TestApp
                 FontSize = 240f,
             })
             {
-                for (int i = 0; i < this.Bitmaps.Length; i++)
+                this.Bitmaps = new CanvasRenderTarget[]
                 {
-                    CanvasRenderTarget item = this.Bitmaps[i];
-                    using (CanvasDrawingSession drawingSession = item.CreateDrawingSession())
-                    using (CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, $"{i}", textFormat, 720f, 1080f))
-                    {
-                        drawingSession.DrawRectangle(72f, 72f, 576f, 936f, Windows.UI.Colors.Black, 4f);
-                        drawingSession.DrawTextLayout(textLayout, 0f, 0f, Windows.UI.Colors.Black);
-                    }
-                }
+                    CreateTexture(resourceCreator, "0", textFormat),
+                    CreateTexture(resourceCreator, "1", textFormat),
+                    CreateTexture(resourceCreator, "2", textFormat),
+                    CreateTexture(resourceCreator, "3", textFormat),
+                };
             }
+        }
+
+        private static CanvasRenderTarget CreateTexture(ICanvasResourceCreator resourceCreator, string textString, CanvasTextFormat textFormat)
+        {
+            CanvasRenderTarget renderTarget = new CanvasRenderTarget(resourceCreator, 720f, 1080f, 96f);
+
+            using (CanvasDrawingSession drawingSession = renderTarget.CreateDrawingSession())
+            using (CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, textString, textFormat, 720f, 1080f))
+            {
+                drawingSession.DrawRectangle(72f, 72f, 576f, 936f, Windows.UI.Colors.Black, 4f);
+                drawingSession.DrawTextLayout(textLayout, 0f, 0f, Windows.UI.Colors.Black);
+            }
+
+            return renderTarget;
         }
 
         private void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -208,27 +224,6 @@ namespace FanKit.Transformer.TestApp
                     }
 
                     this.DrawShadow(resourceCreator, drawingSession);
-                    /*
-            using (CanvasLinearGradientBrush brush = new CanvasLinearGradientBrush(resourceCreator, this.Colors.LeftGradientStops)
-            {
-                StartPoint = this.LeftLinear.L0,
-                EndPoint = this.LeftLinear.L1,
-            })
-            {
-                // Left Page
-                drawingSession.FillRectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.WidthHalf, this.Bounds.Height, brush);
-            }
-
-            using (CanvasLinearGradientBrush brush = new CanvasLinearGradientBrush(resourceCreator, this.Colors.RightGradientStops)
-            {
-                StartPoint = this.RightLinear.L0,
-                EndPoint = this.RightLinear.L1,
-            })
-            {
-                // Right Page
-                drawingSession.FillRectangle(this.Bounds.CenterX, this.Bounds.Top, this.Bounds.WidthHalf, this.Bounds.Height, brush);
-            }
-                     */
 
                     using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.ToFloatPoints()))
                     {
@@ -263,7 +258,7 @@ namespace FanKit.Transformer.TestApp
                                 float height = (float)this.Bitmap3.Size.Height;
                                 drawingSession.DrawImage(new Transform2DEffect
                                 {
-                                    TransformMatrix = this.Bounds.GetFloatTransformMatrix(this.Scroller, width, height, this.IsFlipX),
+                                    TransformMatrix = this.Scroller.GetFloatTransformMatrix(this.Bounds, width, height, this.IsFlipX),
                                     Source = this.Bitmap3,
                                 });
                             }

@@ -93,50 +93,6 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public Matrix3x2 GetFloatTransformMatrix(Scroller quad, float bitmapWidth, float bitmapHeight, bool isFlipX)
-        {
-            float scaleX = this.WidthHalf / bitmapWidth;
-            float scaleY = this.Height / bitmapHeight;
-
-            float x = quad.Float.LeftBottom.X - quad.Float.LeftTop.X;
-            float y = quad.Float.LeftBottom.Y - quad.Float.LeftTop.Y;
-
-            float radians = (float)System.Math.Atan2(y, x) - Constants.PIOver2;
-
-            switch (quad.State)
-            {
-                case ScrollerState.BottomTriangle:
-                    if (isFlipX)
-                    {
-                        return Matrix3x2.CreateScale(-scaleX, scaleY)
-                         * Matrix3x2.CreateTranslation(this.WidthHalf, -bitmapHeight * scaleY)
-                        * Matrix3x2.CreateRotation(radians)
-                        * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
-                    }
-                    else
-                    {
-                        return Matrix3x2.CreateScale(scaleX, scaleY)
-                        * Matrix3x2.CreateTranslation(0f, -bitmapHeight * scaleY)
-                        * Matrix3x2.CreateRotation(radians)
-                        * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
-                    }
-                default:
-                    if (isFlipX)
-                    {
-                        return Matrix3x2.CreateScale(-scaleX, scaleY)
-                        * Matrix3x2.CreateTranslation(this.WidthHalf, 0)
-                        * Matrix3x2.CreateRotation(radians)
-                        * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
-                    }
-                    else
-                    {
-                        return Matrix3x2.CreateScale(scaleX, scaleY)
-                        * Matrix3x2.CreateRotation(radians)
-                        * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
-                    }
-            }
-        }
-
         private static float InterX(float px, float py, float invk, float x) => py + invk * (px - x);
         private static float InterY(float px, float py, float k, float y) => px + k * (py - y);
         private static Vector2 MirrorPoint(Vector2 point, Vector2 linePoint1, Vector2 linePoint2)
