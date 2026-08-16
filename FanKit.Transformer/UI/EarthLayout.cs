@@ -18,18 +18,18 @@ namespace FanKit.Transformer.UI
 
         public Vector2 Center;
 
-        public Vector2 GetVertex(Vector3 vector)
+        public Vector2 GetPoint(Vector3 unitVector)
         {
-            float x = vector.X * this.Radius + this.Center.X;
-            float y = vector.Y * this.Radius + this.Center.Y;
+            float x = unitVector.X * this.Radius + this.Center.X;
+            float y = unitVector.Y * this.Radius + this.Center.Y;
 
             return new Vector2(x, y);
         }
 
-        public Vector2 GetVertex(Vector3 vector, float radius)
+        public Vector2 GetPoint(Vector3 unitVector, float radius)
         {
-            float x = vector.X * radius + this.Center.X;
-            float y = vector.Y * radius + this.Center.Y;
+            float x = unitVector.X * radius + this.Center.X;
+            float y = unitVector.Y * radius + this.Center.Y;
 
             return new Vector2(x, y);
         }

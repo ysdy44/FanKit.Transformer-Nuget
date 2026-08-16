@@ -58,7 +58,8 @@
         </Border>
 
         <Canvas x:Name="Touchpad" Margin="12" Width="409.6" Height="204.8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="Transparent">
-            <Rectangle x:Name="Rectangle" IsHitTestVisible="False" Width="409.6" Height="204.8" StrokeThickness="1" Stroke="Gray" Fill="#132F50"/>
+            <!--<Image IsHitTestVisible="False" Width="409.6" Height="204.8" Source="/Images/ad189db39db704e.jpg" />-->
+            <Rectangle IsHitTestVisible="False" Width="409.6" Height="204.8" StrokeThickness="1" Stroke="Gray" Fill="#132F50"/>
             <!--<Polygon IsHitTestVisible="False" Fill="#59673B" Points="..."/>-->
             <!--<Polygon IsHitTestVisible="False" Fill="#59673B" Points="..."/>-->
             <!--<Polygon IsHitTestVisible="False" Fill="#59673B" Points="..."/>-->

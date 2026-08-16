@@ -138,12 +138,12 @@ namespace FanKit.Transformer.TestApp
 
                     e.DrawingSession.DrawImage(new Transform3DEffect
                     {
-                        TransformMatrix = this.Earth.TransformMatrixes[vi, ui],
+                        TransformMatrix = this.Earth.TextureTransformMatrixes[vi, ui],
                         Source = this.Textures[vi, ui]
                     });
                 }
 
-                if (!this.Earth.NorthVectorIsFarSide)
+                if (!this.Earth.NorthPoleIsFarSide)
                 {
                     using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.NorthPolePolygon))
                     {
@@ -151,7 +151,7 @@ namespace FanKit.Transformer.TestApp
                     }
                 }
 
-                if (!this.Earth.SouthVectorIsFarSide)
+                if (!this.Earth.SouthPoleIsFarSide)
                 {
                     using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.SouthPolePolygon))
                     {
@@ -177,7 +177,7 @@ namespace FanKit.Transformer.TestApp
                     e.DrawingSession.DrawLine(point0, point1, this.VertexColor);
                 }
 
-                foreach (var item in this.Earth.DrawPoints())
+                foreach (var item in this.Earth.DrawVertexes())
                 {
                     e.DrawingSession.FillCircle(item, 2f, this.VertexColor);
                 }
@@ -254,7 +254,7 @@ namespace FanKit.Transformer.TestApp
             };
 
             this.ResetButton.Click += delegate { this.ResetRotation(); };
-            this.Touchpad.PointerExited += (s, e) =>
+            this.Touchpad.PointerExited += delegate
             {
                 this.Mouse = null;
             };
@@ -278,18 +278,18 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
-        public Vector3 GetVector(float uAmount, float vAmount) => Earth.GetVector(uAmount, vAmount);
-        public Vector3 RotateVector(Vector3 vector) => this.EarthRotation.RotateVector(vector);
+        public Vector3 GetUnitVector(float uAmount, float vAmount) => Earth.GetUnitVector(uAmount, vAmount);
+        public Vector3 RotateUnitVector(Vector3 unitVector) => this.EarthRotation.RotateUnitVector(unitVector);
 
-        public Vector2 GetVertex(Vector3 vector) => this.EarthLayout.GetVertex(vector);
-        public Vector2 GetVertexEx(Vector3 vector) => this.EarthLayout.GetVertex(vector, this.EarthLayout.Radius * 1.1f);
+        public Vector2 GetPoint(Vector3 unitVector) => this.EarthLayout.GetPoint(unitVector);
+        public Vector2 GetPointEx(Vector3 unitVector) => this.EarthLayout.GetPoint(unitVector, this.EarthLayout.Radius * 1.1f);
 
-        private Stellite GetStellite(float uAmount, float vAmount) => GetStellite(GetVector(uAmount, vAmount));
+        private Stellite GetStellite(float uAmount, float vAmount) => GetStellite(GetUnitVector(uAmount, vAmount));
         private Stellite GetStellite(Stellite stellite) => GetStellite(stellite.Vector);
         private Stellite GetStellite(Vector3 v)
         {
-            Vector3 t = RotateVector(v);
-            Vector2 p = GetVertex(t);
+            Vector3 t = RotateUnitVector(v);
+            Vector2 p = GetPoint(t);
 
             return new Stellite
             {
@@ -310,7 +310,7 @@ namespace FanKit.Transformer.TestApp
         //    {
         //        this.CreateTextures(resourceCreator, bitmap);
         //        this.Earth.Update(this.EarthLayout, this.EarthTextureSize, this.EarthRotation);
-        //        for (int i = 0; i< this.Stellites.Count; i++) this.Stellites [i] = this.GetStellite(this.Stellites[i]);
+        //        for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
         //    }
         //}
         private void CreateResources(ICanvasResourceCreator resourceCreator, CanvasCreateResourcesEventArgs args)

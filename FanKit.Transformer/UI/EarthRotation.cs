@@ -17,9 +17,9 @@ namespace FanKit.Transformer.UI
             this.M = this.Y * this.X * this.Z;
         }
 
-        public Vector3 RotateVector(Vector3 vector)
+        public Vector3 RotateUnitVector(Vector3 unitVector)
         {
-            return Vector3.Transform(vector, this.M);
+            return Vector3.Transform(unitVector, this.M);
         }
     }
 }
