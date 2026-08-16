@@ -21,7 +21,7 @@ namespace FanKit.Transformer.TestApp
         Linear LeftLinear;
         Linear RightLinear;
 
-        Scroller Quad;
+        Scroller Scroller;
         Linear FloatLinear;
 
         int PageIndex;
@@ -81,15 +81,15 @@ namespace FanKit.Transformer.TestApp
             {
                 if (this.Animation.Update(e.Timing.ElapsedTime))
                 {
-                    this.Quad = this.Bounds.Scroll(this.Animation.StartingY, this.Animation.Value);
-                    this.FloatLinear = this.Quad.ToFloatLinear(100f);
+                    this.Scroller = this.Bounds.Scroll(this.Animation.StartingY, this.Animation.Value);
+                    this.FloatLinear = this.Scroller.ToFloatLinear(100f);
                 }
                 else
                 {
                     switch (this.Animation.Direction)
                     {
                         case ScrollerDirection.None:
-                            this.Quad = default;
+                            this.Scroller = default;
                             this.FloatLinear = default;
 
                             this.CanvasControl.Paused = true;
@@ -161,87 +161,54 @@ namespace FanKit.Transformer.TestApp
             drawingSession.FillRectangle(this.Bounds.Left - 20f, this.Bounds.Top - 20f, this.Bounds.Width + 40f, this.Bounds.Height + 40f, this.BackColor1);
             drawingSession.FillRectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, this.Bounds.Height, this.BackColor2);
 
-            switch (this.Quad.State)
+            switch (this.Scroller.State)
             {
                 case ScrollerState.LeftOutside:
                     // Left Page 3
-                    if (this.Bitmap3 != null)
-                    {
-                        drawingSession.DrawImage(new Transform2DEffect
-                        {
-                            TransformMatrix = this.Bounds.GetLeftTransformMatrix((float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height, this.IsFlipX),
-                            Source = this.Bitmap3
-                        });
-                    }
-                    break;
-                default:
-                    // Left Page 1
-                    if (this.Bitmap1 != null)
-                    {
-                        drawingSession.DrawImage(new Transform2DEffect
-                        {
-                            TransformMatrix = this.Bounds.GetLeftTransformMatrix((float)this.Bitmap1.Size.Width, (float)this.Bitmap1.Size.Height, this.IsFlipX),
-                            Source = this.Bitmap1
-                        });
-                    }
-                    break;
-            }
+                    if (this.Bitmap3 != null) this.DrawLeft(drawingSession, this.Bitmap3);
 
-            switch (this.Quad.State)
-            {
-                case ScrollerState.LeftOutside:
                     // Right Page 4
-                    if (this.Bitmap4 != null)
-                    {
-                        drawingSession.DrawImage(new Transform2DEffect
-                        {
-                            TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height, this.IsFlipX),
-                            Source = this.Bitmap4
-                        });
-                    }
+                    if (this.Bitmap4 != null) this.DrawRight(drawingSession, this.Bitmap4);
+
+                    this.DrawShadow(resourceCreator, drawingSession);
                     break;
                 case ScrollerState.RightOutside:
+                    // Left Page 1  
+                    if (this.Bitmap1 != null) this.DrawLeft(drawingSession, this.Bitmap1);
+
                     // Right Page 2
-                    if (this.Bitmap2 != null)
-                    {
-                        drawingSession.DrawImage(new Transform2DEffect
-                        {
-                            TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height, this.IsFlipX),
-                            Source = this.Bitmap2
-                        });
-                    }
+                    if (this.Bitmap2 != null) this.DrawRight(drawingSession, this.Bitmap2);
+
+                    this.DrawShadow(resourceCreator, drawingSession);
                     break;
-                default:
+                case ScrollerState.Quadrilateral:
+                case ScrollerState.TopTriangle:
+                case ScrollerState.BottomTriangle:
+                    // Left Page 1
+                    if (this.Bitmap1 != null) this.DrawLeft(drawingSession, this.Bitmap1);
+
                     if (this.Bitmap2 != null)
                     {
-                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Quad.ToLeftPoints()))
+                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.ToLeftPoints()))
                         using (drawingSession.CreateLayer(1.0f, polygon))
                         {
                             // Right Page 2
-                            drawingSession.DrawImage(new Transform2DEffect
-                            {
-                                TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap2.Size.Width, (float)this.Bitmap2.Size.Height, this.IsFlipX),
-                                Source = this.Bitmap2
-                            });
+                            this.DrawRight(drawingSession, this.Bitmap2);
                         }
                     }
 
                     if (this.Bitmap4 != null)
                     {
-                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Quad.ToRightPoints()))
+                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.ToRightPoints()))
                         using (drawingSession.CreateLayer(1.0f, polygon))
                         {
                             // Right Page 4
-                            drawingSession.DrawImage(new Transform2DEffect
-                            {
-                                TransformMatrix = this.Bounds.GetRightTransformMatrix((float)this.Bitmap4.Size.Width, (float)this.Bitmap4.Size.Height, this.IsFlipX),
-                                Source = this.Bitmap4
-                            });
+                            this.DrawRight(drawingSession, this.Bitmap4);
                         }
                     }
-                    break;
-            }
 
+                    this.DrawShadow(resourceCreator, drawingSession);
+                    /*
             using (CanvasLinearGradientBrush brush = new CanvasLinearGradientBrush(resourceCreator, this.Colors.LeftGradientStops)
             {
                 StartPoint = this.LeftLinear.L0,
@@ -261,14 +228,9 @@ namespace FanKit.Transformer.TestApp
                 // Right Page
                 drawingSession.FillRectangle(this.Bounds.CenterX, this.Bounds.Top, this.Bounds.WidthHalf, this.Bounds.Height, brush);
             }
+                     */
 
-            switch (this.Quad.State)
-            {
-                case ScrollerState.LeftOutside:
-                case ScrollerState.RightOutside:
-                    break;
-                default:
-                    using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Quad.ToFloatPoints()))
+                    using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.ToFloatPoints()))
                     {
                         using (CanvasCommandList list = new CanvasCommandList(resourceCreator))
                         {
@@ -278,7 +240,7 @@ namespace FanKit.Transformer.TestApp
                             }
 
                             // Shade Left Page 3
-                            float v = this.Quad.ToOpacity(this.Bounds.Width);
+                            float v = this.Scroller.ToOpacity(this.Bounds.Width);
                             drawingSession.DrawImage(new OpacityEffect
                             {
                                 Opacity = 0.75f * v,
@@ -297,9 +259,11 @@ namespace FanKit.Transformer.TestApp
                         {
                             using (drawingSession.CreateLayer(1.0f, polygon))
                             {
+                                float width = (float)this.Bitmap3.Size.Width;
+                                float height = (float)this.Bitmap3.Size.Height;
                                 drawingSession.DrawImage(new Transform2DEffect
                                 {
-                                    TransformMatrix = this.Bounds.GetFloatTransformMatrix(this.Quad, (float)this.Bitmap3.Size.Width, (float)this.Bitmap3.Size.Height, this.IsFlipX),
+                                    TransformMatrix = this.Bounds.GetFloatTransformMatrix(this.Scroller, width, height, this.IsFlipX),
                                     Source = this.Bitmap3,
                                 });
                             }
@@ -316,6 +280,53 @@ namespace FanKit.Transformer.TestApp
                         }
                     }
                     break;
+                default:
+                    break;
+            }
+        }
+
+        private void DrawLeft(CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
+        {
+            float width = (float)bitmap.Size.Width;
+            float height = (float)bitmap.Size.Height;
+            drawingSession.DrawImage(new Transform2DEffect
+            {
+                TransformMatrix = this.Bounds.GetLeftTransformMatrix(width, height, this.IsFlipX),
+                Source = bitmap
+            });
+        }
+
+        private void DrawRight(CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
+        {
+            float width = (float)bitmap.Size.Width;
+            float height = (float)bitmap.Size.Height;
+            drawingSession.DrawImage(new Transform2DEffect
+            {
+                TransformMatrix = this.Bounds.GetRightTransformMatrix(width, height, this.IsFlipX),
+                Source = bitmap
+            });
+        }
+
+        private void DrawShadow(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
+        {
+            using (CanvasLinearGradientBrush brush = new CanvasLinearGradientBrush(resourceCreator, this.Colors.LeftGradientStops)
+            {
+                StartPoint = this.LeftLinear.L0,
+                EndPoint = this.LeftLinear.L1,
+            })
+            {
+                // Left Page
+                drawingSession.FillRectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.WidthHalf, this.Bounds.Height, brush);
+            }
+
+            using (CanvasLinearGradientBrush brush = new CanvasLinearGradientBrush(resourceCreator, this.Colors.RightGradientStops)
+            {
+                StartPoint = this.RightLinear.L0,
+                EndPoint = this.RightLinear.L1,
+            })
+            {
+                // Right Page
+                drawingSession.FillRectangle(this.Bounds.CenterX, this.Bounds.Top, this.Bounds.WidthHalf, this.Bounds.Height, brush);
             }
         }
 
@@ -326,8 +337,8 @@ namespace FanKit.Transformer.TestApp
             switch (this.Bounds.GetDirection(this.StartingPoint.X))
             {
                 case ScrollerDirection.None:
-                    this.Quad = this.Bounds.Scroll(this.StartingPoint.X);
-                    this.FloatLinear = this.Quad.ToFloatLinear(100f);
+                    this.Scroller = this.Bounds.Scroll(this.StartingPoint.X);
+                    this.FloatLinear = this.Scroller.ToFloatLinear(100f);
 
                     this.CanvasControl.Invalidate();
                     break;
@@ -346,8 +357,8 @@ namespace FanKit.Transformer.TestApp
         {
             this.Point = new Vector2((float)x, (float)y);
 
-            this.Quad = this.Bounds.Scroll(this.StartingPoint.Y, this.Point);
-            this.FloatLinear = this.Quad.ToFloatLinear(100f);
+            this.Scroller = this.Bounds.Scroll(this.StartingPoint.Y, this.Point);
+            this.FloatLinear = this.Scroller.ToFloatLinear(100f);
 
             this.CanvasControl.Invalidate();
         }
@@ -356,10 +367,10 @@ namespace FanKit.Transformer.TestApp
         {
             this.Point = new Vector2((float)x, (float)y);
 
-            this.Quad = this.Bounds.Scroll(this.StartingPoint.Y, this.Point);
-            this.FloatLinear = this.Quad.ToFloatLinear(100f);
+            this.Scroller = this.Bounds.Scroll(this.StartingPoint.Y, this.Point);
+            this.FloatLinear = this.Scroller.ToFloatLinear(100f);
 
-            switch (this.Quad.State)
+            switch (this.Scroller.State)
             {
                 case ScrollerState.LeftOutside:
                 case ScrollerState.RightOutside:

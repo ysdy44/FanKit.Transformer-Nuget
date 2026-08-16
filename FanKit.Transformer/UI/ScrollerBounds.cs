@@ -32,7 +32,7 @@ namespace FanKit.Transformer.UI
             this.CenterX = x + this.WidthHalf;
         }
 
-        public ScrollerDirection GetDirection(float x) => BeginDirection(x);
+        public ScrollerDirection GetDirection(float startingX) => BeginDirection(startingX);
         internal ScrollerDirection EndDirection(float x) => x > this.CenterX ? ScrollerDirection.PageUp : ScrollerDirection.None;
         internal ScrollerDirection BeginDirection(float x) => x > this.CenterX ? ScrollerDirection.PageDown : ScrollerDirection.None;
 
@@ -53,10 +53,10 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public Matrix3x2 GetLeftTransformMatrix(float width, float height, bool isFlipX)
+        public Matrix3x2 GetLeftTransformMatrix(float bitmapWidth, float bitmapHeight, bool isFlipX)
         {
-            float scaleX = this.WidthHalf / width;
-            float scaleY = this.Height / height;
+            float scaleX = this.WidthHalf / bitmapWidth;
+            float scaleY = this.Height / bitmapHeight;
 
             float x = this.Left;
             float y = this.Top;
@@ -73,10 +73,10 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public Matrix3x2 GetRightTransformMatrix(float width, float height, bool isFlipX)
+        public Matrix3x2 GetRightTransformMatrix(float bitmapWidth, float bitmapHeight, bool isFlipX)
         {
-            float scaleX = this.WidthHalf / width;
-            float scaleY = this.Height / height;
+            float scaleX = this.WidthHalf / bitmapWidth;
+            float scaleY = this.Height / bitmapHeight;
 
             float x = this.CenterX;
             float y = this.Top;
@@ -93,10 +93,10 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public Matrix3x2 GetFloatTransformMatrix(Scroller quad, float width, float height, bool isFlipX)
+        public Matrix3x2 GetFloatTransformMatrix(Scroller quad, float bitmapWidth, float bitmapHeight, bool isFlipX)
         {
-            float scaleX = this.WidthHalf / width;
-            float scaleY = this.Height / height;
+            float scaleX = this.WidthHalf / bitmapWidth;
+            float scaleY = this.Height / bitmapHeight;
 
             float x = quad.Float.LeftBottom.X - quad.Float.LeftTop.X;
             float y = quad.Float.LeftBottom.Y - quad.Float.LeftTop.Y;
@@ -109,14 +109,14 @@ namespace FanKit.Transformer.UI
                     if (isFlipX)
                     {
                         return Matrix3x2.CreateScale(-scaleX, scaleY)
-                         * Matrix3x2.CreateTranslation(this.WidthHalf, -height * scaleY)
+                         * Matrix3x2.CreateTranslation(this.WidthHalf, -bitmapHeight * scaleY)
                         * Matrix3x2.CreateRotation(radians)
                         * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
                     }
                     else
                     {
                         return Matrix3x2.CreateScale(scaleX, scaleY)
-                        * Matrix3x2.CreateTranslation(0f, -height * scaleY)
+                        * Matrix3x2.CreateTranslation(0f, -bitmapHeight * scaleY)
                         * Matrix3x2.CreateRotation(radians)
                         * Matrix3x2.CreateTranslation(quad.Float.LeftTop);
                     }
