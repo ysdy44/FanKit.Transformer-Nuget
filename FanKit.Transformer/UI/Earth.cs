@@ -48,47 +48,47 @@ namespace FanKit.Transformer.UI
         public Vector2[] NorthPolePolygon => this.NorthPoleVertexes;
         public Vector2[] SouthPolePolygon => this.SouthPoleVertexes;
 
-        public Earth()
+        public Earth(EarthUV uv)
         {
             // Textures
-            this.QuadIsFarSides = new bool[VCountPlus, UCount];
-            this.Quads = new Quadrilateral[VCountPlus, UCount];
-            this.TransformMatrixes = new Matrix4x4[VCountPlus, UCount];
+            this.QuadIsFarSides = new bool[uv.VCountPlus, uv.UCount];
+            this.Quads = new Quadrilateral[uv.VCountPlus, uv.UCount];
+            this.TransformMatrixes = new Matrix4x4[uv.VCountPlus, uv.UCount];
 
             // Vectors
             //readonly Vector3 NorthVector = new Vector3(0f, -1f, 0f);
             //readonly Vector3 SouthVector = new Vector3(0f, 1f, 0f);
-            this.Vectors = new Vector3[VCountPlus, UCount];
+            this.Vectors = new Vector3[uv.VCountPlus, uv.UCount];
 
             // Vector IsFarSide
             //bool NorthVectorIsFarSide;
             //bool SouthVectorIsFarSide;
-            this.VectorIsFarSides = new bool[VCountPlus, UCount];
+            this.VectorIsFarSides = new bool[uv.VCountPlus, uv.UCount];
 
             // Vector Rotated
             //Vector3 NorthVectorRotated = new Vector3(0f, -1f, 0f);
             //Vector3 SouthVectorRotated = new Vector3(0f, 1f, 0f);
-            this.VectorsRotated = new Vector3[VCountPlus, UCount];
+            this.VectorsRotated = new Vector3[uv.VCountPlus, uv.UCount];
 
             // Vertexes
             //Vector2 NorthVertex;
             //Vector2 SouthVertex;
-            this.Vertexes = new Vector2[VCountPlus, UCount];
+            this.Vertexes = new Vector2[uv.VCountPlus, uv.UCount];
 
-            this.NorthPoleVertexes = new Vector2[UCount];
-            this.SouthPoleVertexes = new Vector2[UCount];
+            this.NorthPoleVertexes = new Vector2[uv.UCount];
+            this.SouthPoleVertexes = new Vector2[uv.UCount];
 
-            for (int ui = 0; ui < UCount; ui++)
+            for (int ui = 0; ui < uv.UCount; ui++)
             {
-                float uScale = ui / UCountHalfF;
+                float uScale = ui / uv.UCountHalfF;
 
                 Rotation2x2 uRadians = new Rotation2x2(Mathematics.Math.PI + Mathematics.Math.PI * uScale);
                 float uSin = uRadians.S;
                 float uCos = uRadians.C;
 
-                for (int vi = 1; vi < VCount; vi++)
+                for (int vi = 1; vi < uv.VCount; vi++)
                 {
-                    float vScale = ((float)(vi - 1) + 0.5f) / VCountMinusTwiceF;
+                    float vScale = ((float)(vi - 1) + 0.5f) / uv.VCountMinusTwiceF;
 
                     Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PITwice * vScale);
                     float vSin = vRadians.S;
@@ -118,7 +118,7 @@ namespace FanKit.Transformer.UI
                 }
 
                 {
-                    const int vi = VCount;
+                    int vi = uv.VCount;
 
                     Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PI - PolarEpsilonRadians);
                     float vSin = vRadians.S;
@@ -134,11 +134,11 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public IEnumerable<EarthTextureIndex> DrawTextures()
+        public IEnumerable<EarthTextureIndex> DrawTextures(EarthUV uv)
         {
-            for (int vi = 0; vi < VCountPlus; vi++)
+            for (int vi = 0; vi < uv.VCountPlus; vi++)
             {
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
                     if (!this.QuadIsFarSides[vi, ui])
                     {
@@ -152,16 +152,16 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public IEnumerable<EarthDrawLine> DrawLines()
+        public IEnumerable<EarthDrawLine> DrawLines(EarthUV uv)
         {
-            for (int vi = 2; vi < VCount + 1; vi++)
+            for (int vi = 2; vi < uv.VCount + 1; vi++)
             {
                 int vi1 = vi - 1;
                 int vi2 = vi;
 
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
-                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                    int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
 
                     bool f3 = this.VectorIsFarSides[vi2, ui2];
                     if (!f3)
@@ -205,12 +205,12 @@ namespace FanKit.Transformer.UI
                 }
             }
 
-            for (int ui = 0; ui < UCount; ui++)
+            for (int ui = 0; ui < uv.UCount; ui++)
             {
                 const int vi = 1;
                 const int vi2 = vi;
 
-                int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
 
                 bool f3 = this.VectorIsFarSides[vi2, ui2];
                 if (!f3)
@@ -253,12 +253,12 @@ namespace FanKit.Transformer.UI
                 }
             }
 
-            for (int ui = 0; ui < UCount; ui++)
+            for (int ui = 0; ui < uv.UCount; ui++)
             {
-                const int vi = VCount;
-                const int vi1 = vi - 1;
+                int vi = uv.VCount;
+                int vi1 = vi - 1;
 
-                int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
 
                 bool f2 = this.VectorIsFarSides[vi1, ui2];
                 if (!f2)
@@ -302,11 +302,11 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public IEnumerable<Vector2> DrawVertexes()
+        public IEnumerable<Vector2> DrawVertexes(EarthUV uv)
         {
-            for (int vi = 1; vi < VCount; vi++)
+            for (int vi = 1; vi < uv.VCount; vi++)
             {
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
                     bool f = this.VectorIsFarSides[vi, ui];
                     if (f) continue;
@@ -330,11 +330,11 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public void Update(EarthTextureSize textureSize, EarthLayout layout, EarthRotation rotation)
+        public void Update(EarthUV uv, EarthTextureSize textureSize, EarthLayout layout, EarthRotation rotation)
         {
-            for (int vi = 0; vi < VCountPlus; vi++)
+            for (int vi = 0; vi < uv.VCountPlus; vi++)
             {
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
                     Vector3 e = this.Vectors[vi, ui];
                     Vector3 t = rotation.RotateUnitVector(e);
@@ -344,7 +344,7 @@ namespace FanKit.Transformer.UI
 
                     if (vi == 0)
                         this.Vertexes[vi, ui] = this.NorthPoleVertexes[ui] = layout.GetPoint(t);
-                    else if (vi == VCount)
+                    else if (vi == uv.VCount)
                         this.Vertexes[vi, ui] = this.SouthPoleVertexes[ui] = layout.GetPoint(t);
                     else
                         this.Vertexes[vi, ui] = layout.GetPoint(t);
@@ -369,20 +369,20 @@ namespace FanKit.Transformer.UI
                 this.SouthVertex = layout.GetPoint(t);
             }
 
-            this.Update(textureSize);
+            this.Update(uv, textureSize);
         }
 
-        public void Update(EarthTextureSize textureSize, EarthLayout layout)
+        public void Update(EarthUV uv, EarthTextureSize textureSize, EarthLayout layout)
         {
-            for (int vi = 0; vi < VCountPlus; vi++)
+            for (int vi = 0; vi < uv.VCountPlus; vi++)
             {
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
                     Vector3 t = this.VectorsRotated[vi, ui];
 
                     if (vi == 0)
                         this.Vertexes[vi, ui] = this.NorthPoleVertexes[ui] = layout.GetPoint(t);
-                    else if (vi == VCount)
+                    else if (vi == uv.VCount)
                         this.Vertexes[vi, ui] = this.SouthPoleVertexes[ui] = layout.GetPoint(t);
                     else
                         this.Vertexes[vi, ui] = layout.GetPoint(t);
@@ -399,19 +399,19 @@ namespace FanKit.Transformer.UI
                 this.SouthVertex = layout.GetPoint(t);
             }
 
-            this.Update(textureSize);
+            this.Update(uv, textureSize);
         }
 
-        private void Update(EarthTextureSize textureSize)
+        private void Update(EarthUV uv, EarthTextureSize textureSize)
         {
-            for (int vi = 2; vi < VCount; vi++)
+            for (int vi = 2; vi < uv.VCount; vi++)
             {
                 int vi1 = vi - 1;
                 int vi2 = vi;
 
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
-                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                    int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
                     int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
@@ -461,9 +461,9 @@ namespace FanKit.Transformer.UI
                 const int vi1 = vi - 1;
                 const int vi2 = vi;
 
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
-                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                    int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
                     int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
@@ -509,13 +509,13 @@ namespace FanKit.Transformer.UI
             }
 
             {
-                const int vi = VCount;
-                const int vi1 = vi - 1;
-                const int vi2 = vi;
+                int vi = uv.VCount;
+                int vi1 = vi - 1;
+                int vi2 = vi;
 
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
-                    int ui2 = ui == UCountMinus ? 0 : ui + 1;
+                    int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
                     int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];

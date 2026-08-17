@@ -9,30 +9,6 @@ namespace FanKit.Transformer.UI
         public const float DemoBitmapWidth = 2048f;
         public const float DemoBitmapHeight = 1024f;
 
-        const int Count = 9;
-
-        const int VCountMinus = Count;
-        internal const int VCount = VCountMinus + 1;
-        internal const int VCountPlus = VCountMinus + 1 + 1;
-
-        const int VCountMinusTwice = VCountMinus + VCountMinus;
-        internal const float VCountMinusTwiceF = VCountMinusTwice;
-
-        const float VCountF = VCount;
-        const float VCountTwiceF = VCountF + VCountF;
-
-        const int UCountHalf = Count;
-        internal const float UCountHalfF = UCountHalf;
-
-        internal const int UCount = UCountHalf + UCountHalf;
-        const float UCountF = UCount;
-
-        internal const int UCountMinus = UCount - 1;
-        const int UCountPlus = UCount + 1;
-
-        public const int U = UCount;
-        public const int V = VCountPlus;
-
         readonly float TextureWidthF;
         readonly float TextureHeightF;
         readonly float TextureHeightHalfF;
@@ -44,10 +20,10 @@ namespace FanKit.Transformer.UI
         internal readonly SizeMatrix SourceNormalize;
         internal readonly SizeMatrix SourceNormalizeHalf;
 
-        public EarthTextureSize(float bitmapWidth, float bitmapHeight)
+        public EarthTextureSize(EarthUV uv, float bitmapWidth, float bitmapHeight)
         {
-            this.TextureWidthF = bitmapWidth / UCountF;
-            this.TextureHeightHalfF = bitmapHeight / VCountMinusTwiceF;
+            this.TextureWidthF = bitmapWidth / uv.UCountF;
+            this.TextureHeightHalfF = bitmapHeight / uv.VCountMinusTwiceF;
             this.TextureHeightF = this.TextureHeightHalfF + this.TextureHeightHalfF;
 
             this.TextureWidth = (int)this.TextureWidthF;
@@ -58,13 +34,13 @@ namespace FanKit.Transformer.UI
             this.SourceNormalizeHalf = new SizeMatrix(this.TextureWidthF, this.TextureHeightHalfF);
         }
 
-        public IEnumerable<EarthCreateTexture> CreateTextures()
+        public IEnumerable<EarthCreateTexture> CreateTextures(EarthUV uv)
         {
-            for (int vi = 1; vi < VCount; vi++)
+            for (int vi = 1; vi < uv.VCount; vi++)
             {
                 float y = this.TextureHeightHalfF - vi * this.TextureHeightF;
 
-                for (int ui = 0; ui < UCount; ui++)
+                for (int ui = 0; ui < uv.UCount; ui++)
                 {
                     float x = -ui * this.TextureWidthF;
 
@@ -85,7 +61,7 @@ namespace FanKit.Transformer.UI
                 }
             }
 
-            for (int ui = 0; ui < UCount; ui++)
+            for (int ui = 0; ui < uv.UCount; ui++)
             {
                 const int vi = 0;
                 const float y = 0f;
@@ -108,9 +84,9 @@ namespace FanKit.Transformer.UI
                 };
             }
 
-            for (int ui = 0; ui < UCount; ui++)
+            for (int ui = 0; ui < uv.UCount; ui++)
             {
-                const int vi = VCount;
+                int vi = uv.VCount;
                 float y = this.TextureHeightHalfF - vi * this.TextureHeightF;
 
                 float x = -ui * this.TextureWidthF;
