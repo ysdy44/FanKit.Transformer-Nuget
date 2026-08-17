@@ -2,7 +2,7 @@
 {
     public struct EarthCreateTexture
     {
-        public EarthIndex Index;
+        public EarthTextureIndex Index;
 
         public float ImageX;
         public float ImageY;

@@ -70,7 +70,7 @@ namespace FanKit.Transformer.UI
 
                     yield return new EarthCreateTexture
                     {
-                        Index = new EarthIndex
+                        Index = new EarthTextureIndex
                         {
                             U = ui,
                             V = vi,
@@ -94,7 +94,7 @@ namespace FanKit.Transformer.UI
 
                 yield return new EarthCreateTexture
                 {
-                    Index = new EarthIndex
+                    Index = new EarthTextureIndex
                     {
                         U = ui,
                         V = vi,
@@ -117,7 +117,7 @@ namespace FanKit.Transformer.UI
 
                 yield return new EarthCreateTexture
                 {
-                    Index = new EarthIndex
+                    Index = new EarthTextureIndex
                     {
                         U = ui,
                         V = vi,

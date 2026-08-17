@@ -101,7 +101,7 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public IEnumerable<EarthIndex> DrawTextures()
+        public IEnumerable<EarthTextureIndex> DrawTextures()
         {
             for (int vi = 0; vi < VCountPlus; vi++)
             {
@@ -109,7 +109,7 @@ namespace FanKit.Transformer.UI
                 {
                     if (!this.QuadIsFarSides[vi, ui])
                     {
-                        yield return new EarthIndex
+                        yield return new EarthTextureIndex
                         {
                             U = ui,
                             V = vi,

@@ -1,6 +1,6 @@
 ﻿namespace FanKit.Transformer.UI
 {
-    public struct EarthIndex
+    public struct EarthTextureIndex
     {
         public int U;
         public int V;
