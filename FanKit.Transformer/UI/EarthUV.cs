@@ -22,7 +22,7 @@
 
         readonly int Count;
 
-        readonly int VCountMinus;
+        internal readonly int VCountMinus;
         internal readonly int VCount;
         internal readonly int VCountPlus;
 

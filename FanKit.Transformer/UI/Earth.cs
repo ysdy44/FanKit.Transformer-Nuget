@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using static FanKit.Transformer.UI.EarthTextureSize;
 
 namespace FanKit.Transformer.UI
 {
     public class Earth
     {
         const float PolarEpsilon = 120f;
-        const float PolarEpsilonRadius = 6f / PolarEpsilon;
+        //const float PolarEpsilonRadius = 6f / PolarEpsilon;
         const float PolarEpsilonRadians = 4f / PolarEpsilon;
 
         // Textures
@@ -150,6 +149,9 @@ namespace FanKit.Transformer.UI
                     }
                 }
             }
+
+
+
         }
 
         public IEnumerable<EarthDrawLine> DrawLines(EarthUV uv)
@@ -208,7 +210,7 @@ namespace FanKit.Transformer.UI
             for (int ui = 0; ui < uv.UCount; ui++)
             {
                 const int vi = 1;
-                const int vi2 = vi;
+                const int vi2 = 1;
 
                 int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
 
@@ -256,7 +258,7 @@ namespace FanKit.Transformer.UI
             for (int ui = 0; ui < uv.UCount; ui++)
             {
                 int vi = uv.VCount;
-                int vi1 = vi - 1;
+                int vi1 = uv.VCountMinus;
 
                 int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
 
@@ -441,25 +443,25 @@ namespace FanKit.Transformer.UI
 
                                     Matrix4x4 transformMatrix = textureSize.SourceNormalize.ToPerspMatrix(quad);
 
-                                    this.QuadIsFarSides[vi - 1, ui] = false;
-                                    this.Quads[vi - 1, ui] = quad;
-                                    this.TransformMatrixes[vi - 1, ui] = transformMatrix;
+                                    this.QuadIsFarSides[vi1, ui] = false;
+                                    this.Quads[vi1, ui] = quad;
+                                    this.TransformMatrixes[vi1, ui] = transformMatrix;
                                     continue;
                                 }
                             }
                         }
                     }
 
-                    this.QuadIsFarSides[vi - 1, ui] = true;
-                    this.Quads[vi - 1, ui] = Quadrilateral.Identity;
-                    this.TransformMatrixes[vi - 1, ui] = Matrix4x4.Identity;
+                    this.QuadIsFarSides[vi1, ui] = true;
+                    this.Quads[vi1, ui] = Quadrilateral.Identity;
+                    this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
                 }
             }
 
             {
                 const int vi = 1;
-                const int vi1 = vi - 1;
-                const int vi2 = vi;
+                const int vi1 = 0;
+                const int vi2 = 1;
 
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
@@ -493,25 +495,25 @@ namespace FanKit.Transformer.UI
 
                                     Matrix4x4 transformMatrix = textureSize.SourceNormalizeHalf.ToPerspMatrix(quad);
 
-                                    this.QuadIsFarSides[vi - 1, ui] = false;
-                                    this.Quads[vi - 1, ui] = quad;
-                                    this.TransformMatrixes[vi - 1, ui] = transformMatrix;
+                                    this.QuadIsFarSides[vi1, ui] = false;
+                                    this.Quads[vi1, ui] = quad;
+                                    this.TransformMatrixes[vi1, ui] = transformMatrix;
                                     continue;
                                 }
                             }
                         }
                     }
 
-                    this.QuadIsFarSides[vi - 1, ui] = true;
-                    this.Quads[vi - 1, ui] = Quadrilateral.Identity;
-                    this.TransformMatrixes[vi - 1, ui] = Matrix4x4.Identity;
+                    this.QuadIsFarSides[vi1, ui] = true;
+                    this.Quads[vi1, ui] = Quadrilateral.Identity;
+                    this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
                 }
             }
 
             {
                 int vi = uv.VCount;
-                int vi1 = vi - 1;
-                int vi2 = vi;
+                int vi1 = uv.VCountMinus;
+                int vi2 = uv.VCount;
 
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
@@ -545,18 +547,18 @@ namespace FanKit.Transformer.UI
 
                                     Matrix4x4 transformMatrix = textureSize.SourceNormalizeHalf.ToPerspMatrix(quad);
 
-                                    this.QuadIsFarSides[vi - 1, ui] = false;
-                                    this.Quads[vi - 1, ui] = quad;
-                                    this.TransformMatrixes[vi - 1, ui] = transformMatrix;
+                                    this.QuadIsFarSides[vi1, ui] = false;
+                                    this.Quads[vi1, ui] = quad;
+                                    this.TransformMatrixes[vi1, ui] = transformMatrix;
                                     continue;
                                 }
                             }
                         }
                     }
 
-                    this.QuadIsFarSides[vi - 1, ui] = true;
-                    this.Quads[vi - 1, ui] = Quadrilateral.Identity;
-                    this.TransformMatrixes[vi - 1, ui] = Matrix4x4.Identity;
+                    this.QuadIsFarSides[vi1, ui] = true;
+                    this.Quads[vi1, ui] = Quadrilateral.Identity;
+                    this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
                 }
             }
         }
