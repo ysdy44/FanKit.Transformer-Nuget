@@ -10,7 +10,7 @@ namespace FanKit.Transformer.UI
         const float PolarEpsilonRadians = 4f / PolarEpsilon;
 
         // Textures
-        readonly bool[,] QuadIsFarSides;
+        readonly EarthTextureIsFarSide[,] QuadIsFarSides;
         readonly Quadrilateral[,] Quads;
         readonly Matrix4x4[,] TransformMatrixes;
 
@@ -37,7 +37,7 @@ namespace FanKit.Transformer.UI
         readonly Vector2[] NorthPoleVertexes;
         readonly Vector2[] SouthPoleVertexes;
 
-        public bool[,] TextureIsFarSides => this.QuadIsFarSides;
+        public EarthTextureIsFarSide[,] TextureIsFarSides => this.QuadIsFarSides;
         public Quadrilateral[,] TextureOutlines => this.Quads;
         public Matrix4x4[,] TextureTransformMatrixes => this.TransformMatrixes;
 
@@ -50,7 +50,7 @@ namespace FanKit.Transformer.UI
         public Earth(EarthUV uv)
         {
             // Textures
-            this.QuadIsFarSides = new bool[uv.VCountPlus, uv.UCount];
+            this.QuadIsFarSides = new EarthTextureIsFarSide[uv.VCountPlus, uv.UCount];
             this.Quads = new Quadrilateral[uv.VCountPlus, uv.UCount];
             this.TransformMatrixes = new Matrix4x4[uv.VCountPlus, uv.UCount];
 
@@ -139,7 +139,7 @@ namespace FanKit.Transformer.UI
             {
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
-                    if (!this.QuadIsFarSides[vi, ui])
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.TwoCorners)
                     {
                         yield return new EarthTextureIndex
                         {
@@ -150,8 +150,50 @@ namespace FanKit.Transformer.UI
                 }
             }
 
+            for (int vi = 0; vi < uv.VCountPlus; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.TwoCorners)
+                    {
+                        yield return new EarthTextureIndex
+                        {
+                            U = ui,
+                            V = vi,
+                        };
+                    }
+                }
+            }
 
+            for (int vi = 0; vi < uv.VCountPlus; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.OneCorner)
+                    {
+                        yield return new EarthTextureIndex
+                        {
+                            U = ui,
+                            V = vi,
+                        };
+                    }
+                }
+            }
 
+            for (int vi = 0; vi < uv.VCountPlus; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.ZeroCorner)
+                    {
+                        yield return new EarthTextureIndex
+                        {
+                            U = ui,
+                            V = vi,
+                        };
+                    }
+                }
+            }
         }
 
         public IEnumerable<EarthDrawLine> DrawLines(EarthUV uv)
@@ -209,7 +251,6 @@ namespace FanKit.Transformer.UI
 
             for (int ui = 0; ui < uv.UCount; ui++)
             {
-                const int vi = 1;
                 const int vi2 = 1;
 
                 int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
@@ -257,7 +298,6 @@ namespace FanKit.Transformer.UI
 
             for (int ui = 0; ui < uv.UCount; ui++)
             {
-                int vi = uv.VCount;
                 int vi1 = uv.VCountMinus;
 
                 int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
@@ -417,49 +457,48 @@ namespace FanKit.Transformer.UI
                     int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
-                    if (!f1)
+                    bool f2 = this.VectorIsFarSides[vi1, ui2];
+                    bool f3 = this.VectorIsFarSides[vi2, ui2];
+                    bool f4 = this.VectorIsFarSides[vi2, ui1];
+
+                    EarthTextureIsFarSide f = f1 ?
+                        f2 ?
+                            f3 ? f4 ? EarthTextureIsFarSide.FourCorners : EarthTextureIsFarSide.ThreeCorners : f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners :
+                            f3 ? f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners : f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner :
+                        f2 ?
+                            f3 ? f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners : f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner :
+                            f3 ? f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner : f4 ? EarthTextureIsFarSide.OneCorner : EarthTextureIsFarSide.ZeroCorner;
+                    this.QuadIsFarSides[vi1, ui] = f;
+
+                    if (f != EarthTextureIsFarSide.FourCorners)
                     {
-                        bool f2 = this.VectorIsFarSides[vi1, ui2];
-                        if (!f2)
+                        Vector2 p1 = this.Vertexes[vi1, ui1];
+                        Vector2 p2 = this.Vertexes[vi1, ui2];
+                        Vector2 p3 = this.Vertexes[vi2, ui2];
+                        Vector2 p4 = this.Vertexes[vi2, ui1];
+
+                        Quadrilateral quad = new Quadrilateral
                         {
-                            bool f3 = this.VectorIsFarSides[vi2, ui2];
-                            if (!f3)
-                            {
-                                bool f4 = this.VectorIsFarSides[vi2, ui1];
-                                if (!f4)
-                                {
-                                    Vector2 p1 = this.Vertexes[vi1, ui1];
-                                    Vector2 p2 = this.Vertexes[vi1, ui2];
-                                    Vector2 p3 = this.Vertexes[vi2, ui2];
-                                    Vector2 p4 = this.Vertexes[vi2, ui1];
+                            LeftTop = p1,
+                            RightTop = p2,
+                            RightBottom = p3,
+                            LeftBottom = p4,
+                        };
 
-                                    Quadrilateral quad = new Quadrilateral
-                                    {
-                                        LeftTop = p1,
-                                        RightTop = p2,
-                                        RightBottom = p3,
-                                        LeftBottom = p4,
-                                    };
+                        Matrix4x4 transformMatrix = textureSize.SourceNormalize.ToPerspMatrix(quad);
 
-                                    Matrix4x4 transformMatrix = textureSize.SourceNormalize.ToPerspMatrix(quad);
-
-                                    this.QuadIsFarSides[vi1, ui] = false;
-                                    this.Quads[vi1, ui] = quad;
-                                    this.TransformMatrixes[vi1, ui] = transformMatrix;
-                                    continue;
-                                }
-                            }
-                        }
+                        this.Quads[vi1, ui] = quad;
+                        this.TransformMatrixes[vi1, ui] = transformMatrix;
                     }
-
-                    this.QuadIsFarSides[vi1, ui] = true;
-                    this.Quads[vi1, ui] = Quadrilateral.Identity;
-                    this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
+                    else
+                    {
+                        this.Quads[vi1, ui] = Quadrilateral.Identity;
+                        this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
+                    }
                 }
             }
 
             {
-                const int vi = 1;
                 const int vi1 = 0;
                 const int vi2 = 1;
 
@@ -469,49 +508,48 @@ namespace FanKit.Transformer.UI
                     int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
-                    if (!f1)
+                    bool f2 = this.VectorIsFarSides[vi1, ui2];
+                    bool f3 = this.VectorIsFarSides[vi2, ui2];
+                    bool f4 = this.VectorIsFarSides[vi2, ui1];
+
+                    EarthTextureIsFarSide f = f1 ?
+                        f2 ?
+                            f3 ? f4 ? EarthTextureIsFarSide.FourCorners : EarthTextureIsFarSide.ThreeCorners : f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners :
+                            f3 ? f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners : f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner :
+                        f2 ?
+                            f3 ? f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners : f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner :
+                            f3 ? f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner : f4 ? EarthTextureIsFarSide.OneCorner : EarthTextureIsFarSide.ZeroCorner;
+                    this.QuadIsFarSides[vi1, ui] = f;
+
+                    if (f != EarthTextureIsFarSide.FourCorners)
                     {
-                        bool f2 = this.VectorIsFarSides[vi1, ui2];
-                        if (!f2)
+                        Vector2 p1 = this.Vertexes[vi1, ui1];
+                        Vector2 p2 = this.Vertexes[vi1, ui2];
+                        Vector2 p3 = this.Vertexes[vi2, ui2];
+                        Vector2 p4 = this.Vertexes[vi2, ui1];
+
+                        Quadrilateral quad = new Quadrilateral
                         {
-                            bool f3 = this.VectorIsFarSides[vi2, ui2];
-                            if (!f3)
-                            {
-                                bool f4 = this.VectorIsFarSides[vi2, ui1];
-                                if (!f4)
-                                {
-                                    Vector2 p1 = this.Vertexes[vi1, ui1];
-                                    Vector2 p2 = this.Vertexes[vi1, ui2];
-                                    Vector2 p3 = this.Vertexes[vi2, ui2];
-                                    Vector2 p4 = this.Vertexes[vi2, ui1];
+                            LeftTop = p1,
+                            RightTop = p2,
+                            RightBottom = p3,
+                            LeftBottom = p4,
+                        };
 
-                                    Quadrilateral quad = new Quadrilateral
-                                    {
-                                        LeftTop = p1,
-                                        RightTop = p2,
-                                        RightBottom = p3,
-                                        LeftBottom = p4,
-                                    };
+                        Matrix4x4 transformMatrix = textureSize.SourceNormalizeHalf.ToPerspMatrix(quad);
 
-                                    Matrix4x4 transformMatrix = textureSize.SourceNormalizeHalf.ToPerspMatrix(quad);
-
-                                    this.QuadIsFarSides[vi1, ui] = false;
-                                    this.Quads[vi1, ui] = quad;
-                                    this.TransformMatrixes[vi1, ui] = transformMatrix;
-                                    continue;
-                                }
-                            }
-                        }
+                        this.Quads[vi1, ui] = quad;
+                        this.TransformMatrixes[vi1, ui] = transformMatrix;
                     }
-
-                    this.QuadIsFarSides[vi1, ui] = true;
-                    this.Quads[vi1, ui] = Quadrilateral.Identity;
-                    this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
+                    else
+                    {
+                        this.Quads[vi1, ui] = Quadrilateral.Identity;
+                        this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
+                    }
                 }
             }
 
             {
-                int vi = uv.VCount;
                 int vi1 = uv.VCountMinus;
                 int vi2 = uv.VCount;
 
@@ -521,44 +559,44 @@ namespace FanKit.Transformer.UI
                     int ui1 = ui;
 
                     bool f1 = this.VectorIsFarSides[vi1, ui1];
-                    if (!f1)
+                    bool f2 = this.VectorIsFarSides[vi1, ui2];
+                    bool f3 = this.VectorIsFarSides[vi2, ui2];
+                    bool f4 = this.VectorIsFarSides[vi2, ui1];
+
+                    EarthTextureIsFarSide f = f1 ?
+                        f2 ?
+                            f3 ? f4 ? EarthTextureIsFarSide.FourCorners : EarthTextureIsFarSide.ThreeCorners : f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners :
+                            f3 ? f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners : f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner :
+                        f2 ?
+                            f3 ? f4 ? EarthTextureIsFarSide.ThreeCorners : EarthTextureIsFarSide.TwoCorners : f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner :
+                            f3 ? f4 ? EarthTextureIsFarSide.TwoCorners : EarthTextureIsFarSide.OneCorner : f4 ? EarthTextureIsFarSide.OneCorner : EarthTextureIsFarSide.ZeroCorner;
+                    this.QuadIsFarSides[vi1, ui] = f;
+
+                    if (f != EarthTextureIsFarSide.FourCorners)
                     {
-                        bool f2 = this.VectorIsFarSides[vi1, ui2];
-                        if (!f2)
+                        Vector2 p1 = this.Vertexes[vi1, ui1];
+                        Vector2 p2 = this.Vertexes[vi1, ui2];
+                        Vector2 p3 = this.Vertexes[vi2, ui2];
+                        Vector2 p4 = this.Vertexes[vi2, ui1];
+
+                        Quadrilateral quad = new Quadrilateral
                         {
-                            bool f3 = this.VectorIsFarSides[vi2, ui2];
-                            if (!f3)
-                            {
-                                bool f4 = this.VectorIsFarSides[vi2, ui1];
-                                if (!f4)
-                                {
-                                    Vector2 p1 = this.Vertexes[vi1, ui1];
-                                    Vector2 p2 = this.Vertexes[vi1, ui2];
-                                    Vector2 p3 = this.Vertexes[vi2, ui2];
-                                    Vector2 p4 = this.Vertexes[vi2, ui1];
+                            LeftTop = p1,
+                            RightTop = p2,
+                            RightBottom = p3,
+                            LeftBottom = p4,
+                        };
 
-                                    Quadrilateral quad = new Quadrilateral
-                                    {
-                                        LeftTop = p1,
-                                        RightTop = p2,
-                                        RightBottom = p3,
-                                        LeftBottom = p4,
-                                    };
+                        Matrix4x4 transformMatrix = textureSize.SourceNormalizeHalf.ToPerspMatrix(quad);
 
-                                    Matrix4x4 transformMatrix = textureSize.SourceNormalizeHalf.ToPerspMatrix(quad);
-
-                                    this.QuadIsFarSides[vi1, ui] = false;
-                                    this.Quads[vi1, ui] = quad;
-                                    this.TransformMatrixes[vi1, ui] = transformMatrix;
-                                    continue;
-                                }
-                            }
-                        }
+                        this.Quads[vi1, ui] = quad;
+                        this.TransformMatrixes[vi1, ui] = transformMatrix;
                     }
-
-                    this.QuadIsFarSides[vi1, ui] = true;
-                    this.Quads[vi1, ui] = Quadrilateral.Identity;
-                    this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
+                    else
+                    {
+                        this.Quads[vi1, ui] = Quadrilateral.Identity;
+                        this.TransformMatrixes[vi1, ui] = Matrix4x4.Identity;
+                    }
                 }
             }
         }
