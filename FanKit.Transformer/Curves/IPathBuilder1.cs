@@ -16,7 +16,7 @@ namespace FanKit.Transformer.Curves
 
     partial struct PathReceiver
     {
-        public Segment1 AddCubicBezier(Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment1 AddCubicBezier(ICanvasMatrix canvasMatrix, Vector2 controlPoint1, Vector2 controlPoint2, Vector2 endPoint, out PathReceiver result)
         {
             Segment1 segment;
 
@@ -41,7 +41,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment1 AddQuadraticBezier(Vector2 controlPoint, Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment1 AddQuadraticBezier(ICanvasMatrix canvasMatrix, Vector2 controlPoint, Vector2 endPoint, out PathReceiver result)
         {
             Segment1 segment;
 
@@ -66,7 +66,7 @@ namespace FanKit.Transformer.Curves
             return segment;
         }
 
-        public Segment1 AddLine(Vector2 endPoint, ICanvasMatrix canvasMatrix, out PathReceiver result)
+        public Segment1 AddLine(ICanvasMatrix canvasMatrix, Vector2 endPoint, out PathReceiver result)
         {
             Segment1 segment;
 
