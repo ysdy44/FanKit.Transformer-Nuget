@@ -12,28 +12,28 @@ namespace FanKit.Transformer.UI
         readonly float TextureWidthF;
         readonly float TextureHeightF;
         readonly float HeightPolarEpsilonF;
-        readonly float TextureHeightHalfF;
+        readonly float TextureHeightPolarEpsilonF;
 
         readonly int TextureWidth;
         readonly int TextureHeight;
-        readonly int TextureHeightHalf;
+        readonly int TextureHeightPolarEpsilon;
 
         internal readonly SizeMatrix SourceNormalize;
-        internal readonly SizeMatrix SourceNormalizeHalf;
+        internal readonly SizeMatrix SourceNormalizePolarEpsilon;
 
         public EarthTextureSize(EarthUV uv, float bitmapWidth, float bitmapHeight)
         {
             this.TextureWidthF = bitmapWidth / uv.UCountF;
             this.TextureHeightF = bitmapHeight / uv.VCount;
             this.HeightPolarEpsilonF = -this.TextureHeightF * Earth.PolarEpsilon;
-            this.TextureHeightHalfF = this.TextureHeightF + this.HeightPolarEpsilonF;
+            this.TextureHeightPolarEpsilonF = this.TextureHeightF + this.HeightPolarEpsilonF;
 
             this.TextureWidth = (int)this.TextureWidthF;
-            this.TextureHeightHalf = (int)this.TextureHeightHalfF;
+            this.TextureHeightPolarEpsilon = (int)this.TextureHeightPolarEpsilonF;
             this.TextureHeight = (int)this.TextureHeightF;
 
             this.SourceNormalize = new SizeMatrix(this.TextureWidthF, this.TextureHeightF);
-            this.SourceNormalizeHalf = new SizeMatrix(this.TextureWidthF, this.TextureHeightHalfF);
+            this.SourceNormalizePolarEpsilon = new SizeMatrix(this.TextureWidthF, this.TextureHeightPolarEpsilonF);
         }
 
         public IEnumerable<EarthCreateTexture> CreateTextures(EarthUV uv)
@@ -82,7 +82,7 @@ namespace FanKit.Transformer.UI
                     ImageY = y0,
 
                     TextureWidth = this.TextureWidth + 1,
-                    TextureHeight = this.TextureHeightHalf + 1,
+                    TextureHeight = this.TextureHeightPolarEpsilon + 1,
                 };
             }
 
@@ -105,7 +105,7 @@ namespace FanKit.Transformer.UI
                     ImageY = y1,
 
                     TextureWidth = this.TextureWidth + 1,
-                    TextureHeight = this.TextureHeightHalf + 1,
+                    TextureHeight = this.TextureHeightPolarEpsilon + 1,
                 };
             }
         }

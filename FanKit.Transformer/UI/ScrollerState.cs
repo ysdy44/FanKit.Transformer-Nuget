@@ -2,12 +2,9 @@
 {
     public enum ScrollerState : byte
     {
-        LeftOutside,
-        RightOutside,
+        Float,
 
-        Quadrilateral,
-
-        TopTriangle,
-        BottomTriangle,
+        DockLeft,
+        DockRight,
     }
 }

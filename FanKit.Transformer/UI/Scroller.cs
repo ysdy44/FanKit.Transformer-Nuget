@@ -5,15 +5,15 @@ namespace FanKit.Transformer.UI
 {
     public struct Scroller
     {
-        internal const byte LeftOutside = 0; // LeftOutside
-        internal const byte RightOutside = 1; // RightOutside
-        internal const byte Quadrilateral = 2; // Quadrilateral
-        internal const byte TopTriangle = 3; // TopTriangle
-        internal const byte BottomTriangle = 4; // BottomTriangle
+        internal const byte l = 0; // LeftOutside
+        internal const byte r = 1; // RightOutside
+        internal const byte q = 2; // Quadrilateral
+        internal const byte t = 3; // TopTriangle
+        internal const byte m = 4; // BottomTriangle
 
         internal byte s;
-        internal ScrollerBounds Bounds;
-        internal Quadrilateral Float;
+        internal ScrollerBounds b;
+        internal Quadrilateral f;
 
         public ScrollerState State
         {
@@ -21,36 +21,36 @@ namespace FanKit.Transformer.UI
             {
                 switch (this.s)
                 {
-                    case LeftOutside: return ScrollerState.LeftOutside;
-                    case RightOutside: return ScrollerState.RightOutside;
-                    default: return ScrollerState.Quadrilateral;
+                    case l: return ScrollerState.DockLeft;
+                    case r: return ScrollerState.DockRight;
+                    default: return ScrollerState.Float;
                 }
             }
         }
-        public Quadrilateral DockBounds => this.Bounds.Bounds;
-        public Quadrilateral FloatBounds => this.Float;
+        public Quadrilateral DockBounds => this.b.Bounds;
+        public Quadrilateral FloatBounds => this.f;
 
-        public float ToOpacity(float width)
+        public float GetFloatShadowOpacity()
         {
-            float diff0 = System.Math.Abs(this.Float.RightBottom.X - this.Bounds.CenterX);
-            float diff1 = System.Math.Abs(this.Float.RightTop.X - this.Bounds.CenterX);
+            float diff0 = System.Math.Abs(this.f.RightBottom.X - this.b.CenterX);
+            float diff1 = System.Math.Abs(this.f.RightTop.X - this.b.CenterX);
 
             if (diff0 < float.Epsilon && diff1 < float.Epsilon)
                 return 0f;
 
-            float opacity = 2f * System.Math.Max(diff0, diff1) / this.Bounds.Width;
+            float opacity = 2f * System.Math.Max(diff0, diff1) / this.b.Width;
 
             float inv = 1f - opacity;
             return 1f - inv * inv;
         }
 
-        public Linear ToFloatLinear(float distance)
+        public Linear GetFloatLinearGradientBrushPoints(float distance)
         {
-            float centerX = (this.Float.RightTop.X + this.Float.RightBottom.X) / 2f;
-            float centerY = (this.Float.RightTop.Y + this.Float.RightBottom.Y) / 2f;
+            float centerX = (this.f.RightTop.X + this.f.RightBottom.X) / 2f;
+            float centerY = (this.f.RightTop.Y + this.f.RightBottom.Y) / 2f;
 
-            float x = this.Float.RightBottom.X - this.Float.RightTop.X;
-            float y = this.Float.RightTop.Y - this.Float.RightBottom.Y;
+            float x = this.f.RightBottom.X - this.f.RightTop.X;
+            float y = this.f.RightTop.Y - this.f.RightBottom.Y;
 
             // Normalize
             float square = x * x + y * y;
@@ -71,29 +71,29 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public Matrix3x2 GetFloatTransformMatrix(ScrollerBounds bounds, float bitmapWidth, float bitmapHeight, bool isFlipX)
+        public Matrix3x2 GetFloatTextureTransformMatrix(float bitmapWidth, float bitmapHeight, bool isFlipX)
         {
-            float scaleX = this.Bounds.WidthHalf / bitmapWidth;
-            float scaleY = this.Bounds.Height / bitmapHeight;
+            float scaleX = this.b.WidthHalf / bitmapWidth;
+            float scaleY = this.b.Height / bitmapHeight;
 
-            float x = this.Float.LeftBottom.X - this.Float.LeftTop.X;
-            float y = this.Float.LeftBottom.Y - this.Float.LeftTop.Y;
+            float x = this.f.LeftBottom.X - this.f.LeftTop.X;
+            float y = this.f.LeftBottom.Y - this.f.LeftTop.Y;
 
             float radians = (float)System.Math.Atan2(y, x) - Constants.PIOver2;
 
             switch (this.s)
             {
-                case BottomTriangle:
+                case m:
                     float ds = x * x + y * y;
                     float d = (float)System.Math.Sqrt(ds);
 
-                    float px = this.Float.LeftBottom.X - this.Bounds.Height * x / d;
-                    float py = this.Float.LeftBottom.Y - this.Bounds.Height * y / d;
+                    float px = this.f.LeftBottom.X - this.b.Height * x / d;
+                    float py = this.f.LeftBottom.Y - this.b.Height * y / d;
 
                     if (isFlipX)
                     {
                         return Matrix3x2.CreateScale(-scaleX, scaleY)
-                        * Matrix3x2.CreateTranslation(this.Bounds.WidthHalf, 0)
+                        * Matrix3x2.CreateTranslation(this.b.WidthHalf, 0)
                         * Matrix3x2.CreateRotation(radians)
                         * Matrix3x2.CreateTranslation(px, py);
                     }
@@ -107,112 +107,112 @@ namespace FanKit.Transformer.UI
                     if (isFlipX)
                     {
                         return Matrix3x2.CreateScale(-scaleX, scaleY)
-                        * Matrix3x2.CreateTranslation(this.Bounds.WidthHalf, 0)
+                        * Matrix3x2.CreateTranslation(this.b.WidthHalf, 0)
                         * Matrix3x2.CreateRotation(radians)
-                        * Matrix3x2.CreateTranslation(this.Float.LeftTop);
+                        * Matrix3x2.CreateTranslation(this.f.LeftTop);
                     }
                     else
                     {
                         return Matrix3x2.CreateScale(scaleX, scaleY)
                         * Matrix3x2.CreateRotation(radians)
-                        * Matrix3x2.CreateTranslation(this.Float.LeftTop);
+                        * Matrix3x2.CreateTranslation(this.f.LeftTop);
                     }
             }
         }
 
-        public Vector2[] ToLeftPoints()
+        public Vector2[] GetLeftTextureOutlines()
         {
             switch (this.s)
             {
-                case TopTriangle:
+                case t:
                     return new Vector2[]
                     {
-                        this.Bounds.LeftTop,
-                        this.Float.RightTop,
-                        this.Float.RightBottom,
+                        this.b.LeftTop,
+                        this.f.RightTop,
+                        this.f.RightBottom,
 
-                        this.Bounds.RightBottom,
+                        this.b.RightBottom,
 
-                        this.Bounds.LeftBottom,
+                        this.b.LeftBottom,
                     };
-                case BottomTriangle:
+                case m:
                     return new Vector2[]
                     {
-                        this.Bounds.LeftTop,
+                        this.b.LeftTop,
 
-                        this.Bounds.RightTop,
+                        this.b.RightTop,
 
-                        this.Float.RightTop,
-                        this.Float.RightBottom,
-                        this.Bounds.LeftBottom,
+                        this.f.RightTop,
+                        this.f.RightBottom,
+                        this.b.LeftBottom,
                     };
                 default:
                     return new Vector2[]
                     {
-                        this.Bounds.LeftTop,
-                        this.Float.RightTop,
-                        this.Float.RightBottom,
-                        this.Bounds.LeftBottom,
+                        this.b.LeftTop,
+                        this.f.RightTop,
+                        this.f.RightBottom,
+                        this.b.LeftBottom,
                     };
             }
         }
 
-        public Vector2[] ToRightPoints()
+        public Vector2[] GetRightTextureOutlines()
         {
             switch (this.s)
             {
-                case TopTriangle:
+                case t:
                     return new Vector2[]
                     {
-                        this.Float.RightTop,
-                        this.Bounds.RightTop,
-                        this.Float.RightBottom,
+                        this.f.RightTop,
+                        this.b.RightTop,
+                        this.f.RightBottom,
                     };
-                case BottomTriangle:
+                case m:
                     return new Vector2[]
                     {
-                        this.Float.RightTop,
-                        this.Bounds.RightBottom,
-                        this.Float.RightBottom,
+                        this.f.RightTop,
+                        this.b.RightBottom,
+                        this.f.RightBottom,
                     };
                 default:
                     return new Vector2[]
                     {
-                        this.Float.RightTop,
-                        this.Bounds.RightTop,
-                        this.Bounds.RightBottom,
-                        this.Float.RightBottom,
+                        this.f.RightTop,
+                        this.b.RightTop,
+                        this.b.RightBottom,
+                        this.f.RightBottom,
                     };
             }
         }
 
-        public Vector2[] ToFloatPoints()
+        public Vector2[] GetFloatTextureOutlines()
         {
             switch (this.s)
             {
-                case TopTriangle:
+                case t:
                     return new Vector2[]
                     {
-                        this.Float.LeftTop,
-                        this.Float.RightTop,
+                        this.f.LeftTop,
+                        this.f.RightTop,
                         //this.f.RightBottom,
-                        this.Float.LeftBottom,
+                        this.f.LeftBottom,
                     };
-                case BottomTriangle:
+                case m:
                     return new Vector2[]
                     {
-                        this.Float.LeftTop,
+                        this.f.LeftTop,
                         //this.f.RightTop,
-                        this.Float.RightBottom,
-                        this.Float.LeftBottom,
+                        this.f.RightBottom,
+                        this.f.LeftBottom,
                     };
                 default:
                     return new Vector2[]
                     {
-                        this.Float.LeftTop,
-                        this.Float.RightTop,
-                        this.Float.RightBottom,
-                        this.Float.LeftBottom,
+                        this.f.LeftTop,
+                        this.f.RightTop,
+                        this.f.RightBottom,
+                        this.f.LeftBottom,
                     };
             }
         }
