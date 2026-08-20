@@ -29,8 +29,8 @@
         readonly int VCountMinusTwice;
         internal readonly float VCountMinusTwiceF;
 
-        //internal readonly float VCountF;
-        //internal readonly float VCountTwiceF;
+        internal readonly float VCountF;
+        internal readonly float VCountTwiceF;
 
         readonly int UCountHalf;
         internal readonly float UCountHalfF;
@@ -55,8 +55,8 @@
             VCountMinusTwice = VCountMinus + VCountMinus;
             VCountMinusTwiceF = VCountMinusTwice;
 
-            //VCountF = VCount;
-            //VCountTwiceF = VCountF + VCountF;
+            VCountF = VCount;
+            VCountTwiceF = VCountF + VCountF;
 
             UCountHalf = Count;
             UCountHalfF = UCountHalf;
@@ -79,8 +79,8 @@
             VCountMinusTwice = v - 1 - 1 + v - 1 - 1;
             VCountMinusTwiceF = v - 1f - 1f + v - 1f - 1f;
 
-            //VCountF = v - 1;
-            //VCountTwiceF = v - 1f + v - 1f;
+            VCountF = v - 1;
+            VCountTwiceF = v - 1f + v - 1f;
 
             UCountHalf = u / 2;
             UCountHalfF = u / 2f;

@@ -11,6 +11,7 @@ namespace FanKit.Transformer.UI
 
         readonly float TextureWidthF;
         readonly float TextureHeightF;
+        readonly float HeightPolarEpsilonF;
         readonly float TextureHeightHalfF;
 
         readonly int TextureWidth;
@@ -23,8 +24,9 @@ namespace FanKit.Transformer.UI
         public EarthTextureSize(EarthUV uv, float bitmapWidth, float bitmapHeight)
         {
             this.TextureWidthF = bitmapWidth / uv.UCountF;
-            this.TextureHeightHalfF = bitmapHeight / uv.VCountMinusTwiceF;
-            this.TextureHeightF = this.TextureHeightHalfF + this.TextureHeightHalfF;
+            this.TextureHeightF = bitmapHeight / uv.VCount;
+            this.HeightPolarEpsilonF = -this.TextureHeightF * Earth.PolarEpsilon;
+            this.TextureHeightHalfF = this.TextureHeightF + this.HeightPolarEpsilonF;
 
             this.TextureWidth = (int)this.TextureWidthF;
             this.TextureHeightHalf = (int)this.TextureHeightHalfF;
@@ -38,7 +40,7 @@ namespace FanKit.Transformer.UI
         {
             for (int vi = 1; vi < uv.VCount; vi++)
             {
-                float y = this.TextureHeightHalfF - vi * this.TextureHeightF;
+                float y = -vi * this.TextureHeightF;
 
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
@@ -61,11 +63,11 @@ namespace FanKit.Transformer.UI
                 }
             }
 
+            const int vi0 = 0;
+            float y0 = this.HeightPolarEpsilonF;
+
             for (int ui = 0; ui < uv.UCount; ui++)
             {
-                const int vi = 0;
-                const float y = 0f;
-
                 float x = -ui * this.TextureWidthF;
 
                 yield return new EarthCreateTexture
@@ -73,22 +75,22 @@ namespace FanKit.Transformer.UI
                     Index = new EarthTextureIndex
                     {
                         U = ui,
-                        V = vi,
+                        V = vi0,
                     },
 
                     ImageX = x,
-                    ImageY = y,
+                    ImageY = y0,
 
                     TextureWidth = this.TextureWidth + 1,
                     TextureHeight = this.TextureHeightHalf + 1,
                 };
             }
 
+            int vi1 = uv.VCount;
+            float y1 = -vi1 * this.TextureHeightF;
+
             for (int ui = 0; ui < uv.UCount; ui++)
             {
-                int vi = uv.VCount;
-                float y = this.TextureHeightHalfF - vi * this.TextureHeightF;
-
                 float x = -ui * this.TextureWidthF;
 
                 yield return new EarthCreateTexture
@@ -96,11 +98,11 @@ namespace FanKit.Transformer.UI
                     Index = new EarthTextureIndex
                     {
                         U = ui,
-                        V = vi,
+                        V = vi1,
                     },
 
                     ImageX = x,
-                    ImageY = y,
+                    ImageY = y1,
 
                     TextureWidth = this.TextureWidth + 1,
                     TextureHeight = this.TextureHeightHalf + 1,

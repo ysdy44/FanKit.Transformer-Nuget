@@ -5,9 +5,8 @@ namespace FanKit.Transformer.UI
 {
     public class Earth
     {
-        const float PolarEpsilon = 120f;
-        //const float PolarEpsilonRadius = 6f / PolarEpsilon;
-        const float PolarEpsilonRadians = 4f / PolarEpsilon;
+        internal const float PolarEpsilon = 0.36787945f; // 1f / (float)System.Math.E;
+        const float PolarEpsilonRadians = Mathematics.Math.PITwice * PolarEpsilon;
 
         // Textures
         readonly EarthTextureIsFarSide[,] QuadIsFarSides;
@@ -77,6 +76,10 @@ namespace FanKit.Transformer.UI
             this.NorthPoleVertexes = new Vector2[uv.UCount];
             this.SouthPoleVertexes = new Vector2[uv.UCount];
 
+            float radians = PolarEpsilonRadians / uv.VCountTwiceF;
+            Rotation2x2 vRadians0 = new Rotation2x2(Mathematics.Math.PIOver2 + radians);
+            Rotation2x2 vRadians1 = new Rotation2x2(Mathematics.Math.PI + Mathematics.Math.PIOver2 - radians);
+
             for (int ui = 0; ui < uv.UCount; ui++)
             {
                 float uScale = ui / uv.UCountHalfF;
@@ -87,7 +90,7 @@ namespace FanKit.Transformer.UI
 
                 for (int vi = 1; vi < uv.VCount; vi++)
                 {
-                    float vScale = ((float)(vi - 1) + 0.5f) / uv.VCountMinusTwiceF;
+                    float vScale = vi / uv.VCountTwiceF;
 
                     Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PITwice * vScale);
                     float vSin = vRadians.S;
@@ -104,7 +107,7 @@ namespace FanKit.Transformer.UI
                 {
                     const int vi = 0;
 
-                    Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + PolarEpsilonRadians);
+                    Rotation2x2 vRadians = vRadians0;
                     float vSin = vRadians.S;
                     float vCos = vRadians.C;
 
@@ -119,7 +122,7 @@ namespace FanKit.Transformer.UI
                 {
                     int vi = uv.VCount;
 
-                    Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PI - PolarEpsilonRadians);
+                    Rotation2x2 vRadians = vRadians1;
                     float vSin = vRadians.S;
                     float vCos = vRadians.C;
 
@@ -198,7 +201,7 @@ namespace FanKit.Transformer.UI
 
         public IEnumerable<EarthDrawLine> DrawLines(EarthUV uv)
         {
-            for (int vi = 2; vi < uv.VCount + 1; vi++)
+            for (int vi = 1; vi < uv.VCount + 1; vi++)
             {
                 int vi1 = vi - 1;
                 int vi2 = vi;
@@ -251,7 +254,7 @@ namespace FanKit.Transformer.UI
 
             for (int ui = 0; ui < uv.UCount; ui++)
             {
-                const int vi2 = 1;
+                const int vi2 = 0;
 
                 int ui2 = ui == uv.UCountMinus ? 0 : ui + 1;
 
