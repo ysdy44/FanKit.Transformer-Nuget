@@ -5,15 +5,40 @@ namespace FanKit.Transformer.UI
 {
     public struct Scroller
     {
-        public ScrollerState State;
-        public Quadrilateral Bounds;
-        public Quadrilateral Float;
+        internal const byte LeftOutside = 0; // LeftOutside
+        internal const byte RightOutside = 1; // RightOutside
+        internal const byte Quadrilateral = 2; // Quadrilateral
+        internal const byte TopTriangle = 3; // TopTriangle
+        internal const byte BottomTriangle = 4; // BottomTriangle
+
+        internal byte s;
+        internal ScrollerBounds Bounds;
+        internal Quadrilateral Float;
+
+        public ScrollerState State
+        {
+            get
+            {
+                switch (this.s)
+                {
+                    case LeftOutside: return ScrollerState.LeftOutside;
+                    case RightOutside: return ScrollerState.RightOutside;
+                    default: return ScrollerState.Quadrilateral;
+                }
+            }
+        }
+        public Quadrilateral DockBounds => this.Bounds.Bounds;
+        public Quadrilateral FloatBounds => this.Float;
 
         public float ToOpacity(float width)
         {
-            float diff0 = System.Math.Abs(this.Float.RightBottom.X - this.Bounds.LeftBottom.X);
-            float diff1 = System.Math.Abs(this.Float.RightTop.X - this.Bounds.LeftTop.X);
-            float opacity = 2f * System.Math.Max(diff0, diff1) / width;
+            float diff0 = System.Math.Abs(this.Float.RightBottom.X - this.Bounds.CenterX);
+            float diff1 = System.Math.Abs(this.Float.RightTop.X - this.Bounds.CenterX);
+
+            if (diff0 < float.Epsilon && diff1 < float.Epsilon)
+                return 0f;
+
+            float opacity = 2f * System.Math.Max(diff0, diff1) / this.Bounds.Width;
 
             float inv = 1f - opacity;
             return 1f - inv * inv;
@@ -48,27 +73,27 @@ namespace FanKit.Transformer.UI
 
         public Matrix3x2 GetFloatTransformMatrix(ScrollerBounds bounds, float bitmapWidth, float bitmapHeight, bool isFlipX)
         {
-            float scaleX = bounds.WidthHalf / bitmapWidth;
-            float scaleY = bounds.Height / bitmapHeight;
+            float scaleX = this.Bounds.WidthHalf / bitmapWidth;
+            float scaleY = this.Bounds.Height / bitmapHeight;
 
             float x = this.Float.LeftBottom.X - this.Float.LeftTop.X;
             float y = this.Float.LeftBottom.Y - this.Float.LeftTop.Y;
 
             float radians = (float)System.Math.Atan2(y, x) - Constants.PIOver2;
 
-            switch (this.State)
+            switch (this.s)
             {
-                case ScrollerState.BottomTriangle:
+                case BottomTriangle:
                     float ds = x * x + y * y;
                     float d = (float)System.Math.Sqrt(ds);
 
-                    float px = this.Float.LeftBottom.X - bounds.Height * x / d;
-                    float py = this.Float.LeftBottom.Y - bounds.Height * y / d;
+                    float px = this.Float.LeftBottom.X - this.Bounds.Height * x / d;
+                    float py = this.Float.LeftBottom.Y - this.Bounds.Height * y / d;
 
                     if (isFlipX)
                     {
                         return Matrix3x2.CreateScale(-scaleX, scaleY)
-                        * Matrix3x2.CreateTranslation(bounds.WidthHalf, 0)
+                        * Matrix3x2.CreateTranslation(this.Bounds.WidthHalf, 0)
                         * Matrix3x2.CreateRotation(radians)
                         * Matrix3x2.CreateTranslation(px, py);
                     }
@@ -82,7 +107,7 @@ namespace FanKit.Transformer.UI
                     if (isFlipX)
                     {
                         return Matrix3x2.CreateScale(-scaleX, scaleY)
-                        * Matrix3x2.CreateTranslation(bounds.WidthHalf, 0)
+                        * Matrix3x2.CreateTranslation(this.Bounds.WidthHalf, 0)
                         * Matrix3x2.CreateRotation(radians)
                         * Matrix3x2.CreateTranslation(this.Float.LeftTop);
                     }
@@ -97,9 +122,9 @@ namespace FanKit.Transformer.UI
 
         public Vector2[] ToLeftPoints()
         {
-            switch (this.State)
+            switch (this.s)
             {
-                case ScrollerState.TopTriangle:
+                case TopTriangle:
                     return new Vector2[]
                     {
                         this.Bounds.LeftTop,
@@ -110,7 +135,7 @@ namespace FanKit.Transformer.UI
 
                         this.Bounds.LeftBottom,
                     };
-                case ScrollerState.BottomTriangle:
+                case BottomTriangle:
                     return new Vector2[]
                     {
                         this.Bounds.LeftTop,
@@ -134,16 +159,16 @@ namespace FanKit.Transformer.UI
 
         public Vector2[] ToRightPoints()
         {
-            switch (this.State)
+            switch (this.s)
             {
-                case ScrollerState.TopTriangle:
+                case TopTriangle:
                     return new Vector2[]
                     {
                         this.Float.RightTop,
                         this.Bounds.RightTop,
                         this.Float.RightBottom,
                     };
-                case ScrollerState.BottomTriangle:
+                case BottomTriangle:
                     return new Vector2[]
                     {
                         this.Float.RightTop,
@@ -163,21 +188,21 @@ namespace FanKit.Transformer.UI
 
         public Vector2[] ToFloatPoints()
         {
-            switch (this.State)
+            switch (this.s)
             {
-                case ScrollerState.TopTriangle:
+                case TopTriangle:
                     return new Vector2[]
                     {
                         this.Float.LeftTop,
                         this.Float.RightTop,
-                        //this.Float.RightBottom,
+                        //this.f.RightBottom,
                         this.Float.LeftBottom,
                     };
-                case ScrollerState.BottomTriangle:
+                case BottomTriangle:
                     return new Vector2[]
                     {
                         this.Float.LeftTop,
-                        //this.Float.RightTop,
+                        //this.f.RightTop,
                         this.Float.RightBottom,
                         this.Float.LeftBottom,
                     };

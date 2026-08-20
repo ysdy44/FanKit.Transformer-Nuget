@@ -17,6 +17,18 @@ namespace FanKit.Transformer.UI
         public readonly float WidthHalf;
         public readonly float CenterX;
 
+        internal Vector2 LeftTop => new Vector2(this.CenterX, this.Top);
+        internal Vector2 RightTop => new Vector2(this.Right, this.Top);
+        internal Vector2 LeftBottom => new Vector2(this.CenterX, this.Bottom);
+        internal Vector2 RightBottom => new Vector2(this.Right, this.Bottom);
+        internal Quadrilateral Bounds => new Quadrilateral
+        {
+            LeftTop = this.LeftTop,
+            RightTop = this.RightTop,
+            LeftBottom = this.LeftBottom,
+            RightBottom = this.RightBottom
+        };
+
         public ScrollerBounds(float x, float y, float width, float height)
         {
             this.Left = x;
@@ -107,14 +119,16 @@ namespace FanKit.Transformer.UI
             {
                 return new Scroller
                 {
-                    State = ScrollerState.RightOutside
+                    s = Scroller.RightOutside,
+                    Bounds = this,
                 };
             }
             else if (this.Right + startingX <= this.Left + this.Right)
             {
                 return new Scroller
                 {
-                    State = ScrollerState.LeftOutside,
+                    s = Scroller.LeftOutside,
+                    Bounds = this,
                 };
             }
             else
@@ -127,14 +141,8 @@ namespace FanKit.Transformer.UI
                 Vector2 rightBottom = new Vector2(this.Right, this.Bottom);
                 return new Scroller
                 {
-                    State = ScrollerState.Quadrilateral,
-                    Bounds = new Quadrilateral
-                    {
-                        LeftTop = new Vector2(this.CenterX, this.Top),
-                        RightTop = new Vector2(this.Right, this.Top),
-                        LeftBottom = new Vector2(this.CenterX, this.Bottom),
-                        RightBottom = new Vector2(this.Right, this.Bottom),
-                    },
+                    s = Scroller.Quadrilateral,
+                    Bounds = this,
                     Float = new Quadrilateral
                     {
                         LeftTop = MirrorPoint(rightTop, top, bottom),
@@ -173,7 +181,8 @@ namespace FanKit.Transformer.UI
                 {
                     return new Scroller
                     {
-                        State = ScrollerState.RightOutside
+                        s = Scroller.RightOutside,
+                        Bounds = this,
                     };
                 }
                 else
@@ -195,21 +204,15 @@ namespace FanKit.Transformer.UI
                     Vector2 rightBottom = new Vector2(this.Right, this.Bottom);
                     return new Scroller
                     {
-                        State = ScrollerState.BottomTriangle,
-                        Bounds = new Quadrilateral
-                        {
-                            LeftTop = new Vector2(this.CenterX, this.Top),
-                            RightTop = new Vector2(this.Right, this.Top),
-                            LeftBottom = new Vector2(this.CenterX, this.Bottom),
-                            RightBottom = new Vector2(this.Right, this.Bottom)
-                        },
+                        s = Scroller.BottomTriangle,
+                        Bounds = this,
                         Float = new Quadrilateral
                         {
                             LeftTop = right,
                             RightTop = right,
                             RightBottom = bottom,
                             LeftBottom = MirrorPoint(rightBottom, right, bottom)
-                        },
+                        }
                     };
                 }
             }
@@ -234,14 +237,8 @@ namespace FanKit.Transformer.UI
                     Vector2 rightTop = new Vector2(this.Right, this.Top);
                     return new Scroller
                     {
-                        State = ScrollerState.TopTriangle,
-                        Bounds = new Quadrilateral
-                        {
-                            LeftTop = new Vector2(this.CenterX, this.Top),
-                            RightTop = new Vector2(this.Right, this.Top),
-                            LeftBottom = new Vector2(this.CenterX, this.Bottom),
-                            RightBottom = new Vector2(this.Right, this.Bottom)
-                        },
+                        s = Scroller.TopTriangle,
+                        Bounds = this,
                         Float = new Quadrilateral
                         {
                             LeftTop = MirrorPoint(rightTop, right, top),
@@ -262,7 +259,7 @@ namespace FanKit.Transformer.UI
                         {
                             return new Scroller
                             {
-                                State = ScrollerState.LeftOutside,
+                                s = Scroller.LeftOutside,
                             };
                         }
                     }
@@ -274,14 +271,8 @@ namespace FanKit.Transformer.UI
                     Vector2 rightBottom = new Vector2(this.Right, this.Bottom);
                     return new Scroller
                     {
-                        State = ScrollerState.Quadrilateral,
-                        Bounds = new Quadrilateral
-                        {
-                            LeftTop = new Vector2(this.CenterX, this.Top),
-                            RightTop = new Vector2(this.Right, this.Top),
-                            LeftBottom = new Vector2(this.CenterX, this.Bottom),
-                            RightBottom = new Vector2(this.Right, this.Bottom)
-                        },
+                        s = Scroller.Quadrilateral,
+                        Bounds = this,
                         Float = new Quadrilateral
                         {
                             LeftTop = MirrorPoint(rightTop, top, bottom),
