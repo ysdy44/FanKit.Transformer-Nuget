@@ -2,44 +2,44 @@
 {
     public readonly struct CarouselItem2
     {
-        public readonly CarouselPlacment Placment;
+        public readonly CarouselState State;
         public readonly float Amount;
 
-        public readonly float Raw;
-        public readonly float Actual;
+        public readonly float RawX;
+        public readonly float ActualX;
 
-        public readonly Quadrilateral Box;
+        public readonly Quadrilateral TextureOutline;
 
         internal CarouselItem2(Carousel carousel, int index, float centerX, float centerY, float offsetX, float itemMargin, float itemSpacing)
         {
-            Raw = offsetX + index * itemSpacing;
+            RawX = offsetX + index * itemSpacing;
 
-            if (Raw < -itemMargin)
+            if (RawX < -itemMargin)
             {
-                Placment = CarouselPlacment.Start;
+                State = CarouselState.DockLeft;
                 Amount = default;
 
-                Actual = centerX + Raw - itemMargin;
+                ActualX = centerX + RawX - itemMargin;
 
-                Box = carousel.LeftBox(Actual, centerY);
+                TextureOutline = carousel.GetDockLeftTextureOutline(ActualX, centerY);
             }
-            else if (Raw < itemMargin)
+            else if (RawX < itemMargin)
             {
-                Placment = CarouselPlacment.Lerp;
-                Amount = Raw / itemMargin / 2f;
+                State = CarouselState.Float;
+                Amount = RawX / itemMargin / 2f;
 
-                Actual = centerX + Raw + Raw;
+                ActualX = centerX + RawX + RawX;
 
-                Box = carousel.LerpBox(Actual, centerY, Amount);
+                TextureOutline = carousel.GetFloatTextureOutline(ActualX, centerY, Amount);
             }
             else
             {
-                Placment = CarouselPlacment.End;
+                State = CarouselState.DockRight;
                 Amount = default;
 
-                Actual = centerX + Raw + itemMargin;
+                ActualX = centerX + RawX + itemMargin;
 
-                Box = carousel.RightBox(Actual, centerY);
+                TextureOutline = carousel.GetDockRightTextureOutline(ActualX, centerY);
             }
         }
     }

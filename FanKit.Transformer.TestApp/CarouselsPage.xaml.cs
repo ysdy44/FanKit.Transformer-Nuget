@@ -150,7 +150,6 @@ namespace FanKit.Transformer.TestApp
                 this.CanvasControl.Invalidate();
             };
 
-            // Show
             this.ShowGridButton.Toggled += delegate
             {
                 this.ShowGrid = this.ShowGridButton.IsOn;
@@ -177,12 +176,12 @@ namespace FanKit.Transformer.TestApp
 
             foreach (CarouselItem2 item in this.Items)
             {
-                switch (item.Placment)
+                switch (item.State)
                 {
-                    case CarouselPlacment.End:
+                    case CarouselState.DockRight:
                         drawingSession.DrawImage(new Transform3DEffect
                         {
-                            TransformMatrix = this.SourceNormalize.ToPerspMatrix(item.Box),
+                            TransformMatrix = this.SourceNormalize.ToPerspMatrix(item.TextureOutline),
                             Source = this.Bitmap,
                         });
                         break;
@@ -193,13 +192,13 @@ namespace FanKit.Transformer.TestApp
 
             foreach (CarouselItem2 item in this.Items)
             {
-                switch (item.Placment)
+                switch (item.State)
                 {
-                    case CarouselPlacment.Start:
-                    case CarouselPlacment.Lerp:
+                    case CarouselState.Float:
+                    case CarouselState.DockLeft:
                         drawingSession.DrawImage(new Transform3DEffect
                         {
-                            TransformMatrix = this.SourceNormalize.ToPerspMatrix(item.Box),
+                            TransformMatrix = this.SourceNormalize.ToPerspMatrix(item.TextureOutline),
                             Source = this.Bitmap,
                         });
                         break;
@@ -215,21 +214,21 @@ namespace FanKit.Transformer.TestApp
 
                 foreach (CarouselItem2 item in this.Items)
                 {
-                    drawingSession.DrawBounds(item.Box);
+                    drawingSession.DrawBounds(item.TextureOutline);
                 }
 
                 foreach (CarouselItem2 item in this.Items)
                 {
-                    switch (item.Placment)
+                    switch (item.State)
                     {
-                        case CarouselPlacment.Start:
-                            drawingSession.DrawLine(item.Actual, 0f, item.Actual, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
+                        case CarouselState.Float:
+                            drawingSession.DrawLine(item.ActualX, 0f, item.ActualX, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);
                             break;
-                        case CarouselPlacment.Lerp:
-                            drawingSession.DrawLine(item.Actual, 0f, item.Actual, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);
+                        case CarouselState.DockLeft:
+                            drawingSession.DrawLine(item.ActualX, 0f, item.ActualX, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
                             break;
-                        case CarouselPlacment.End:
-                            drawingSession.DrawLine(item.Actual, 0f, item.Actual, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
+                        case CarouselState.DockRight:
+                            drawingSession.DrawLine(item.ActualX, 0f, item.ActualX, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
                             break;
                         default:
                             break;
@@ -346,7 +345,7 @@ namespace FanKit.Transformer.TestApp
             {
                 CarouselItem2 item = this.Items[i];
 
-                float d = System.Math.Abs(positon.X - item.Actual);
+                float d = System.Math.Abs(positon.X - item.ActualX);
                 if (distance > d)
                 {
                     distance = d;
@@ -363,7 +362,7 @@ namespace FanKit.Transformer.TestApp
             {
                 CarouselItem2 item = this.Items[i];
 
-                if (item.Box.ContainsPoint(point))
+                if (item.TextureOutline.ContainsPoint(point))
                     return i;
             }
 

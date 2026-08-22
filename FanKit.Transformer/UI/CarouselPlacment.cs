@@ -1,9 +1,10 @@
 ﻿namespace FanKit.Transformer.UI
 {
-    public enum CarouselPlacment : byte
+    public enum CarouselState : byte
     {
-        Start,
-        Lerp,
-        End,
+        Float,
+
+        DockLeft,
+        DockRight,
     }
 }

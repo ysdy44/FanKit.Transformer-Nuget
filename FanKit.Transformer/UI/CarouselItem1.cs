@@ -2,34 +2,34 @@
 {
     public readonly struct CarouselItem1
     {
-        public readonly CarouselPlacment Placment;
+        public readonly CarouselState State;
         public readonly float Amount;
 
-        public readonly Quadrilateral Box;
+        public readonly Quadrilateral TextureOutline;
 
         // -0.5 ~ +0.5
         internal CarouselItem1(Carousel carousel, float centerX, float centerY, float amount)
         {
             if (amount < -0.5f)
             {
-                Placment = CarouselPlacment.Start;
+                State = CarouselState.DockLeft;
                 Amount = -0.5f;
 
-                Box = carousel.LeftBox(centerX, centerY);
+                TextureOutline = carousel.GetDockLeftTextureOutline(centerX, centerY);
             }
             else if (amount > 0.5f)
             {
-                Placment = CarouselPlacment.End;
+                State = CarouselState.DockRight;
                 Amount = 0.5f;
 
-                Box = carousel.RightBox(centerX, centerY);
+                TextureOutline = carousel.GetDockRightTextureOutline(centerX, centerY);
             }
             else
             {
-                Placment = CarouselPlacment.Lerp;
+                State = CarouselState.Float;
                 Amount = amount;
 
-                Box = carousel.LerpBox(centerX, centerY, this.Amount);
+                TextureOutline = carousel.GetFloatTextureOutline(centerX, centerY, this.Amount);
             }
         }
     }

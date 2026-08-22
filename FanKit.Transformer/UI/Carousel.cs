@@ -80,11 +80,11 @@ namespace FanKit.Transformer.UI
             return new CarouselItem2(this, index, centerX, centerY, offsetX, itemMargin, itemSpacing);
         }
 
-        public Quadrilateral LeftBox(Vector2 center) => Quadrilateral.Translate(ql, center);
-        public Quadrilateral LeftBox(float centerX, float centerY) => Quadrilateral.Translate(ql, centerX, centerY);
+        public Quadrilateral GetDockLeftTextureOutline(Vector2 center) => Quadrilateral.Translate(ql, center);
+        public Quadrilateral GetDockLeftTextureOutline(float centerX, float centerY) => Quadrilateral.Translate(ql, centerX, centerY);
 
-        public Quadrilateral RightBox(Vector2 center) => Quadrilateral.Translate(qr, center);
-        public Quadrilateral RightBox(float centerX, float centerY) => Quadrilateral.Translate(qr, centerX, centerY);
+        public Quadrilateral GetDockRightTextureOutline(Vector2 center) => Quadrilateral.Translate(qr, center);
+        public Quadrilateral GetDockRightTextureOutline(float centerX, float centerY) => Quadrilateral.Translate(qr, centerX, centerY);
 
         // -1.0 ~ +1.0
         //
@@ -93,10 +93,10 @@ namespace FanKit.Transformer.UI
         // +0.0: Center
         // +0.5: Right
         // +1.0: Max
-        public Quadrilateral LerpBox(Vector2 center, float amount) => LB(center.X, center.Y, amount);
-        public Quadrilateral LerpBox(float centerX, float centerY, float amount) => LB(centerX, centerY, amount);
+        public Quadrilateral GetFloatTextureOutline(Vector2 center, float amount) => this.Lerp(center.X, center.Y, amount);
+        public Quadrilateral GetFloatTextureOutline(float centerX, float centerY, float amount) => this.Lerp(centerX, centerY, amount);
 
-        private Quadrilateral LB(float centerX, float centerY, float amount)
+        private Quadrilateral Lerp(float centerX, float centerY, float amount)
         {
             float r = amount * Constants.PI;
             float c = (float)System.Math.Cos(r);

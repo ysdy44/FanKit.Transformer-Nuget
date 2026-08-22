@@ -28,7 +28,7 @@ namespace FanKit.Transformer.UI
             Amount = 0f;
 
             Form = offset;
-            To = offset - item.Raw;
+            To = offset - item.RawX;
             Value = offset;
         }
 

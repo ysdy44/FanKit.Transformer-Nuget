@@ -93,7 +93,7 @@ namespace FanKit.Transformer.TestApp
 
             drawingSession.DrawImage(new Transform3DEffect
             {
-                TransformMatrix = this.SourceNormalize.ToPerspMatrix(this.Item.Box),
+                TransformMatrix = this.SourceNormalize.ToPerspMatrix(this.Item.TextureOutline),
                 Source = this.Bitmap,
             });
         }
