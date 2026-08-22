@@ -39,7 +39,7 @@
                 </Grid.RowDefinitions>
 
                 <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-                    <TextBlock Margin="14,0" VerticalAlignment="Center" Text="Parameter"/>
+                    <TextBlock Margin="14,0" VerticalAlignment="Center" Text="Parameters"/>
                 </Border>
 
                 <Grid Grid.Row="2" Margin="14,0,8,0">
@@ -66,7 +66,7 @@
                 </Grid>
                 <Slider x:Name="SpacingSlider" Margin="12,0" Grid.Row="9" IsThumbToolTipEnabled="False"/>
 
-                <TextBlock Grid.Row="11" Margin="14,0,8,0" HorizontalAlignment="Left" Text="GRid LInes"/>
+                <TextBlock Grid.Row="11" Margin="14,0,8,0" HorizontalAlignment="Left" Text="Grid LInes"/>
                 <ToggleSwitch x:Name="ShowGridButton" Grid.Row="12" Margin="12,0,0,0"/>
 
             </Grid>

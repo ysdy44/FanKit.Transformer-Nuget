@@ -15,6 +15,8 @@ namespace FanKit.Transformer.TestApp
 {
     public sealed partial class CarouselPage : Page
     {
+        bool ShowGrid;
+
         Vector2 Center;
 
         CanvasBitmap Bitmap;
@@ -73,6 +75,13 @@ namespace FanKit.Transformer.TestApp
 
                 this.CanvasControl.Invalidate();
             };
+
+            this.ShowGridButton.Toggled += delegate
+            {
+                this.ShowGrid = this.ShowGridButton.IsOn;
+
+                this.CanvasControl.Invalidate();
+            };
         }
 
         private async Task CreateResourcesAsync(ICanvasResourceCreator resourceCreator)
@@ -88,14 +97,21 @@ namespace FanKit.Transformer.TestApp
 
         private void Draw(CanvasDrawingSession drawingSession)
         {
-            if (this.Bitmap == null)
-                return;
-
-            drawingSession.DrawImage(new Transform3DEffect
+            if (this.ShowGrid)
             {
-                TransformMatrix = this.Item.TextureTransformMatrix,
-                Source = this.Bitmap,
-            });
+                drawingSession.DrawBounds(this.Item.TextureOutline);
+            }
+            else
+            {
+                if (this.Bitmap == null)
+                    return;
+
+                drawingSession.DrawImage(new Transform3DEffect
+                {
+                    TransformMatrix = this.Item.TextureTransformMatrix,
+                    Source = this.Bitmap,
+                });
+            }
         }
     }
 }

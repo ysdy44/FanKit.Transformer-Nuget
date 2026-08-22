@@ -43,6 +43,8 @@ namespace FanKit.Transformer.TestApp
 
         static readonly EarthUV UV = EarthUV.U18V11;
 
+        bool ShowGrid;
+
         Vector2 StartingPoint;
         Vector2 Point = Vector2.Zero;
 
@@ -129,46 +131,53 @@ namespace FanKit.Transformer.TestApp
                     e.DrawingSession.DrawCircle(item.Vertex, 4f, Colors.White);
                 }
 
-                e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 3f, this.AtmosphereColor3);
-                e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 1f, this.AtmosphereColor2);
-                e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, this.AtmosphereColor);
-
-                foreach (var item in this.Earth.DrawTextures(UV))
+                if (this.ShowGrid)
                 {
-                    int vi = item.V;
-                    int ui = item.U;
-
-                    e.DrawingSession.DrawImage(new Transform3DEffect
-                    {
-                        TransformMatrix = this.Earth.TextureTransformMatrixes[vi, ui],
-                        Source = this.Textures[vi, ui]
-                    });
+                    e.DrawingSession.DrawCircle(this.EarthLayout.Center, this.EarthLayout.Radius, Colors.DeepSkyBlue);
                 }
-
-                if (!this.Earth.NorthPoleIsFarSide)
+                else
                 {
-                    using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.NorthPolePolygon))
+                    e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 3f, this.AtmosphereColor3);
+                    e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 1f, this.AtmosphereColor2);
+                    e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, this.AtmosphereColor);
+
+                    foreach (var item in this.Earth.DrawTextures(UV))
                     {
-                        e.DrawingSession.FillGeometry(geometry, 0f, 0f, this.DemoSeaColor);
+                        int vi = item.V;
+                        int ui = item.U;
+
+                        e.DrawingSession.DrawImage(new Transform3DEffect
+                        {
+                            TransformMatrix = this.Earth.TextureTransformMatrixes[vi, ui],
+                            Source = this.Textures[vi, ui]
+                        });
                     }
-                }
 
-                if (!this.Earth.SouthPoleIsFarSide)
-                {
-                    using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.SouthPolePolygon))
+                    if (!this.Earth.NorthPoleIsFarSide)
                     {
-                        e.DrawingSession.FillGeometry(geometry, 0f, 0f, this.DemoLandColor);
+                        using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.NorthPolePolygon))
+                        {
+                            e.DrawingSession.FillGeometry(geometry, 0f, 0f, this.DemoSeaColor);
+                        }
                     }
-                }
 
-                using (CanvasRadialGradientBrush brush = new CanvasRadialGradientBrush(s, this.AtmosphereGradientStops)
-                {
-                    Center = this.EarthLayout.Center,
-                    RadiusX = this.EarthLayout.Radius,
-                    RadiusY = this.EarthLayout.Radius,
-                })
-                {
-                    e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, brush);
+                    if (!this.Earth.SouthPoleIsFarSide)
+                    {
+                        using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(s, this.Earth.SouthPolePolygon))
+                        {
+                            e.DrawingSession.FillGeometry(geometry, 0f, 0f, this.DemoLandColor);
+                        }
+                    }
+
+                    using (CanvasRadialGradientBrush brush = new CanvasRadialGradientBrush(s, this.AtmosphereGradientStops)
+                    {
+                        Center = this.EarthLayout.Center,
+                        RadiusX = this.EarthLayout.Radius,
+                        RadiusY = this.EarthLayout.Radius,
+                    })
+                    {
+                        e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, brush);
+                    }
                 }
 
                 foreach (var item in this.Earth.DrawLines(UV))
@@ -176,12 +185,12 @@ namespace FanKit.Transformer.TestApp
                     Vector2 point0 = item.Point0;
                     Vector2 point1 = item.Point1;
 
-                    e.DrawingSession.DrawLine(point0, point1, this.VertexColor);
+                    e.DrawingSession.DrawLine(point0, point1, this.ShowGrid ? Colors.DeepSkyBlue : this.VertexColor);
                 }
 
                 foreach (var item in this.Earth.DrawVertexes(UV))
                 {
-                    e.DrawingSession.FillCircle(item, 2f, this.VertexColor);
+                    e.DrawingSession.FillCircle(item, 2f, this.ShowGrid ? Colors.DeepSkyBlue : this.VertexColor);
                 }
 
                 if (this.Mouse.HasValue && !this.Mouse.Value.PointIsFarSide)
@@ -256,6 +265,13 @@ namespace FanKit.Transformer.TestApp
             };
 
             this.ResetButton.Click += delegate { this.ResetRotation(); };
+            this.ShowGridButton.Toggled += delegate
+            {
+                this.ShowGrid = this.ShowGridButton.IsOn;
+
+                this.CanvasControl.Invalidate();
+            };
+
             this.Touchpad.PointerExited += delegate
             {
                 this.Mouse = null;

@@ -16,6 +16,8 @@ namespace FanKit.Transformer.TestApp
 {
     public sealed partial class ScrollerPage : Page
     {
+        bool ShowGrid;
+
         Vector2 StartingPoint;
         Vector2 Point;
 
@@ -126,6 +128,13 @@ namespace FanKit.Transformer.TestApp
             {
                 this.DisposeSingle(x, y);
             };
+
+            this.ShowGridButton.Toggled += delegate
+            {
+                this.ShowGrid = this.ShowGridButton.IsOn;
+
+                this.CanvasControl.Invalidate();
+            };
         }
 
         //private async Task CreateResourcesAsync(ICanvasResourceCreator resourceCreator)
@@ -174,105 +183,150 @@ namespace FanKit.Transformer.TestApp
 
         private void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
         {
-            drawingSession.FillRectangle(this.Bounds.Left - 20f, this.Bounds.Top - 20f, this.Bounds.Width + 40f, this.Bounds.Height + 40f, this.BackColor1);
-            drawingSession.FillRectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, this.Bounds.Height, this.BackColor2);
-
-            switch (this.Scroller.State)
+            if (this.ShowGrid)
             {
-                case ScrollerState.DockLeft:
-                    // Left Page 3
-                    if (this.Bitmap3 != null) this.DrawLeft(drawingSession, this.Bitmap3);
+                drawingSession.DrawRectangle(this.Bounds.Left - 20f, this.Bounds.Top - 20f, this.Bounds.Width + 40f, this.Bounds.Height + 40f, Windows.UI.Colors.Gray);
+                drawingSession.DrawRectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, this.Bounds.Height, Windows.UI.Colors.Gray);
 
-                    // Right Page 4
-                    if (this.Bitmap4 != null) this.DrawRight(drawingSession, this.Bitmap4);
+                switch (this.Scroller.State)
+                {
+                    case ScrollerState.DockLeft:
+                        // Left Page 3
+                        drawingSession.DrawBounds(this.Bounds.DockLeftTextureOutline);
 
-                    this.DrawShadow(resourceCreator, drawingSession);
-                    break;
-                case ScrollerState.DockRight:
-                    // Left Page 1  
-                    if (this.Bitmap1 != null) this.DrawLeft(drawingSession, this.Bitmap1);
+                        // Right Page 4
+                        drawingSession.DrawBounds(this.Bounds.DockRightTextureOutline);
+                        break;
+                    case ScrollerState.DockRight:
+                        // Left Page 1
+                        drawingSession.DrawBounds(this.Bounds.DockLeftTextureOutline);
 
-                    // Right Page 2
-                    if (this.Bitmap2 != null) this.DrawRight(drawingSession, this.Bitmap2);
+                        //// Right Page 2
+                        drawingSession.DrawBounds(this.Bounds.DockRightTextureOutline);
+                        break;
+                    default:
+                        // Left Page 1
+                        drawingSession.DrawBounds(this.Bounds.DockLeftTextureOutline);
 
-                    this.DrawShadow(resourceCreator, drawingSession);
-                    break;
-                default:
-                    // Left Page 1
-                    if (this.Bitmap1 != null) this.DrawLeft(drawingSession, this.Bitmap1);
+                        // Left Page 2
+                        // ...
 
-                    if (this.Bitmap2 != null)
-                    {
-                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetDockLeftTextureOutlines()))
-                        using (drawingSession.CreateLayer(1.0f, polygon))
-                        {
-                            // Left Page 2
-                            this.DrawRight(drawingSession, this.Bitmap2);
-                        }
-                    }
+                        // Right Page 4
+                        // ...
 
-                    if (this.Bitmap4 != null)
-                    {
-                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetDockRightTextureOutlines()))
-                        using (drawingSession.CreateLayer(1.0f, polygon))
-                        {
-                            // Right Page 4
-                            this.DrawRight(drawingSession, this.Bitmap4);
-                        }
-                    }
-
-                    this.DrawShadow(resourceCreator, drawingSession);
-
-                    using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetFloatTextureOutlines()))
-                    {
-                        using (CanvasCommandList list = new CanvasCommandList(resourceCreator))
-                        {
-                            using (CanvasDrawingSession d = list.CreateDrawingSession())
-                            {
-                                d.FillGeometry(polygon, Windows.UI.Colors.Black);
-                            }
-
-                            // Shade Left Page 3
-                            float v = this.Scroller.GetFloatShadowOpacity();
-                            drawingSession.DrawImage(new OpacityEffect
-                            {
-                                Opacity = 0.75f * v,
-                                Source = new GaussianBlurEffect
-                                {
-                                    BlurAmount = 32f,
-                                    Source = list,
-                                }
-                            });
-
-                            drawingSession.FillGeometry(polygon, this.BackColor2);
-                        }
+                        // Shade Left Page 3
+                        // ...
 
                         // Float Right Page 3
-                        if (this.Bitmap3 != null)
+                        // ...
+
+                        // Float Left Page 3
+                        drawingSession.DrawBounds(this.Scroller.FloatTextureOutline);
+                        break;
+                }
+            }
+            else
+            {
+                drawingSession.FillRectangle(this.Bounds.Left - 20f, this.Bounds.Top - 20f, this.Bounds.Width + 40f, this.Bounds.Height + 40f, this.BackColor1);
+                drawingSession.FillRectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, this.Bounds.Height, this.BackColor2);
+
+                switch (this.Scroller.State)
+                {
+                    case ScrollerState.DockLeft:
+                        // Left Page 3
+                        if (this.Bitmap3 != null) this.DrawLeft(drawingSession, this.Bitmap3);
+
+                        // Right Page 4
+                        if (this.Bitmap4 != null) this.DrawRight(drawingSession, this.Bitmap4);
+
+                        this.DrawShadow(resourceCreator, drawingSession);
+                        break;
+                    case ScrollerState.DockRight:
+                        // Left Page 1  
+                        if (this.Bitmap1 != null) this.DrawLeft(drawingSession, this.Bitmap1);
+
+                        // Right Page 2
+                        if (this.Bitmap2 != null) this.DrawRight(drawingSession, this.Bitmap2);
+
+                        this.DrawShadow(resourceCreator, drawingSession);
+                        break;
+                    default:
+                        // Left Page 1
+                        if (this.Bitmap1 != null) this.DrawLeft(drawingSession, this.Bitmap1);
+
+                        if (this.Bitmap2 != null)
                         {
+                            using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetDockLeftTextureOutlines()))
                             using (drawingSession.CreateLayer(1.0f, polygon))
                             {
-                                float width = (float)this.Bitmap3.Size.Width;
-                                float height = (float)this.Bitmap3.Size.Height;
-                                drawingSession.DrawImage(new Transform2DEffect
-                                {
-                                    TransformMatrix = this.Scroller.GetFloatTextureTransformMatrix(width, height, this.IsFlipX),
-                                    Source = this.Bitmap3,
-                                });
+                                // Left Page 2
+                                this.DrawRight(drawingSession, this.Bitmap2);
                             }
                         }
 
-                        using (CanvasLinearGradientBrush brush = new CanvasLinearGradientBrush(resourceCreator, this.Colors.LeftGradientStops)
+                        if (this.Bitmap4 != null)
                         {
-                            StartPoint = this.FloatLinear.L0,
-                            EndPoint = this.FloatLinear.L1,
-                        })
-                        {
-                            // Float Left Page 3
-                            drawingSession.FillGeometry(polygon, brush);
+                            using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetDockRightTextureOutlines()))
+                            using (drawingSession.CreateLayer(1.0f, polygon))
+                            {
+                                // Right Page 4
+                                this.DrawRight(drawingSession, this.Bitmap4);
+                            }
                         }
-                    }
-                    break;
+
+                        this.DrawShadow(resourceCreator, drawingSession);
+
+                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetFloatTextureOutlines()))
+                        {
+                            using (CanvasCommandList list = new CanvasCommandList(resourceCreator))
+                            {
+                                using (CanvasDrawingSession d = list.CreateDrawingSession())
+                                {
+                                    d.FillGeometry(polygon, Windows.UI.Colors.Black);
+                                }
+
+                                // Shade Left Page 3
+                                float v = this.Scroller.GetFloatShadowOpacity();
+                                drawingSession.DrawImage(new OpacityEffect
+                                {
+                                    Opacity = 0.75f * v,
+                                    Source = new GaussianBlurEffect
+                                    {
+                                        BlurAmount = 32f,
+                                        Source = list,
+                                    }
+                                });
+
+                                drawingSession.FillGeometry(polygon, this.BackColor2);
+                            }
+
+                            // Float Right Page 3
+                            if (this.Bitmap3 != null)
+                            {
+                                using (drawingSession.CreateLayer(1.0f, polygon))
+                                {
+                                    float width = (float)this.Bitmap3.Size.Width;
+                                    float height = (float)this.Bitmap3.Size.Height;
+                                    drawingSession.DrawImage(new Transform2DEffect
+                                    {
+                                        TransformMatrix = this.Scroller.GetFloatTextureTransformMatrix(width, height, this.IsFlipX),
+                                        Source = this.Bitmap3,
+                                    });
+                                }
+                            }
+
+                            using (CanvasLinearGradientBrush brush = new CanvasLinearGradientBrush(resourceCreator, this.Colors.LeftGradientStops)
+                            {
+                                StartPoint = this.FloatLinear.L0,
+                                EndPoint = this.FloatLinear.L1,
+                            })
+                            {
+                                // Float Left Page 3
+                                drawingSession.FillGeometry(polygon, brush);
+                            }
+                        }
+                        break;
+                }
             }
         }
 
@@ -383,7 +437,7 @@ namespace FanKit.Transformer.TestApp
         public readonly Color Color4;
         public readonly CanvasGradientStop[] LeftGradientStops;
         public readonly CanvasGradientStop[] RightGradientStops;
-
+        
         public ScrollerColors(byte alpha1, byte alpha2, byte alpha3, byte alpha4) : this(
             Color.FromArgb(alpha1, 0, 0, 0),
             Color.FromArgb(alpha2, 0, 0, 0),

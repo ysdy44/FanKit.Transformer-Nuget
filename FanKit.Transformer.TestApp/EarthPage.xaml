@@ -30,11 +30,15 @@
                     <RowDefinition Height="8"/>
                     <RowDefinition Height="32"/>
 
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="32"/>
+
                     <RowDefinition Height="12"/>
                 </Grid.RowDefinitions>
 
                 <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-                    <TextBlock Margin="14,0" VerticalAlignment="Center" Text="Rotation"/>
+                    <TextBlock Margin="14,0" VerticalAlignment="Center" Text="Parameters"/>
                 </Border>
 
                 <Grid Grid.Row="2" Margin="14,0,8,0">
@@ -54,10 +58,13 @@
 
                 <Button x:Name="ResetButton" Grid.Row="8" Margin="12,0,0,0" Content="Reset"/>
 
+                <TextBlock Grid.Row="10" Margin="14,0,8,0" HorizontalAlignment="Left" Text="Grid LInes"/>
+                <ToggleSwitch x:Name="ShowGridButton" Grid.Row="11" Margin="12,0,0,0"/>
+
             </Grid>
         </Border>
 
-        <Canvas x:Name="Touchpad" Margin="12" Width="409.6" Height="204.8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="Transparent">
+        <Canvas x:Name="Touchpad" FlowDirection="LeftToRight" Margin="12" Width="409.6" Height="204.8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="Transparent">
             <!--<Image IsHitTestVisible="False" Width="409.6" Height="204.8" Source="/Images/ad189db39db704e.jpg" />-->
             <Rectangle IsHitTestVisible="False" Width="409.6" Height="204.8" StrokeThickness="1" Stroke="Gray" Fill="#132F50"/>
             <!--<Polygon IsHitTestVisible="False" Fill="#59673B" Points="..."/>-->

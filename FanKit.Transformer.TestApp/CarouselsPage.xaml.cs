@@ -179,46 +179,48 @@ namespace FanKit.Transformer.TestApp
 
         private void Draw(CanvasDrawingSession drawingSession)
         {
-            foreach (CarouselItem item in this.Items)
+            if (!this.ShowGrid)
             {
-                if (item.Bitmap == null)
-                    continue;
-
-                switch (item.Carousel.State)
+                foreach (CarouselItem item in this.Items)
                 {
-                    case CarouselState.DockRight:
-                        drawingSession.DrawImage(new Transform3DEffect
-                        {
-                            TransformMatrix = item.Carousel.TextureTransformMatrix,
-                            Source = item.Bitmap,
-                        });
-                        break;
-                    default:
-                        break;
+                    if (item.Bitmap == null)
+                        continue;
+
+                    switch (item.Carousel.State)
+                    {
+                        case CarouselState.DockRight:
+                            drawingSession.DrawImage(new Transform3DEffect
+                            {
+                                TransformMatrix = item.Carousel.TextureTransformMatrix,
+                                Source = item.Bitmap,
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                foreach (CarouselItem item in this.Items)
+                {
+                    if (item.Bitmap == null)
+                        continue;
+
+                    switch (item.Carousel.State)
+                    {
+                        case CarouselState.Float:
+                        case CarouselState.DockLeft:
+                            drawingSession.DrawImage(new Transform3DEffect
+                            {
+                                TransformMatrix = item.Carousel.TextureTransformMatrix,
+                                Source = item.Bitmap,
+                            });
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-
-            foreach (CarouselItem item in this.Items)
-            {
-                if (item.Bitmap == null)
-                    continue;
-
-                switch (item.Carousel.State)
-                {
-                    case CarouselState.Float:
-                    case CarouselState.DockLeft:
-                        drawingSession.DrawImage(new Transform3DEffect
-                        {
-                            TransformMatrix = item.Carousel.TextureTransformMatrix,
-                            Source = item.Bitmap,
-                        });
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            if (this.ShowGrid)
+            else
             {
                 drawingSession.DrawLine(this.Center.X - this.ItemMargin - this.ItemSpacing / 2f, 0f, this.Center.X - this.ItemMargin - this.ItemSpacing / 2f, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);
                 drawingSession.DrawLine(this.Center.X + this.ItemMargin + this.ItemSpacing / 2f, 0f, this.Center.X + this.ItemMargin + this.ItemSpacing / 2f, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);

@@ -9,6 +9,31 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     >
 
-    <xaml:CanvasAnimatedControl x:Name="CanvasControl" Paused="True"/>
+    <Grid>
 
+        <xaml:CanvasAnimatedControl x:Name="CanvasControl" Paused="True"/>
+
+        <Border Margin="12" Width="253" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="32"/>
+
+                    <RowDefinition Height="12"/>
+                </Grid.RowDefinitions>
+
+                <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                    <TextBlock Margin="14,0" VerticalAlignment="Center" Text="Parameters"/>
+                </Border>
+
+                <TextBlock Grid.Row="2" Margin="14,0,8,0" HorizontalAlignment="Left" Text="Grid LInes"/>
+                <ToggleSwitch x:Name="ShowGridButton" Grid.Row="3" Margin="12,0,0,0"/>
+
+            </Grid>
+        </Border>
+
+    </Grid>
 </Page>
