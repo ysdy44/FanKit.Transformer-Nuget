@@ -1,4 +1,7 @@
-﻿namespace FanKit.Transformer.UI
+﻿using FanKit.Transformer.Mathematics;
+using System.Numerics;
+
+namespace FanKit.Transformer.UI
 {
     public readonly struct CarouselItem1
     {
@@ -7,8 +10,10 @@
 
         public readonly Quadrilateral TextureOutline;
 
+        public readonly Matrix4x4 TextureTransformMatrix;
+
         // -0.5 ~ +0.5
-        internal CarouselItem1(Carousel carousel, float centerX, float centerY, float amount)
+        internal CarouselItem1(Carousel carousel, SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
         {
             if (amount < -0.5f)
             {
@@ -31,6 +36,8 @@
 
                 TextureOutline = carousel.GetFloatTextureOutline(centerX, centerY, this.Amount);
             }
+
+            TextureTransformMatrix = sourceNormalize.ToPerspMatrix(TextureOutline);
         }
     }
 }

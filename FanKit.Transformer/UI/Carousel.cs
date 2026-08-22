@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using FanKit.Transformer.Mathematics;
+using System.Numerics;
 
 namespace FanKit.Transformer.UI
 {
@@ -70,14 +71,14 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public CarouselItem1 ToItem1(float centerX, float centerY, float amount)
+        public CarouselItem1 ToItem1(SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
         {
-            return new CarouselItem1(this, centerX, centerY, amount);
+            return new CarouselItem1(this, sourceNormalize, centerX, centerY, amount);
         }
 
-        public CarouselItem2 ToItem2(int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
+        public CarouselItem2 ToItem2(SizeMatrix sourceNormalize, int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
         {
-            return new CarouselItem2(this, index, centerX, centerY, offsetX, itemMargin, itemSpacing);
+            return new CarouselItem2(this, sourceNormalize, index, centerX, centerY, offsetX, itemMargin, itemSpacing);
         }
 
         public Quadrilateral GetDockLeftTextureOutline(Vector2 center) => Quadrilateral.Translate(ql, center);

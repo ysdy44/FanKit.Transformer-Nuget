@@ -4,6 +4,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -12,6 +13,13 @@ using Windows.UI.Xaml.Controls;
 
 namespace FanKit.Transformer.TestApp
 {
+    public class CarouselItem
+    {
+        public CanvasBitmap Bitmap;
+        public SizeMatrix SourceNormalize;
+        public CarouselItem2 Carousel;
+    }
+
     public sealed partial class CarouselsPage : Page
     {
         float Skew = 0.5f;
@@ -28,16 +36,13 @@ namespace FanKit.Transformer.TestApp
 
         Vector2 Center;
 
-        CanvasBitmap Bitmap;
-        SizeMatrix SourceNormalize;
-
         Carousel Carousel = new Carousel(256f, 256f, 0.5f);
 
         // Canvas
         readonly CanvasOperator1 CanvasOperator;
         readonly CarouselAnimation Animation = new CarouselAnimation();
 
-        readonly CarouselItem2[] Items = new CarouselItem2[10];
+        readonly List<CarouselItem> Items = new List<CarouselItem>();
 
         public CarouselsPage()
         {
@@ -106,13 +111,6 @@ namespace FanKit.Transformer.TestApp
                 this.Skew = (float)(e.NewValue / 100);
                 this.SkewTextBlock.Text = $"{this.Skew * 100f}%";
 
-                if (this.Bitmap == null)
-                    return;
-
-                float width = (float)this.Bitmap.Size.Width;
-                float height = (float)this.Bitmap.Size.Height;
-                this.SourceNormalize = new SizeMatrix(width, height);
-
                 this.Carousel = new Carousel(256f, 256f, this.Skew);
 
                 this.Update();
@@ -160,29 +158,39 @@ namespace FanKit.Transformer.TestApp
 
         private async Task CreateResourcesAsync(ICanvasResourceCreator resourceCreator)
         {
-            this.Bitmap = await CanvasBitmap.LoadAsync(resourceCreator, "Images/avatar.jpg");
+            CanvasBitmap bitmap = await CanvasBitmap.LoadAsync(resourceCreator, "Images/avatar.jpg");
 
-            float width = (float)this.Bitmap.Size.Width;
-            float height = (float)this.Bitmap.Size.Height;
-            this.SourceNormalize = new SizeMatrix(width, height);
+            float width = (float)bitmap.Size.Width;
+            float height = (float)bitmap.Size.Height;
+            SizeMatrix sourceNormalize = new SizeMatrix(width, height);
+
+            for (int i = 0; i < 10; i++)
+            {
+                this.Items.Add(new CarouselItem
+                {
+                    Bitmap = bitmap,
+                    SourceNormalize = sourceNormalize,
+                    Carousel = this.Carousel.ToItem2(sourceNormalize, i, this.Center.X, this.Center.Y, this.X, this.ItemMargin, this.ItemSpacing),
+                });
+            }
 
             this.CanvasControl.Invalidate();
         }
 
         private void Draw(CanvasDrawingSession drawingSession)
         {
-            if (this.Bitmap == null)
-                return;
-
-            foreach (CarouselItem2 item in this.Items)
+            foreach (CarouselItem item in this.Items)
             {
-                switch (item.State)
+                if (item.Bitmap == null)
+                    continue;
+
+                switch (item.Carousel.State)
                 {
                     case CarouselState.DockRight:
                         drawingSession.DrawImage(new Transform3DEffect
                         {
-                            TransformMatrix = this.SourceNormalize.ToPerspMatrix(item.TextureOutline),
-                            Source = this.Bitmap,
+                            TransformMatrix = item.Carousel.TextureTransformMatrix,
+                            Source = item.Bitmap,
                         });
                         break;
                     default:
@@ -190,16 +198,19 @@ namespace FanKit.Transformer.TestApp
                 }
             }
 
-            foreach (CarouselItem2 item in this.Items)
+            foreach (CarouselItem item in this.Items)
             {
-                switch (item.State)
+                if (item.Bitmap == null)
+                    continue;
+
+                switch (item.Carousel.State)
                 {
                     case CarouselState.Float:
                     case CarouselState.DockLeft:
                         drawingSession.DrawImage(new Transform3DEffect
                         {
-                            TransformMatrix = this.SourceNormalize.ToPerspMatrix(item.TextureOutline),
-                            Source = this.Bitmap,
+                            TransformMatrix = item.Carousel.TextureTransformMatrix,
+                            Source = item.Bitmap,
                         });
                         break;
                     default:
@@ -212,23 +223,24 @@ namespace FanKit.Transformer.TestApp
                 drawingSession.DrawLine(this.Center.X - this.ItemMargin - this.ItemSpacing / 2f, 0f, this.Center.X - this.ItemMargin - this.ItemSpacing / 2f, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);
                 drawingSession.DrawLine(this.Center.X + this.ItemMargin + this.ItemSpacing / 2f, 0f, this.Center.X + this.ItemMargin + this.ItemSpacing / 2f, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);
 
-                foreach (CarouselItem2 item in this.Items)
+                foreach (CarouselItem item in this.Items)
                 {
-                    drawingSession.DrawBounds(item.TextureOutline);
+                    drawingSession.DrawBounds(item.Carousel.TextureOutline);
                 }
 
-                foreach (CarouselItem2 item in this.Items)
+                foreach (CarouselItem item in this.Items)
                 {
-                    switch (item.State)
+                    float x = item.Carousel.ActualX;
+                    switch (item.Carousel.State)
                     {
                         case CarouselState.Float:
-                            drawingSession.DrawLine(item.ActualX, 0f, item.ActualX, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);
+                            drawingSession.DrawLine(x, 0f, x, this.Center.Y + this.Center.Y, Windows.UI.Colors.Red);
                             break;
                         case CarouselState.DockLeft:
-                            drawingSession.DrawLine(item.ActualX, 0f, item.ActualX, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
+                            drawingSession.DrawLine(x, 0f, x, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
                             break;
                         case CarouselState.DockRight:
-                            drawingSession.DrawLine(item.ActualX, 0f, item.ActualX, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
+                            drawingSession.DrawLine(x, 0f, x, this.Center.Y + this.Center.Y, Windows.UI.Colors.Gray);
                             break;
                         default:
                             break;
@@ -262,7 +274,7 @@ namespace FanKit.Transformer.TestApp
                 if (System.Math.Abs(this.StartingPoint.X - this.Point.X) < 4f)
                     this.Animate(this.ContainsIndex(this.Point));
                 else
-                    this.Animate(this.NearestIndex(this.Center));
+                    this.Animate(this.NearestIndex(this.Center.X));
             }
         }
 
@@ -271,9 +283,9 @@ namespace FanKit.Transformer.TestApp
             if (this.CanvasControl.Paused)
             {
                 if (d > 0)
-                    this.Animate(this.NearestIndex(this.Center) - 1);
+                    this.Animate(this.NearestIndex(this.Center.X) - 1);
                 else
-                    this.Animate(this.NearestIndex(this.Center) + 1);
+                    this.Animate(this.NearestIndex(this.Center.X) + 1);
             }
         }
 
@@ -290,7 +302,7 @@ namespace FanKit.Transformer.TestApp
                     case VirtualKey.Up:
                     case VirtualKey.GamepadDPadUp:
                     case VirtualKey.GamepadLeftThumbstickUp:
-                        this.Animate(this.NearestIndex(this.Center) - 1);
+                        this.Animate(this.NearestIndex(this.Center.X) - 1);
                         return true;
 
                     case VirtualKey.Right:
@@ -300,7 +312,7 @@ namespace FanKit.Transformer.TestApp
                     case VirtualKey.Down:
                     case VirtualKey.GamepadDPadDown:
                     case VirtualKey.GamepadLeftThumbstickDown:
-                        this.Animate(this.NearestIndex(this.Center) + 1);
+                        this.Animate(this.NearestIndex(this.Center.X) + 1);
                         return true;
 
                     default:
@@ -315,9 +327,9 @@ namespace FanKit.Transformer.TestApp
 
         private void Update()
         {
-            for (int i = 0; i < this.Items.Length; i++)
+            for (int i = 0; i < this.Items.Count; i++)
             {
-                this.Items[i] = this.Carousel.ToItem2(i, this.Center.X, this.Center.Y, this.X, this.ItemMargin, this.ItemSpacing);
+                this.Items[i].Carousel = this.Carousel.ToItem2(this.Items[i].SourceNormalize, i, this.Center.X, this.Center.Y, this.X, this.ItemMargin, this.ItemSpacing);
             }
         }
 
@@ -326,26 +338,26 @@ namespace FanKit.Transformer.TestApp
             if (index < 0)
                 return;
 
-            if (index >= this.Items.Length)
+            if (index >= this.Items.Count)
                 return;
 
-            CarouselItem2 item = this.Items[index];
-            this.Animation.Reset(this.X, item);
+            CarouselItem item = this.Items[index];
+            this.Animation.Reset(this.X, item.Carousel);
 
             this.CanvasControl.Paused = false;
             this.CanvasControl.Invalidate();
         }
 
-        private int NearestIndex(Vector2 positon)
+        private int NearestIndex(float positonX)
         {
             int index = -1;
             float distance = float.MaxValue;
 
-            for (int i = 0; i < this.Items.Length; i++)
+            for (int i = 0; i < this.Items.Count; i++)
             {
-                CarouselItem2 item = this.Items[i];
+                CarouselItem item = this.Items[i];
 
-                float d = System.Math.Abs(positon.X - item.ActualX);
+                float d = System.Math.Abs(positonX - item.Carousel.ActualX);
                 if (distance > d)
                 {
                     distance = d;
@@ -358,11 +370,11 @@ namespace FanKit.Transformer.TestApp
 
         private int ContainsIndex(Vector2 point)
         {
-            for (int i = 0; i < this.Items.Length; i++)
+            for (int i = 0; i < this.Items.Count; i++)
             {
-                CarouselItem2 item = this.Items[i];
+                CarouselItem item = this.Items[i];
 
-                if (item.TextureOutline.ContainsPoint(point))
+                if (item.Carousel.TextureOutline.ContainsPoint(point))
                     return i;
             }
 
