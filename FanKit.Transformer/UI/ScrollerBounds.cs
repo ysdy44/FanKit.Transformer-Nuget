@@ -17,15 +17,15 @@ namespace FanKit.Transformer.UI
         public readonly float WidthHalf;
         public readonly float CenterX;
 
-        internal Vector2 LeftTop => new Vector2(this.CenterX, this.Top);
+        internal Vector2 CenterTop => new Vector2(this.CenterX, this.Top);
         internal Vector2 RightTop => new Vector2(this.Right, this.Top);
-        internal Vector2 LeftBottom => new Vector2(this.CenterX, this.Bottom);
+        internal Vector2 CenterBottom => new Vector2(this.CenterX, this.Bottom);
         internal Vector2 RightBottom => new Vector2(this.Right, this.Bottom);
-        internal Quadrilateral Bounds => new Quadrilateral
+        public Quadrilateral DockRightTextureOutline => new Quadrilateral
         {
-            LeftTop = this.LeftTop,
+            LeftTop = this.CenterTop,
             RightTop = this.RightTop,
-            LeftBottom = this.LeftBottom,
+            LeftBottom = this.CenterBottom,
             RightBottom = this.RightBottom
         };
 
@@ -48,7 +48,7 @@ namespace FanKit.Transformer.UI
         internal ScrollerDirection EndDirection(float x) => x > this.CenterX ? ScrollerDirection.PageUp : ScrollerDirection.None;
         internal ScrollerDirection BeginDirection(float x) => x > this.CenterX ? ScrollerDirection.PageDown : ScrollerDirection.None;
 
-        public Linear GetLeftLinearGradientBrushPoints(float distance)
+        public Linear GetDockLeftLinearGradientBrushPoints(float distance)
         {
             return new Linear
             {
@@ -56,7 +56,7 @@ namespace FanKit.Transformer.UI
                 L1 = new Vector2(this.CenterX, this.Top),
             };
         }
-        public Linear GetRightLinearGradientBrushPoints(float distance)
+        public Linear GetDockRightLinearGradientBrushPoints(float distance)
         {
             return new Linear
             {
@@ -65,7 +65,7 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public Matrix3x2 GetLeftTextureTransformMatrix(float bitmapWidth, float bitmapHeight, bool isFlipX)
+        public Matrix3x2 GetDockLeftTextureTransformMatrix(float bitmapWidth, float bitmapHeight, bool isFlipX)
         {
             float scaleX = this.WidthHalf / bitmapWidth;
             float scaleY = this.Height / bitmapHeight;
@@ -85,7 +85,7 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public Matrix3x2 GetRightTextureTransformMatrix(float bitmapWidth, float bitmapHeight, bool isFlipX)
+        public Matrix3x2 GetDockRightTextureTransformMatrix(float bitmapWidth, float bitmapHeight, bool isFlipX)
         {
             float scaleX = this.WidthHalf / bitmapWidth;
             float scaleY = this.Height / bitmapHeight;

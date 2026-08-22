@@ -66,8 +66,8 @@ namespace FanKit.Transformer.TestApp
                 float height = (float)e.NewSize.Height;
 
                 this.Bounds = new ScrollerBounds(width / 6f, height / 6f, width / 3f * 2f, height / 3f * 2f);
-                this.LeftLinear = this.Bounds.GetLeftLinearGradientBrushPoints(100f);
-                this.RightLinear = this.Bounds.GetRightLinearGradientBrushPoints(100f);
+                this.LeftLinear = this.Bounds.GetDockLeftLinearGradientBrushPoints(100f);
+                this.RightLinear = this.Bounds.GetDockRightLinearGradientBrushPoints(100f);
 
                 //this.Scroller = this.Bounds.Scroll(this.StartingPoint.Y, this.Point);
                 //this.FloatLinear = this.Scroller.GetFloatLinearGradientBrushPoints(100f);
@@ -203,17 +203,17 @@ namespace FanKit.Transformer.TestApp
 
                     if (this.Bitmap2 != null)
                     {
-                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetLeftTextureOutlines()))
+                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetDockLeftTextureOutlines()))
                         using (drawingSession.CreateLayer(1.0f, polygon))
                         {
-                            // Right Page 2
+                            // Left Page 2
                             this.DrawRight(drawingSession, this.Bitmap2);
                         }
                     }
 
                     if (this.Bitmap4 != null)
                     {
-                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetRightTextureOutlines()))
+                        using (CanvasGeometry polygon = CanvasGeometry.CreatePolygon(resourceCreator, this.Scroller.GetDockRightTextureOutlines()))
                         using (drawingSession.CreateLayer(1.0f, polygon))
                         {
                             // Right Page 4
@@ -282,7 +282,7 @@ namespace FanKit.Transformer.TestApp
             float height = (float)bitmap.Size.Height;
             drawingSession.DrawImage(new Transform2DEffect
             {
-                TransformMatrix = this.Bounds.GetLeftTextureTransformMatrix(width, height, this.IsFlipX),
+                TransformMatrix = this.Bounds.GetDockLeftTextureTransformMatrix(width, height, this.IsFlipX),
                 Source = bitmap
             });
         }
@@ -293,7 +293,7 @@ namespace FanKit.Transformer.TestApp
             float height = (float)bitmap.Size.Height;
             drawingSession.DrawImage(new Transform2DEffect
             {
-                TransformMatrix = this.Bounds.GetRightTextureTransformMatrix(width, height, this.IsFlipX),
+                TransformMatrix = this.Bounds.GetDockRightTextureTransformMatrix(width, height, this.IsFlipX),
                 Source = bitmap
             });
         }
@@ -384,11 +384,11 @@ namespace FanKit.Transformer.TestApp
         public readonly CanvasGradientStop[] LeftGradientStops;
         public readonly CanvasGradientStop[] RightGradientStops;
 
-        public ScrollerColors(byte gray1, byte gray2, byte gray3, byte gray4) : this(
-            Color.FromArgb(gray1, 0, 0, 0),
-            Color.FromArgb(gray2, 0, 0, 0),
-            Color.FromArgb(gray3, 0, 0, 0),
-            Color.FromArgb(gray4, 0, 0, 0))
+        public ScrollerColors(byte alpha1, byte alpha2, byte alpha3, byte alpha4) : this(
+            Color.FromArgb(alpha1, 0, 0, 0),
+            Color.FromArgb(alpha2, 0, 0, 0),
+            Color.FromArgb(alpha3, 0, 0, 0),
+            Color.FromArgb(alpha4, 0, 0, 0))
         {
         }
 

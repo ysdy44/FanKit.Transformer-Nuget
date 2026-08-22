@@ -27,8 +27,8 @@ namespace FanKit.Transformer.UI
                 }
             }
         }
-        public Quadrilateral DockBounds => this.b.Bounds;
-        public Quadrilateral FloatBounds => this.f;
+        public Quadrilateral DockRightTextureOutline => this.b.DockRightTextureOutline;
+        public Quadrilateral FloatTextureOutline => this.f;
 
         public float GetFloatShadowOpacity()
         {
@@ -120,44 +120,44 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public Vector2[] GetLeftTextureOutlines()
+        public Vector2[] GetDockLeftTextureOutlines()
         {
             switch (this.s)
             {
                 case t:
                     return new Vector2[]
                     {
-                        this.b.LeftTop,
+                        this.b.CenterTop,
                         this.f.RightTop,
                         this.f.RightBottom,
 
                         this.b.RightBottom,
 
-                        this.b.LeftBottom,
+                        this.b.CenterBottom,
                     };
                 case m:
                     return new Vector2[]
                     {
-                        this.b.LeftTop,
+                        this.b.CenterTop,
 
                         this.b.RightTop,
 
                         this.f.RightTop,
                         this.f.RightBottom,
-                        this.b.LeftBottom,
+                        this.b.CenterBottom,
                     };
                 default:
                     return new Vector2[]
                     {
-                        this.b.LeftTop,
+                        this.b.CenterTop,
                         this.f.RightTop,
                         this.f.RightBottom,
-                        this.b.LeftBottom,
+                        this.b.CenterBottom,
                     };
             }
         }
 
-        public Vector2[] GetRightTextureOutlines()
+        public Vector2[] GetDockRightTextureOutlines()
         {
             switch (this.s)
             {
