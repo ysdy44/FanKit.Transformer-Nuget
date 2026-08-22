@@ -17,10 +17,21 @@ namespace FanKit.Transformer.UI
         public readonly float WidthHalf;
         public readonly float CenterX;
 
+        internal Vector2 LeftTop => new Vector2(this.Left, this.Top);
         internal Vector2 CenterTop => new Vector2(this.CenterX, this.Top);
         internal Vector2 RightTop => new Vector2(this.Right, this.Top);
+
+        internal Vector2 LeftBottom => new Vector2(this.Left, this.Bottom);
         internal Vector2 CenterBottom => new Vector2(this.CenterX, this.Bottom);
         internal Vector2 RightBottom => new Vector2(this.Right, this.Bottom);
+
+        public Quadrilateral DockLeftTextureOutline => new Quadrilateral
+        {
+            LeftTop = this.CenterTop,
+            RightTop = this.RightTop,
+            LeftBottom = this.CenterBottom,
+            RightBottom = this.RightBottom
+        };
         public Quadrilateral DockRightTextureOutline => new Quadrilateral
         {
             LeftTop = this.CenterTop,

@@ -27,7 +27,6 @@ namespace FanKit.Transformer.UI
                 }
             }
         }
-        public Quadrilateral DockRightTextureOutline => this.b.DockRightTextureOutline;
         public Quadrilateral FloatTextureOutline => this.f;
 
         public float GetFloatShadowOpacity()
