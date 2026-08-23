@@ -43,12 +43,12 @@
                 </Border>
 
                 <Grid Grid.Row="2" Margin="14,0,8,0">
-                    <TextBlock HorizontalAlignment="Left" Text="Skew"/>
-                    <TextBlock x:Name="SkewTextBlock" HorizontalAlignment="Right" FontWeight="Bold">
-                        0%
+                    <TextBlock HorizontalAlignment="Left" Text="Rotation Angle"/>
+                    <TextBlock x:Name="RotationAngleTextBlock" HorizontalAlignment="Right" FontWeight="Bold">
+                        0°
                     </TextBlock>
                 </Grid>
-                <Slider x:Name="SkewSlider" Margin="12,0" Grid.Row="3" IsThumbToolTipEnabled="False"/>
+                <Slider x:Name="RotationAngleSlider" Margin="12,0" Grid.Row="3" IsThumbToolTipEnabled="False"/>
 
                 <Grid Grid.Row="5" Margin="14,0,8,0">
                     <TextBlock HorizontalAlignment="Left" Text="Margin"/>

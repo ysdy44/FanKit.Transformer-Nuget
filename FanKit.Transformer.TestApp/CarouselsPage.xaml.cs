@@ -22,7 +22,7 @@ namespace FanKit.Transformer.TestApp
 
     public sealed partial class CarouselsPage : Page
     {
-        float Skew = 0.5f;
+        float RotationAngle = 45f;
         float ItemMargin = 60f;
         float ItemSpacing = 110f;
         bool ShowGrid;
@@ -36,7 +36,7 @@ namespace FanKit.Transformer.TestApp
 
         Vector2 Center;
 
-        Carousel Carousel = new Carousel(256f, 256f, 0.5f);
+        Carousel Carousel = new Carousel(256f, 256f, 45f);
 
         // Canvas
         readonly CanvasOperator1 CanvasOperator;
@@ -101,17 +101,17 @@ namespace FanKit.Transformer.TestApp
 
             this.CanvasOperator.Wheel_Changed += (x, y, d) => this.Wheel(x, y, d);
 
-            // Skew
-            this.SkewTextBlock.Text = $"{this.Skew * 100f}%";
-            this.SkewSlider.Minimum = 10;
-            this.SkewSlider.Maximum = 90;
-            this.SkewSlider.Value = this.Skew * 100f;
-            this.SkewSlider.ValueChanged += (s, e) =>
+            // Rotation Angle
+            this.RotationAngleTextBlock.Text = $"{this.RotationAngle}°";
+            this.RotationAngleSlider.Minimum = 10;
+            this.RotationAngleSlider.Maximum = 80;
+            this.RotationAngleSlider.Value = this.RotationAngle;
+            this.RotationAngleSlider.ValueChanged += (s, e) =>
             {
-                this.Skew = (float)(e.NewValue / 100);
-                this.SkewTextBlock.Text = $"{this.Skew * 100f}%";
+                this.RotationAngle = (float)e.NewValue;
+                this.RotationAngleTextBlock.Text = $"{this.RotationAngle}°";
 
-                this.Carousel = new Carousel(256f, 256f, this.Skew);
+                this.Carousel = new Carousel(256f, 256f, this.RotationAngle);
 
                 this.Update();
 
@@ -170,7 +170,7 @@ namespace FanKit.Transformer.TestApp
                 {
                     Bitmap = bitmap,
                     SourceNormalize = sourceNormalize,
-                    Carousel = this.Carousel.ToItem(sourceNormalize, i, this.Center.X, this.Center.Y, this.X, this.ItemMargin, this.ItemSpacing),
+                    Carousel = this.Carousel.ToItem(sourceNormalize, this.Center, i, this.X, this.ItemMargin, this.ItemSpacing),
                 });
             }
 
@@ -339,7 +339,7 @@ namespace FanKit.Transformer.TestApp
         {
             for (int i = 0; i < this.Items.Count; i++)
             {
-                this.Items[i].Carousel = this.Carousel.ToItem(this.Items[i].SourceNormalize, i, this.Center.X, this.Center.Y, this.X, this.ItemMargin, this.ItemSpacing);
+                this.Items[i].Carousel = this.Carousel.ToItem(this.Items[i].SourceNormalize, this.Center, i, this.X, this.ItemMargin, this.ItemSpacing);
             }
         }
 

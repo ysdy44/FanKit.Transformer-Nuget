@@ -52,7 +52,7 @@ namespace FanKit.Transformer.TestApp
                 float height = (float)e.NewSize.Height;
 
                 this.Center = new Vector2(width / 2f, height / 2f);
-                this.Item = this.Carousel.ToItem(this.SourceNormalize, this.Center.X, this.Center.Y, 0f);
+                this.Item = this.Carousel.ToItem(this.SourceNormalize, this.Center, 0f);
 
                 this.CanvasControl.Invalidate();
             };
@@ -71,7 +71,7 @@ namespace FanKit.Transformer.TestApp
                         break;
                 }
 
-                this.Item = this.Carousel.ToItem(this.SourceNormalize, this.Center.X, this.Center.Y, (this.Center.X - (float)x) / 256f);
+                this.Item = this.Carousel.ToItem(this.SourceNormalize, this.Center, (this.Center.X - (float)x) / 128f);
 
                 this.CanvasControl.Invalidate();
             };

@@ -6,7 +6,7 @@ namespace FanKit.Transformer.UI
     public readonly struct CarouselItem
     {
         public readonly CarouselState State;
-        public readonly float Amount;
+        public readonly float RotattionXAmount;
 
         public readonly float RawX;
         public readonly float ActualX;
@@ -15,67 +15,67 @@ namespace FanKit.Transformer.UI
 
         public readonly Matrix4x4 TextureTransformMatrix;
 
-        // -0.5 ~ +0.5
-        internal CarouselItem(Carousel carousel, SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
+        // -1 ~ 1
+        internal CarouselItem(Carousel carousel, SizeMatrix sourceNormalize, Vector2 center, float rotattionXAmount)
         {
             RawX = 0f;
             ActualX = 0f;
 
-            if (amount < -0.5f)
+            if (rotattionXAmount <= -1f)
             {
                 State = CarouselState.DockLeft;
-                Amount = -0.5f;
+                RotattionXAmount = -1f;
 
-                TextureOutline = carousel.GetDockLeftTextureOutline(centerX, centerY);
+                TextureOutline = carousel.GetDockLeftTextureOutline(center);
             }
-            else if (amount > 0.5f)
+            else if (rotattionXAmount < 1f)
             {
-                State = CarouselState.DockRight;
-                Amount = 0.5f;
+                State = CarouselState.Float;
+                RotattionXAmount = rotattionXAmount;
 
-                TextureOutline = carousel.GetDockRightTextureOutline(centerX, centerY);
+                TextureOutline = carousel.GetFloatTextureOutline(center, RotattionXAmount);
             }
             else
             {
-                State = CarouselState.Float;
-                Amount = amount;
+                State = CarouselState.DockRight;
+                RotattionXAmount = 1f;
 
-                TextureOutline = carousel.GetFloatTextureOutline(centerX, centerY, this.Amount);
+                TextureOutline = carousel.GetDockRightTextureOutline(center);
             }
 
             TextureTransformMatrix = sourceNormalize.ToPerspMatrix(TextureOutline);
         }
 
-        internal CarouselItem(Carousel carousel, SizeMatrix sourceNormalize, int index, float centerX, float centerY, float offsetX, float itemMargin, float itemSpacing)
+        internal CarouselItem(Carousel carousel, SizeMatrix sourceNormalize, Vector2 center, int index, float offsetX, float itemMargin, float itemSpacing)
         {
             RawX = offsetX + index * itemSpacing;
 
             if (RawX <= -itemMargin)
             {
                 State = CarouselState.DockLeft;
-                Amount = 0.5f;
+                RotattionXAmount = -1f;
 
-                ActualX = centerX + RawX - itemMargin;
+                ActualX = center.X + RawX - itemMargin;
 
-                TextureOutline = carousel.GetDockLeftTextureOutline(ActualX, centerY);
+                TextureOutline = carousel.GetDockLeftTextureOutline(ActualX, center.Y);
             }
             else if (RawX < itemMargin)
             {
                 State = CarouselState.Float;
-                Amount = RawX / itemMargin / 2f;
+                RotattionXAmount = RawX / itemMargin;
 
-                ActualX = centerX + RawX + RawX;
+                ActualX = center.X + RawX + RawX;
 
-                TextureOutline = carousel.GetFloatTextureOutline(ActualX, centerY, Amount);
+                TextureOutline = carousel.GetFloatTextureOutline(ActualX, center.Y, RotattionXAmount);
             }
             else
             {
                 State = CarouselState.DockRight;
-                Amount = -0.5f;
+                RotattionXAmount = 1f;
 
-                ActualX = centerX + RawX + itemMargin;
+                ActualX = center.X + RawX + itemMargin;
 
-                TextureOutline = carousel.GetDockRightTextureOutline(ActualX, centerY);
+                TextureOutline = carousel.GetDockRightTextureOutline(ActualX, center.Y);
             }
 
             TextureTransformMatrix = sourceNormalize.ToPerspMatrix(TextureOutline);

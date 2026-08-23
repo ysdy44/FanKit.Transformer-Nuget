@@ -17,23 +17,40 @@ namespace FanKit.Transformer.UI
         readonly float w2;
         readonly float h2;
         readonly float h4;
+        readonly float h8;
 
         readonly Vector2 x0;
         readonly Vector4 yl;
         readonly Vector4 yr;
 
-        readonly Quadrilateral ql;
+         readonly Quadrilateral ql;
         readonly Quadrilateral qr;
 
         // 0.0 ~ 1.0
         //
         // 0.0: Rectangle
         // 1.0: Quadrilateral
-        public Carousel(float destinationWidth, float destinationHeight, float skew = 0.5f)
+        public Carousel(float itemWidth, float itemHeight, float rotationXAngleInDegrees = 45f)
         {
-            w2 = destinationWidth / 2;
-            h2 = destinationHeight / 2;
-            h4 = destinationHeight / 4;
+            float skew;
+
+            if (rotationXAngleInDegrees <= 0f)
+            {
+                skew = 0f;
+            }
+            else if (rotationXAngleInDegrees >= 90f)
+            {
+                skew = 1f;
+            }
+            else
+            {
+                skew = rotationXAngleInDegrees / 90f;
+            }
+
+            w2 = itemWidth / 2f;
+            h2 = itemHeight / 2f;
+            h4 = itemHeight / 4f;
+            h8 = itemHeight / 8f;
 
             x0 = new Vector2
             {
@@ -71,14 +88,14 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public CarouselItem ToItem(SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
+        public CarouselItem ToItem(SizeMatrix sourceNormalize, Vector2 center, float rotattionXAmount)
         {
-            return new CarouselItem(this, sourceNormalize, centerX, centerY, amount);
+            return new CarouselItem(this, sourceNormalize, center, rotattionXAmount);
         }
 
-        public CarouselItem ToItem(SizeMatrix sourceNormalize, int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
+        public CarouselItem ToItem(SizeMatrix sourceNormalize, Vector2 center, int index, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
         {
-            return new CarouselItem(this, sourceNormalize, index, centerX, centerY, offsetX, itemMargin, itemSpacing);
+            return new CarouselItem(this, sourceNormalize, center, index, offsetX, itemMargin, itemSpacing);
         }
 
         public Quadrilateral GetDockLeftTextureOutline(Vector2 center) => Quadrilateral.Translate(ql, center);
@@ -94,12 +111,12 @@ namespace FanKit.Transformer.UI
         // +0.0: Center
         // +0.5: Right
         // +1.0: Max
-        public Quadrilateral GetFloatTextureOutline(Vector2 center, float amount) => this.Lerp(center.X, center.Y, amount);
-        internal Quadrilateral GetFloatTextureOutline(float centerX, float centerY, float amount) => this.Lerp(centerX, centerY, amount);
+        public Quadrilateral GetFloatTextureOutline(Vector2 center, float rotattionXAmount) => this.Lerp(center.X, center.Y, rotattionXAmount);
+        internal Quadrilateral GetFloatTextureOutline(float centerX, float centerY, float rotattionXAmount) => this.Lerp(centerX, centerY, rotattionXAmount);
 
         private Quadrilateral Lerp(float centerX, float centerY, float amount)
         {
-            float r = amount * Constants.PI;
+            float r = amount * Constants.PIOver2;
             float c = (float)System.Math.Cos(r);
 
             float v = 1f - c;
@@ -108,20 +125,14 @@ namespace FanKit.Transformer.UI
             float x1 = v * x0.X - n + centerX;
             float x2 = v * x0.Y + n + centerX;
 
-            Vector4 y = new Vector4
-            {
-                X = -h2 + h4 * amount,
-                Y = -h2 - h4 * amount,
-                Z = h2 + h4 * amount,
-                W = h2 - h4 * amount,
-            };
+            float y = h8 * amount;
 
             return new Quadrilateral
             {
-                LeftTop = new Vector2(x1, y.X + centerY),
-                RightTop = new Vector2(x2, y.Y + centerY),
-                RightBottom = new Vector2(x2, y.Z + centerY),
-                LeftBottom = new Vector2(x1, y.W + centerY),
+                LeftTop = new Vector2(x1, -h2 + y + centerY),
+                RightTop = new Vector2(x2, -h2 - y + centerY),
+                RightBottom = new Vector2(x2, h2 + y + centerY),
+                LeftBottom = new Vector2(x1, h2 - y + centerY),
             };
         }
     }
