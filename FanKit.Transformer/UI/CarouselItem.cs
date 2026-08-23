@@ -3,17 +3,7 @@ using System.Numerics;
 
 namespace FanKit.Transformer.UI
 {
-    public readonly partial struct CarouselItem1
-    {
-        public readonly CarouselState State;
-        public readonly float Amount;
-
-        public readonly Quadrilateral TextureOutline;
-
-        public readonly Matrix4x4 TextureTransformMatrix;
-    }
-
-    public readonly partial struct CarouselItem2
+    public readonly struct CarouselItem
     {
         public readonly CarouselState State;
         public readonly float Amount;
@@ -24,13 +14,13 @@ namespace FanKit.Transformer.UI
         public readonly Quadrilateral TextureOutline;
 
         public readonly Matrix4x4 TextureTransformMatrix;
-    }
 
-    partial struct CarouselItem1
-    {
         // -0.5 ~ +0.5
-        internal CarouselItem1(Carousel carousel, SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
+        internal CarouselItem(Carousel carousel, SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
         {
+            RawX = 0f;
+            ActualX = 0f;
+
             if (amount < -0.5f)
             {
                 State = CarouselState.DockLeft;
@@ -55,11 +45,8 @@ namespace FanKit.Transformer.UI
 
             TextureTransformMatrix = sourceNormalize.ToPerspMatrix(TextureOutline);
         }
-    }
 
-    partial struct CarouselItem2
-    {
-        internal CarouselItem2(Carousel carousel, SizeMatrix sourceNormalize, int index, float centerX, float centerY, float offsetX, float itemMargin, float itemSpacing)
+        internal CarouselItem(Carousel carousel, SizeMatrix sourceNormalize, int index, float centerX, float centerY, float offsetX, float itemMargin, float itemSpacing)
         {
             RawX = offsetX + index * itemSpacing;
 

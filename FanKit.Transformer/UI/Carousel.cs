@@ -71,21 +71,21 @@ namespace FanKit.Transformer.UI
             };
         }
 
-        public CarouselItem1 ToItem1(SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
+        public CarouselItem ToItem(SizeMatrix sourceNormalize, float centerX, float centerY, float amount)
         {
-            return new CarouselItem1(this, sourceNormalize, centerX, centerY, amount);
+            return new CarouselItem(this, sourceNormalize, centerX, centerY, amount);
         }
 
-        public CarouselItem2 ToItem2(SizeMatrix sourceNormalize, int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
+        public CarouselItem ToItem(SizeMatrix sourceNormalize, int index, float centerX, float centerY, float offsetX, float itemMargin = 60f, float itemSpacing = 110f)
         {
-            return new CarouselItem2(this, sourceNormalize, index, centerX, centerY, offsetX, itemMargin, itemSpacing);
+            return new CarouselItem(this, sourceNormalize, index, centerX, centerY, offsetX, itemMargin, itemSpacing);
         }
 
         public Quadrilateral GetDockLeftTextureOutline(Vector2 center) => Quadrilateral.Translate(ql, center);
-        public Quadrilateral GetDockLeftTextureOutline(float centerX, float centerY) => Quadrilateral.Translate(ql, centerX, centerY);
+        internal Quadrilateral GetDockLeftTextureOutline(float centerX, float centerY) => Quadrilateral.Translate(ql, centerX, centerY);
 
         public Quadrilateral GetDockRightTextureOutline(Vector2 center) => Quadrilateral.Translate(qr, center);
-        public Quadrilateral GetDockRightTextureOutline(float centerX, float centerY) => Quadrilateral.Translate(qr, centerX, centerY);
+        internal Quadrilateral GetDockRightTextureOutline(float centerX, float centerY) => Quadrilateral.Translate(qr, centerX, centerY);
 
         // -1.0 ~ +1.0
         //
@@ -95,7 +95,7 @@ namespace FanKit.Transformer.UI
         // +0.5: Right
         // +1.0: Max
         public Quadrilateral GetFloatTextureOutline(Vector2 center, float amount) => this.Lerp(center.X, center.Y, amount);
-        public Quadrilateral GetFloatTextureOutline(float centerX, float centerY, float amount) => this.Lerp(centerX, centerY, amount);
+        internal Quadrilateral GetFloatTextureOutline(float centerX, float centerY, float amount) => this.Lerp(centerX, centerY, amount);
 
         private Quadrilateral Lerp(float centerX, float centerY, float amount)
         {
@@ -104,6 +104,9 @@ namespace FanKit.Transformer.UI
 
             float v = 1f - c;
             float n = c * this.h2;
+
+            float x1 = v * x0.X - n + centerX;
+            float x2 = v * x0.Y + n + centerX;
 
             Vector4 y = new Vector4
             {
@@ -115,10 +118,10 @@ namespace FanKit.Transformer.UI
 
             return new Quadrilateral
             {
-                LeftTop = new Vector2(v * x0.X - n + centerX, y.X + centerY),
-                RightTop = new Vector2(v * x0.Y + n + centerX, y.Y + centerY),
-                RightBottom = new Vector2(v * x0.Y + n + centerX, y.Z + centerY),
-                LeftBottom = new Vector2(v * x0.X - n + centerX, y.W + centerY),
+                LeftTop = new Vector2(x1, y.X + centerY),
+                RightTop = new Vector2(x2, y.Y + centerY),
+                RightBottom = new Vector2(x2, y.Z + centerY),
+                LeftBottom = new Vector2(x1, y.W + centerY),
             };
         }
     }

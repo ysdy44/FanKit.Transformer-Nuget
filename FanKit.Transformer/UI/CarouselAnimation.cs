@@ -19,7 +19,7 @@ namespace FanKit.Transformer.UI
         public float To { get; private set; }
         public float Value { get; private set; }
 
-        public void Reset(float offset, CarouselItem2 item)
+        public void Reset(float offset, CarouselItem item)
         {
             Time = 0;
 
