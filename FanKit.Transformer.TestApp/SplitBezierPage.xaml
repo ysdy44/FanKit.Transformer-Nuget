@@ -20,11 +20,6 @@
         </ToggleSwitch>
 
         <Button x:Name="Button" Canvas.Left="14" Canvas.Top="368" Width="50" Height="32"/>
-        <ComboBox x:Name="ComboBox" Canvas.Left="70" Canvas.Top="368" SelectedIndex="0">
-            <ComboBoxItem>Cubic Bezier</ComboBoxItem>
-            <ComboBoxItem>Quadratic Bezier</ComboBoxItem>
-            <ComboBoxItem>Linear Bezier</ComboBoxItem>
-        </ComboBox>
 
         <Slider x:Name="Slider" Canvas.Left="8" Canvas.Top="416" Width="400" />
     </Canvas>

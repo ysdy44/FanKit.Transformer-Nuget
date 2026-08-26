@@ -110,6 +110,7 @@
 
         <Grid x:Name="Overlay" Grid.Row="1" Visibility="Collapsed" Background="#44000000">
 
+            <!--Map-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Map
@@ -297,6 +298,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Affine-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Affine
@@ -562,6 +564,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Perspective-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Perspective
@@ -819,6 +822,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Lines-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Lines
@@ -828,7 +832,7 @@
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         General
                     </TextBlock>
-
+                    
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
 
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
@@ -948,6 +952,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Polylines-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Polylines
@@ -957,7 +962,7 @@
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         General
                     </TextBlock>
-
+                    
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
 
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
@@ -1192,11 +1197,11 @@
                                 Polylines1
                             </ButtonBase.CommandParameter>
                             <StackPanel>
-                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
-                                    <Rectangle Canvas.Left="27" Canvas.Top="19" Width="72" Height="44" Fill="White"/>
-                                    <local:HandlesIcon1/>
+                            <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                <Rectangle Canvas.Left="27" Canvas.Top="19" Width="72" Height="44" Fill="White"/>
+                                <local:HandlesIcon1/>
 
-                                    <Polyline StrokeThickness="2" Stroke="DeepSkyBlue" StrokeDashArray="5 1">
+                                <Polyline StrokeThickness="2" Stroke="DeepSkyBlue" StrokeDashArray="5 1">
                                         <Polyline.Points>
                                             27, 19
                                             50, 30
@@ -1227,7 +1232,7 @@
                                     <Rectangle Canvas.Left="27" Canvas.Top="19" Width="72" Height="44" Fill="White"/>
                                     <local:HandlesIcon2/>
 
-                                    <Polyline StrokeThickness="2" Stroke="DeepSkyBlue" StrokeDashArray="5 1">
+                                <Polyline StrokeThickness="2" Stroke="DeepSkyBlue" StrokeDashArray="5 1">
                                         <Polyline.Points>
                                             27, 19
                                             50, 30
@@ -1282,11 +1287,10 @@
 
                     </VariableSizedWrapGrid>
 
-
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         Canvas
                     </TextBlock>
-
+                    
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
 
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
@@ -1418,6 +1422,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Curves-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Curves
@@ -1425,7 +1430,7 @@
                 <StackPanel Margin="8">
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
-                     General
+                        General
                     </TextBlock>
 
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
@@ -1518,7 +1523,7 @@
                             <StackPanel>
                                 <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
                                     <Rectangle Canvas.Left="41" Canvas.Top="19" Width="44" Height="44" Fill="White"/>
-
+                          
                                     <Path StrokeThickness="2" Stroke="DeepSkyBlue" StrokeDashArray="6 1">
                                         <Path.Data>
                                             <PathGeometry>
@@ -1541,7 +1546,7 @@
                     </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
-                     Canvas
+                        Canvas
                     </TextBlock>
 
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
@@ -1661,7 +1666,7 @@
                     </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
-                     General
+                        General
                     </TextBlock>
 
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
@@ -1799,7 +1804,7 @@
                             <StackPanel>
                                 <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
                                     <Rectangle Canvas.Left="27" Canvas.Top="19" Width="72" Height="44" Fill="White"/>
-
+                              
                                     <Path StrokeThickness="2" Stroke="DeepSkyBlue" StrokeDashArray="6 1">
                                         <Path.Data>
                                             <PathGeometry>
@@ -1837,7 +1842,7 @@
                     </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
-                     Canvas
+                        Canvas
                     </TextBlock>
 
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
@@ -2015,6 +2020,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Canvas-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Canvas
@@ -2080,7 +2086,7 @@
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         Double
                     </TextBlock>
-
+                    
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
 
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
@@ -2140,6 +2146,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Homography-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Homography
@@ -2343,6 +2350,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Shapes-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Shapes
@@ -2583,6 +2591,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Cache-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Cache
@@ -2610,7 +2619,7 @@
                                 <TextBlock Text="Box" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        
+
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
                             <ButtonBase.CommandParameter>
                                 BoundsBox0
@@ -2861,6 +2870,7 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Controls-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Controls
@@ -2940,7 +2950,7 @@
                                 <TextBlock Text="Scroller" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        
+
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
                             <ButtonBase.CommandParameter>
                                 Earth
@@ -3027,11 +3037,101 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Paths-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Paths
                 </FrameworkElement.Tag>
                 <StackPanel Margin="8">
+
+                    <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
+                        Drawing
+                    </TextBlock>
+
+                    <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                Geometry
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#424242">
+                                    <Line X1="32" Y1="0" X2="32" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="64" Y1="0" X2="64" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="96" Y1="0" X2="96" Y2="82" StrokeThickness="4" Stroke="Black"/>
+
+                                    <Polygon Canvas.Left="40" Canvas.Top="15" StrokeThickness="2" Stroke="DeepSkyBlue" StrokeLineJoin="Round">
+                                        <Polygon.Points>
+                                            24,0 30,18 48,18 33.2,29.6 39.1,48 24,36.4 9.4,48 14.8,29.4 0,18 18,18
+                                        </Polygon.Points>
+                                    </Polygon>
+
+                                    <Ellipse Canvas.Left="60" Canvas.Top="11" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="83" Canvas.Top="29" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="75.1" Canvas.Top="59" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="45.4" Canvas.Top="59" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="36" Canvas.Top="29" Width="8" Height="8" Fill="DeepSkyBlue"/>
+
+                                    <Ellipse Canvas.Left="62" Canvas.Top="13" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="85" Canvas.Top="31" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="77.1" Canvas.Top="61" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="47.4" Canvas.Top="61" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="38" Canvas.Top="31" Width="4" Height="4" Fill="White"/>
+                                </Canvas>
+                                <TextBlock Text="Geometry" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                CombinePath
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#424242">
+                                    <Line X1="32" Y1="0" X2="32" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="64" Y1="0" X2="64" Y2="82" StrokeThickness="4" Stroke="Black"/>
+                                    <Line X1="96" Y1="0" X2="96" Y2="82" StrokeThickness="4" Stroke="Black"/>
+
+                                    <Ellipse IsHitTestVisible="False" Canvas.Left="22" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="DeepSkyBlue"/>
+                                    <Ellipse IsHitTestVisible="False" Canvas.Left="52" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="DeepSkyBlue"/>
+
+                                    <Ellipse Canvas.Left="18" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="45" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="72" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="45" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="48" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="75" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="102" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="75" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
+
+                                    <Ellipse Canvas.Left="20" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="47" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="74" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="47" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="50" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="77" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="104" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
+                                    <Ellipse Canvas.Left="77" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
+                                </Canvas>
+                                <TextBlock Text="Combine Path" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                SvgPath
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Border IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <TextBlock FontSize="32" Foreground="DeepSkyBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        &lt;SVG&gt;
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock Text="Svg Path" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                    </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         Move
@@ -3223,98 +3323,10 @@
 
                     </VariableSizedWrapGrid>
 
-                    <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
-                        Drawing
-                    </TextBlock>
-
-                    <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
-
-                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
-                            <ButtonBase.CommandParameter>
-                                Geometry
-                            </ButtonBase.CommandParameter>
-                            <StackPanel>
-                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#424242">
-                                    <Line X1="32" Y1="0" X2="32" Y2="82" StrokeThickness="4" Stroke="Black"/>
-                                    <Line X1="64" Y1="0" X2="64" Y2="82" StrokeThickness="4" Stroke="Black"/>
-                                    <Line X1="96" Y1="0" X2="96" Y2="82" StrokeThickness="4" Stroke="Black"/>
-
-                                    <Polygon Canvas.Left="40" Canvas.Top="15" StrokeThickness="2" Stroke="DeepSkyBlue" StrokeLineJoin="Round">
-                                        <Polygon.Points>
-                                            24,0 30,18 48,18 33.2,29.6 39.1,48 24,36.4 9.4,48 14.8,29.4 0,18 18,18
-                                        </Polygon.Points>
-                                    </Polygon>
-
-                                    <Ellipse Canvas.Left="60" Canvas.Top="11" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="83" Canvas.Top="29" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="75.1" Canvas.Top="59" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="45.4" Canvas.Top="59" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="36" Canvas.Top="29" Width="8" Height="8" Fill="DeepSkyBlue"/>
-
-                                    <Ellipse Canvas.Left="62" Canvas.Top="13" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="85" Canvas.Top="31" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="77.1" Canvas.Top="61" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="47.4" Canvas.Top="61" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="38" Canvas.Top="31" Width="4" Height="4" Fill="White"/>
-                                </Canvas>
-                                <TextBlock Text="Geometry" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
-                            <ButtonBase.CommandParameter>
-                                CombinePath
-                            </ButtonBase.CommandParameter>
-                            <StackPanel>
-                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#424242">
-                                    <Line X1="32" Y1="0" X2="32" Y2="82" StrokeThickness="4" Stroke="Black"/>
-                                    <Line X1="64" Y1="0" X2="64" Y2="82" StrokeThickness="4" Stroke="Black"/>
-                                    <Line X1="96" Y1="0" X2="96" Y2="82" StrokeThickness="4" Stroke="Black"/>
-
-                                    <Ellipse IsHitTestVisible="False" Canvas.Left="22" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="DeepSkyBlue"/>
-                                    <Ellipse IsHitTestVisible="False" Canvas.Left="52" Canvas.Top="14" Width="54" Height="54" StrokeThickness="2" Stroke="DeepSkyBlue"/>
-
-                                    <Ellipse Canvas.Left="18" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="45" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="72" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="45" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="48" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="75" Canvas.Top="10" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="102" Canvas.Top="37" Width="8" Height="8" Fill="DeepSkyBlue"/>
-                                    <Ellipse Canvas.Left="75" Canvas.Top="64" Width="8" Height="8" Fill="DeepSkyBlue"/>
-
-                                    <Ellipse Canvas.Left="20" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="47" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="74" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="47" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="50" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="77" Canvas.Top="12" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="104" Canvas.Top="39" Width="4" Height="4" Fill="White"/>
-                                    <Ellipse Canvas.Left="77" Canvas.Top="66" Width="4" Height="4" Fill="White"/>
-                                </Canvas>
-                                <TextBlock Text="Combine Path" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
-                            <ButtonBase.CommandParameter>
-                                SvgPath
-                            </ButtonBase.CommandParameter>
-                            <StackPanel>
-                                <Border IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
-                                    <TextBlock FontSize="32" Foreground="DeepSkyBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        &lt;SVG&gt;
-                                    </TextBlock>
-                                </Border>
-                                <TextBlock Text="Svg Path" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                    </VariableSizedWrapGrid>
-
                 </StackPanel>
             </ScrollViewer>
 
+            <!--Beziers-->
             <ScrollViewer Visibility="Collapsed" MinHeight="178" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                 <FrameworkElement.Tag>
                     Beziers
@@ -3392,36 +3404,6 @@
                                     <Ellipse Canvas.Left="58" Canvas.Top="35" Width="12" Height="12" StrokeThickness="2" Stroke="Fuchsia" Fill="White"/>
                                 </Canvas>
                                 <TextBlock Text="Closest Linear Bezier" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
-                            <ButtonBase.CommandParameter>
-                                ClosestAllBezier
-                            </ButtonBase.CommandParameter>
-                            <StackPanel>
-                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
-                                    <Rectangle Canvas.Left="23" Canvas.Top="1" Width="80" Height="80" StrokeThickness="2" Stroke="DeepSkyBlue" Fill="White"/>
-                                    <Line X1="75" Y1="1" X2="103" Y2="29" StrokeThickness="2" Stroke="DeepSkyBlue"/>
-                                    <Line X1="63" Y1="41" X2="89" Y2="15" StrokeThickness="2" Stroke="Fuchsia"/>
-
-                                    <Line X1="23" Y1="1" X2="103" Y2="81" StrokeThickness="2" Stroke="Fuchsia"/>
-                                    <Path StrokeThickness="2" Stroke="Fuchsia">
-                                        <Path.Data>
-                                            <PathGeometry>
-                                                <PathFigure StartPoint="23,1">
-                                                    <BezierSegment Point1="45.09, 1" Point2="65.09, 9.9525" Point3="79.5675, 24.42875"/>
-                                                    <BezierSegment Point1="94.045, 38.905" Point2="103, 58.905" Point3="103, 81"/>
-                                                </PathFigure>
-                                            </PathGeometry>
-                                        </Path.Data>
-                                    </Path>
-
-                                    <Ellipse Canvas.Left="58" Canvas.Top="35" Width="12" Height="12" StrokeThickness="2" Stroke="Fuchsia" Fill="White"/>
-                                    <Ellipse Canvas.Left="73" Canvas.Top="19" Width="12" Height="12" StrokeThickness="2" Stroke="Fuchsia" Fill="White"/>
-                                    <Ellipse Canvas.Left="83" Canvas.Top="9" Width="12" Height="12" StrokeThickness="2" Stroke="DeepSkyBlue" Fill="White"/>
-                                </Canvas>
-                                <TextBlock Text="Closest All Bezier" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
@@ -3515,45 +3497,6 @@
                                     <Ellipse Canvas.Left="58" Canvas.Top="35" Width="12" Height="12" StrokeThickness="2" Stroke="DeepSkyBlue" Fill="White"/>
                                 </Canvas>
                                 <TextBlock Text="Split Linear Bezier" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
-                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
-                            <ButtonBase.CommandParameter>
-                                SplitAllBezier
-                            </ButtonBase.CommandParameter>
-                            <StackPanel>
-                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
-                                    <Rectangle Canvas.Left="23" Canvas.Top="1" Width="80" Height="80" StrokeThickness="2" Stroke="DeepSkyBlue" Fill="White"/>
-                                    <Line X1="75" Y1="1" X2="103" Y2="29" StrokeThickness="2" Stroke="DeepSkyBlue"/>
-                                    <Line X1="63" Y1="41" X2="89" Y2="15" StrokeThickness="2" Stroke="DeepSkyBlue"/>
-
-                                    <Line X1="23" Y1="1" X2="64" Y2="41" StrokeThickness="2" Stroke="LawnGreen"/>
-                                    <Line X1="64" Y1="41" X2="103" Y2="81" StrokeThickness="2" Stroke="OrangeRed"/>
-                                    <Path StrokeThickness="2" Stroke="LawnGreen">
-                                        <Path.Data>
-                                            <PathGeometry>
-                                                <PathFigure StartPoint="23,1">
-                                                    <BezierSegment Point1="45.09, 1" Point2="65.09, 9.9525" Point3="79.5675, 24.42875"/>
-                                                </PathFigure>
-                                            </PathGeometry>
-                                        </Path.Data>
-                                    </Path>
-                                    <Path StrokeThickness="2" Stroke="OrangeRed">
-                                        <Path.Data>
-                                            <PathGeometry>
-                                                <PathFigure StartPoint="79.5675, 24.42875">
-                                                    <BezierSegment Point1="94.045, 38.905" Point2="103, 58.905" Point3="103, 81"/>
-                                                </PathFigure>
-                                            </PathGeometry>
-                                        </Path.Data>
-                                    </Path>
-
-                                    <Ellipse Canvas.Left="58" Canvas.Top="35" Width="12" Height="12" StrokeThickness="2" Stroke="DeepSkyBlue" Fill="White"/>
-                                    <Ellipse Canvas.Left="73" Canvas.Top="19" Width="12" Height="12" StrokeThickness="2" Stroke="DeepSkyBlue" Fill="White"/>
-                                    <Ellipse Canvas.Left="83" Canvas.Top="9" Width="12" Height="12" StrokeThickness="2" Stroke="DeepSkyBlue" Fill="White"/>
-                                </Canvas>
-                                <TextBlock Text="Split All Bezier" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 

@@ -12,12 +12,6 @@
     <Canvas Margin="6" Width="412" Height="412" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
         <Rectangle Canvas.Left="6" Canvas.Top="6" Width="400" Height="400" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <xaml:CanvasControl x:Name="CanvasControl" Width="424" Height="424"/>
-
-        <ComboBox x:Name="ComboBox" Canvas.Left="12" Canvas.Top="368" SelectedIndex="0">
-            <ComboBoxItem>Cubic Bezier</ComboBoxItem>
-            <ComboBoxItem>Quadratic Bezier</ComboBoxItem>
-            <ComboBoxItem>Linear Bezier</ComboBoxItem>
-        </ComboBox>
     </Canvas>
 
 </Page>

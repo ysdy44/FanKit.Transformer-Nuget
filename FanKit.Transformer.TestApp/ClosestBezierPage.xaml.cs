@@ -31,19 +31,6 @@ namespace FanKit.Transformer.TestApp
         public ClosestBezierPage()
         {
             this.InitializeComponent();
-            if (this.IsAllVisible)
-                this.ComboBox.Visibility = Visibility.Visible;
-            else
-                this.ComboBox.Visibility = Visibility.Collapsed;
-
-            this.ComboBox.SelectionChanged += delegate
-            {
-                float time = this.Value;
-
-                this.Extend(time, 1f - time);
-                this.CanvasControl.Invalidate();
-            };
-
             this.CanvasControl.PointerMoved += (s, e) =>
             {
                 PointerPoint pp = e.GetCurrentPoint(this.CanvasControl);
@@ -77,9 +64,6 @@ namespace FanKit.Transformer.TestApp
                 this.Draw(s, e.DrawingSession);
             };
         }
-
-        public BezierType Type => (BezierType)this.ComboBox.SelectedIndex;
-        public abstract bool IsAllVisible { get; }
 
         public abstract void Extend(float t, float i);
         public abstract float FindClosest();
@@ -187,7 +171,6 @@ namespace FanKit.Transformer.TestApp
         Linear L = LS;
         Vector2 P = LS.Lerp(0.5f, 0.5f);
 
-        public override bool IsAllVisible => false;
         public override void Extend(float t, float i)
         {
             this.L = new Linear
@@ -229,7 +212,6 @@ namespace FanKit.Transformer.TestApp
         Quadratic Q = QS;
         Vector2 P = LS.Lerp(0.5f, 0.5f);
 
-        public override bool IsAllVisible => false;
         public override void Extend(float t, float i)
         {
             this.Q = new Quadratic
@@ -276,7 +258,6 @@ namespace FanKit.Transformer.TestApp
         Linear L = LS;
         Vector2 P = LS.Lerp(0.5f, 0.5f);
 
-        public override bool IsAllVisible => false;
         public override void Extend(float t, float i)
         {
             this.C = new Cubic
@@ -299,102 +280,6 @@ namespace FanKit.Transformer.TestApp
         {
             drawingSession.DrawLine(this.Position, this.P, Colors.DodgerBlue, 2f);
             DrawCubic(resourceCreator, drawingSession, this.C, this.Q, this.L, this.P);
-
-            drawingSession.FillCircle(this.Position, 7f, Colors.White);
-            drawingSession.FillCircle(this.Position, 5f, Colors.LightSeaGreen);
-            drawingSession.FillCircle(this.P, 7f, Colors.White);
-            drawingSession.FillCircle(this.P, 5f, Colors.LightSeaGreen);
-        }
-    }
-
-    public sealed class ClosestAllBezierPage : ClosestBezierPage
-    {
-        private static readonly Cubic CS = new Cubic
-        {
-            C0 = P0,
-            C1 = P1,
-            C2 = P2,
-            C3 = P3,
-        };
-        private static readonly Quadratic QS = CS.Quadratic(0.5f, 0.5f);
-        private static readonly Linear LS = QS.Linear(0.5f, 0.5f);
-
-        // Cubic Bezier
-        Cubic C = CS;
-        Quadratic Q = QS;
-        Linear L = LS;
-        Vector2 P = LS.Lerp(0.5f, 0.5f);
-
-        public override bool IsAllVisible => true;
-        public override void Extend(float t, float i)
-        {
-            switch (this.Type)
-            {
-                case BezierType.Cubic:
-                    this.C = new Cubic
-                    {
-                        C0 = P0,
-                        C1 = P1,
-                        C2 = P2,
-                        C3 = P3,
-                    };
-
-                    this.Q = this.C.Quadratic(t, i);
-                    this.L = this.Q.Linear(t, i);
-                    this.P = this.L.Lerp(t, i);
-                    break;
-                case BezierType.Quadratic:
-                    this.Q = new Quadratic
-                    {
-                        Q0 = P0,
-                        Q1 = P12,
-                        Q2 = P3,
-                    };
-                    this.L = this.Q.Linear(t, i);
-
-                    this.C = this.Q.Cubic();
-                    this.P = this.L.Lerp(t, i);
-                    break;
-                case BezierType.Linear:
-                    this.L = new Linear
-                    {
-                        L0 = P0,
-                        L1 = P3,
-                    };
-                    this.Q = this.L.Quadratic();
-
-                    this.C = this.Q.Cubic();
-                    this.P = this.L.Lerp(t, i);
-                    break;
-                default:
-                    break;
-            }
-        }
-        public override float FindClosest()
-        {
-            switch (this.Type)
-            {
-                case BezierType.Cubic:
-                    return this.C.FindClosest(this.Position);
-                case BezierType.Quadratic:
-                    return this.Q.FindClosest(this.Position);
-                case BezierType.Linear:
-                    return this.L.Foot(this.Position);
-                default:
-                    return 0.5f;
-            }
-        }
-        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
-        {
-            drawingSession.DrawLine(this.Position, this.P, Colors.DodgerBlue, 2f);
-
-            switch (this.Type)
-            {
-                case BezierType.Cubic: DrawCubic(resourceCreator, drawingSession, this.C, this.Q, this.L, this.P); break;
-                case BezierType.Quadratic: DrawQuadratic(resourceCreator, drawingSession, this.Q, this.L, this.P); break;
-                case BezierType.Linear: DrawLine(drawingSession, this.L, this.P); break;
-                default: break;
-            }
 
             drawingSession.FillCircle(this.Position, 7f, Colors.White);
             drawingSession.FillCircle(this.Position, 5f, Colors.LightSeaGreen);

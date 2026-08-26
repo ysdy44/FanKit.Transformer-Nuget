@@ -390,12 +390,10 @@ namespace FanKit.Transformer.TestApp
                 new Kvp("ClosestCubicBezier", "Closest Cubic Bezier", typeof(ClosestCubicBezierPage)),
                 new Kvp("ClosestQuadraticBezier", "Closest Quadratic Bezier", typeof(ClosestQuadraticBezierPage)),
                 new Kvp("ClosestLinearBezier", "Closest Linear Bezier", typeof(ClosestLinearBezierPage)),
-                new Kvp("ClosestAllBezier", "Closest All Bezier", typeof(ClosestAllBezierPage)),
                 default,
                 new Kvp("SplitCubicBezier", "Split Cubic Bezier", typeof(SplitCubicBezierPage)),
                 new Kvp("SplitQuadraticBezier", "Split Quadratic Bezier", typeof(SplitQuadraticBezierPage)),
                 new Kvp("SplitLinearBezier", "Split Linear Bezier", typeof(SplitLinearBezierPage)),
-                new Kvp("SplitAllBezier", "Split All Bezier", typeof(SplitAllBezierPage)),
             },
         };
     }
