@@ -253,7 +253,27 @@ namespace FanKit.Transformer.TestApp
                 this.ZTextBlock.Text = $"{(int)(180f * this.Radians.Z / Mathematics.Math.PI)}°";
                 this.YTextBlock.Text = $"{(int)(180f * this.Radians.Y / Mathematics.Math.PI)}°";
             };
-            this.CanvasOperator.Single_Complete += (x, y, p) => { };
+            this.CanvasOperator.Single_Complete += (x, y, p) =>
+            {
+                this.Point = new Vector2((float)x, (float)y);
+
+                if (System.Math.Abs(this.StartingPoint.X - this.Point.X) < 4d)
+                {
+                    if (System.Math.Abs(this.StartingPoint.Y - this.Point.Y) < 4d)
+                    {
+                        Vector2? amount = this.Earth.GetAmount(UV, this.EarthTextureSize, this.EarthLayout, this.Point, EarthTextureSize.DemoBitmapWidth, EarthTextureSize.DemoBitmapHeight);
+                        if (amount.HasValue)
+                        {
+                            var uAmount = amount.Value.X;
+                            var vAmount = amount.Value.Y;
+
+                            //this.Mouse = this.GetStellite(uAmount, vAmount);
+                            this.Stellites.Add(this.GetStellite(uAmount, vAmount));
+                            this.CanvasControl.Invalidate();
+                        }
+                    }
+                }
+            };
 
             this.CanvasOperator.Wheel_Changed += (x, y, d) =>
             {

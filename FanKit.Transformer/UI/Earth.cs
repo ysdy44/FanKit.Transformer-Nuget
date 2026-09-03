@@ -9,9 +9,9 @@ namespace FanKit.Transformer.UI
         const float PolarEpsilonRadians = Mathematics.Math.PITwice * PolarEpsilon;
 
         // Textures
-        readonly EarthTextureIsFarSide[,] QuadIsFarSides;
-        readonly Quadrilateral[,] Quads;
-        readonly Matrix4x4[,] TransformMatrixes;
+        internal readonly EarthTextureIsFarSide[,] QuadIsFarSides;
+        internal readonly Quadrilateral[,] Quads;
+        internal readonly Matrix4x4[,] TransformMatrixes;
 
         // Vectors
         readonly Vector3 NorthVector = new Vector3(0f, -1f, 0f);
@@ -142,7 +142,7 @@ namespace FanKit.Transformer.UI
             {
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
-                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.TwoCorners)
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.ThreeCorners)
                     {
                         yield return new EarthTextureIndex
                         {
@@ -602,6 +602,15 @@ namespace FanKit.Transformer.UI
                     }
                 }
             }
+        }
+
+        public Vector2? GetAmount(EarthUV uv, EarthTextureSize textureSize, EarthLayout layout, Vector2 point, float bitmapWidth, float bitmapHeight)
+        {
+            var ds = Vector2.DistanceSquared(point, layout.Center);
+            if (ds > layout.Radius * layout.Radius)
+                return null;
+            else
+                return textureSize.GetAmount(uv, this, point, bitmapWidth, bitmapHeight);
         }
 
         public static Vector3 GetUnitVector(float uAmount, float vAmount)

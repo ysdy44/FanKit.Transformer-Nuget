@@ -110,6 +110,467 @@ namespace FanKit.Transformer.UI
             }
         }
 
+        public Vector2? GetAmount(EarthUV uv, Earth earth, Vector2 point, float bitmapWidth, float bitmapHeight)
+        {
+            #region ZeroCorner
+            for (int vi = 1; vi < uv.VCount; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (earth.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.ZeroCorner)
+                    {
+                        Quadrilateral quad = earth.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+
+                            float y = vi * this.TextureHeightF;
+                            float x = ui * this.TextureWidthF;
+
+                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            {
+                                Vector2 offset = Math.Transform(point, m);
+
+                                return new Vector2
+                                {
+                                    X = (x + offset.X) / bitmapWidth,
+                                    Y = (y + offset.Y) / bitmapHeight,
+                                };
+                            }
+                            else
+                            {
+                                return new Vector2
+                                {
+                                    X = x / bitmapWidth,
+                                    Y = y / bitmapHeight,
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            const int vi0 = 0;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.ZeroCorner)
+                {
+                    Quadrilateral quad = earth.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+
+                        float y0 = -this.HeightPolarEpsilonF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y0 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y0 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+
+            int vi1 = uv.VCount;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.ZeroCorner)
+                {
+                    Quadrilateral quad = earth.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+
+                        float y1 = vi1 * this.TextureHeightF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y1 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y1 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region OneCorner
+            for (int vi = 1; vi < uv.VCount; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (earth.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.OneCorner)
+                    {
+                        Quadrilateral quad = earth.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+
+                            float y = vi * this.TextureHeightF;
+                            float x = ui * this.TextureWidthF;
+
+                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            {
+                                Vector2 offset = Math.Transform(point, m);
+
+                                return new Vector2
+                                {
+                                    X = (x + offset.X) / bitmapWidth,
+                                    Y = (y + offset.Y) / bitmapHeight,
+                                };
+                            }
+                            else
+                            {
+                                return new Vector2
+                                {
+                                    X = x / bitmapWidth,
+                                    Y = y / bitmapHeight,
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            //const int vi0 = 0;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.OneCorner)
+                {
+                    Quadrilateral quad = earth.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+
+                        float y0 = -this.HeightPolarEpsilonF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y0 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y0 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+
+            //int vi1 = uv.VCount;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.OneCorner)
+                {
+                    Quadrilateral quad = earth.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+
+                        float y1 = vi1 * this.TextureHeightF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y1 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y1 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region TwoCorners
+            for (int vi = 1; vi < uv.VCount; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (earth.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.TwoCorners)
+                    {
+                        Quadrilateral quad = earth.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+
+                            float y = vi * this.TextureHeightF;
+                            float x = ui * this.TextureWidthF;
+
+                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            {
+                                Vector2 offset = Math.Transform(point, m);
+
+                                return new Vector2
+                                {
+                                    X = (x + offset.X) / bitmapWidth,
+                                    Y = (y + offset.Y) / bitmapHeight,
+                                };
+                            }
+                            else
+                            {
+                                return new Vector2
+                                {
+                                    X = x / bitmapWidth,
+                                    Y = y / bitmapHeight,
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            //const int vi0 = 0;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.TwoCorners)
+                {
+                    Quadrilateral quad = earth.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+
+                        float y0 = -this.HeightPolarEpsilonF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y0 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y0 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+
+            //int vi1 = uv.VCount;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.TwoCorners)
+                {
+                    Quadrilateral quad = earth.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+
+                        float y1 = vi1 * this.TextureHeightF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y1 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y1 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            #region ThreeCorners
+            for (int vi = 1; vi < uv.VCount; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (earth.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.ThreeCorners)
+                    {
+                        Quadrilateral quad = earth.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+
+                            float y = vi * this.TextureHeightF;
+                            float x = ui * this.TextureWidthF;
+
+                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            {
+                                Vector2 offset = Math.Transform(point, m);
+
+                                return new Vector2
+                                {
+                                    X = (x + offset.X) / bitmapWidth,
+                                    Y = (y + offset.Y) / bitmapHeight,
+                                };
+                            }
+                            else
+                            {
+                                return new Vector2
+                                {
+                                    X = x / bitmapWidth,
+                                    Y = y / bitmapHeight,
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            //const int vi0 = 0;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.ThreeCorners)
+                {
+                    Quadrilateral quad = earth.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+
+                        float y0 = -this.HeightPolarEpsilonF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y0 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y0 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+
+            //int vi1 = uv.VCount;
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (earth.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.ThreeCorners)
+                {
+                    Quadrilateral quad = earth.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+
+                        float y1 = vi1 * this.TextureHeightF;
+                        float x = ui * this.TextureWidthF;
+
+                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        {
+                            Vector2 offset = Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = (x + offset.X) / bitmapWidth,
+                                Y = (y1 + offset.Y) / bitmapHeight,
+                            };
+                        }
+                        else
+                        {
+                            return new Vector2
+                            {
+                                X = x / bitmapWidth,
+                                Y = y1 / bitmapHeight,
+                            };
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            return null;
+        }
+
         public static readonly Vector2[][] DemoBitmapPolygons = new Vector2[][]
         {
             new Vector2[]
