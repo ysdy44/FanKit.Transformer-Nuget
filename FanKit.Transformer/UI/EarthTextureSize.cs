@@ -112,6 +112,9 @@ namespace FanKit.Transformer.UI
 
         public Vector2? GetAmount(EarthUV uv, Earth earth, Vector2 point, float bitmapWidth, float bitmapHeight)
         {
+            const int vi0 = 0;
+            int vi1 = uv.VCount;
+
             #region ZeroCorner
             for (int vi = 1; vi < uv.VCount; vi++)
             {
@@ -151,8 +154,6 @@ namespace FanKit.Transformer.UI
                 }
             }
 
-            const int vi0 = 0;
-
             for (int ui = 0; ui < uv.UCount; ui++)
             {
                 if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.ZeroCorner)
@@ -187,8 +188,6 @@ namespace FanKit.Transformer.UI
                     }
                 }
             }
-
-            int vi1 = uv.VCount;
 
             for (int ui = 0; ui < uv.UCount; ui++)
             {
@@ -265,8 +264,6 @@ namespace FanKit.Transformer.UI
                 }
             }
 
-            //const int vi0 = 0;
-
             for (int ui = 0; ui < uv.UCount; ui++)
             {
                 if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.OneCorner)
@@ -301,8 +298,6 @@ namespace FanKit.Transformer.UI
                     }
                 }
             }
-
-            //int vi1 = uv.VCount;
 
             for (int ui = 0; ui < uv.UCount; ui++)
             {
@@ -379,8 +374,6 @@ namespace FanKit.Transformer.UI
                 }
             }
 
-            //const int vi0 = 0;
-
             for (int ui = 0; ui < uv.UCount; ui++)
             {
                 if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.TwoCorners)
@@ -415,8 +408,6 @@ namespace FanKit.Transformer.UI
                     }
                 }
             }
-
-            //int vi1 = uv.VCount;
 
             for (int ui = 0; ui < uv.UCount; ui++)
             {
@@ -493,8 +484,6 @@ namespace FanKit.Transformer.UI
                 }
             }
 
-            //const int vi0 = 0;
-
             for (int ui = 0; ui < uv.UCount; ui++)
             {
                 if (earth.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.ThreeCorners)
@@ -529,8 +518,6 @@ namespace FanKit.Transformer.UI
                     }
                 }
             }
-
-            //int vi1 = uv.VCount;
 
             for (int ui = 0; ui < uv.UCount; ui++)
             {

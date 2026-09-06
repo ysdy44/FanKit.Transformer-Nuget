@@ -13,7 +13,7 @@ namespace FanKit.Transformer.Transforms
 
         public Quadrilateral Source => this.Quadrilateral;
 
-        public Matrix4x4 HomographyMatrix => this.Core.m;
+        public Matrix4x4 HomographyMatrix => this.Matrix;
 
         public QuadrilateralPointKind PointKind => this.Controller.PointKind;
 
@@ -22,6 +22,7 @@ namespace FanKit.Transformer.Transforms
         internal override void Find()
         {
             this.Core.FindHomography(this.Quadrilateral, this.DestinationWidth, this.DestinationHeight);
+            this.Matrix = this.Core.m;
         }
 
         #region Quadrilaterals.Initialize
@@ -31,7 +32,7 @@ namespace FanKit.Transformer.Transforms
             this.DestinationHeight = destinationHeight;
             this.Quadrilateral = new Quadrilateral(0f, 0f, this.DestinationWidth, this.DestinationHeight);
 
-            this.Core.m = Matrix4x4.Identity;
+            this.Matrix = Matrix4x4.Identity;
         }
 
         public void UpdateSource(Quadrilateral source) => this.US(source);

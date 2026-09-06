@@ -10,6 +10,8 @@ namespace FanKit.Transformer.Compute
         internal Quadrilateral StartingQuadrilateral;
         internal Quadrilateral Quadrilateral;
 
+        internal Matrix4x4 Matrix;
+
         internal Matrix3x2 Host;
 
         internal FreeTransformController Controller;
