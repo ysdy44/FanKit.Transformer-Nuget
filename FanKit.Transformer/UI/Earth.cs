@@ -9,9 +9,9 @@ namespace FanKit.Transformer.UI
         const float PolarEpsilonRadians = Mathematics.Math.PITwice * PolarEpsilon;
 
         // Textures
-        internal readonly EarthTextureIsFarSide[,] QuadIsFarSides;
-        internal readonly Quadrilateral[,] Quads;
-        internal readonly Matrix4x4[,] TransformMatrixes;
+        readonly EarthTextureIsFarSide[,] QuadIsFarSides;
+        readonly Quadrilateral[,] Quads;
+        readonly Matrix4x4[,] TransformMatrixes;
 
         // Vectors
         readonly Vector3 NorthVector = new Vector3(0f, -1f, 0f);
@@ -604,13 +604,383 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public Vector2? GetAmount(EarthUV uv, EarthTextureSize textureSize, EarthLayout layout, Vector2 point, float bitmapWidth, float bitmapHeight)
+        public Vector2? GetAmount(EarthUV uv, EarthLayout layout, Vector2 point)
         {
             var ds = Vector2.DistanceSquared(point, layout.Center);
             if (ds > layout.Radius * layout.Radius)
                 return null;
-            else
-                return textureSize.GetAmount(uv, this, point, bitmapWidth, bitmapHeight);
+
+            const int vi0 = 0;
+            int vi1 = uv.VCount - 1;
+
+            #region ZeroCorner
+            for (int vi = 1; vi < vi1; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.ZeroCorner)
+                    {
+                        Quadrilateral quad = this.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+
+                            Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, h);
+
+                            float y = vi * h;
+                            float x = ui * w;
+
+                            Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = x + offset.X,
+                                Y = y + offset.Y,
+                            };
+                        }
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.ZeroCorner)
+                {
+                    Quadrilateral quad = this.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                  
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y0 = r;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y0 + offset.Y,
+                        };
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.ZeroCorner)
+                {
+                    Quadrilateral quad = this.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                  
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y1 = vi1 * h;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y1 + offset.Y,
+                        };
+                    }
+                }
+            }
+            #endregion
+
+            #region OneCorner
+            for (int vi = 1; vi < vi1; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.OneCorner)
+                    {
+                        Quadrilateral quad = this.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+
+                            Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, h);
+
+                            float y = vi * h;
+                            float x = ui * w;
+
+                            Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = x + offset.X,
+                                Y = y + offset.Y,
+                            };
+                        }
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.OneCorner)
+                {
+                    Quadrilateral quad = this.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y0 = r;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y0 + offset.Y,
+                        };
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.OneCorner)
+                {
+                    Quadrilateral quad = this.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                    
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y1 = vi1 * h;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y1 + offset.Y,
+                        };
+                    }
+                }
+            }
+            #endregion
+
+            #region TwoCorners
+            for (int vi = 1; vi < vi1; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.TwoCorners)
+                    {
+                        Quadrilateral quad = this.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+
+                            Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, h);
+
+                            float y = vi * h;
+                            float x = ui * w;
+
+                            Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = x + offset.X,
+                                Y = y + offset.Y,
+                            };
+                        }
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.TwoCorners)
+                {
+                    Quadrilateral quad = this.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                       
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y0 = r;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y0 + offset.Y,
+                        };
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.TwoCorners)
+                {
+                    Quadrilateral quad = this.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                   
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y1 = vi1 * h;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y1 + offset.Y,
+                        };
+                    }
+                }
+            }
+            #endregion
+
+            #region ThreeCorners
+            for (int vi = 1; vi < vi1; vi++)
+            {
+                for (int ui = 0; ui < uv.UCount; ui++)
+                {
+                    if (this.QuadIsFarSides[vi, ui] == EarthTextureIsFarSide.ThreeCorners)
+                    {
+                        Quadrilateral quad = this.Quads[vi, ui];
+
+                        if (quad.ContainsPoint(point))
+                        {
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+
+                            Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, h);
+
+                            float y = vi * h;
+                            float x = ui * w;
+
+                            Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                            return new Vector2
+                            {
+                                X = x + offset.X,
+                                Y = y + offset.Y,
+                            };
+                        }
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi0, ui] == EarthTextureIsFarSide.ThreeCorners)
+                {
+                    Quadrilateral quad = this.Quads[vi0, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                     
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y0 = r;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y0 + offset.Y,
+                        };
+                    }
+                }
+            }
+
+            for (int ui = 0; ui < uv.UCount; ui++)
+            {
+                if (this.QuadIsFarSides[vi1, ui] == EarthTextureIsFarSide.ThreeCorners)
+                {
+                    Quadrilateral quad = this.Quads[vi1, ui];
+
+                    if (quad.ContainsPoint(point))
+                    {
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+
+                        float r = h * PolarEpsilon;
+                        float hr = h - r;
+                        
+                        Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
+
+                        float y1 = vi1 * h;
+                        float x = ui * w;
+
+                        Vector2 offset = Mathematics.Math.Transform(point, m);
+
+                        return new Vector2
+                        {
+                            X = x + offset.X,
+                            Y = y1 + offset.Y,
+                        };
+                    }
+                }
+            }
+            #endregion
+
+            return null;
         }
 
         public static Vector3 GetUnitVector(float uAmount, float vAmount)

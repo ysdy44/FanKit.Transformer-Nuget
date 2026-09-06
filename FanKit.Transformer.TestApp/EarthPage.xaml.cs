@@ -261,17 +261,34 @@ namespace FanKit.Transformer.TestApp
                 {
                     if (System.Math.Abs(this.StartingPoint.Y - this.Point.Y) < 4d)
                     {
-                        Vector2? amount = this.Earth.GetAmount(UV, this.EarthTextureSize, this.EarthLayout, this.Point, EarthTextureSize.DemoBitmapWidth, EarthTextureSize.DemoBitmapHeight);
+                        Vector2? amount = this.Earth.GetAmount(UV, this.EarthLayout, this.Point);
                         if (amount.HasValue)
                         {
                             var uAmount = amount.Value.X;
                             var vAmount = amount.Value.Y;
 
-                            //this.Mouse = this.GetStellite(uAmount, vAmount);
                             this.Stellites.Add(this.GetStellite(uAmount, vAmount));
                             this.CanvasControl.Invalidate();
                         }
                     }
+                }
+            };
+            this.CanvasOperator.Pointer_Over += (x, y) =>
+            {
+                this.Point = new Vector2((float)x, (float)y);
+
+                Vector2? amount = this.Earth.GetAmount(UV, this.EarthLayout, this.Point);
+                if (amount.HasValue)
+                {
+                    var uAmount = amount.Value.X;
+                    var vAmount = amount.Value.Y;
+
+                    this.Mouse = this.GetStellite(uAmount, vAmount);
+                    this.CanvasControl.Invalidate();
+                }
+                else
+                {
+                    this.Mouse = null;
                 }
             };
 
