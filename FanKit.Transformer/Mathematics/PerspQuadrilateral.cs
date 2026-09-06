@@ -1,59 +1,59 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Mathematics
 {
-    internal class PerspQuadrilateral : PerspMatrix
+    public readonly struct InvertiblePerspQuadrilateralMatrix3x3
     {
         const int m44 = 1;
 
+        readonly InvertibleSparseMatrix3x3 dst;
+
         // Normalize
-        float m11;
-        float m12;
-        float m14;
+        readonly float m11;
+        readonly float m12;
+        readonly float m14;
 
-        float m21;
-        float m22;
-        float m24;
+        readonly float m21;
+        readonly float m22;
+        readonly float m24;
 
-        float m41;
-        float m42;
+        readonly float m41;
+        readonly float m42;
 
         // Quadrilateral
-        SparseMatrix3x3 mat;
+        readonly SparseMatrix3x3 mat;
 
         // First row
-        float n11;
-        float n12;
+        readonly float n11;
+        readonly float n12;
 
         // Second row
-        float n21;
-        float n22;
+        readonly float n21;
+        readonly float n22;
 
         // Third row
 
         // Fourth row
-        float n41;
-        float n42;
+        readonly float n41;
+        readonly float n42;
 
-        // Result
-        internal Matrix4x4 m;
-
-        internal void FindHomography(Quadrilateral src, Quadrilateral dst)
+        public InvertiblePerspQuadrilateralMatrix3x3(Quadrilateral source, Quadrilateral destination)
         {
-            Normalize(src);
+            dst = new InvertibleSparseMatrix3x3(source);
 
-            m11 = x[0];
-            m12 = x[3];
-            m14 = x[6];
+            m11 = dst.x.M0;
+            m12 = dst.x.M3;
+            m14 = dst.x.M6;
 
-            m21 = x[1];
-            m22 = x[4];
-            m24 = x[7];
+            m21 = dst.x.M1;
+            m22 = dst.x.M4;
+            m24 = dst.x.M7;
 
-            m41 = x[2];
-            m42 = x[5];
+            m41 = dst.x.M2;
+            m42 = dst.x.M5;
 
-            mat = new SparseMatrix3x3(dst);
+            mat = new SparseMatrix3x3(destination);
 
             // First row
             n11 = mat.sx * mat.mat.M11 + mat.rx * mat.mat.M31;
@@ -68,20 +68,23 @@ namespace FanKit.Transformer.Mathematics
             // Fourth row
             n41 = mat.mat.M31;
             n42 = mat.mat.M32;
+        }
 
-            m = new Matrix4x4
+        public static implicit operator Matrix4x4(InvertiblePerspQuadrilateralMatrix3x3 matrix)
+        {
+            return new Matrix4x4
             {
                 // First row
-                M11 = m11 * n11 + m12 * n21 + m14 * n41,
-                M12 = m11 * n12 + m12 * n22 + m14 * n42,
+                M11 = matrix.m11 * matrix.n11 + matrix.m12 * matrix.n21 + matrix.m14 * matrix.n41,
+                M12 = matrix.m11 * matrix.n12 + matrix.m12 * matrix.n22 + matrix.m14 * matrix.n42,
                 M13 = 0f,
-                M14 = m11 * mat.rx + m12 * mat.ry + m14,
+                M14 = matrix.m11 * matrix.mat.rx + matrix.m12 * matrix.mat.ry + matrix.m14,
 
                 // Second row
-                M21 = m21 * n11 + m22 * n21 + m24 * n41,
-                M22 = m21 * n12 + m22 * n22 + m24 * n42,
+                M21 = matrix.m21 * matrix.n11 + matrix.m22 * matrix.n21 + matrix.m24 * matrix.n41,
+                M22 = matrix.m21 * matrix.n12 + matrix.m22 * matrix.n22 + matrix.m24 * matrix.n42,
                 M23 = 0f,
-                M24 = m21 * mat.rx + m22 * mat.ry + m24,
+                M24 = matrix.m21 * matrix.mat.rx + matrix.m22 * matrix.mat.ry + matrix.m24,
 
                 // Third row
                 M31 = 0f,
@@ -90,10 +93,10 @@ namespace FanKit.Transformer.Mathematics
                 M34 = 0f,
 
                 // Fourth row
-                M41 = m41 * n11 + m42 * n21 + m44 * n41,
-                M42 = m41 * n12 + m42 * n22 + m44 * n42,
+                M41 = matrix.m41 * matrix.n11 + matrix.m42 * matrix.n21 + m44 * matrix.n41,
+                M42 = matrix.m41 * matrix.n12 + matrix.m42 * matrix.n22 + m44 * matrix.n42,
                 M43 = 0f,
-                M44 = m41 * mat.rx + m42 * mat.ry + m44,
+                M44 = matrix.m41 * matrix.mat.rx + matrix.m42 * matrix.mat.ry + m44,
             };
         }
     }

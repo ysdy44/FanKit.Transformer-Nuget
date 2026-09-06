@@ -5,10 +5,10 @@ namespace FanKit.Transformer.Transforms
 {
     public class InvertiblePerspectiveRect
     {
-        readonly PerspRect Core = new PerspRect();
+        InvertiblePerspRectMatrix3x3 Core;
 
-        public Matrix4x4 HomographyMatrix => this.Core.m;
-        public void FindHomography(Quadrilateral source, float destinationWidth, float destinationHeight) => this.Core.FindHomography(source, destinationWidth, destinationHeight);
-        public void FindHomography(Quadrilateral source, Rectangle destination) => this.Core.FindHomography(source, destination);
+        public Matrix4x4 HomographyMatrix => this.Core;
+        public void FindHomography(Quadrilateral source, float destinationWidth, float destinationHeight) => this.Core = new InvertiblePerspRectMatrix3x3(source, destinationWidth, destinationHeight);
+        public void FindHomography(Quadrilateral source, Rectangle destination) => this.Core = new InvertiblePerspRectMatrix3x3(source, destination);
     }
 }

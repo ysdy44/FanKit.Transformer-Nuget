@@ -5,9 +5,9 @@ namespace FanKit.Transformer.Transforms
 {
     public class InvertiblePerspQuadrilateral
     {
-        readonly PerspQuadrilateral Core = new PerspQuadrilateral();
+        InvertiblePerspQuadrilateralMatrix3x3 Core;
 
-        public Matrix4x4 HomographyMatrix => this.Core.m;
-        public void FindHomography(Quadrilateral source, Quadrilateral destination) => this.Core.FindHomography(source, destination);
+        public Matrix4x4 HomographyMatrix => this.Core;
+        public void FindHomography(Quadrilateral source, Quadrilateral destination) => this.Core = new InvertiblePerspQuadrilateralMatrix3x3(source, destination);
     }
 }

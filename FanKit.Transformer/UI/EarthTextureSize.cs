@@ -113,10 +113,10 @@ namespace FanKit.Transformer.UI
         public Vector2? GetAmount(EarthUV uv, Earth earth, Vector2 point, float bitmapWidth, float bitmapHeight)
         {
             const int vi0 = 0;
-            int vi1 = uv.VCount;
+            int vi1 = uv.VCount - 1;
 
             #region ZeroCorner
-            for (int vi = 1; vi < uv.VCount; vi++)
+            for (int vi = 1; vi < vi1; vi++)
             {
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
@@ -126,27 +126,29 @@ namespace FanKit.Transformer.UI
 
                         if (quad.ContainsPoint(point))
                         {
-                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+                            Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, h);
 
-                            float y = vi * this.TextureHeightF;
-                            float x = ui * this.TextureWidthF;
+                            float y = vi * h;
+                            float x = ui * w;
 
-                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            if (true)
                             {
                                 Vector2 offset = Math.Transform(point, m);
 
                                 return new Vector2
                                 {
-                                    X = (x + offset.X) / bitmapWidth,
-                                    Y = (y + offset.Y) / bitmapHeight,
+                                    X = x + offset.X,
+                                    Y = y + offset.Y,
                                 };
                             }
                             else
                             {
                                 return new Vector2
                                 {
-                                    X = x / bitmapWidth,
-                                    Y = y / bitmapHeight,
+                                    X = x,
+                                    Y = y,
                                 };
                             }
                         }
@@ -162,27 +164,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y0 = -this.HeightPolarEpsilonF;
-                        float x = ui * this.TextureWidthF;
+                        float y0 = r;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y0 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y0 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y0 / bitmapHeight,
+                                X = x,
+                                Y = y0,
                             };
                         }
                     }
@@ -197,27 +203,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y1 = vi1 * this.TextureHeightF;
-                        float x = ui * this.TextureWidthF;
+                        float y1 = vi1 * h;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y1 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y1 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y1 / bitmapHeight,
+                                X = x,
+                                Y = y1,
                             };
                         }
                     }
@@ -226,7 +236,7 @@ namespace FanKit.Transformer.UI
             #endregion
 
             #region OneCorner
-            for (int vi = 1; vi < uv.VCount; vi++)
+            for (int vi = 1; vi < vi1; vi++)
             {
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
@@ -236,27 +246,29 @@ namespace FanKit.Transformer.UI
 
                         if (quad.ContainsPoint(point))
                         {
-                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+                            Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, h);
 
-                            float y = vi * this.TextureHeightF;
-                            float x = ui * this.TextureWidthF;
+                            float y = vi * h;
+                            float x = ui * w;
 
-                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            if (true)
                             {
                                 Vector2 offset = Math.Transform(point, m);
 
                                 return new Vector2
                                 {
-                                    X = (x + offset.X) / bitmapWidth,
-                                    Y = (y + offset.Y) / bitmapHeight,
+                                    X = x + offset.X,
+                                    Y = y + offset.Y,
                                 };
                             }
                             else
                             {
                                 return new Vector2
                                 {
-                                    X = x / bitmapWidth,
-                                    Y = y / bitmapHeight,
+                                    X = x,
+                                    Y = y,
                                 };
                             }
                         }
@@ -272,27 +284,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y0 = -this.HeightPolarEpsilonF;
-                        float x = ui * this.TextureWidthF;
+                        float y0 = r;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y0 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y0 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y0 / bitmapHeight,
+                                X = x,
+                                Y = y0,
                             };
                         }
                     }
@@ -307,27 +323,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y1 = vi1 * this.TextureHeightF;
-                        float x = ui * this.TextureWidthF;
+                        float y1 = vi1 * h;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y1 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y1 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y1 / bitmapHeight,
+                                X = x,
+                                Y = y1,
                             };
                         }
                     }
@@ -336,7 +356,7 @@ namespace FanKit.Transformer.UI
             #endregion
 
             #region TwoCorners
-            for (int vi = 1; vi < uv.VCount; vi++)
+            for (int vi = 1; vi < vi1; vi++)
             {
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
@@ -346,27 +366,29 @@ namespace FanKit.Transformer.UI
 
                         if (quad.ContainsPoint(point))
                         {
-                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+                            Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, h);
 
-                            float y = vi * this.TextureHeightF;
-                            float x = ui * this.TextureWidthF;
+                            float y = vi * h;
+                            float x = ui * w;
 
-                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            if (true)
                             {
                                 Vector2 offset = Math.Transform(point, m);
 
                                 return new Vector2
                                 {
-                                    X = (x + offset.X) / bitmapWidth,
-                                    Y = (y + offset.Y) / bitmapHeight,
+                                    X = x + offset.X,
+                                    Y = y + offset.Y,
                                 };
                             }
                             else
                             {
                                 return new Vector2
                                 {
-                                    X = x / bitmapWidth,
-                                    Y = y / bitmapHeight,
+                                    X = x,
+                                    Y = y,
                                 };
                             }
                         }
@@ -382,27 +404,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y0 = -this.HeightPolarEpsilonF;
-                        float x = ui * this.TextureWidthF;
+                        float y0 = r;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y0 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y0 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y0 / bitmapHeight,
+                                X = x,
+                                Y = y0,
                             };
                         }
                     }
@@ -417,27 +443,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y1 = vi1 * this.TextureHeightF;
-                        float x = ui * this.TextureWidthF;
+                        float y1 = vi1 * h;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y1 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y1 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y1 / bitmapHeight,
+                                X = x,
+                                Y = y1,
                             };
                         }
                     }
@@ -446,7 +476,7 @@ namespace FanKit.Transformer.UI
             #endregion
 
             #region ThreeCorners
-            for (int vi = 1; vi < uv.VCount; vi++)
+            for (int vi = 1; vi < vi1; vi++)
             {
                 for (int ui = 0; ui < uv.UCount; ui++)
                 {
@@ -456,27 +486,29 @@ namespace FanKit.Transformer.UI
 
                         if (quad.ContainsPoint(point))
                         {
-                            Matrix4x4 matrix = earth.TransformMatrixes[vi, ui];
+                            float w = 1f / uv.UCountF;
+                            float h = 1f / uv.VCount;
+                            Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, h);
 
-                            float y = vi * this.TextureHeightF;
-                            float x = ui * this.TextureWidthF;
+                            float y = vi * h;
+                            float x = ui * w;
 
-                            if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                            if (true)
                             {
                                 Vector2 offset = Math.Transform(point, m);
 
                                 return new Vector2
                                 {
-                                    X = (x + offset.X) / bitmapWidth,
-                                    Y = (y + offset.Y) / bitmapHeight,
+                                    X = x + offset.X,
+                                    Y = y + offset.Y,
                                 };
                             }
                             else
                             {
                                 return new Vector2
                                 {
-                                    X = x / bitmapWidth,
-                                    Y = y / bitmapHeight,
+                                    X = x,
+                                    Y = y,
                                 };
                             }
                         }
@@ -492,27 +524,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi0, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y0 = -this.HeightPolarEpsilonF;
-                        float x = ui * this.TextureWidthF;
+                        float y0 = r;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y0 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y0 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y0 / bitmapHeight,
+                                X = x,
+                                Y = y0,
                             };
                         }
                     }
@@ -527,27 +563,31 @@ namespace FanKit.Transformer.UI
 
                     if (quad.ContainsPoint(point))
                     {
-                        Matrix4x4 matrix = earth.TransformMatrixes[vi1, ui];
+                        float w = 1f / uv.UCountF;
+                        float h = 1f / uv.VCount;
+                        float r = h * Earth.PolarEpsilon;
+                        float hr = h - r;
+                        Matrix4x4 m = new InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
-                        float y1 = vi1 * this.TextureHeightF;
-                        float x = ui * this.TextureWidthF;
+                        float y1 = vi1 * h;
+                        float x = ui * w;
 
-                        if (Matrix4x4.Invert(matrix, out Matrix4x4 m))
+                        if (true)
                         {
                             Vector2 offset = Math.Transform(point, m);
 
                             return new Vector2
                             {
-                                X = (x + offset.X) / bitmapWidth,
-                                Y = (y1 + offset.Y) / bitmapHeight,
+                                X = x + offset.X,
+                                Y = y1 + offset.Y,
                             };
                         }
                         else
                         {
                             return new Vector2
                             {
-                                X = x / bitmapWidth,
-                                Y = y1 / bitmapHeight,
+                                X = x,
+                                Y = y1,
                             };
                         }
                     }

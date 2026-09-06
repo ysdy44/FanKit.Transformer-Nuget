@@ -17,12 +17,12 @@ namespace FanKit.Transformer.Transforms
 
         public QuadrilateralPointKind PointKind => this.Controller.PointKind;
 
-        readonly PerspSize Core = new PerspSize();
+        InvertiblePerspSizeMatrix3x3 Core;
 
         internal override void Find()
         {
-            this.Core.FindHomography(this.Quadrilateral, this.DestinationWidth, this.DestinationHeight);
-            this.Matrix = this.Core.m;
+            this.Core = new InvertiblePerspSizeMatrix3x3(this.Quadrilateral, this.DestinationWidth, this.DestinationHeight);
+            this.Matrix = this.Core;
         }
 
         #region Quadrilaterals.Initialize

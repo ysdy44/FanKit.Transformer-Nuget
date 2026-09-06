@@ -5,9 +5,9 @@ namespace FanKit.Transformer.Transforms
 {
     public class InvertiblePerspSize
     {
-        readonly PerspSize Core = new PerspSize();
+        InvertiblePerspSizeMatrix3x3 Core;
 
-        public Matrix4x4 HomographyMatrix => this.Core.m;
-        public void FindHomography(Quadrilateral source, float destinationWidth, float destinationHeight) => this.Core.FindHomography(source, destinationWidth, destinationHeight);
+        public Matrix4x4 HomographyMatrix => this.Core;
+        public void FindHomography(Quadrilateral source, float destinationWidth, float destinationHeight) => this.Core = new InvertiblePerspSizeMatrix3x3(source, destinationWidth, destinationHeight);
     }
 }

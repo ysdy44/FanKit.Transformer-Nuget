@@ -1,98 +1,105 @@
 ﻿namespace FanKit.Transformer.Mathematics
 {
-    internal class PerspMatrix
+    internal struct InvertibleSparseMatrix3x3
     {
         static float Abs(float v) => v < 0 ? -v : v;
 
-        readonly float[,] A = new float[8, 8];
-        readonly float[] b = new float[8];
+        readonly Matrix8x8 A;
+        readonly Matrix8 b;
 
         const int n = 8; // b.Length;
-        internal readonly float[] x = new float[n];
+        public readonly Matrix8 x;
 
-        internal void Normalize(Quadrilateral src)
+        public InvertibleSparseMatrix3x3(Quadrilateral quad)
         {
+            x = new Matrix8();
 
-            b[0] = 0f;
-            b[1] = 0f;
-            b[2] = 1f;
-            b[3] = 0f;
-            b[4] = 1f;
-            b[5] = 1f;
-            b[6] = 0f;
-            b[7] = 1f;
+            b = new Matrix8
+            {
+                M0 = 0f,
+                M1 = 0f,
+                M2 = 1f,
+                M3 = 0f,
+                M4 = 1f,
+                M5 = 1f,
+                M6 = 0f,
+                M7 = 1f,
+            };
 
-            A[0, 0] = src.LeftTop.X;
-            A[0, 1] = src.LeftTop.Y;
-            A[0, 2] = 1;
-            A[0, 3] = 0;
-            A[0, 4] = 0;
-            A[0, 5] = 0;
-            A[0, 6] = 0f;
-            A[0, 7] = 0f;
+            A = new Matrix8x8
+            {
+                M00 = quad.LeftTop.X,
+                M01 = quad.LeftTop.Y,
+                M02 = 1f,
+                M03 = 0f,
+                M04 = 0f,
+                M05 = 0f,
+                M06 = 0f,
+                M07 = 0f,
 
-            A[1, 0] = 0;
-            A[1, 1] = 0;
-            A[1, 2] = 0;
-            A[1, 3] = src.LeftTop.X;
-            A[1, 4] = src.LeftTop.Y;
-            A[1, 5] = 1;
-            A[1, 6] = 0f;
-            A[1, 7] = 0f;
+                M10 = 0f,
+                M11 = 0f,
+                M12 = 0f,
+                M13 = quad.LeftTop.X,
+                M14 = quad.LeftTop.Y,
+                M15 = 1f,
+                M16 = 0f,
+                M17 = 0f,
 
-            A[2, 0] = src.RightTop.X;
-            A[2, 1] = src.RightTop.Y;
-            A[2, 2] = 1;
-            A[2, 3] = 0;
-            A[2, 4] = 0;
-            A[2, 5] = 0;
-            A[2, 6] = -src.RightTop.X;
-            A[2, 7] = -src.RightTop.Y;
+                M20 = quad.RightTop.X,
+                M21 = quad.RightTop.Y,
+                M22 = 1f,
+                M23 = 0f,
+                M24 = 0f,
+                M25 = 0f,
+                M26 = -quad.RightTop.X,
+                M27 = -quad.RightTop.Y,
 
-            A[3, 0] = 0;
-            A[3, 1] = 0;
-            A[3, 2] = 0;
-            A[3, 3] = src.RightTop.X;
-            A[3, 4] = src.RightTop.Y;
-            A[3, 5] = 1;
-            A[3, 6] = 0f;
-            A[3, 7] = 0f;
+                M30 = 0f,
+                M31 = 0f,
+                M32 = 0f,
+                M33 = quad.RightTop.X,
+                M34 = quad.RightTop.Y,
+                M35 = 1f,
+                M36 = 0f,
+                M37 = 0f,
 
-            A[4, 0] = src.RightBottom.X;
-            A[4, 1] = src.RightBottom.Y;
-            A[4, 2] = 1;
-            A[4, 3] = 0;
-            A[4, 4] = 0;
-            A[4, 5] = 0;
-            A[4, 6] = -src.RightBottom.X;
-            A[4, 7] = -src.RightBottom.Y;
+                M40 = quad.RightBottom.X,
+                M41 = quad.RightBottom.Y,
+                M42 = 1f,
+                M43 = 0f,
+                M44 = 0f,
+                M45 = 0f,
+                M46 = -quad.RightBottom.X,
+                M47 = -quad.RightBottom.Y,
 
-            A[5, 0] = 0;
-            A[5, 1] = 0;
-            A[5, 2] = 0;
-            A[5, 3] = src.RightBottom.X;
-            A[5, 4] = src.RightBottom.Y;
-            A[5, 5] = 1;
-            A[5, 6] = -src.RightBottom.X;
-            A[5, 7] = -src.RightBottom.Y;
+                M50 = 0f,
+                M51 = 0f,
+                M52 = 0f,
+                M53 = quad.RightBottom.X,
+                M54 = quad.RightBottom.Y,
+                M55 = 1f,
+                M56 = -quad.RightBottom.X,
+                M57 = -quad.RightBottom.Y,
 
-            A[6, 0] = src.LeftBottom.X;
-            A[6, 1] = src.LeftBottom.Y;
-            A[6, 2] = 1;
-            A[6, 3] = 0;
-            A[6, 4] = 0;
-            A[6, 5] = 0;
-            A[6, 6] = 0f;
-            A[6, 7] = 0f;
+                M60 = quad.LeftBottom.X,
+                M61 = quad.LeftBottom.Y,
+                M62 = 1f,
+                M63 = 0f,
+                M64 = 0f,
+                M65 = 0f,
+                M66 = 0f,
+                M67 = 0f,
 
-            A[7, 0] = 0;
-            A[7, 1] = 0;
-            A[7, 2] = 0;
-            A[7, 3] = src.LeftBottom.X;
-            A[7, 4] = src.LeftBottom.Y;
-            A[7, 5] = 1;
-            A[7, 6] = -src.LeftBottom.X;
-            A[7, 7] = -src.LeftBottom.Y;
+                M70 = 0f,
+                M71 = 0f,
+                M72 = 0f,
+                M73 = quad.LeftBottom.X,
+                M74 = quad.LeftBottom.Y,
+                M75 = 1f,
+                M76 = -quad.LeftBottom.X,
+                M77 = -quad.LeftBottom.Y,
+            };
 
             for (int i = 0; i < n; i++)
             {

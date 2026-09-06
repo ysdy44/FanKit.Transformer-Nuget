@@ -1,52 +1,55 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Mathematics
 {
-    internal class PerspSize : PerspMatrix
+    public readonly struct InvertiblePerspSizeMatrix3x3
     {
+        readonly InvertibleSparseMatrix3x3 dst;
+
         // Normalize
-        float m11;
-        float m12;
-        float m14;
+        readonly float m11;
+        readonly float m12;
+        readonly float m14;
 
-        float m21;
-        float m22;
-        float m24;
+        readonly float m21;
+        readonly float m22;
+        readonly float m24;
 
-        float m41;
-        float m42;
+        readonly float m41;
+        readonly float m42;
 
-        // Result
-        internal Matrix4x4 m;
-
-        internal void FindHomography(Quadrilateral src, float width, float height)
+        public InvertiblePerspSizeMatrix3x3(Quadrilateral src, float destinationWidth, float destinationHeight)
         {
-            Normalize(src);
+            dst = new InvertibleSparseMatrix3x3(src);
 
-            m11 = x[0];
-            m12 = x[3];
-            m14 = x[6];
+            m11 = dst.x.M0 * destinationWidth;
+            m12 = dst.x.M3 * destinationHeight;
+            m14 = dst.x.M6;
 
-            m21 = x[1];
-            m22 = x[4];
-            m24 = x[7];
+            m21 = dst.x.M1 * destinationWidth;
+            m22 = dst.x.M4 * destinationHeight;
+            m24 = dst.x.M7;
 
-            m41 = x[2];
-            m42 = x[5];
+            m41 = dst.x.M2 * destinationWidth;
+            m42 = dst.x.M5 * destinationHeight;
+        }
 
-            m = new Matrix4x4
+        public static implicit operator Matrix4x4(InvertiblePerspSizeMatrix3x3 matrix)
+        {
+            return new Matrix4x4
             {
                 // First row
-                M11 = m11 * width,
-                M12 = m12 * height,
+                M11 = matrix.m11,
+                M12 = matrix.m12,
                 M13 = 0f,
-                M14 = m14,
+                M14 = matrix.m14,
 
                 // Second row
-                M21 = m21 * width,
-                M22 = m22 * height,
+                M21 = matrix.m21,
+                M22 = matrix.m22,
                 M23 = 0f,
-                M24 = m24,
+                M24 = matrix.m24,
 
                 // Third row
                 M31 = 0f,
@@ -55,8 +58,8 @@ namespace FanKit.Transformer.Mathematics
                 M34 = 0f,
 
                 // Fourth row
-                M41 = m41 * width,
-                M42 = m42 * height,
+                M41 = matrix.m41,
+                M42 = matrix.m42,
                 M43 = 0f,
                 M44 = 1f,
             };

@@ -532,7 +532,7 @@ namespace FanKit.Transformer.TestApp
         readonly Vector2[] RightPoints = new Vector2[4];
 
         // Homography
-        readonly InvertiblePerspQuadrilateral T = new InvertiblePerspQuadrilateral();
+        Matrix4x4 Matrix;
         CanvasBitmap Bitmap;
 
         public override void InitializeDestination(float width, float height)
@@ -589,7 +589,7 @@ namespace FanKit.Transformer.TestApp
             this.RightMatrix = this.RightNorm;
 
             // Homography
-            this.T.FindHomography(this.LeftDest, this.RightDest);
+            this.Matrix = new InvertiblePerspQuadrilateralMatrix3x3(this.LeftDest, this.RightDest);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -616,7 +616,7 @@ namespace FanKit.Transformer.TestApp
 
         public override Vector2 TransformPoint(Vector2 point)
         {
-            return Mathematics.Math.Transform(point, this.T.HomographyMatrix);
+            return Mathematics.Math.Transform(point, this.Matrix);
         }
     }
 
@@ -638,7 +638,7 @@ namespace FanKit.Transformer.TestApp
         Matrix3x2 RightMatrix;
 
         // Homography
-        readonly InvertiblePerspectiveRect T = new InvertiblePerspectiveRect();
+        Matrix4x4 Matrix;
         CanvasBitmap Bitmap;
 
         public override void InitializeDestination(float width, float height)
@@ -691,7 +691,7 @@ namespace FanKit.Transformer.TestApp
             this.RightMatrix = this.SourceNormalize.Map(this.RightSourceRect).ToMatrix3x2();
 
             // Homography
-            this.T.FindHomography(this.LeftDest, this.RightSourceRect);
+            this.Matrix = new InvertiblePerspRectMatrix3x3(this.LeftDest, this.RightSourceRect);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -717,7 +717,7 @@ namespace FanKit.Transformer.TestApp
 
         public override Vector2 TransformPoint(Vector2 point)
         {
-            return Mathematics.Math.Transform(point, this.T.HomographyMatrix);
+            return Mathematics.Math.Transform(point, this.Matrix);
         }
     }
 }
