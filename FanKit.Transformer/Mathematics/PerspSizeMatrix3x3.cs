@@ -5,8 +5,6 @@ namespace FanKit.Transformer.Mathematics
 {
     public readonly struct PerspSizeMatrix3x3
     {
-        readonly SparseMatrix3x3 dst;
-
         // First row
         readonly float m11;
         readonly float m14;
@@ -15,10 +13,24 @@ namespace FanKit.Transformer.Mathematics
         readonly float m22;
         readonly float m24;
 
+        // First row
+        readonly float n11;
+        readonly float n12;
+
+        // Second row
+        readonly float n21;
+        readonly float n22;
+
+        // Third row
+
+        // Fourth row
+        readonly float n41;
+        readonly float n42;
+
         #region Constructors
-        public PerspSizeMatrix3x3(SizeMatrix sourceNormalize, Quadrilateral destination)
+        public PerspSizeMatrix3x3(SizeMatrix sourceNormalize, QuadMatrix destinationNormalize)
         {
-            dst = new SparseMatrix3x3(destination);
+            var dst = destinationNormalize;
 
             // First row
             m11 = sourceNormalize.X * dst.sx;
@@ -27,6 +39,20 @@ namespace FanKit.Transformer.Mathematics
             // Second row
             m22 = sourceNormalize.Y * dst.sy;
             m24 = sourceNormalize.Y * dst.ry;
+
+            // First row
+            n11 = m11 * dst.mat.M11 + m14 * dst.mat.M31;
+            n12 = m11 * dst.mat.M12 + m14 * dst.mat.M32;
+
+            // Second row
+            n21 = m22 * dst.mat.M21 + m24 * dst.mat.M31;
+            n22 = m22 * dst.mat.M22 + m24 * dst.mat.M32;
+
+            // Third row
+
+            // Fourth row
+            n41 = dst.mat.M31;
+            n42 = dst.mat.M32;
         }
         #endregion Constructors
 
@@ -45,14 +71,14 @@ namespace FanKit.Transformer.Mathematics
             return new Matrix4x4
             {
                 // First row
-                M11 = matrix.m11 * matrix.dst.mat.M11 + matrix.m14 * matrix.dst.mat.M31,
-                M12 = matrix.m11 * matrix.dst.mat.M12 + matrix.m14 * matrix.dst.mat.M32,
+                M11 = matrix.n11,
+                M12 = matrix.n12,
                 M13 = 0f,
                 M14 = matrix.m14,
 
                 // Second row
-                M21 = matrix.m22 * matrix.dst.mat.M21 + matrix.m24 * matrix.dst.mat.M31,
-                M22 = matrix.m22 * matrix.dst.mat.M22 + matrix.m24 * matrix.dst.mat.M32,
+                M21 = matrix.n21,
+                M22 = matrix.n22,
                 M23 = 0f,
                 M24 = matrix.m24,
 
@@ -63,8 +89,8 @@ namespace FanKit.Transformer.Mathematics
                 M34 = 0f,
 
                 // Fourth row
-                M41 = matrix.dst.mat.M31,
-                M42 = matrix.dst.mat.M32,
+                M41 = matrix.n41,
+                M42 = matrix.n42,
                 M43 = 0f,
                 M44 = 1f
             };

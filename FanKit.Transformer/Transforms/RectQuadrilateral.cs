@@ -14,6 +14,7 @@ namespace FanKit.Transformer.Transforms
 
         FreeTransformedBounds TransformedBounds;
 
+        QuadMatrix DestNorm;
         PerspRectMatrix3x3 DestNormMatrix;
         public Quadrilateral Destination => this.Quadrilateral;
 
@@ -23,7 +24,8 @@ namespace FanKit.Transformer.Transforms
 
         internal override void Find()
         {
-            this.DestNormMatrix = new PerspRectMatrix3x3(this.SourceNormalize, this.Quadrilateral);
+            this.DestNorm = new QuadMatrix(this.Quadrilateral);
+            this.DestNormMatrix = new PerspRectMatrix3x3(this.SourceNormalize, this.DestNorm);
             this.Matrix = this.DestNormMatrix;
         }
 

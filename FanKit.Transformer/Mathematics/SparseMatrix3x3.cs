@@ -3,7 +3,7 @@
 namespace FanKit.Transformer.Mathematics
 {
     // Copy from Xamarin.SkiaSharpForms\SkiaSharpForms\Demos\Demos\SkiaSharpFormsDemos\Transforms\ShowPerspMatrixPage.xaml.cs
-    internal readonly struct SparseMatrix3x3
+    public readonly struct QuadMatrix
     {
         internal readonly Matrix3x2 mat; // Identity Matrix
         readonly float x; // RightBottom.X
@@ -21,7 +21,7 @@ namespace FanKit.Transformer.Mathematics
         internal readonly float rx;
         internal readonly float ry;
 
-        public SparseMatrix3x3(Quadrilateral quad)
+        public QuadMatrix(Quadrilateral quad)
         {
             mat = quad.Normalize();
             x = quad.RightBottom.X;

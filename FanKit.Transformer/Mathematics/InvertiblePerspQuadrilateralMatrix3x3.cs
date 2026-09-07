@@ -21,9 +21,6 @@ namespace FanKit.Transformer.Mathematics
         readonly float m41;
         readonly float m42;
 
-        // Quadrilateral
-        readonly SparseMatrix3x3 mat;
-
         // First row
         readonly float n11;
         readonly float n12;
@@ -38,8 +35,25 @@ namespace FanKit.Transformer.Mathematics
         readonly float n41;
         readonly float n42;
 
+        // First row
+        readonly float l11;
+        readonly float l12;
+        readonly float l14;
+
+        // Second row
+        readonly float l21;
+        readonly float l22;
+        readonly float l24;
+
+        // Third row
+
+        // Fourth row
+        readonly float l41;
+        readonly float l42;
+        readonly float l44;
+
         #region Constructors
-        public InvertiblePerspQuadrilateralMatrix3x3(Quadrilateral source, Quadrilateral destination)
+        public InvertiblePerspQuadrilateralMatrix3x3(Quadrilateral source, QuadMatrix destinationNormalize)
         {
             dst = new InvertibleSparseMatrix3x3(source);
 
@@ -54,7 +68,7 @@ namespace FanKit.Transformer.Mathematics
             m41 = dst.x.M2;
             m42 = dst.x.M5;
 
-            mat = new SparseMatrix3x3(destination);
+            var mat = destinationNormalize;
 
             // First row
             n11 = mat.sx * mat.mat.M11 + mat.rx * mat.mat.M31;
@@ -69,6 +83,23 @@ namespace FanKit.Transformer.Mathematics
             // Fourth row
             n41 = mat.mat.M31;
             n42 = mat.mat.M32;
+
+            // First row
+            l11 = m11 * n11 + m12 * n21 + m14 * n41;
+            l12 = m11 * n12 + m12 * n22 + m14 * n42;
+            l14 = m11 * mat.rx + m12 * mat.ry + m14;
+
+            // Second row
+            l21 = m21 * n11 + m22 * n21 + m24 * n41;
+            l22 = m21 * n12 + m22 * n22 + m24 * n42;
+            l24 = m21 * mat.rx + m22 * mat.ry + m24;
+
+            // Third row
+
+            // Fourth row
+            l41 = m41 * n11 + m42 * n21 + m44 * n41;
+            l42 = m41 * n12 + m42 * n22 + m44 * n42;
+            l44 = m41 * mat.rx + m42 * mat.ry + m44;
         }
         #endregion Constructors
 
@@ -87,16 +118,16 @@ namespace FanKit.Transformer.Mathematics
             return new Matrix4x4
             {
                 // First row
-                M11 = matrix.m11 * matrix.n11 + matrix.m12 * matrix.n21 + matrix.m14 * matrix.n41,
-                M12 = matrix.m11 * matrix.n12 + matrix.m12 * matrix.n22 + matrix.m14 * matrix.n42,
+                M11 = matrix.l11,
+                M12 = matrix.l12,
                 M13 = 0f,
-                M14 = matrix.m11 * matrix.mat.rx + matrix.m12 * matrix.mat.ry + matrix.m14,
+                M14 = matrix.l14,
 
                 // Second row
-                M21 = matrix.m21 * matrix.n11 + matrix.m22 * matrix.n21 + matrix.m24 * matrix.n41,
-                M22 = matrix.m21 * matrix.n12 + matrix.m22 * matrix.n22 + matrix.m24 * matrix.n42,
+                M21 = matrix.l21,
+                M22 = matrix.l22,
                 M23 = 0f,
-                M24 = matrix.m21 * matrix.mat.rx + matrix.m22 * matrix.mat.ry + matrix.m24,
+                M24 = matrix.l24,
 
                 // Third row
                 M31 = 0f,
@@ -105,10 +136,10 @@ namespace FanKit.Transformer.Mathematics
                 M34 = 0f,
 
                 // Fourth row
-                M41 = matrix.m41 * matrix.n11 + matrix.m42 * matrix.n21 + m44 * matrix.n41,
-                M42 = matrix.m41 * matrix.n12 + matrix.m42 * matrix.n22 + m44 * matrix.n42,
+                M41 = matrix.l41,
+                M42 = matrix.l42,
                 M43 = 0f,
-                M44 = matrix.m41 * matrix.mat.rx + matrix.m42 * matrix.mat.ry + m44,
+                M44 = matrix.l44,
             };
         }
         #endregion Public Static Operators

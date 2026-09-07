@@ -422,7 +422,7 @@ namespace FanKit.Transformer.TestApp
 
         // Destination
         Quadrilateral RightDest;
-        PerspSizeMatrix3x3 RightNorm;
+        QuadMatrix RightNorm;
         Matrix4x4 RightMatrix;
         readonly Vector2[] RightPoints = new Vector2[4];
 
@@ -476,11 +476,11 @@ namespace FanKit.Transformer.TestApp
             this.LeftMatrix = this.SourceNormalize.Map(this.LeftDest).ToMatrix3x2();
 
             // Destination
-            this.RightNorm = this.SourceNormalize.ToPerspMatrix(this.RightDest);
-            this.RightMatrix = this.RightNorm;
+            this.RightNorm = new QuadMatrix(this.RightDest);
+            this.RightMatrix = this.SourceNormalize.ToPerspMatrix(this.RightNorm);
 
             // Homography
-            this.Matrix = this.LeftNorm.ToPerspMatrix(this.RightDest);
+            this.Matrix = this.LeftNorm.ToPerspMatrix(this.RightNorm);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -519,13 +519,13 @@ namespace FanKit.Transformer.TestApp
 
         // Source
         Quadrilateral LeftDest;
-        PerspSizeMatrix3x3 LeftNorm;
+        QuadMatrix LeftNorm;
         Matrix4x4 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[4];
 
         // Destination
         Quadrilateral RightDest;
-        PerspSizeMatrix3x3 RightNorm;
+        QuadMatrix RightNorm;
         Matrix4x4 RightMatrix;
         readonly Vector2[] RightPoints = new Vector2[4];
 
@@ -579,15 +579,15 @@ namespace FanKit.Transformer.TestApp
         public override void InitializeMatrix()
         {
             // Source
-            this.LeftNorm = this.SourceNormalize.ToPerspMatrix(this.LeftDest);
-            this.LeftMatrix = this.LeftNorm;
+            this.LeftNorm = new QuadMatrix(this.LeftDest);
+            this.LeftMatrix = this.SourceNormalize.ToPerspMatrix(this.LeftNorm);
 
             // Destination
-            this.RightNorm = this.SourceNormalize.ToPerspMatrix(this.RightDest);
-            this.RightMatrix = this.RightNorm;
+            this.RightNorm = new QuadMatrix(this.RightDest);
+            this.RightMatrix = this.SourceNormalize.ToPerspMatrix(this.RightNorm);
 
             // Homography
-            this.Matrix = new InvertiblePerspQuadrilateralMatrix3x3(this.LeftDest, this.RightDest);
+            this.Matrix = new InvertiblePerspQuadrilateralMatrix3x3(this.LeftDest, this.RightNorm);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -627,7 +627,7 @@ namespace FanKit.Transformer.TestApp
 
         // Source
         Quadrilateral LeftDest;
-        PerspSizeMatrix3x3 LeftNorm;
+        QuadMatrix LeftNorm;
         Matrix4x4 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[4];
 
@@ -681,8 +681,8 @@ namespace FanKit.Transformer.TestApp
         public override void InitializeMatrix()
         {
             // Source
-            this.LeftNorm = this.SourceNormalize.ToPerspMatrix(this.LeftDest);
-            this.LeftMatrix = this.LeftNorm;
+            this.LeftNorm = new QuadMatrix(this.LeftDest);
+            this.LeftMatrix = this.SourceNormalize.ToPerspMatrix(this.LeftNorm);
 
             // Destination
             this.RightMatrix = this.SourceNormalize.Map(this.RightDest).ToMatrix3x2();
