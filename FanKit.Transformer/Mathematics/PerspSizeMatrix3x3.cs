@@ -5,18 +5,18 @@ namespace FanKit.Transformer.Mathematics
 {
     public readonly struct PerspSizeMatrix3x3
     {
-        internal readonly SparseMatrix3x3 dst;
+        readonly SparseMatrix3x3 dst;
 
         // First row
-        internal readonly float m11;
-        internal readonly float m14;
+        readonly float m11;
+        readonly float m14;
 
         // Second row
-        internal readonly float m22;
-        internal readonly float m24;
+        readonly float m22;
+        readonly float m24;
 
         #region Constructors
-        internal PerspSizeMatrix3x3(SizeMatrix sourceNormalize, Quadrilateral destination)
+        public PerspSizeMatrix3x3(SizeMatrix sourceNormalize, Quadrilateral destination)
         {
             dst = new SparseMatrix3x3(destination);
 

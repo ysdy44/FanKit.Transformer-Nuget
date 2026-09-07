@@ -20,7 +20,7 @@ namespace FanKit.Transformer.Mathematics
 
         #region Public instance methods
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public PerspSizeMatrix3x3 ToPerspMatrix(Quadrilateral quad) => new PerspSizeMatrix3x3(this, quad);
+        public PerspSizeMatrix3x3 ToPerspMatrix(Quadrilateral destination) => new PerspSizeMatrix3x3(this, destination);
 
         // -------------------- 1x2_2x2 -------------------- // 
 

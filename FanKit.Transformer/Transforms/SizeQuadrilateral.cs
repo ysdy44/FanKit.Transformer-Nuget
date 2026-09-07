@@ -14,7 +14,7 @@ namespace FanKit.Transformer.Transforms
 
         FreeTransformedSize TransformedBounds;
 
-        PerspSizeMatrix3x3 DestNorm;
+        PerspSizeMatrix3x3 DestNormMatrix;
         public Quadrilateral Destination => this.Quadrilateral;
 
         public Matrix4x4 HomographyMatrix => this.Matrix;
@@ -23,8 +23,8 @@ namespace FanKit.Transformer.Transforms
 
         internal override void Find()
         {
-            this.DestNorm = this.SourceNormalize.ToPerspMatrix(this.Quadrilateral);
-            this.Matrix = this.DestNorm;
+            this.DestNormMatrix = new PerspSizeMatrix3x3(this.SourceNormalize, this.Quadrilateral);
+            this.Matrix = this.DestNormMatrix;
         }
 
         #region Quadrilaterals.Initialize

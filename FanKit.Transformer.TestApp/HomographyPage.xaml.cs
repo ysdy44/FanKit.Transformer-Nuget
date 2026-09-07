@@ -114,8 +114,8 @@ namespace FanKit.Transformer.TestApp
         SizeMatrix SourceNormalize = new SizeMatrix(W, H);
 
         // Source
-        Rectangle LeftSourceRect;
-        RectMatrix LeftSourceNormalize;
+        Rectangle LeftDest;
+        RectMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
 
         // Destination
@@ -142,8 +142,8 @@ namespace FanKit.Transformer.TestApp
                 Width = 200,
                 Height = 200,
             };
-            this.LeftSourceRect = rect;
-            this.LeftSourceNormalize = new RectMatrix(rect);
+            this.LeftDest = rect;
+            this.LeftNorm = new RectMatrix(rect);
 
             // Destination
             this.RightDest = new Triangle
@@ -170,14 +170,14 @@ namespace FanKit.Transformer.TestApp
         public override void InitializeMatrix()
         {
             // Source
-            this.LeftMatrix = this.SourceNormalize.Map(this.LeftSourceRect).ToMatrix3x2();
+            this.LeftMatrix = this.SourceNormalize.Map(this.LeftDest).ToMatrix3x2();
 
             // Destination
             this.RightNorm = this.RightDest.Normalize();
             this.RightMatrix = this.SourceNormalize.Affine(this.RightNorm);
 
             // Homography
-            this.Matrix = this.LeftSourceNormalize.Affine(this.RightNorm);
+            this.Matrix = this.LeftNorm.Affine(this.RightNorm);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -193,8 +193,8 @@ namespace FanKit.Transformer.TestApp
                 Source = this.Bitmap,
             });
 
-            drawingSession.FillRectangle(this.LeftSourceRect.X, this.LeftSourceRect.Y, this.LeftSourceRect.Width, this.LeftSourceRect.Height, LeftFillColor);
-            drawingSession.DrawRectangle(this.LeftSourceRect.X, this.LeftSourceRect.Y, this.LeftSourceRect.Width, this.LeftSourceRect.Height, LeftStrokeColor, 3f);
+            drawingSession.FillRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftFillColor);
+            drawingSession.DrawRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftStrokeColor, 3f);
 
             CanvasGeometry geometry = CanvasGeometry.CreatePolygon(resourceCreator, this.RightPoints);
             drawingSession.FillGeometry(geometry, RightFillColor);
@@ -417,8 +417,8 @@ namespace FanKit.Transformer.TestApp
         SizeMatrix SourceNormalize = new SizeMatrix(W, H);
 
         // Source
-        Rectangle LeftSourceRect;
-        RectMatrix LeftSourceNormalize;
+        Rectangle LeftDest;
+        RectMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
 
         // Destination
@@ -445,8 +445,8 @@ namespace FanKit.Transformer.TestApp
                 Width = 200,
                 Height = 200,
             };
-            this.LeftSourceRect = rect;
-            this.LeftSourceNormalize = new RectMatrix(rect);
+            this.LeftDest = rect;
+            this.LeftNorm = new RectMatrix(rect);
 
             // Destination
             this.RightDest = new Quadrilateral
@@ -475,14 +475,14 @@ namespace FanKit.Transformer.TestApp
         public override void InitializeMatrix()
         {
             // Source
-            this.LeftMatrix = this.SourceNormalize.Map(this.LeftSourceRect).ToMatrix3x2();
+            this.LeftMatrix = this.SourceNormalize.Map(this.LeftDest).ToMatrix3x2();
 
             // Destination
             this.RightNorm = this.SourceNormalize.ToPerspMatrix(this.RightDest);
             this.RightMatrix = this.RightNorm;
 
             // Homography
-            this.Matrix = this.LeftSourceNormalize.ToPerspMatrix(this.RightDest);
+            this.Matrix = this.LeftNorm.ToPerspMatrix(this.RightDest);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -498,8 +498,8 @@ namespace FanKit.Transformer.TestApp
                 Source = this.Bitmap,
             });
 
-            drawingSession.FillRectangle(this.LeftSourceRect.X, this.LeftSourceRect.Y, this.LeftSourceRect.Width, this.LeftSourceRect.Height, LeftFillColor);
-            drawingSession.DrawRectangle(this.LeftSourceRect.X, this.LeftSourceRect.Y, this.LeftSourceRect.Width, this.LeftSourceRect.Height, LeftStrokeColor, 3f);
+            drawingSession.FillRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftFillColor);
+            drawingSession.DrawRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftStrokeColor, 3f);
 
             CanvasGeometry geometry = CanvasGeometry.CreatePolygon(resourceCreator, this.RightPoints);
             drawingSession.FillGeometry(geometry, RightFillColor);
@@ -634,7 +634,7 @@ namespace FanKit.Transformer.TestApp
         readonly Vector2[] LeftPoints = new Vector2[4];
 
         // Destination
-        Rectangle RightSourceRect;
+        Rectangle RightDest;
         Matrix3x2 RightMatrix;
 
         // Homography
@@ -668,7 +668,7 @@ namespace FanKit.Transformer.TestApp
                 Width = 200,
                 Height = 200,
             };
-            this.RightSourceRect = rect;
+            this.RightDest = rect;
         }
 
         public override void InitializeSource(CanvasBitmap bitmap)
@@ -688,10 +688,10 @@ namespace FanKit.Transformer.TestApp
             this.LeftMatrix = this.LeftNorm;
 
             // Destination
-            this.RightMatrix = this.SourceNormalize.Map(this.RightSourceRect).ToMatrix3x2();
+            this.RightMatrix = this.SourceNormalize.Map(this.RightDest).ToMatrix3x2();
 
             // Homography
-            this.Matrix = new InvertiblePerspRectMatrix3x3(this.LeftDest, this.RightSourceRect);
+            this.Matrix = new InvertiblePerspRectMatrix3x3(this.LeftDest, this.RightDest);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -711,8 +711,8 @@ namespace FanKit.Transformer.TestApp
             drawingSession.FillGeometry(geometry, LeftFillColor);
             drawingSession.DrawGeometry(geometry, LeftStrokeColor, 3f);
 
-            drawingSession.FillRectangle(this.RightSourceRect.X, this.RightSourceRect.Y, this.RightSourceRect.Width, this.RightSourceRect.Height, RightFillColor);
-            drawingSession.DrawRectangle(this.RightSourceRect.X, this.RightSourceRect.Y, this.RightSourceRect.Width, this.RightSourceRect.Height, RightStrokeColor, 3f);
+            drawingSession.FillRectangle(this.RightDest.X, this.RightDest.Y, this.RightDest.Width, this.RightDest.Height, RightFillColor);
+            drawingSession.DrawRectangle(this.RightDest.X, this.RightDest.Y, this.RightDest.Width, this.RightDest.Height, RightStrokeColor, 3f);
         }
 
         public override Vector2 TransformPoint(Vector2 point)

@@ -5,20 +5,20 @@ namespace FanKit.Transformer.Mathematics
 {
     public readonly struct PerspRectMatrix3x3
     {
-        internal readonly SparseMatrix3x3 dst;
+        readonly SparseMatrix3x3 dst;
 
         // First row
-        internal readonly float m11;
-        internal readonly float m14;
+        readonly float m11;
+        readonly float m14;
 
         // Second row
-        internal readonly float m22;
-        internal readonly float m24;
+        readonly float m22;
+        readonly float m24;
 
         // Fourth row
-        internal readonly float m41;
-        internal readonly float m42;
-        internal readonly float m44;
+        readonly float m41;
+        readonly float m42;
+        readonly float m44;
 
         #region Constructors
         public PerspRectMatrix3x3(RectMatrix sourceNormalize, Quadrilateral destination)

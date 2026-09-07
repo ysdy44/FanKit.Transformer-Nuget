@@ -19,9 +19,9 @@ namespace FanKit.Transformer.Mathematics
         readonly float m41;
         readonly float m42;
 
-        public InvertiblePerspSizeMatrix3x3(Quadrilateral src, float destinationWidth, float destinationHeight)
+        public InvertiblePerspSizeMatrix3x3(Quadrilateral source, float destinationWidth, float destinationHeight)
         {
-            dst = new InvertibleSparseMatrix3x3(src);
+            dst = new InvertibleSparseMatrix3x3(source);
 
             m11 = dst.x.M0 * destinationWidth;
             m12 = dst.x.M3 * destinationHeight;

@@ -17,12 +17,12 @@ namespace FanKit.Transformer.Transforms
 
         public QuadrilateralPointKind PointKind => this.Controller.PointKind;
 
-        InvertiblePerspSizeMatrix3x3 Core;
+        InvertiblePerspSizeMatrix3x3 NormMatrix;
 
         internal override void Find()
         {
-            this.Core = new InvertiblePerspSizeMatrix3x3(this.Quadrilateral, this.DestinationWidth, this.DestinationHeight);
-            this.Matrix = this.Core;
+            this.NormMatrix = new InvertiblePerspSizeMatrix3x3(this.Quadrilateral, this.DestinationWidth, this.DestinationHeight);
+            this.Matrix = this.NormMatrix;
         }
 
         #region Quadrilaterals.Initialize
