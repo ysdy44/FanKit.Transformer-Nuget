@@ -19,6 +19,7 @@ namespace FanKit.Transformer.Mathematics
         readonly float m41;
         readonly float m42;
 
+        #region Constructors
         public InvertiblePerspRectMatrix3x3(Quadrilateral source, float destinationWidth, float destinationHeight)
         {
             dst = new InvertibleSparseMatrix3x3(source);
@@ -35,38 +36,6 @@ namespace FanKit.Transformer.Mathematics
             m42 = dst.x.M5 * destinationHeight;
         }
 
-        /*
-        public static implicit operator Matrix4x4(InvertiblePerspRectMatrix3x3 matrix)
-        {
-            return new Matrix4x4
-            {
-                // First row
-                M11 = matrix.m11,
-                M12 = matrix.m12,
-                M13 = 0f,
-                M14 = matrix.m14,
-
-                // Second row
-                M21 = matrix.m21,
-                M22 = matrix.m22,
-                M23 = 0f,
-                M24 = matrix.m24,
-
-                // Third row
-                M31 = 0f,
-                M32 = 0f,
-                M33 = 1f,
-                M34 = 0f,
-
-                // Fourth row
-                M41 = matrix.m41,
-                M42 = matrix.m42,
-                M43 = 0f,
-                M44 = 1f,
-            };
-        }
-         */
-
         public InvertiblePerspRectMatrix3x3(Quadrilateral source, Rectangle destination)
         {
             dst = new InvertibleSparseMatrix3x3(source);
@@ -82,6 +51,17 @@ namespace FanKit.Transformer.Mathematics
             m41 = dst.x.M2 * destination.Width + destination.X;
             m42 = dst.x.M5 * destination.Height + destination.Y;
         }
+        #endregion Constructors
+
+        #region Public Static Methods
+        #endregion Public Static Methods
+
+        #region Public operator methods
+        #endregion Public operator methods
+
+        #region Public Static Operators
+
+        // -------------------- 3x3_2x2 -------------------- // 
 
         public static implicit operator Matrix4x4(InvertiblePerspRectMatrix3x3 matrix)
         {
@@ -112,5 +92,6 @@ namespace FanKit.Transformer.Mathematics
                 M44 = 1f,
             };
         }
+        #endregion Public Static Operators
     }
 }

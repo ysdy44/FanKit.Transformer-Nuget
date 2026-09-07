@@ -38,6 +38,7 @@ namespace FanKit.Transformer.Mathematics
         readonly float n41;
         readonly float n42;
 
+        #region Constructors
         public InvertiblePerspQuadrilateralMatrix3x3(Quadrilateral source, Quadrilateral destination)
         {
             dst = new InvertibleSparseMatrix3x3(source);
@@ -69,6 +70,17 @@ namespace FanKit.Transformer.Mathematics
             n41 = mat.mat.M31;
             n42 = mat.mat.M32;
         }
+        #endregion Constructors
+
+        #region Public Static Methods
+        #endregion Public Static Methods
+
+        #region Public operator methods
+        #endregion Public operator methods
+
+        #region Public Static Operators
+
+        // -------------------- 3x3_3x3 -------------------- // 
 
         public static implicit operator Matrix4x4(InvertiblePerspQuadrilateralMatrix3x3 matrix)
         {
@@ -99,5 +111,6 @@ namespace FanKit.Transformer.Mathematics
                 M44 = matrix.m41 * matrix.mat.rx + matrix.m42 * matrix.mat.ry + m44,
             };
         }
+        #endregion Public Static Operators
     }
 }

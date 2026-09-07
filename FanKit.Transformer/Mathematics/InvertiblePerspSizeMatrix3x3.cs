@@ -19,6 +19,7 @@ namespace FanKit.Transformer.Mathematics
         readonly float m41;
         readonly float m42;
 
+        #region Constructors
         public InvertiblePerspSizeMatrix3x3(Quadrilateral source, float destinationWidth, float destinationHeight)
         {
             dst = new InvertibleSparseMatrix3x3(source);
@@ -34,6 +35,17 @@ namespace FanKit.Transformer.Mathematics
             m41 = dst.x.M2 * destinationWidth;
             m42 = dst.x.M5 * destinationHeight;
         }
+        #endregion Constructors
+
+        #region Public Static Methods
+        #endregion Public Static Methods
+
+        #region Public operator methods
+        #endregion Public operator methods
+
+        #region Public Static Operators
+
+        // -------------------- 3x3_1x2 -------------------- // 
 
         public static implicit operator Matrix4x4(InvertiblePerspSizeMatrix3x3 matrix)
         {
@@ -64,5 +76,6 @@ namespace FanKit.Transformer.Mathematics
                 M44 = 1f,
             };
         }
+        #endregion Public Static Operators
     }
 }

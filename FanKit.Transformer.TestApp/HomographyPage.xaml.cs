@@ -135,15 +135,14 @@ namespace FanKit.Transformer.TestApp
             float centerY = height / 2;
 
             // Source
-            Rectangle rect = new Rectangle
+            this.LeftDest = new Rectangle
             {
                 X = x0 - 100,
                 Y = centerY - 100,
                 Width = 200,
                 Height = 200,
             };
-            this.LeftDest = rect;
-            this.LeftNorm = new RectMatrix(rect);
+            this.LeftNorm = new RectMatrix(this.LeftDest);
 
             // Destination
             this.RightDest = new Triangle
@@ -438,15 +437,14 @@ namespace FanKit.Transformer.TestApp
             float centerY = height / 2;
 
             // Source
-            Rectangle rect = new Rectangle
+            this.LeftDest = new Rectangle
             {
                 X = x0 - 100,
                 Y = centerY - 100,
                 Width = 200,
                 Height = 200,
             };
-            this.LeftDest = rect;
-            this.LeftNorm = new RectMatrix(rect);
+            this.LeftNorm = new RectMatrix(this.LeftDest);
 
             // Destination
             this.RightDest = new Quadrilateral
@@ -661,14 +659,13 @@ namespace FanKit.Transformer.TestApp
             this.LeftPoints[3] = this.LeftDest.LeftBottom;
 
             // Destination
-            Rectangle rect = new Rectangle
+            this.RightDest = new Rectangle
             {
                 X = x1 - 100,
                 Y = centerY - 100,
                 Width = 200,
                 Height = 200,
             };
-            this.RightDest = rect;
         }
 
         public override void InitializeSource(CanvasBitmap bitmap)

@@ -657,7 +657,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
-                  
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y0 = r;
@@ -687,7 +687,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
-                  
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y1 = vi1 * h;
@@ -749,6 +749,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y0 = r;
@@ -778,7 +779,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
-                    
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y1 = vi1 * h;
@@ -840,7 +841,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
-                       
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y0 = r;
@@ -870,7 +871,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
-                   
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y1 = vi1 * h;
@@ -932,7 +933,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
-                     
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y0 = r;
@@ -962,7 +963,7 @@ namespace FanKit.Transformer.UI
 
                         float r = h * PolarEpsilon;
                         float hr = h - r;
-                        
+
                         Matrix4x4 m = new Mathematics.InvertiblePerspSizeMatrix3x3(quad, w, hr);
 
                         float y1 = vi1 * h;
