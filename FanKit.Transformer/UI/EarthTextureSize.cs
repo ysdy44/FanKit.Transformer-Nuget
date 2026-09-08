@@ -21,11 +21,11 @@ namespace FanKit.Transformer.UI
         internal readonly SizeMatrix SourceNormalize;
         internal readonly SizeMatrix SourceNormalizePolarEpsilon;
 
-        public EarthTextureSize(EarthUV uv, float bitmapWidth, float bitmapHeight)
+        internal EarthTextureSize(GraticuleUV uv, float bitmapWidth, float bitmapHeight)
         {
             this.TextureWidthF = bitmapWidth / uv.UCountF;
             this.TextureHeightF = bitmapHeight / uv.VCount;
-            this.HeightPolarEpsilonF = -this.TextureHeightF * Earth.PolarEpsilon;
+            this.HeightPolarEpsilonF = -this.TextureHeightF * Graticule.PolarEpsilon;
             this.TextureHeightPolarEpsilonF = this.TextureHeightF + this.HeightPolarEpsilonF;
 
             this.TextureWidth = (int)this.TextureWidthF;
@@ -36,7 +36,7 @@ namespace FanKit.Transformer.UI
             this.SourceNormalizePolarEpsilon = new SizeMatrix(this.TextureWidthF, this.TextureHeightPolarEpsilonF);
         }
 
-        public IEnumerable<EarthCreateTexture> CreateTextures(EarthUV uv)
+        internal IEnumerable<EarthCreateTexture> CreateTextures(GraticuleUV uv)
         {
             for (int vi = 1; vi < uv.VCount; vi++)
             {

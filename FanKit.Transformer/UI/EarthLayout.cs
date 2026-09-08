@@ -2,7 +2,7 @@
 
 namespace FanKit.Transformer.UI
 {
-    public struct EarthLayout
+    public struct SphereLayout
     {
         public float Radius;
 

@@ -1,14 +1,14 @@
 ﻿namespace FanKit.Transformer.UI
 {
-    public readonly struct EarthUV
+    public readonly struct GraticuleUV
     {
-        public static EarthUV U10V7 { get; } = new EarthUV(5);
-        public static EarthUV U12V8 { get; } = new EarthUV(6);
-        public static EarthUV U18V11 { get; } = new EarthUV(9);
-        public static EarthUV U20V12 { get; } = new EarthUV(10);
-        public static EarthUV U24V14 { get; } = new EarthUV(12);
-        public static EarthUV U30V17 { get; } = new EarthUV(15);
-        public static EarthUV U36V20 { get; } = new EarthUV(18);
+        public static GraticuleUV U10V7 { get; } = new GraticuleUV(5);
+        public static GraticuleUV U12V8 { get; } = new GraticuleUV(6);
+        public static GraticuleUV U18V11 { get; } = new GraticuleUV(9);
+        public static GraticuleUV U20V12 { get; } = new GraticuleUV(10);
+        public static GraticuleUV U24V14 { get; } = new GraticuleUV(12);
+        public static GraticuleUV U30V17 { get; } = new GraticuleUV(15);
+        public static GraticuleUV U36V20 { get; } = new GraticuleUV(18);
 
         // -180° West ~ 180° East
         public const float West = -180f;
@@ -44,7 +44,7 @@
         public int U => UCount;
         public int V => VCountPlus;
 
-        private EarthUV(int count)
+        private GraticuleUV(int count)
         {
             Count = count;
 
@@ -68,7 +68,7 @@
             //UCountPlus = UCount + 1;
         }
 
-        public EarthUV(int u, int v)
+        public GraticuleUV(int u, int v)
         {
             //Count = (VCountMinus + UCountHalf) / 2;
 

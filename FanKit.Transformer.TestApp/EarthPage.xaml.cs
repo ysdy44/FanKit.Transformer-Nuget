@@ -41,7 +41,7 @@ namespace FanKit.Transformer.TestApp
         const float DeemoScaleX = TouchPadWidth / EarthTextureSize.DemoBitmapWidth;
         const float DeemoScaleY = TouchPadHeight / EarthTextureSize.DemoBitmapHeight;
 
-        static readonly EarthUV UV = EarthUV.U18V11;
+        static readonly GraticuleUV UV = GraticuleUV.U18V11;
 
         bool ShowGrid;
 
@@ -51,9 +51,9 @@ namespace FanKit.Transformer.TestApp
         Vector3 StartingRadians;
         Vector3 Radians = Vector3.Zero;
 
-        EarthLayout EarthLayout;
+        SphereLayout EarthLayout;
         EarthTextureSize EarthTextureSize;
-        EarthRotation EarthRotation = new EarthRotation(Vector3.Zero);
+        SphereRotation EarthRotation = new SphereRotation(Vector3.Zero);
         Stellite? Mouse = null;
 
         readonly Earth Earth = new Earth(UV);
@@ -109,7 +109,7 @@ namespace FanKit.Transformer.TestApp
                 this.CanvasControl = null;
             };
 
-            foreach (var item in EarthTextureSize.DemoBitmapPolygons)
+            foreach (Vector2[] item in EarthTextureSize.DemoBitmapPolygons)
             {
                 this.Touchpad.Children.Add(this.CreatePolygon(item));
             }
@@ -141,7 +141,7 @@ namespace FanKit.Transformer.TestApp
                     e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 1f, this.AtmosphereColor2);
                     e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, this.AtmosphereColor);
 
-                    foreach (var item in this.Earth.DrawTextures(UV))
+                    foreach (EarthTextureIndex item in this.Earth.DrawTextures())
                     {
                         int vi = item.V;
                         int ui = item.U;
@@ -180,7 +180,7 @@ namespace FanKit.Transformer.TestApp
                     }
                 }
 
-                foreach (var item in this.Earth.DrawLines(UV))
+                foreach (GraticuleLine item in this.Earth.DrawLines())
                 {
                     Vector2 point0 = item.Point0;
                     Vector2 point1 = item.Point1;
@@ -188,7 +188,7 @@ namespace FanKit.Transformer.TestApp
                     e.DrawingSession.DrawLine(point0, point1, this.ShowGrid ? Colors.DeepSkyBlue : this.VertexColor);
                 }
 
-                foreach (var item in this.Earth.DrawVertexes(UV))
+                foreach (Vector2 item in this.Earth.DrawVertexes())
                 {
                     e.DrawingSession.FillCircle(item, 2f, this.ShowGrid ? Colors.DeepSkyBlue : this.VertexColor);
                 }
@@ -215,7 +215,7 @@ namespace FanKit.Transformer.TestApp
                 float viewportWidth = (float)e.NewSize.Width;
                 float viewportHeight = (float)e.NewSize.Height;
 
-                this.EarthLayout = new EarthLayout
+                this.EarthLayout = new SphereLayout
                 {
                     Radius = 0.45f * System.Math.Min(viewportWidth, viewportHeight),
                     Center = new Vector2
@@ -225,7 +225,7 @@ namespace FanKit.Transformer.TestApp
                     }
                 };
 
-                this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout);
+                this.Earth.Update(this.EarthTextureSize, this.EarthLayout);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
             };
@@ -243,9 +243,9 @@ namespace FanKit.Transformer.TestApp
                 float verticalOffset = this.Point.Y - this.StartingPoint.Y;
                 this.Radians = this.EarthLayout.ScrollTo(this.StartingRadians, horizontalOffset, verticalOffset);
 
-                this.EarthRotation = new EarthRotation(this.Radians);
+                this.EarthRotation = new SphereRotation(this.Radians);
 
-                this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+                this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
 
@@ -261,11 +261,11 @@ namespace FanKit.Transformer.TestApp
                 {
                     if (System.Math.Abs(this.StartingPoint.Y - this.Point.Y) < 4d)
                     {
-                        Vector2? amount = this.Earth.GetAmount(UV, this.EarthLayout, this.Point);
+                        Vector2? amount = this.Earth.GetAmount(this.EarthLayout, this.Point);
                         if (amount.HasValue)
                         {
-                            var uAmount = amount.Value.X;
-                            var vAmount = amount.Value.Y;
+                            float uAmount = amount.Value.X;
+                            float vAmount = amount.Value.Y;
 
                             this.Stellites.Add(this.GetStellite(uAmount, vAmount));
                             this.CanvasControl.Invalidate();
@@ -277,11 +277,11 @@ namespace FanKit.Transformer.TestApp
             {
                 this.Point = new Vector2((float)x, (float)y);
 
-                Vector2? amount = this.Earth.GetAmount(UV, this.EarthLayout, this.Point);
+                Vector2? amount = this.Earth.GetAmount(this.EarthLayout, this.Point);
                 if (amount.HasValue)
                 {
-                    var uAmount = amount.Value.X;
-                    var vAmount = amount.Value.Y;
+                    float uAmount = amount.Value.X;
+                    float vAmount = amount.Value.Y;
 
                     this.Mouse = this.GetStellite(uAmount, vAmount);
                     this.CanvasControl.Invalidate();
@@ -296,7 +296,7 @@ namespace FanKit.Transformer.TestApp
             {
                 this.EarthLayout.Radius = d > 0 ? this.EarthLayout.Radius * 1.04f : this.EarthLayout.Radius / 1.04f;
 
-                this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout);
+                this.Earth.Update(this.EarthTextureSize, this.EarthLayout);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
             };
@@ -333,7 +333,7 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
-        public Vector3 GetUnitVector(float uAmount, float vAmount) => Earth.GetUnitVector(uAmount, vAmount);
+        public Vector3 GetUnitVector(float uAmount, float vAmount) => Graticule.GetUnitVector(uAmount, vAmount);
         public Vector3 RotateUnitVector(Vector3 unitVector) => this.EarthRotation.RotateUnitVector(unitVector);
 
         public Vector2 GetPoint(Vector3 unitVector) => this.EarthLayout.GetPoint(unitVector);
@@ -364,21 +364,21 @@ namespace FanKit.Transformer.TestApp
         //    using (CanvasBitmap bitmap = await CanvasBitmap.LoadAsync(resourceCreator, "Images/ad189db39db704e.jpg"))
         //    {
         //        this.CreateTextures(resourceCreator, bitmap);
-        //        this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+        //        this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
         //        for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
         //    }
         //}
         private void CreateResources(ICanvasResourceCreator resourceCreator, CanvasCreateResourcesEventArgs args)
         {
-            using (var renderTarget = new CanvasRenderTarget(resourceCreator, EarthTextureSize.DemoBitmapWidth, EarthTextureSize.DemoBitmapHeight, 96f))
+            using (CanvasRenderTarget renderTarget = new CanvasRenderTarget(resourceCreator, EarthTextureSize.DemoBitmapWidth, EarthTextureSize.DemoBitmapHeight, 96f))
             {
-                using (var drawingSession = renderTarget.CreateDrawingSession())
+                using (CanvasDrawingSession drawingSession = renderTarget.CreateDrawingSession())
                 {
                     drawingSession.Clear(this.DemoSeaColor);
 
-                    foreach (var item in EarthTextureSize.DemoBitmapPolygons)
+                    foreach (Vector2[] item in EarthTextureSize.DemoBitmapPolygons)
                     {
-                        using (var geometry = CanvasGeometry.CreatePolygon(resourceCreator, item))
+                        using (CanvasGeometry geometry = CanvasGeometry.CreatePolygon(resourceCreator, item))
                         {
                             drawingSession.FillGeometry(geometry, 0f, 0f, this.DemoLandColor);
                         }
@@ -386,7 +386,7 @@ namespace FanKit.Transformer.TestApp
                 }
 
                 this.CreateTextures(resourceCreator, renderTarget);
-                this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+                this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             }
         }
@@ -395,9 +395,9 @@ namespace FanKit.Transformer.TestApp
         {
             float bitmapWidth = (float)bitmap.Size.Width;
             float bitmapHeight = (float)bitmap.Size.Height;
-            this.EarthTextureSize = new EarthTextureSize(UV, bitmapWidth, bitmapHeight);
+            this.EarthTextureSize = this.Earth.ToTextureSize(bitmapWidth, bitmapHeight);
 
-            foreach (var item in this.EarthTextureSize.CreateTextures(UV))
+            foreach (EarthCreateTexture item in this.Earth.CreateTextures(this.EarthTextureSize))
             {
                 int textureWidth = item.TextureWidth;
                 int textureHeight = item.TextureHeight;
@@ -440,9 +440,9 @@ namespace FanKit.Transformer.TestApp
         private void ResetRotation()
         {
             this.Radians = Vector3.Zero;
-            this.EarthRotation = new EarthRotation(Vector3.Zero);
+            this.EarthRotation = new SphereRotation(Vector3.Zero);
 
-            this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 
@@ -453,9 +453,9 @@ namespace FanKit.Transformer.TestApp
         private void RotateXTo(float value) // -180~180
         {
             this.Radians.X = Mathematics.Math.PI * value / 360f;
-            this.EarthRotation = new EarthRotation(this.Radians);
+            this.EarthRotation = new SphereRotation(this.Radians);
 
-            this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 
@@ -464,9 +464,9 @@ namespace FanKit.Transformer.TestApp
         private void RotateZTo(float value) // -180~180
         {
             this.Radians.Z = Mathematics.Math.PI * value / 360f;
-            this.EarthRotation = new EarthRotation(this.Radians);
+            this.EarthRotation = new SphereRotation(this.Radians);
 
-            this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 
@@ -475,9 +475,9 @@ namespace FanKit.Transformer.TestApp
         private void RotateYTo(float value) // -360~360
         {
             this.Radians.Y = Mathematics.Math.PI * value / 360f;
-            this.EarthRotation = new EarthRotation(this.Radians);
+            this.EarthRotation = new SphereRotation(this.Radians);
 
-            this.Earth.Update(UV, this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 

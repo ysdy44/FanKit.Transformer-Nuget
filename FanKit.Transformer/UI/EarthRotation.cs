@@ -2,14 +2,14 @@
 
 namespace FanKit.Transformer.UI
 {
-    public readonly struct EarthRotation
+    public readonly struct SphereRotation
     {
         readonly Matrix4x4 Y;
         readonly Matrix4x4 X;
         readonly Matrix4x4 Z;
         readonly Matrix4x4 M;
 
-        public EarthRotation(Vector3 radians)
+        public SphereRotation(Vector3 radians)
         {
             this.Y = Matrix4x4.CreateRotationY(radians.Y);
             this.X = Matrix4x4.CreateRotationX(radians.X);
