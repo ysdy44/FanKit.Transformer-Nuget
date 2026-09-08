@@ -349,6 +349,9 @@
     <Compile Include="GeometryPage.xaml.cs">
       <DependentUpon>GeometryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GraticulePage.xaml.cs">
+      <DependentUpon>GraticulePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HomographyPage.xaml.cs">
       <DependentUpon>HomographyPage.xaml</DependentUpon>
     </Compile>
@@ -721,6 +724,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GeometryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GraticulePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

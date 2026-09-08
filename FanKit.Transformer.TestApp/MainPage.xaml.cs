@@ -368,6 +368,7 @@ namespace FanKit.Transformer.TestApp
                 new Kvp("Carousels", "Carousels", typeof(CarouselsPage)),
                 default,
                 new Kvp("Scroller", "Scroller", typeof(ScrollerPage)),
+                new Kvp("Graticule", "Graticule", typeof(GraticulePage)),
                 new Kvp("Earth", "Earth", typeof(EarthPage)),
                 default,
                 new Kvp("Flyout", "Flyout", typeof(FlyoutPage)),

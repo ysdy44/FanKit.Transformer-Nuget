@@ -123,7 +123,7 @@
                             <TextBlock FontWeight="Normal" FontSize="16" Text="Map"/>
                         </PivotItem.Header>
                         <StackPanel>
-                            
+
                             <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
 
                                 <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
@@ -2825,6 +2825,45 @@
                                     </Polygon>
                                 </Canvas>
                                 <TextBlock Text="Scroller" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                Graticule
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Ellipse Canvas.Left="38" Canvas.Top="15" Width="52" Height="52" StrokeThickness="1" Stroke="DodgerBlue" Fill="White"/>
+                                    <Line X1="64" Y1="15" X2="64" Y2="67" StrokeThickness="1" Stroke="DodgerBlue"/>
+
+                                    <Line X1="43" Y1="26" X2="85" Y2="26" StrokeThickness="1" Stroke="DodgerBlue"/>
+                                    <Line X1="38" Y1="41" X2="90" Y2="41" StrokeThickness="1" Stroke="DodgerBlue"/>
+                                    <Line X1="43" Y1="56" X2="85" Y2="56" StrokeThickness="1" Stroke="DodgerBlue"/>
+
+                                    <Polyline StrokeThickness="1" Stroke="DodgerBlue">
+                                        <Polyline.Points>
+                                            64,15 55,20 48,26 45,33 44,41 45,49 48,56 55,62 64,67
+                                        </Polyline.Points>
+                                    </Polyline>
+                                    <Polyline StrokeThickness="1" Stroke="DodgerBlue">
+                                        <Polyline.Points>
+                                            64,15 60,20 56,26 54,33 53,41 54,49 56,56 60,62 64,67
+                                        </Polyline.Points>
+                                    </Polyline>
+                                    <Polyline StrokeThickness="1" Stroke="DodgerBlue">
+                                        <Polyline.Points>
+                                            64,15 68,20 72,26 74,33 75,41 74,49 72,56 68,62 64,67
+                                        </Polyline.Points>
+                                    </Polyline>
+                                    <Polyline StrokeThickness="1" Stroke="DodgerBlue">
+                                        <Polyline.Points>
+                                            64,15 75,20 81,26 83,33 84,41 83,49 81,56 75,62 64,67
+                                        </Polyline.Points>
+                                    </Polyline>
+
+                                </Canvas>
+                                <TextBlock Text="Graticule" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
