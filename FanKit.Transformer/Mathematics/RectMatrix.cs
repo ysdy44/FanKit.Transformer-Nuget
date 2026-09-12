@@ -33,10 +33,67 @@ namespace FanKit.Transformer.Mathematics
 
         #region Public instance methods
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public PerspRectMatrix3x3 Persp(QuadMatrix destinationNormalize) => new PerspRectMatrix3x3(this, destinationNormalize);
+        public Matrix4x4 Persp(QuadMatrix destinationNormalize)
+        {
+            var dst = destinationNormalize;
+
+            // First row
+            float m11 = this.X * dst.sx;
+            float m14 = this.X * dst.rx;
+
+            // Second row
+            float m22 = this.Y * dst.sy;
+            float m24 = this.Y * dst.ry;
+
+            // Fourth row
+            float m41 = this.Z * dst.sx;
+            float m42 = this.W * dst.sy;
+            float m44 = this.Z * dst.rx + this.W * dst.ry + 1f;
+
+            // First row
+            float n11 = m11 * dst.mat.M11 + m14 * dst.mat.M31;
+            float n12 = m11 * dst.mat.M12 + m14 * dst.mat.M32;
+
+            // Second row
+            float n21 = m22 * dst.mat.M21 + m24 * dst.mat.M31;
+            float n22 = m22 * dst.mat.M22 + m24 * dst.mat.M32;
+
+            // Third row
+
+            // Fourth row
+            float n41 = m41 * dst.mat.M11 + m42 * dst.mat.M21 + m44 * dst.mat.M31;
+            float n42 = m41 * dst.mat.M12 + m42 * dst.mat.M22 + m44 * dst.mat.M32;
+
+            return new Matrix4x4
+            {
+                // First row
+                M11 = n11,
+                M12 = n12,
+                M13 = 0f,
+                M14 = m14,
+
+                // Second row
+                M21 = n21,
+                M22 = n22,
+                M23 = 0f,
+                M24 = m24,
+
+                // Third row
+                M31 = 0f,
+                M32 = 0f,
+                M33 = 1f,
+                M34 = 0f,
+
+                // Fourth row
+                M41 = n41,
+                M42 = n42,
+                M43 = 0f,
+                M44 = m44
+            };
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public PerspRectMatrix3x3 Persp(Quadrilateral destination) => new PerspRectMatrix3x3(this, new QuadMatrix(destination));
+        public Matrix4x4 Persp(Quadrilateral destination) => Persp(new QuadMatrix(destination));
 
         // -------------------- 2x2_2x2 -------------------- // 
 
