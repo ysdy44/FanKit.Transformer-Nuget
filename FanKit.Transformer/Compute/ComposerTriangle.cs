@@ -13,7 +13,7 @@ namespace FanKit.Transformer.Compute
         internal Triangle StartingTriangle;
         internal Triangle Triangle;
 
-        InvertibleMatrix3x2 HostSourceNorm;
+        TriangleMatrix HostSourceNorm;
         Matrix3x2 HostDestNorm;
 
         TransformController Controller;

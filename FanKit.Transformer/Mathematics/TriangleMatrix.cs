@@ -3,26 +3,26 @@ using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Mathematics
 {
-    public readonly struct InvertibleMatrix3x2
+    public readonly struct TriangleMatrix
     {
         readonly Matrix3x2 mat; // Matrix
         internal readonly bool can; // Invertible
         internal readonly Matrix3x2 inv; // InverseMatrix
 
         #region Constructors
-        public InvertibleMatrix3x2(Matrix3x2 matrix)
+        public TriangleMatrix(Matrix3x2 matrix)
         {
             mat = matrix;
             can = Matrix3x2.Invert(mat, out inv);
         }
 
-        public InvertibleMatrix3x2(Triangle triangle)
+        public TriangleMatrix(Triangle triangle)
         {
             mat = triangle.Normalize();
             can = Matrix3x2.Invert(mat, out inv);
         }
 
-        public InvertibleMatrix3x2(Quadrilateral quad)
+        public TriangleMatrix(Quadrilateral quad)
         {
             mat = quad.Normalize();
             can = Matrix3x2.Invert(mat, out inv);
@@ -45,15 +45,18 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 3x2_2x2 -------------------- //
 
-        public Matrix3x2 InvAffine(Rectangle destRect)
-            => can ? Math.Transform(inv, destRect) : destRect.ToMatrix3x2();
-
         public Matrix3x2 InvAffine(Matrix2x2 destinationNormalize)
             => can ? Math.Transform(inv, destinationNormalize) : destinationNormalize.ToMatrix3x2();
+
+        public Matrix3x2 InvAffine(Rectangle destination)
+            => can ? Math.Transform(inv, destination) : destination.ToMatrix3x2();
 
         // -------------------- 3x2_3x2 -------------------- // 
 
         public Matrix3x2 BidiAffine(Matrix3x2 destinationNormalize)
             => can ? inv * destinationNormalize : destinationNormalize;
+
+        public Matrix3x2 BidiAffine(Triangle destination)
+            => BidiAffine(destination.Normalize());
     }
 }

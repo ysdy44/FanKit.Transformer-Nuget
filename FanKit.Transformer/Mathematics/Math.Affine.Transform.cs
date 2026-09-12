@@ -133,13 +133,13 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 3x2_3x2 -------------------- // 
 
-        public static Matrix3x2 BidiAffine(InvertibleMatrix3x2 sourceNormalize, Matrix3x2 destinationNormalize)
+        public static Matrix3x2 BidiAffine(TriangleMatrix sourceNormalize, Matrix3x2 destinationNormalize)
             => sourceNormalize.BidiAffine(destinationNormalize);
 
-        public static Matrix3x2 BidiAffine(InvertibleMatrix3x2 sourceNormalize, Triangle destination)
+        public static Matrix3x2 BidiAffine(TriangleMatrix sourceNormalize, Triangle destination)
             => sourceNormalize.BidiAffine(destination.Normalize());
 
-        public static Matrix3x2 BidiAffine(InvertibleMatrix3x2 sourceNormalize, Quadrilateral destination)
+        public static Matrix3x2 BidiAffine(TriangleMatrix sourceNormalize, Quadrilateral destination)
             => sourceNormalize.BidiAffine(destination.Normalize());
 
         public static Matrix3x2 BidiAffine(Triangle source, Triangle destination)

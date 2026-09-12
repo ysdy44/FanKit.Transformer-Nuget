@@ -215,7 +215,7 @@ namespace FanKit.Transformer.TestApp
 
         // Source
         Triangle LeftDest;
-        InvertibleMatrix3x2 LeftNorm;
+        TriangleMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[3];
 
@@ -271,7 +271,7 @@ namespace FanKit.Transformer.TestApp
         public override void InitializeMatrix()
         {
             // Source
-            this.LeftNorm = new InvertibleMatrix3x2(this.LeftDest);
+            this.LeftNorm = new TriangleMatrix(this.LeftDest);
             this.LeftMatrix = this.SourceNormalize.Affine(this.LeftDest.Normalize());
 
             // Destination
@@ -319,7 +319,7 @@ namespace FanKit.Transformer.TestApp
 
         // Source
         Triangle LeftDest;
-        InvertibleMatrix3x2 LeftNorm;
+        TriangleMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[3];
 
@@ -371,7 +371,7 @@ namespace FanKit.Transformer.TestApp
         public override void InitializeMatrix()
         {
             // Source
-            this.LeftNorm = new InvertibleMatrix3x2(this.LeftDest);
+            this.LeftNorm = new TriangleMatrix(this.LeftDest);
             this.LeftMatrix = this.SourceNormalize.Affine(this.LeftDest.Normalize());
 
             // Destination

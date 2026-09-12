@@ -38,10 +38,10 @@ namespace FanKit.Transformer.Mathematics
         };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static InvertibleMatrix3x2 ToInvertibleMatrix(this Triangle triangle) => new InvertibleMatrix3x2(triangle);
+        public static TriangleMatrix ToInvertibleMatrix(this Triangle triangle) => new TriangleMatrix(triangle);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static InvertibleMatrix3x2 ToInvertibleMatrix(this Quadrilateral quad) => new InvertibleMatrix3x2(quad);
+        public static TriangleMatrix ToInvertibleMatrix(this Quadrilateral quad) => new TriangleMatrix(quad);
 
         // New Method
         public static Matrix3x2 FindHomography(float sourceWidth, float sourceHeight, Quadrilateral destination)
@@ -73,7 +73,7 @@ namespace FanKit.Transformer.Mathematics
         // Old Method
         public static Matrix3x2 FindHomography(Quadrilateral source, Quadrilateral destination)
         {
-            InvertibleMatrix3x2 src = source.ToInvertibleMatrix();
+            TriangleMatrix src = source.ToInvertibleMatrix();
             Matrix3x2 dstNorm = destination.Normalize();
 
             return src.BidiAffine(dstNorm);
