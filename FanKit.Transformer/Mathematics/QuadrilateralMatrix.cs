@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Mathematics
 {
-    public struct InvertibleSparseMatrix3x3
+    public struct QuadrilateralMatrix
     {
         static float Abs(float v) => v < 0 ? -v : v;
 
@@ -13,7 +13,7 @@ namespace FanKit.Transformer.Mathematics
         const int n = 8; // b.Length;
         internal readonly Matrix8 x;
 
-        public InvertibleSparseMatrix3x3(Quadrilateral quad)
+        public QuadrilateralMatrix(Quadrilateral quad)
         {
             x = new Matrix8();
 

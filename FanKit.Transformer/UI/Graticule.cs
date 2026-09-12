@@ -561,7 +561,7 @@ namespace FanKit.Transformer.UI
                             float w = 1f / this.UV.UCountF;
                             float h = 1f / this.UV.VCount;
 
-                            Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, h);
+                            Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, h);
 
                             float y = vi * h;
                             float x = ui * w;
@@ -592,7 +592,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y0 = r;
                         float x = ui * w;
@@ -622,7 +622,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y1 = vi1 * h;
                         float x = ui * w;
@@ -653,7 +653,7 @@ namespace FanKit.Transformer.UI
                             float w = 1f / this.UV.UCountF;
                             float h = 1f / this.UV.VCount;
 
-                            Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, h);
+                            Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, h);
 
                             float y = vi * h;
                             float x = ui * w;
@@ -684,7 +684,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y0 = r;
                         float x = ui * w;
@@ -714,7 +714,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y1 = vi1 * h;
                         float x = ui * w;
@@ -745,7 +745,7 @@ namespace FanKit.Transformer.UI
                             float w = 1f / this.UV.UCountF;
                             float h = 1f / this.UV.VCount;
 
-                            Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, h);
+                            Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, h);
 
                             float y = vi * h;
                             float x = ui * w;
@@ -776,7 +776,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y0 = r;
                         float x = ui * w;
@@ -806,7 +806,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y1 = vi1 * h;
                         float x = ui * w;
@@ -837,7 +837,7 @@ namespace FanKit.Transformer.UI
                             float w = 1f / this.UV.UCountF;
                             float h = 1f / this.UV.VCount;
 
-                            Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, h);
+                            Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, h);
 
                             float y = vi * h;
                             float x = ui * w;
@@ -868,7 +868,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y0 = r;
                         float x = ui * w;
@@ -898,7 +898,7 @@ namespace FanKit.Transformer.UI
                         float r = h * PolarEpsilon;
                         float hr = h - r;
 
-                        Matrix4x4 m = new Mathematics.InvertibleSparseMatrix3x3(quad).InvPersp(w, hr);
+                        Matrix4x4 m = new Mathematics.QuadrilateralMatrix(quad).InvPersp(w, hr);
 
                         float y1 = vi1 * h;
                         float x = ui * w;
