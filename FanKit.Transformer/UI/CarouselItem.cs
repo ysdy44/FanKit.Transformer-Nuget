@@ -43,7 +43,7 @@ namespace FanKit.Transformer.UI
                 TextureOutline = carousel.GetDockRightTextureOutline(center);
             }
 
-            TextureTransformMatrix = sourceNormalize.ToPerspMatrix(TextureOutline);
+            TextureTransformMatrix = sourceNormalize.Persp(TextureOutline);
         }
 
         internal CarouselItem(Carousel carousel, SizeMatrix sourceNormalize, Vector2 center, int index, float offsetX, float itemMargin, float itemSpacing)
@@ -78,7 +78,7 @@ namespace FanKit.Transformer.UI
                 TextureOutline = carousel.GetDockRightTextureOutline(ActualX, center.Y);
             }
 
-            TextureTransformMatrix = sourceNormalize.ToPerspMatrix(TextureOutline);
+            TextureTransformMatrix = sourceNormalize.Persp(TextureOutline);
         }
     }
 }

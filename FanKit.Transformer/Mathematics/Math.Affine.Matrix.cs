@@ -84,7 +84,7 @@ namespace FanKit.Transformer.Mathematics
         {
             SizeMatrix srcNorm = new SizeMatrix(sourceWidth, sourceHeight);
             QuadMatrix destNorm = new QuadMatrix(destination);
-            PerspSizeMatrix3x3 dst = new PerspSizeMatrix3x3(srcNorm, destNorm);
+            Matrix4x4 dst = srcNorm.Persp(destNorm);
 
             return dst;
         }
@@ -94,7 +94,7 @@ namespace FanKit.Transformer.Mathematics
         {
             RectMatrix srcNorm = new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
             QuadMatrix destNorm = new QuadMatrix(destination);
-            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, destNorm);
+            Matrix4x4 dst = srcNorm.Persp(destNorm);
 
             return dst;
         }
@@ -104,7 +104,7 @@ namespace FanKit.Transformer.Mathematics
         {
             RectMatrix srcNorm = new RectMatrix(source);
             QuadMatrix destNorm = new QuadMatrix(destination);
-            PerspRectMatrix3x3 dst = new PerspRectMatrix3x3(srcNorm, destNorm);
+            Matrix4x4 dst = srcNorm.Persp(destNorm);
 
             return dst;
         }

@@ -140,7 +140,7 @@ namespace FanKit.Transformer.UI
                             LeftBottom = p4,
                         };
 
-                        Matrix4x4 transformMatrix = textureSize.SourceNormalize.ToPerspMatrix(quad);
+                        Matrix4x4 transformMatrix = textureSize.SourceNormalize.Persp(quad);
 
                         this.Quads[vi1, ui] = quad;
                         this.TransformMatrixes[vi1, ui] = transformMatrix;
@@ -191,7 +191,7 @@ namespace FanKit.Transformer.UI
                             LeftBottom = p4,
                         };
 
-                        Matrix4x4 transformMatrix = textureSize.SourceNormalizePolarEpsilon.ToPerspMatrix(quad);
+                        Matrix4x4 transformMatrix = textureSize.SourceNormalizePolarEpsilon.Persp(quad);
 
                         this.Quads[vi1, ui] = quad;
                         this.TransformMatrixes[vi1, ui] = transformMatrix;
@@ -242,7 +242,7 @@ namespace FanKit.Transformer.UI
                             LeftBottom = p4,
                         };
 
-                        Matrix4x4 transformMatrix = textureSize.SourceNormalizePolarEpsilon.ToPerspMatrix(quad);
+                        Matrix4x4 transformMatrix = textureSize.SourceNormalizePolarEpsilon.Persp(quad);
 
                         this.Quads[vi1, ui] = quad;
                         this.TransformMatrixes[vi1, ui] = transformMatrix;
