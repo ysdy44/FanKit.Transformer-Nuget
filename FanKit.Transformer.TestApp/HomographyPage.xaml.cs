@@ -587,7 +587,7 @@ namespace FanKit.Transformer.TestApp
             this.RightMatrix = this.SourceNormalize.Persp(this.RightNorm);
 
             // Homography
-            this.Matrix = new InvertiblePerspQuadrilateralMatrix3x3(this.LeftDest, this.RightNorm);
+            this.Matrix = new InvertibleSparseMatrix3x3(this.LeftDest).InvPersp(this.RightDest);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
@@ -688,7 +688,7 @@ namespace FanKit.Transformer.TestApp
             this.RightMatrix = this.SourceNormalize.Map(this.RightDest).ToMatrix3x2();
 
             // Homography
-            this.Matrix = new InvertiblePerspRectMatrix3x3(this.LeftDest, this.RightDest);
+            this.Matrix = new InvertibleSparseMatrix3x3(this.LeftDest).InvPersp(this.RightDest);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)

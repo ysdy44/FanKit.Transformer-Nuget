@@ -1,6 +1,9 @@
-﻿namespace FanKit.Transformer.Mathematics
+﻿using System.Numerics;
+using System.Runtime.CompilerServices;
+
+namespace FanKit.Transformer.Mathematics
 {
-    internal struct InvertibleSparseMatrix3x3
+    public struct InvertibleSparseMatrix3x3
     {
         static float Abs(float v) => v < 0 ? -v : v;
 
@@ -8,7 +11,7 @@
         readonly Matrix8 b;
 
         const int n = 8; // b.Length;
-        public readonly Matrix8 x;
+        internal readonly Matrix8 x;
 
         public InvertibleSparseMatrix3x3(Quadrilateral quad)
         {
@@ -140,5 +143,171 @@
                 x[i] = (b[i] - sum) / A[i, i];
             }
         }
+
+        // -------------------- 3x3_1x2 -------------------- // 
+
+        public Matrix4x4 InvPersp(float destinationWidth, float destinationHeight)
+        {
+            float m11 = this.x.M0 * destinationWidth;
+            float m12 = this.x.M3 * destinationHeight;
+            float m14 = this.x.M6;
+
+            float m21 = this.x.M1 * destinationWidth;
+            float m22 = this.x.M4 * destinationHeight;
+            float m24 = this.x.M7;
+
+            float m41 = this.x.M2 * destinationWidth;
+            float m42 = this.x.M5 * destinationHeight;
+
+            return new Matrix4x4
+            {
+                // First row
+                M11 = m11,
+                M12 = m12,
+                M13 = 0f,
+                M14 = m14,
+
+                // Second row
+                M21 = m21,
+                M22 = m22,
+                M23 = 0f,
+                M24 = m24,
+
+                // Third row
+                M31 = 0f,
+                M32 = 0f,
+                M33 = 1f,
+                M34 = 0f,
+
+                // Fourth row
+                M41 = m41,
+                M42 = m42,
+                M43 = 0f,
+                M44 = 1f,
+            };
+        }
+
+        // -------------------- 3x3_2x2 -------------------- //
+
+        public Matrix4x4 InvPersp(Rectangle destination)
+        {
+            float m11 = this.x.M0 * destination.Width + this.x.M6 * destination.X;
+            float m12 = this.x.M3 * destination.Height + this.x.M6 * destination.Y;
+            float m14 = this.x.M6;
+
+            float m21 = this.x.M1 * destination.Width + this.x.M7 * destination.X;
+            float m22 = this.x.M4 * destination.Height + this.x.M7 * destination.Y;
+            float m24 = this.x.M7;
+
+            float m41 = this.x.M2 * destination.Width + destination.X;
+            float m42 = this.x.M5 * destination.Height + destination.Y;
+
+            return new Matrix4x4
+            {
+                // First row
+                M11 = m11,
+                M12 = m12,
+                M13 = 0f,
+                M14 = m14,
+
+                // Second row
+                M21 = m21,
+                M22 = m22,
+                M23 = 0f,
+                M24 = m24,
+
+                // Third row
+                M31 = 0f,
+                M32 = 0f,
+                M33 = 1f,
+                M34 = 0f,
+
+                // Fourth row
+                M41 = m41,
+                M42 = m42,
+                M43 = 0f,
+                M44 = 1f,
+            };
+        }
+
+        // -------------------- 3x3_3x2 -------------------- // 
+
+        public Matrix4x4 InvPersp(QuadMatrix destinationNormalize)
+        {
+            const int m44 = 1;
+
+            float m11 = this.x.M0;
+            float m12 = this.x.M3;
+            float m14 = this.x.M6;
+
+            float m21 = this.x.M1;
+            float m22 = this.x.M4;
+            float m24 = this.x.M7;
+
+            float m41 = this.x.M2;
+            float m42 = this.x.M5;
+
+            QuadMatrix mat = destinationNormalize;
+
+            // First row
+            float n11 = mat.sx * mat.mat.M11 + mat.rx * mat.mat.M31;
+            float n12 = mat.sx * mat.mat.M12 + mat.rx * mat.mat.M32;
+
+            // Second row
+            float n21 = mat.sy * mat.mat.M21 + mat.ry * mat.mat.M31;
+            float n22 = mat.sy * mat.mat.M22 + mat.ry * mat.mat.M32;
+
+            // Third row
+
+            // Fourth row
+            float n41 = mat.mat.M31;
+            float n42 = mat.mat.M32;
+
+            // First row
+            float l11 = m11 * n11 + m12 * n21 + m14 * n41;
+            float l12 = m11 * n12 + m12 * n22 + m14 * n42;
+            float l14 = m11 * mat.rx + m12 * mat.ry + m14;
+
+            // Second row
+            float l21 = m21 * n11 + m22 * n21 + m24 * n41;
+            float l22 = m21 * n12 + m22 * n22 + m24 * n42;
+            float l24 = m21 * mat.rx + m22 * mat.ry + m24;
+
+            // Third row
+
+            // Fourth row
+            float l41 = m41 * n11 + m42 * n21 + m44 * n41;
+            float l42 = m41 * n12 + m42 * n22 + m44 * n42;
+            float l44 = m41 * mat.rx + m42 * mat.ry + m44;
+
+            return new Matrix4x4
+            {
+                // First row
+                M11 = l11,
+                M12 = l12,
+                M13 = 0f,
+                M14 = l14,
+
+                // Second row
+                M21 = l21,
+                M22 = l22,
+                M23 = 0f,
+                M24 = l24,
+
+                // Third row
+                M31 = 0f,
+                M32 = 0f,
+                M33 = 1f,
+                M34 = 0f,
+
+                // Fourth row
+                M41 = l41,
+                M42 = l42,
+                M43 = 0f,
+                M44 = l44,
+            };
+        }
+
+        public Matrix4x4 InvPersp(Quadrilateral destination) => InvPersp(new QuadMatrix(destination));
     }
 }
