@@ -72,51 +72,47 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        // -------------------- 1x2_2x2 -------------------- //
+        // -------------------- 1x2_2x2 -------------------- // 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix2x2 Map(Matrix2x2 destinationNormalize) => new Matrix2x2
         {
             // First row
             ScaleX = X * destinationNormalize.ScaleX,
-
-            // Second row
             ScaleY = Y * destinationNormalize.ScaleY,
 
-            // Third row
+            // Second row
             TranslateX = destinationNormalize.TranslateX,
             TranslateY = destinationNormalize.TranslateY
         };
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix2x2 Map(Rectangle destination) => new Matrix2x2
         {
             // First row
             ScaleX = X * destination.Width,
-
-            // Second row
             ScaleY = Y * destination.Height,
 
-            // Third row
+            // Second row
             TranslateX = destination.X,
             TranslateY = destination.Y
         };
 
-        public Matrix3x2 Map(float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix3x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix2x2 Map(float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix2x2
         {
             // First row
-            M11 = X * destinationWidth,
-            M12 = 0f,
+            ScaleX = X * destinationWidth,
+            ScaleY = Y * destinationHeight,
 
             // Second row
-            M21 = 0f,
-            M22 = Y * destinationHeight,
-
-            // Third row
-            M31 = destinationX,
-            M32 = destinationY
+            TranslateX = destinationX,
+            TranslateY = destinationY
         };
 
-        // -------------------- 1x2_3x2 -------------------- //
+        // -------------------- 1x2_3x2 -------------------- // 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix3x2 Affine(Matrix3x2 destinationNormalize) => new Matrix3x2
         {
             // First row
@@ -132,7 +128,13 @@ namespace FanKit.Transformer.Mathematics
             M32 = destinationNormalize.M32
         };
 
-        // -------------------- 1x2_3x3 -------------------- //
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix3x2 Affine(Triangle destination) => Affine(destination.Normalize());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix3x2 Affine(Quadrilateral destination) => Affine(destination.Normalize());
+
+        // -------------------- 1x2_3x3 -------------------- // 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4 Persp(QuadMatrix destinationNormalize) => P(destinationNormalize);
