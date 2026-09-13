@@ -32,11 +32,9 @@ namespace FanKit.Transformer.Mathematics
         #endregion Constructors
 
         #region Public instance methods
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix4x4 Persp(QuadMatrix destinationNormalize)
-        {
-            var dst = destinationNormalize;
 
+        private Matrix4x4 P(QuadMatrix dst)
+        {
             // First row
             float m11 = this.X * dst.sx;
             float m14 = this.X * dst.rx;
@@ -92,10 +90,18 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix4x4 Persp(Quadrilateral destination) => Persp(new QuadMatrix(destination));
+        // -------------------- 2x2_2x2 -------------------- //
 
-        // -------------------- 2x2_2x2 -------------------- // 
+        public Matrix2x2 Map(Matrix2x2 destinationNormalize) => new Matrix2x2
+        {
+            // First row
+            ScaleX = X * destinationNormalize.ScaleX,
+            ScaleY = Y * destinationNormalize.ScaleY,
+
+            // Second row
+            TranslateX = destinationNormalize.TranslateX + destinationNormalize.ScaleX * Z,
+            TranslateY = destinationNormalize.TranslateY + destinationNormalize.ScaleY * W,
+        };
 
         public Matrix2x2 Map(float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix2x2
         {
@@ -108,18 +114,7 @@ namespace FanKit.Transformer.Mathematics
             TranslateY = destinationY + destinationHeight * W,
         };
 
-        public Matrix2x2 Map(Matrix2x2 destination) => new Matrix2x2
-        {
-            // First row
-            ScaleX = X * destination.ScaleX,
-            ScaleY = Y * destination.ScaleY,
-
-            // Second row
-            TranslateX = destination.TranslateX + destination.ScaleX * Z,
-            TranslateY = destination.TranslateY + destination.ScaleY * W,
-        };
-
-        // -------------------- 2x2_3x2 -------------------- // 
+        // -------------------- 2x2_3x2 -------------------- //
 
         public Matrix3x2 Affine(Matrix3x2 destinationNormalize) => new Matrix3x2
         {
@@ -135,6 +130,15 @@ namespace FanKit.Transformer.Mathematics
             M31 = Z * destinationNormalize.M11 + W * destinationNormalize.M21 + destinationNormalize.M31,
             M32 = Z * destinationNormalize.M12 + W * destinationNormalize.M22 + destinationNormalize.M32
         };
+
+        // -------------------- 2x2_3x3 -------------------- //
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix4x4 Persp(QuadMatrix destinationNormalize) => P(destinationNormalize);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix4x4 Persp(Quadrilateral destination) => P(new QuadMatrix(destination));
+
         #endregion Public instance methods
 
         #region Public Static Methods
