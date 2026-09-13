@@ -90,8 +90,9 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        // -------------------- 2x2_2x2 -------------------- //
+        // -------------------- 2x2_2x2 -------------------- // 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix2x2 Map(Matrix2x2 destinationNormalize) => new Matrix2x2
         {
             // First row
@@ -103,6 +104,19 @@ namespace FanKit.Transformer.Mathematics
             TranslateY = destinationNormalize.TranslateY + destinationNormalize.ScaleY * W,
         };
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix2x2 Map(Rectangle destination) => new Matrix2x2
+        {
+            // First row
+            ScaleX = X * destination.Width,
+            ScaleY = Y * destination.Height,
+
+            // Second row
+            TranslateX = destination.X + destination.Width * Z,
+            TranslateY = destination.Y + destination.Height * W,
+        };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix2x2 Map(float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix2x2
         {
             // First row
@@ -114,8 +128,9 @@ namespace FanKit.Transformer.Mathematics
             TranslateY = destinationY + destinationHeight * W,
         };
 
-        // -------------------- 2x2_3x2 -------------------- //
+        // -------------------- 2x2_3x2 -------------------- // 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix3x2 Affine(Matrix3x2 destinationNormalize) => new Matrix3x2
         {
             // First row
@@ -131,7 +146,13 @@ namespace FanKit.Transformer.Mathematics
             M32 = Z * destinationNormalize.M12 + W * destinationNormalize.M22 + destinationNormalize.M32
         };
 
-        // -------------------- 2x2_3x3 -------------------- //
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix3x2 Affine(Triangle destination) => Affine(destination.Normalize());
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Matrix3x2 Affine(Quadrilateral destination) => Affine(destination.Normalize());
+
+        // -------------------- 2x2_3x3 -------------------- // 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4 Persp(QuadMatrix destinationNormalize) => P(destinationNormalize);
