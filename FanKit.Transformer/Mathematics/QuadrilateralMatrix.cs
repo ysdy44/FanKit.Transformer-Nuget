@@ -232,10 +232,8 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 3x3_3x2 -------------------- // 
 
-        public Matrix4x4 InvPersp(QuadMatrix destinationNormalize)
+        public Matrix4x4 InvPersp(Matrix4x4 destinationNormalize)
         {
-            const int m44 = 1;
-
             float m11 = this.x.M0;
             float m12 = this.x.M3;
             float m14 = this.x.M6;
@@ -246,39 +244,43 @@ namespace FanKit.Transformer.Mathematics
 
             float m41 = this.x.M2;
             float m42 = this.x.M5;
+            const int m44 = 1;
 
-            QuadMatrix mat = destinationNormalize;
+            Matrix4x4 mat = destinationNormalize;
 
             // First row
-            float n11 = mat.sx * mat.mat.M11 + mat.rx * mat.mat.M31;
-            float n12 = mat.sx * mat.mat.M12 + mat.rx * mat.mat.M32;
+            float n11 = mat.M14 * (mat.M11 + mat.M41) - mat.M41;
+            float n12 = mat.M14 * (mat.M12 + mat.M42) - mat.M42;
+            float n14 = mat.M14 - 1f;
 
             // Second row
-            float n21 = mat.sy * mat.mat.M21 + mat.ry * mat.mat.M31;
-            float n22 = mat.sy * mat.mat.M22 + mat.ry * mat.mat.M32;
+            float n21 = mat.M24 * (mat.M21 + mat.M41) - mat.M41;
+            float n22 = mat.M24 * (mat.M22 + mat.M42) - mat.M42;
+            float n24 = mat.M24 - 1f;
 
             // Third row
 
             // Fourth row
-            float n41 = mat.mat.M31;
-            float n42 = mat.mat.M32;
+            float n41 = mat.M41;
+            float n42 = mat.M42;
+            const int n44 = 1;
 
             // First row
             float l11 = m11 * n11 + m12 * n21 + m14 * n41;
             float l12 = m11 * n12 + m12 * n22 + m14 * n42;
-            float l14 = m11 * mat.rx + m12 * mat.ry + m14;
+            float l14 = m11 * n14 + m12 * n24 + m14 * n44;
 
             // Second row
             float l21 = m21 * n11 + m22 * n21 + m24 * n41;
             float l22 = m21 * n12 + m22 * n22 + m24 * n42;
-            float l24 = m21 * mat.rx + m22 * mat.ry + m24;
+            float l24 = m21 * n14 + m22 * n24 + m24 * n44;
 
             // Third row
 
             // Fourth row
             float l41 = m41 * n11 + m42 * n21 + m44 * n41;
             float l42 = m41 * n12 + m42 * n22 + m44 * n42;
-            float l44 = m41 * mat.rx + m42 * mat.ry + m44;
+            float l44 = m41 * n14 + m42 * n24 + m44 * n44;
 
             return new Matrix4x4
             {
@@ -308,6 +310,6 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        public Matrix4x4 InvPersp(Quadrilateral destination) => InvPersp(new QuadMatrix(destination));
+        public Matrix4x4 InvPersp(Quadrilateral destination) => InvPersp(destination.Normalize());
     }
 }

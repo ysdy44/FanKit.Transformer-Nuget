@@ -33,34 +33,34 @@ namespace FanKit.Transformer.Mathematics
 
         #region Public instance methods
 
-        private Matrix4x4 P(QuadMatrix dst)
+        private Matrix4x4 P(Matrix4x4 dst)
         {
             // First row
-            float m11 = this.X * dst.sx;
-            float m14 = this.X * dst.rx;
+            float m11 = this.X * dst.M14;
+            float m14 = m11 - this.X;
 
             // Second row
-            float m22 = this.Y * dst.sy;
-            float m24 = this.Y * dst.ry;
+            float m22 = this.Y * dst.M24;
+            float m24 = m22 - this.Y;
 
             // Fourth row
-            float m41 = this.Z * dst.sx;
-            float m42 = this.W * dst.sy;
-            float m44 = this.Z * dst.rx + this.W * dst.ry + 1f;
+            float m41 = this.Z * dst.M14;
+            float m42 = this.W * dst.M24;
+            float m44 = m41 - this.Z + m42 - this.W + 1f;
 
             // First row
-            float n11 = m11 * dst.mat.M11 + m14 * dst.mat.M31;
-            float n12 = m11 * dst.mat.M12 + m14 * dst.mat.M32;
+            float n11 = m11 * dst.M11 + m14 * dst.M41;
+            float n12 = m11 * dst.M12 + m14 * dst.M42;
 
             // Second row
-            float n21 = m22 * dst.mat.M21 + m24 * dst.mat.M31;
-            float n22 = m22 * dst.mat.M22 + m24 * dst.mat.M32;
+            float n21 = m22 * dst.M21 + m24 * dst.M41;
+            float n22 = m22 * dst.M22 + m24 * dst.M42;
 
             // Third row
 
             // Fourth row
-            float n41 = m41 * dst.mat.M11 + m42 * dst.mat.M21 + m44 * dst.mat.M31;
-            float n42 = m41 * dst.mat.M12 + m42 * dst.mat.M22 + m44 * dst.mat.M32;
+            float n41 = m41 * dst.M11 + m42 * dst.M21 + m44 * dst.M41;
+            float n42 = m41 * dst.M12 + m42 * dst.M22 + m44 * dst.M42;
 
             return new Matrix4x4
             {
@@ -155,10 +155,10 @@ namespace FanKit.Transformer.Mathematics
         // -------------------- 2x2_3x3 -------------------- // 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix4x4 Persp(QuadMatrix destinationNormalize) => P(destinationNormalize);
+        public Matrix4x4 Persp(Matrix4x4 destinationNormalize) => P(destinationNormalize);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix4x4 Persp(Quadrilateral destination) => P(new QuadMatrix(destination));
+        public Matrix4x4 Persp(Quadrilateral destination) => P(destination.Normalize());
 
         #endregion Public instance methods
 

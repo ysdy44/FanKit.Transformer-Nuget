@@ -83,7 +83,7 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix4x4 FindHomography3D(float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             SizeMatrix srcNorm = new SizeMatrix(sourceWidth, sourceHeight);
-            QuadMatrix destNorm = new QuadMatrix(destination);
+            Matrix4x4 destNorm = destination.Normalize();
             Matrix4x4 dst = srcNorm.Persp(destNorm);
 
             return dst;
@@ -93,7 +93,7 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix4x4 FindHomography3D(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
-            QuadMatrix destNorm = new QuadMatrix(destination);
+            Matrix4x4 destNorm = destination.Normalize();
             Matrix4x4 dst = srcNorm.Persp(destNorm);
 
             return dst;
@@ -103,7 +103,7 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix4x4 FindHomography3D(Rectangle source, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(source);
-            QuadMatrix destNorm = new QuadMatrix(destination);
+            Matrix4x4 destNorm = destination.Normalize();
             Matrix4x4 dst = srcNorm.Persp(destNorm);
 
             return dst;

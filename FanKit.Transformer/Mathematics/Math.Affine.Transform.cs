@@ -150,36 +150,36 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_3x3 -------------------- // 
 
-        public static Matrix4x4 Persp(SizeMatrix sourceNormalize, QuadMatrix destinationNormalize)
+        public static Matrix4x4 Persp(SizeMatrix sourceNormalize, Matrix4x4 destinationNormalize)
             => sourceNormalize.Persp(destinationNormalize);
 
         public static Matrix4x4 Persp(SizeMatrix sourceNormalize, Quadrilateral destination)
-            => sourceNormalize.Persp(new QuadMatrix(destination));
+            => sourceNormalize.Persp(destination.Normalize());
 
-        public static Matrix4x4 Persp(float sourceWidth, float sourceHeight, QuadMatrix destinationNormalize)
+        public static Matrix4x4 Persp(float sourceWidth, float sourceHeight, Matrix4x4 destinationNormalize)
             => new SizeMatrix(sourceWidth, sourceHeight).Persp(destinationNormalize);
 
         public static Matrix4x4 Persp(float sourceWidth, float sourceHeight, Quadrilateral destination)
-            => new SizeMatrix(sourceWidth, sourceHeight).Persp(new QuadMatrix(destination));
+            => new SizeMatrix(sourceWidth, sourceHeight).Persp(destination.Normalize());
 
         // -------------------- 2x2_3x3 -------------------- // 
 
-        public static Matrix4x4 Persp(RectMatrix sourceNormalize, QuadMatrix destinationNormalize)
+        public static Matrix4x4 Persp(RectMatrix sourceNormalize, Matrix4x4 destinationNormalize)
             => sourceNormalize.Persp(destinationNormalize);
 
         public static Matrix4x4 Persp(RectMatrix sourceNormalize, Quadrilateral destination)
-            => sourceNormalize.Persp(new QuadMatrix(destination));
+            => sourceNormalize.Persp(destination.Normalize());
 
-        public static Matrix4x4 Persp(float sourceX, float sourceY, float sourceWidth, float sourceHeight, QuadMatrix destinationNormalize)
+        public static Matrix4x4 Persp(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Matrix4x4 destinationNormalize)
             => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Persp(destinationNormalize);
 
         public static Matrix4x4 Persp(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
-            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Persp(new QuadMatrix(destination));
+            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Persp(destination.Normalize());
 
-        public static Matrix4x4 Persp(Rectangle source, QuadMatrix destinationNormalize)
+        public static Matrix4x4 Persp(Rectangle source, Matrix4x4 destinationNormalize)
             => new RectMatrix(source).Persp(destinationNormalize);
 
         public static Matrix4x4 Persp(Rectangle source, Quadrilateral destination)
-            => new RectMatrix(source).Persp(new QuadMatrix(destination));
+            => new RectMatrix(source).Persp(destination.Normalize());
     }
 }

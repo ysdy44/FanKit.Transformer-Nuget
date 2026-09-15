@@ -1,10 +1,11 @@
 ﻿using System.Numerics;
 
-namespace FanKit.Transformer.Mathematics
+namespace FanKit.Transformer
 {
     // Copy from Xamarin.SkiaSharpForms\SkiaSharpForms\Demos\Demos\SkiaSharpFormsDemos\Transforms\ShowPerspMatrixPage.xaml.cs
-    public readonly struct QuadMatrix
+    partial struct Quadrilateral
     {
+        /*
         internal readonly Matrix3x2 mat; // Identity Matrix
         readonly float x; // RightBottom.X
         readonly float y; // RightBottom.Y
@@ -20,56 +21,61 @@ namespace FanKit.Transformer.Mathematics
         internal readonly float sy;
         internal readonly float rx;
         internal readonly float ry;
+         */
 
-        public QuadMatrix(Quadrilateral quad)
+        public Matrix4x4 Normalize()
         {
-            mat = new Matrix3x2
+            Matrix4x4 mat = new Matrix4x4
             {
-                M11 = quad.RightTop.X - quad.LeftTop.X,
-                M12 = quad.RightTop.Y - quad.LeftTop.Y,
-                M21 = quad.LeftBottom.X - quad.LeftTop.X,
-                M22 = quad.LeftBottom.Y - quad.LeftTop.Y,
-                M31 = quad.LeftTop.X,
-                M32 = quad.LeftTop.Y
+                M11 = this.RightTop.X - this.LeftTop.X,
+                M12 = this.RightTop.Y - this.LeftTop.Y,
+                M21 = this.LeftBottom.X - this.LeftTop.X,
+                M22 = this.LeftBottom.Y - this.LeftTop.Y,
+                M41 = this.LeftTop.X,
+                M42 = this.LeftTop.Y
             };
 
-            x = quad.RightBottom.X;
-            y = quad.RightBottom.Y;
+            float x = this.RightBottom.X;
+            float y = this.RightBottom.Y;
 
             //  A Matrix -> a b
-            den = mat.M11 * mat.M22 - mat.M12 * mat.M21;
-            a = mat.M22 * x - mat.M21 * y + mat.M21 * mat.M32 - mat.M22 * mat.M31;
-            b = mat.M11 * y - mat.M12 * x + mat.M12 * mat.M31 - mat.M11 * mat.M32;
+            float den = mat.M11 * mat.M22 - mat.M12 * mat.M21;
+            float a = mat.M22 * x - mat.M21 * y + mat.M21 * mat.M42 - mat.M22 * mat.M41;
+            float b = mat.M11 * y - mat.M12 * x + mat.M12 * mat.M41 - mat.M11 * mat.M42;
 
             // compute B Matrix
             // (0, 0)->(0, 0)
             // (0, 1)->(0, 1)
             // (1, 0)->(1, 0)
             // (1, 1)->(a, b)
-            ab1 = a + b - den;
+            float ab1 = a + b - den;
 
-            sx = a / ab1; // Scale X
-            sy = b / ab1; // Scale Y
+            float sx = a / ab1; // Scale X
+            float sy = b / ab1; // Scale Y
 
-            rx = sx - 1f;
-            ry = sy - 1f;
+            //rx = sx - 1f;
+            //ry = sy - 1f;
             //rx = (den - b) / ab1;
             //ry = (den - a) / ab1;
+
+            mat.M14 = sx;
+            mat.M24 = sy;
+            return mat;
         }
 
-        public Matrix4x4 Persp() => new Matrix4x4
+        internal static Matrix4x4 Persp(Matrix4x4 sourceNormalize) => new Matrix4x4
         {
             // First row
-            M11 = sx * mat.M11 + rx * mat.M31,
-            M12 = sx * mat.M12 + rx * mat.M32,
+            M11 = sourceNormalize.M14 * (sourceNormalize.M11 + sourceNormalize.M41) - sourceNormalize.M41,
+            M12 = sourceNormalize.M14 * (sourceNormalize.M12 + sourceNormalize.M42) - sourceNormalize.M42,
             M13 = 0f,
-            M14 = rx,
+            M14 = sourceNormalize.M14 - 1f,
 
             // Second row
-            M21 = sy * mat.M21 + ry * mat.M31,
-            M22 = sy * mat.M22 + ry * mat.M32,
+            M21 = sourceNormalize.M24 * (sourceNormalize.M21 + sourceNormalize.M41) - sourceNormalize.M41,
+            M22 = sourceNormalize.M24 * (sourceNormalize.M22 + sourceNormalize.M42) - sourceNormalize.M42,
             M23 = 0f,
-            M24 = ry,
+            M24 = sourceNormalize.M24 - 1f,
 
             // Third row
             M31 = 0f,
@@ -78,8 +84,8 @@ namespace FanKit.Transformer.Mathematics
             M34 = 0f,
 
             // Fourth row
-            M41 = mat.M31,
-            M42 = mat.M32,
+            M41 = sourceNormalize.M41,
+            M42 = sourceNormalize.M42,
             M43 = 0f,
             M44 = 1f,
         };
