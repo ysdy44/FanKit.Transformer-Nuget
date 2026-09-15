@@ -132,7 +132,7 @@ namespace FanKit.Transformer.Mathematics
         public Matrix3x2 Affine(Triangle destination) => Affine(destination.Normalize());
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix3x2 Affine(Quadrilateral destination) => Affine(destination.Normalize());
+        public Matrix3x2 Affine(Quadrilateral destination) => Affine(destination.Norm());
 
         // -------------------- 1x2_3x3 -------------------- // 
 

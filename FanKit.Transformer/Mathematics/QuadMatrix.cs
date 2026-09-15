@@ -23,7 +23,16 @@ namespace FanKit.Transformer.Mathematics
 
         public QuadMatrix(Quadrilateral quad)
         {
-            mat = quad.Normalize();
+            mat = new Matrix3x2
+            {
+                M11 = quad.RightTop.X - quad.LeftTop.X,
+                M12 = quad.RightTop.Y - quad.LeftTop.Y,
+                M21 = quad.LeftBottom.X - quad.LeftTop.X,
+                M22 = quad.LeftBottom.Y - quad.LeftTop.Y,
+                M31 = quad.LeftTop.X,
+                M32 = quad.LeftTop.Y
+            };
+
             x = quad.RightBottom.X;
             y = quad.RightBottom.Y;
 

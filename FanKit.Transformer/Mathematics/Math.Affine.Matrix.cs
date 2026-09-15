@@ -47,7 +47,7 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 FindHomography(float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             SizeMatrix srcNorm = new SizeMatrix(sourceWidth, sourceHeight);
-            Matrix3x2 dstNorm = destination.Normalize();
+            Matrix3x2 dstNorm = destination.Norm();
 
             return Affine(srcNorm, dstNorm);
         }
@@ -56,7 +56,7 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 FindHomography(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight);
-            Matrix3x2 dstNorm = destination.Normalize();
+            Matrix3x2 dstNorm = destination.Norm();
 
             return srcNorm.Affine(dstNorm);
         }
@@ -65,7 +65,7 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 FindHomography(Rectangle source, Quadrilateral destination)
         {
             RectMatrix srcNorm = new RectMatrix(source);
-            Matrix3x2 dstNorm = destination.Normalize();
+            Matrix3x2 dstNorm = destination.Norm();
 
             return Affine(srcNorm, dstNorm);
         }
@@ -74,7 +74,7 @@ namespace FanKit.Transformer.Mathematics
         public static Matrix3x2 FindHomography(Quadrilateral source, Quadrilateral destination)
         {
             TriangleMatrix src = source.ToInvertibleMatrix();
-            Matrix3x2 dstNorm = destination.Normalize();
+            Matrix3x2 dstNorm = destination.Norm();
 
             return src.BidiAffine(dstNorm);
         }

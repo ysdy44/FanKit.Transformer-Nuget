@@ -66,13 +66,13 @@ namespace FanKit.Transformer.Mathematics
             => sourceNormalize.Affine(destination.Normalize());
 
         public static Matrix3x2 Affine(SizeMatrix sourceNormalize, Quadrilateral destination)
-            => sourceNormalize.Affine(destination.Normalize());
+            => sourceNormalize.Affine(destination.Norm());
 
         public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Triangle destination)
             => new SizeMatrix(sourceWidth, sourceHeight).Affine(destination.Normalize());
 
         public static Matrix3x2 Affine(float sourceWidth, float sourceHeight, Quadrilateral destination)
-            => new SizeMatrix(sourceWidth, sourceHeight).Affine(destination.Normalize());
+            => new SizeMatrix(sourceWidth, sourceHeight).Affine(destination.Norm());
 
         // -------------------- 2x2_2x2 -------------------- // 
 
@@ -113,19 +113,19 @@ namespace FanKit.Transformer.Mathematics
             => sourceNormalize.Affine(destination.Normalize());
 
         public static Matrix3x2 Affine(RectMatrix sourceNormalize, Quadrilateral destination)
-            => sourceNormalize.Affine(destination.Normalize());
+            => sourceNormalize.Affine(destination.Norm());
 
         public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Triangle destination)
             => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(destination.Normalize());
 
         public static Matrix3x2 Affine(float sourceX, float sourceY, float sourceWidth, float sourceHeight, Quadrilateral destination)
-            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(destination.Normalize());
+            => new RectMatrix(sourceX, sourceY, sourceWidth, sourceHeight).Affine(destination.Norm());
 
         public static Matrix3x2 Affine(Rectangle source, Triangle destination)
             => new RectMatrix(source).Affine(destination.Normalize());
 
         public static Matrix3x2 Affine(Rectangle source, Quadrilateral destination)
-            => new RectMatrix(source).Affine(destination.Normalize());
+            => new RectMatrix(source).Affine(destination.Norm());
 
         // -------------------- 3x2_1x2 -------------------- // 
 
@@ -140,13 +140,13 @@ namespace FanKit.Transformer.Mathematics
             => sourceNormalize.BidiAffine(destination.Normalize());
 
         public static Matrix3x2 BidiAffine(TriangleMatrix sourceNormalize, Quadrilateral destination)
-            => sourceNormalize.BidiAffine(destination.Normalize());
+            => sourceNormalize.BidiAffine(destination.Norm());
 
         public static Matrix3x2 BidiAffine(Triangle source, Triangle destination)
             => source.ToInvertibleMatrix().BidiAffine(destination.Normalize());
 
         public static Matrix3x2 BidiAffine(Triangle source, Quadrilateral destination)
-            => source.ToInvertibleMatrix().BidiAffine(destination.Normalize());
+            => source.ToInvertibleMatrix().BidiAffine(destination.Norm());
 
         // -------------------- 1x2_3x3 -------------------- // 
 

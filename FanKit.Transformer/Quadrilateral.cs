@@ -187,7 +187,7 @@ namespace FanKit.Transformer
             RightBottom = this.RightBottom,
         };
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix3x2 Normalize() => new Matrix3x2
+        internal Matrix3x2 Norm() => new Matrix3x2
         {
             M11 = this.RightTop.X - this.LeftTop.X,
             M12 = this.RightTop.Y - this.LeftTop.Y,

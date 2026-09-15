@@ -24,7 +24,7 @@ namespace FanKit.Transformer.Mathematics
 
         public TriangleMatrix(Quadrilateral quad)
         {
-            mat = quad.Normalize();
+            mat = quad.Norm();
             can = Matrix3x2.Invert(mat, out inv);
         }
         #endregion Constructors
