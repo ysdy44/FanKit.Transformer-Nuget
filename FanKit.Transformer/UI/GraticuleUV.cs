@@ -113,5 +113,63 @@ namespace FanKit.Transformer.UI
                 Y = -vSin,
             };
         }
+
+        public static float GetUAmount(Vector3 unitVector)
+        {
+            float x = unitVector.X;
+            float z = unitVector.Z;
+
+            const float V0 = 0f;
+            const float V1 = 0.25f;
+            const float V2 = 0.5f;
+            const float V3 = 0.75f;
+            const float V4 = 1f;
+
+            if (x < 0f)
+            {
+                if (z == 0f)
+                    return V3;
+                else
+                    return (float)System.Math.Atan2(x, z) / Mathematics.Math.PITwice + V4;
+            }
+            else if (x > 0f)
+            {
+                if (z == 0f)
+                    return V1;
+                else
+                    return (float)System.Math.Atan2(x, z) / Mathematics.Math.PITwice;
+            }
+            else
+            {
+                if (z < 0f)
+                    return V2;
+                else
+                    return V0;
+            }
+        }
+
+        public static float GetVAmount(Vector3 unitVector)
+        {
+            float y = unitVector.Y;
+
+            const float V2 = 0.5f;
+
+            if (y == 0f)
+                return V2;
+            else
+                return V2 - (float)System.Math.Asin(-y) / Mathematics.Math.PI;
+        }
+
+        public static float GetVAmount(Vector3 vector, float vectorLength)
+        {
+            float y = vector.Y;
+
+            const float V2 = 0.5f;
+
+            if (y == 0f)
+                return V2;
+            else
+                return V2 - (float)System.Math.Asin(-y / vectorLength) / Mathematics.Math.PI;
+        }
     }
 }
