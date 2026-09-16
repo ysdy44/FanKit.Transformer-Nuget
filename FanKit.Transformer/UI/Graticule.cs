@@ -917,23 +917,5 @@ namespace FanKit.Transformer.UI
 
             return null;
         }
-
-        public static Vector3 GetUnitVector(float uAmount, float vAmount)
-        {
-            Rotation2x2 uRadians = new Rotation2x2(Mathematics.Math.PI + Mathematics.Math.PITwice * uAmount);
-            float uSin = uRadians.S;
-            float uCos = uRadians.C;
-
-            Rotation2x2 vRadians = new Rotation2x2(Mathematics.Math.PIOver2 + Mathematics.Math.PI * vAmount);
-            float vSin = vRadians.S;
-            float vCos = vRadians.C;
-
-            return new Vector3
-            {
-                Z = vCos * uCos,
-                X = vCos * uSin,
-                Y = -vSin,
-            };
-        }
     }
 }

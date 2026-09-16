@@ -333,7 +333,7 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
-        public Vector3 GetUnitVector(float uAmount, float vAmount) => Graticule.GetUnitVector(uAmount, vAmount);
+        public Vector3 GetUnitVector(float uAmount, float vAmount) => GraticuleUV.GetUnitVector(uAmount, vAmount);
         public Vector3 RotateUnitVector(Vector3 unitVector) => this.EarthRotation.RotateUnitVector(unitVector);
 
         public Vector2 GetPoint(Vector3 unitVector) => this.EarthLayout.GetPoint(unitVector);
