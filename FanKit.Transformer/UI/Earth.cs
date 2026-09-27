@@ -87,15 +87,15 @@ namespace FanKit.Transformer.UI
             return textureSize.CreateTextures(this.UV);
         }
 
-        public void Update(EarthTextureSize textureSize, SphereLayout layout, SphereRotation rotation)
+        public void Update(EarthTextureSize textureSize, Camera camera)
         {
-            this.Update1(layout, rotation);
+            this.Update1(camera);
             this.Update3(textureSize);
         }
 
-        public void Update(EarthTextureSize textureSize, SphereLayout layout)
+        public void Update(EarthTextureSize textureSize)
         {
-            this.Update2(layout);
+            this.Update2();
             this.Update3(textureSize);
         }
 

@@ -313,59 +313,59 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public void Update(SphereLayout layout, SphereRotation rotation)
+        public void Update(Camera camera)
         {
-            this.Update1(layout, rotation);
+            this.Update1(camera);
             this.Update4();
         }
 
-        public void Update(SphereLayout layout)
+        public void Update()
         {
-            this.Update2(layout);
+            this.Update2();
             this.Update4();
         }
 
-        internal void Update1(SphereLayout layout, SphereRotation rotation)
+        internal void Update1(Camera camera)
         {
             for (int vi = 0; vi < this.UV.VCountPlus; vi++)
             {
                 for (int ui = 0; ui < this.UV.UCount; ui++)
                 {
                     Vector3 e = this.Vectors[vi, ui];
-                    Vector3 t = rotation.RotateUnitVector(e);
+                    Vector3 t = camera.Transform(e);
 
                     this.VectorIsFarSides[vi, ui] = t.Z < 0f;
                     this.VectorsRotated[vi, ui] = t;
 
                     if (vi == 0)
-                        this.Vertexes[vi, ui] = this.NorthPoleVertexes[ui] = layout.GetPoint(t);
+                        this.Vertexes[vi, ui] = this.NorthPoleVertexes[ui] = new Vector2(t.X, t.Y);
                     else if (vi == this.UV.VCount)
-                        this.Vertexes[vi, ui] = this.SouthPoleVertexes[ui] = layout.GetPoint(t);
+                        this.Vertexes[vi, ui] = this.SouthPoleVertexes[ui] = new Vector2(t.X, t.Y);
                     else
-                        this.Vertexes[vi, ui] = layout.GetPoint(t);
+                        this.Vertexes[vi, ui] = new Vector2(t.X, t.Y);
                 }
             }
 
             {
                 Vector3 e = this.NorthVector;
-                Vector3 t = rotation.RotateUnitVector(e);
+                Vector3 t = camera.Transform(e);
 
                 this.NorthVectorIsFarSide = t.Z < 0f;
                 this.NorthVectorRotated = t;
-                this.NorthVertex = layout.GetPoint(t);
+                this.NorthVertex = new Vector2(t.X, t.Y);
             }
 
             {
                 Vector3 e = this.SouthVector;
-                Vector3 t = rotation.RotateUnitVector(e);
+                Vector3 t = camera.Transform(e);
 
                 this.SouthVectorIsFarSide = t.Z < 0f;
                 this.SouthVectorRotated = t;
-                this.SouthVertex = layout.GetPoint(t);
+                this.SouthVertex = new Vector2(t.X, t.Y);
             }
         }
 
-        internal void Update2(SphereLayout layout)
+        internal void Update2()
         {
             for (int vi = 0; vi < this.UV.VCountPlus; vi++)
             {
@@ -374,22 +374,22 @@ namespace FanKit.Transformer.UI
                     Vector3 t = this.VectorsRotated[vi, ui];
 
                     if (vi == 0)
-                        this.Vertexes[vi, ui] = this.NorthPoleVertexes[ui] = layout.GetPoint(t);
+                        this.Vertexes[vi, ui] = this.NorthPoleVertexes[ui] = new Vector2(t.X, t.Y);
                     else if (vi == this.UV.VCount)
-                        this.Vertexes[vi, ui] = this.SouthPoleVertexes[ui] = layout.GetPoint(t);
+                        this.Vertexes[vi, ui] = this.SouthPoleVertexes[ui] = new Vector2(t.X, t.Y);
                     else
-                        this.Vertexes[vi, ui] = layout.GetPoint(t);
+                        this.Vertexes[vi, ui] = new Vector2(t.X, t.Y);
                 }
             }
 
             {
                 Vector3 t = this.NorthVectorRotated;
-                this.NorthVertex = layout.GetPoint(t);
+                this.NorthVertex = new Vector2(t.X, t.Y);
             }
 
             {
                 Vector3 t = this.SouthVectorRotated;
-                this.SouthVertex = layout.GetPoint(t);
+                this.SouthVertex = new Vector2(t.X, t.Y);
             }
         }
 
@@ -538,10 +538,10 @@ namespace FanKit.Transformer.UI
             }
         }
 
-        public Vector2? GetAmount(SphereLayout layout, Vector2 point)
+        public Vector2? GetAmount(Vector2 point, float radiusSquared, Vector2 center)
         {
-            float ds = Vector2.DistanceSquared(point, layout.Center);
-            if (ds > layout.Radius * layout.Radius)
+            float ds = Vector2.DistanceSquared(point, center);
+            if (ds > radiusSquared)
                 return null;
 
             const int vi0 = 0;

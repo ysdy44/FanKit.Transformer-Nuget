@@ -20,8 +20,9 @@ namespace FanKit.Transformer.TestApp
         Vector3 StartingRadians;
         Vector3 Radians = Vector3.Zero;
 
-        SphereLayout EarthLayout;
-        SphereRotation EarthRotation = new SphereRotation(Vector3.Zero);
+        Vector2 EarthCenter;
+        float EarthRadius;
+        Camera Camera = new Camera(Vector3.Zero, 1f, Vector2.Zero);
 
         readonly Graticule Earth = new Graticule(UV);
 
@@ -40,11 +41,11 @@ namespace FanKit.Transformer.TestApp
 
             this.CanvasControl.CreateResources += (s, args) =>
             {
-                this.Earth.Update(this.EarthLayout, this.EarthRotation);
+                this.Earth.Update(this.Camera);
             };
             this.CanvasControl.Draw += (s, e) =>
             {
-                e.DrawingSession.DrawCircle(this.EarthLayout.Center, this.EarthLayout.Radius, Colors.DeepSkyBlue);
+                e.DrawingSession.DrawCircle(this.EarthCenter, this.EarthRadius, Colors.DeepSkyBlue);
 
                 foreach (GraticuleLine item in this.Earth.DrawLines())
                 {
@@ -67,17 +68,15 @@ namespace FanKit.Transformer.TestApp
                 float viewportWidth = (float)e.NewSize.Width;
                 float viewportHeight = (float)e.NewSize.Height;
 
-                this.EarthLayout = new SphereLayout
+                this.EarthRadius = 0.45f * System.Math.Min(viewportWidth, viewportHeight);
+                this.EarthCenter = new Vector2
                 {
-                    Radius = 0.45f * System.Math.Min(viewportWidth, viewportHeight),
-                    Center = new Vector2
-                    {
-                        X = 0.5f * viewportWidth,
-                        Y = 0.5f * viewportHeight,
-                    }
+                    X = 0.5f * viewportWidth,
+                    Y = 0.5f * viewportHeight,
                 };
+                this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
 
-                this.Earth.Update(this.EarthLayout);
+                this.Earth.Update(this.Camera);
                 this.CanvasControl.Invalidate();
             };
 
@@ -92,11 +91,11 @@ namespace FanKit.Transformer.TestApp
 
                 float horizontalOffset = this.Point.X - this.StartingPoint.X;
                 float verticalOffset = this.Point.Y - this.StartingPoint.Y;
-                this.Radians = this.EarthLayout.ScrollTo(this.StartingRadians, horizontalOffset, verticalOffset);
+                this.Radians = Camera.ScrollTo(this.StartingRadians, this.EarthRadius, horizontalOffset, verticalOffset);
 
-                this.EarthRotation = new SphereRotation(this.Radians);
+                this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
 
-                this.Earth.Update(this.EarthLayout, this.EarthRotation);
+                this.Earth.Update(this.Camera);
                 this.CanvasControl.Invalidate();
             };
             this.CanvasOperator.Single_Complete += (x, y, p) =>
@@ -106,9 +105,9 @@ namespace FanKit.Transformer.TestApp
 
             this.CanvasOperator.Wheel_Changed += (x, y, d) =>
             {
-                this.EarthLayout.Radius = d > 0 ? this.EarthLayout.Radius * 1.04f : this.EarthLayout.Radius / 1.04f;
+                this.EarthRadius = d > 0 ? this.EarthRadius * 1.04f : this.EarthRadius / 1.04f;
 
-                this.Earth.Update(this.EarthLayout);
+                this.Earth.Update(this.Camera);
                 this.CanvasControl.Invalidate();
             };
         }

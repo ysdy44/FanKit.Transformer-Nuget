@@ -51,9 +51,11 @@ namespace FanKit.Transformer.TestApp
         Vector3 StartingRadians;
         Vector3 Radians = Vector3.Zero;
 
-        SphereLayout EarthLayout;
+        Vector2 EarthCenter;
+        float EarthRadius;
+        Camera Camera = new Camera(Vector3.Zero, 1f, Vector2.Zero);
+
         EarthTextureSize EarthTextureSize;
-        SphereRotation EarthRotation = new SphereRotation(Vector3.Zero);
         Stellite? Mouse = null;
 
         readonly Earth Earth = new Earth(UV);
@@ -133,13 +135,13 @@ namespace FanKit.Transformer.TestApp
 
                 if (this.ShowGrid)
                 {
-                    e.DrawingSession.DrawCircle(this.EarthLayout.Center, this.EarthLayout.Radius, Colors.DeepSkyBlue);
+                    e.DrawingSession.DrawCircle(this.EarthCenter, this.EarthRadius, Colors.DeepSkyBlue);
                 }
                 else
                 {
-                    e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 3f, this.AtmosphereColor3);
-                    e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius + 1f, this.AtmosphereColor2);
-                    e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, this.AtmosphereColor);
+                    e.DrawingSession.FillCircle(this.EarthCenter, this.EarthRadius + 3f, this.AtmosphereColor3);
+                    e.DrawingSession.FillCircle(this.EarthCenter, this.EarthRadius + 1f, this.AtmosphereColor2);
+                    e.DrawingSession.FillCircle(this.EarthCenter, this.EarthRadius, this.AtmosphereColor);
 
                     foreach (EarthTextureIndex item in this.Earth.DrawTextures())
                     {
@@ -171,12 +173,12 @@ namespace FanKit.Transformer.TestApp
 
                     using (CanvasRadialGradientBrush brush = new CanvasRadialGradientBrush(s, this.AtmosphereGradientStops)
                     {
-                        Center = this.EarthLayout.Center,
-                        RadiusX = this.EarthLayout.Radius,
-                        RadiusY = this.EarthLayout.Radius,
+                        Center = this.EarthCenter,
+                        RadiusX = this.EarthRadius,
+                        RadiusY = this.EarthRadius,
                     })
                     {
-                        e.DrawingSession.FillCircle(this.EarthLayout.Center, this.EarthLayout.Radius, brush);
+                        e.DrawingSession.FillCircle(this.EarthCenter, this.EarthRadius, brush);
                     }
                 }
 
@@ -215,17 +217,15 @@ namespace FanKit.Transformer.TestApp
                 float viewportWidth = (float)e.NewSize.Width;
                 float viewportHeight = (float)e.NewSize.Height;
 
-                this.EarthLayout = new SphereLayout
+                this.EarthRadius = 0.45f * System.Math.Min(viewportWidth, viewportHeight);
+                this.EarthCenter = new Vector2
                 {
-                    Radius = 0.45f * System.Math.Min(viewportWidth, viewportHeight),
-                    Center = new Vector2
-                    {
-                        X = 0.5f * viewportWidth,
-                        Y = 0.5f * viewportHeight,
-                    }
+                    X = 0.5f * viewportWidth,
+                    Y = 0.5f * viewportHeight,
                 };
 
-                this.Earth.Update(this.EarthTextureSize, this.EarthLayout);
+                this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
+                this.Earth.Update(this.EarthTextureSize, this.Camera);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
             };
@@ -241,11 +241,10 @@ namespace FanKit.Transformer.TestApp
 
                 float horizontalOffset = this.Point.X - this.StartingPoint.X;
                 float verticalOffset = this.Point.Y - this.StartingPoint.Y;
-                this.Radians = this.EarthLayout.ScrollTo(this.StartingRadians, horizontalOffset, verticalOffset);
+                this.Radians = Camera.ScrollTo(this.StartingRadians, this.EarthRadius, horizontalOffset, verticalOffset);
 
-                this.EarthRotation = new SphereRotation(this.Radians);
-
-                this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+                this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
+                this.Earth.Update(this.EarthTextureSize, this.Camera);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
 
@@ -261,7 +260,7 @@ namespace FanKit.Transformer.TestApp
                 {
                     if (System.Math.Abs(this.StartingPoint.Y - this.Point.Y) < 4d)
                     {
-                        Vector2? amount = this.Earth.GetAmount(this.EarthLayout, this.Point);
+                        Vector2? amount = this.Earth.GetAmount(this.Point, this.EarthRadius * this.EarthRadius, this.EarthCenter);
                         if (amount.HasValue)
                         {
                             float uAmount = amount.Value.X;
@@ -277,7 +276,7 @@ namespace FanKit.Transformer.TestApp
             {
                 this.Point = new Vector2((float)x, (float)y);
 
-                Vector2? amount = this.Earth.GetAmount(this.EarthLayout, this.Point);
+                Vector2? amount = this.Earth.GetAmount(this.Point, this.EarthRadius * this.EarthRadius, this.EarthCenter);
                 if (amount.HasValue)
                 {
                     float uAmount = amount.Value.X;
@@ -294,9 +293,10 @@ namespace FanKit.Transformer.TestApp
 
             this.CanvasOperator.Wheel_Changed += (x, y, d) =>
             {
-                this.EarthLayout.Radius = d > 0 ? this.EarthLayout.Radius * 1.04f : this.EarthLayout.Radius / 1.04f;
+                this.EarthRadius = d > 0 ? this.EarthRadius * 1.04f : this.EarthRadius / 1.04f;
 
-                this.Earth.Update(this.EarthTextureSize, this.EarthLayout);
+                this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
+                this.Earth.Update(this.EarthTextureSize, this.Camera);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
                 this.CanvasControl.Invalidate();
             };
@@ -334,17 +334,14 @@ namespace FanKit.Transformer.TestApp
         }
 
         public Vector3 GetUnitVector(float uAmount, float vAmount) => GraticuleUV.GetUnitVector(uAmount, vAmount);
-        public Vector3 RotateUnitVector(Vector3 unitVector) => this.EarthRotation.RotateUnitVector(unitVector);
-
-        public Vector2 GetPoint(Vector3 unitVector) => this.EarthLayout.GetPoint(unitVector);
-        public Vector2 GetPointEx(Vector3 unitVector) => this.EarthLayout.GetPoint(unitVector, this.EarthLayout.Radius * 1.1f);
+        public Vector3 Transform(Vector3 point) => this.Camera.Transform(point);
 
         private Stellite GetStellite(float uAmount, float vAmount) => GetStellite(GetUnitVector(uAmount, vAmount));
         private Stellite GetStellite(Stellite stellite) => GetStellite(stellite.Vector);
         private Stellite GetStellite(Vector3 v)
         {
-            Vector3 t = RotateUnitVector(v);
-            Vector2 p = GetPoint(t);
+            Vector3 t = Transform(v);
+            Vector2 p = new Vector2(t.X, t.Y);
 
             return new Stellite
             {
@@ -364,7 +361,9 @@ namespace FanKit.Transformer.TestApp
         //    using (CanvasBitmap bitmap = await CanvasBitmap.LoadAsync(resourceCreator, "Images/ad189db39db704e.jpg"))
         //    {
         //        this.CreateTextures(resourceCreator, bitmap);
-        //        this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+        //
+        //        this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
+        //        this.Earth.Update(this.EarthTextureSize, this.Camera);
         //        for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
         //    }
         //}
@@ -386,7 +385,9 @@ namespace FanKit.Transformer.TestApp
                 }
 
                 this.CreateTextures(resourceCreator, renderTarget);
-                this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+
+                this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
+                this.Earth.Update(this.EarthTextureSize, this.Camera);
                 for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             }
         }
@@ -440,9 +441,9 @@ namespace FanKit.Transformer.TestApp
         private void ResetRotation()
         {
             this.Radians = Vector3.Zero;
-            this.EarthRotation = new SphereRotation(Vector3.Zero);
+            this.Camera = new Camera(Vector3.Zero, 1f, Vector2.Zero);
 
-            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.Camera);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 
@@ -453,9 +454,9 @@ namespace FanKit.Transformer.TestApp
         private void RotateXTo(float value) // -180~180
         {
             this.Radians.X = Mathematics.Math.PI * value / 360f;
-            this.EarthRotation = new SphereRotation(this.Radians);
+            this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
 
-            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.Camera);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 
@@ -464,9 +465,9 @@ namespace FanKit.Transformer.TestApp
         private void RotateZTo(float value) // -180~180
         {
             this.Radians.Z = Mathematics.Math.PI * value / 360f;
-            this.EarthRotation = new SphereRotation(this.Radians);
+            this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
 
-            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.Camera);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 
@@ -475,9 +476,9 @@ namespace FanKit.Transformer.TestApp
         private void RotateYTo(float value) // -360~360
         {
             this.Radians.Y = Mathematics.Math.PI * value / 360f;
-            this.EarthRotation = new SphereRotation(this.Radians);
+            this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
 
-            this.Earth.Update(this.EarthTextureSize, this.EarthLayout, this.EarthRotation);
+            this.Earth.Update(this.EarthTextureSize, this.Camera);
             for (int i = 0; i < this.Stellites.Count; i++) this.Stellites[i] = this.GetStellite(this.Stellites[i]);
             this.CanvasControl.Invalidate();
 
