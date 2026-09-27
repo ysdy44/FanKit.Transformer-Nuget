@@ -320,6 +320,9 @@
     </Compile>
     <Compile Include="CropPage.cs" />
     <Compile Include="CropsPage.cs" />
+    <Compile Include="CubePage.xaml.cs">
+      <DependentUpon>CubePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Curve0Page.cs" />
     <Compile Include="Curve1Page.cs" />
     <Compile Include="Curve2Page.cs" />
@@ -704,6 +707,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ConvertPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CubePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

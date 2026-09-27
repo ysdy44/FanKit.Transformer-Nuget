@@ -2800,14 +2800,6 @@
                             </StackPanel>
                         </Button>
 
-                    </VariableSizedWrapGrid>
-
-                    <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
-                        Scroll
-                    </TextBlock>
-
-                    <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
-
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
                             <ButtonBase.CommandParameter>
                                 Scroller
@@ -2825,6 +2817,34 @@
                                     </Polygon>
                                 </Canvas>
                                 <TextBlock Text="Scroller" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                    </VariableSizedWrapGrid>
+
+                    <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
+                        3D
+                    </TextBlock>
+
+                    <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                Cube
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Polygon StrokeThickness="1" Stroke="DodgerBlue" Fill="White">
+                                        <Polygon.Points>
+                                            64,9 92,25 92,57 64,73 36,57 36,25
+                                        </Polygon.Points>
+                                    </Polygon>
+
+                                    <Line X1="92" Y1="25" X2="64" Y2="41" StrokeThickness="1" Stroke="DodgerBlue"/>
+                                    <Line X1="64" Y1="73" X2="64" Y2="41" StrokeThickness="1" Stroke="DodgerBlue"/>
+                                    <Line X1="36" Y1="25" X2="64" Y2="41" StrokeThickness="1" Stroke="DodgerBlue"/>
+                                </Canvas>
+                                <TextBlock Text="Cube" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
