@@ -17,7 +17,7 @@ namespace FanKit.Transformer.Compute
         internal Vector2 Point1;
 
         LineMatrix HostSourceNorm;
-        PinchMatrix3x2 HostDestNorm;
+        Matrix3x2 HostDestNorm;
 
         Vector2 Diff;
         LineControllerFoot Foot;
@@ -40,8 +40,8 @@ namespace FanKit.Transformer.Compute
             }
             else
             {
-                this.HostDestNorm = new PinchMatrix3x2(this.HostSourceNorm, this.StartingPoint1, this.Point0);
-                if (this.HostDestNorm.IsEmpty)
+                this.HostDestNorm = this.HostSourceNorm.Pinch(this.StartingPoint1, this.Point0);
+                if (this.HostDestNorm.IsIdentity)
                 {
                     this.Host.Matrix = Matrix3x2.Identity;
                 }
@@ -60,8 +60,8 @@ namespace FanKit.Transformer.Compute
             }
             else
             {
-                this.HostDestNorm = new PinchMatrix3x2(this.HostSourceNorm, this.StartingPoint0, this.Point1);
-                if (this.HostDestNorm.IsEmpty)
+                this.HostDestNorm = this.HostSourceNorm.Pinch(this.StartingPoint0, this.Point1);
+                if (this.HostDestNorm.IsIdentity)
                 {
                     this.Host.Matrix = Matrix3x2.Identity;
                 }
@@ -80,8 +80,8 @@ namespace FanKit.Transformer.Compute
             }
             else
             {
-                this.HostDestNorm = new PinchMatrix3x2(this.HostSourceNorm, this.StartingPoint0, this.Point0, this.Point1);
-                if (this.HostDestNorm.IsEmpty)
+                this.HostDestNorm = this.HostSourceNorm.Pinch(this.StartingPoint0, this.Point0, this.Point1);
+                if (this.HostDestNorm.IsIdentity)
                 {
                     this.Host.Matrix = Matrix3x2.Identity;
                 }
