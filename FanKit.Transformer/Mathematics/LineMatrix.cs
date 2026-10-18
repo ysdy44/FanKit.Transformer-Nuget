@@ -6,6 +6,12 @@ namespace FanKit.Transformer.Mathematics
     {
         public readonly bool IsEmpty;
 
+        readonly float x0;
+        readonly float y0;
+
+        readonly float x1;
+        readonly float y1;
+
         internal readonly float dx;
         internal readonly float dy;
         internal readonly float r; // Radians
@@ -16,7 +22,13 @@ namespace FanKit.Transformer.Mathematics
 
         public LineMatrix(Vector2 linePoint0, Vector2 linePoint1)
         {
-            if (linePoint1.X == linePoint0.X && linePoint1.Y == linePoint0.Y)
+            x0 = linePoint0.X;
+            y0 = linePoint0.Y;
+
+            x1 = linePoint1.X;
+            y1 = linePoint1.Y;
+
+            if (x1 == x0 && y1 == y0)
             {
                 IsEmpty = true;
 
@@ -42,68 +54,90 @@ namespace FanKit.Transformer.Mathematics
             }
         }
 
-        public Matrix3x2 Pinch(Vector2 startingLinePoint0, Vector2 linePoint1)
+        public Matrix3x2 Pinch(LineMatrix destinationNormalize)
         {
-            if (linePoint1.X == startingLinePoint0.X && linePoint1.Y == startingLinePoint0.Y)
+            if (this.IsEmpty || destinationNormalize.IsEmpty)
             {
                 return Matrix3x2.Identity;
             }
-
-            float dx = linePoint1.X - startingLinePoint0.X;
-            float dy = linePoint1.Y - startingLinePoint0.Y;
-            float ls = dy * this.dy + dx * this.dx;
-
-            float c = ls / this.ls;
-
-            return new Matrix3x2
+            else
             {
-                // First row
-                M11 = c,
-                M12 = 0f,
+                if (destinationNormalize.d == this.d)
+                {
+                    float radians = destinationNormalize.r - this.r;
 
-                // Second row
-                M21 = 0f,
-                M22 = c,
+                    if (radians == 0f)
+                    {
+                        return Matrix3x2.CreateTranslation(destinationNormalize.x0 - this.x0, destinationNormalize.y0 - this.y0);
+                    }
+                    else
+                    {
+                        Matrix3x2 matrix = Matrix3x2.CreateRotation(radians);
 
-                // Third row
-                M31 = startingLinePoint0.X - startingLinePoint0.X * c,
-                M32 = startingLinePoint0.Y - startingLinePoint0.Y * c
-            };
-        }
+                        return new Matrix3x2
+                        {
+                            // First row
+                            M11 = matrix.M11,
+                            M12 = matrix.M12,
 
-        public Matrix3x2 Pinch(Vector2 startingLinePoint0, Vector2 linePoint0, Vector2 linePoint1)
-        {
-            if (linePoint1.X == startingLinePoint0.X && linePoint1.Y == startingLinePoint0.Y)
-            {
-                return Matrix3x2.Identity;
+                            // Second row
+                            M21 = matrix.M21,
+                            M22 = matrix.M22,
+
+                            // Third row
+                            M31 = destinationNormalize.x0 - this.x0 * matrix.M11 - this.y0 * matrix.M21,
+                            M32 = destinationNormalize.y0 - this.x0 * matrix.M12 - this.y0 * matrix.M22,
+                        };
+                    }
+                }
+                else
+                {
+                    float radians = destinationNormalize.r - this.r;
+
+                    if (radians == 0f)
+                    {
+                        float scale = destinationNormalize.d * this.i;
+
+                        return new Matrix3x2
+                        {
+                            // First row
+                            M11 = scale,
+                            M12 = 0f,
+
+                            // Second row
+                            M21 = 0f,
+                            M22 = scale,
+
+                            // Third row
+                            M31 = destinationNormalize.x0 - this.x0 * scale,
+                            M32 = destinationNormalize.y0 - this.y0 * scale,
+                        };
+                    }
+                    else
+                    {
+                        float scale = destinationNormalize.d * this.i;
+                        float x = this.x0 * scale;
+                        float y = this.y0 * scale;
+
+                        Matrix3x2 matrix = Matrix3x2.CreateRotation(radians);
+
+                        return new Matrix3x2
+                        {
+                            // First row
+                            M11 = scale * matrix.M11,
+                            M12 = scale * matrix.M12,
+
+                            // Second row
+                            M21 = scale * matrix.M21,
+                            M22 = scale * matrix.M22,
+
+                            // Third row
+                            M31 = destinationNormalize.x0 - x * matrix.M11 - y * matrix.M21 + matrix.M31,
+                            M32 = destinationNormalize.y0 - x * matrix.M12 - y * matrix.M22 + matrix.M32,
+                        };
+                    }
+                }
             }
-
-            float dx = linePoint1.X - linePoint0.X;
-            float dy = linePoint1.Y - linePoint0.Y;
-            float ls = dx * dx + dy * dy;
-
-            float r = (float)System.Math.Atan2(dy, dx);
-            float d = (float)System.Math.Sqrt(ls);
-            float a = r - this.r;
-
-            Rotation2x2 r2 = new Rotation2x2(a);
-            float c = this.i * r2.C * d;
-            float s = this.i * r2.S * d;
-
-            return new Matrix3x2
-            {
-                // First row
-                M11 = c,
-                M12 = s,
-
-                // Second row
-                M21 = -s,
-                M22 = c,
-
-                // Third row
-                M31 = linePoint0.X - startingLinePoint0.X * c + startingLinePoint0.Y * s,
-                M32 = linePoint0.Y - startingLinePoint0.X * s - startingLinePoint0.Y * c
-            };
         }
     }
 }

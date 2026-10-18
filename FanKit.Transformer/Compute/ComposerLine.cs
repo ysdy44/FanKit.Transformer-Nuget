@@ -40,7 +40,7 @@ namespace FanKit.Transformer.Compute
             }
             else
             {
-                this.HostDestNorm = this.HostSourceNorm.Pinch(this.StartingPoint1, this.Point0);
+                this.HostDestNorm = this.HostSourceNorm.Pinch(new LineMatrix(this.Point0, this.Point1));
                 if (this.HostDestNorm.IsIdentity)
                 {
                     this.Host.Matrix = Matrix3x2.Identity;
@@ -60,7 +60,7 @@ namespace FanKit.Transformer.Compute
             }
             else
             {
-                this.HostDestNorm = this.HostSourceNorm.Pinch(this.StartingPoint0, this.Point1);
+                this.HostDestNorm = this.HostSourceNorm.Pinch(new LineMatrix(this.Point0, this.Point1));
                 if (this.HostDestNorm.IsIdentity)
                 {
                     this.Host.Matrix = Matrix3x2.Identity;
@@ -80,7 +80,7 @@ namespace FanKit.Transformer.Compute
             }
             else
             {
-                this.HostDestNorm = this.HostSourceNorm.Pinch(this.StartingPoint0, this.Point0, this.Point1);
+                this.HostDestNorm = this.HostSourceNorm.Pinch(new LineMatrix(this.Point0, this.Point1));
                 if (this.HostDestNorm.IsIdentity)
                 {
                     this.Host.Matrix = Matrix3x2.Identity;
