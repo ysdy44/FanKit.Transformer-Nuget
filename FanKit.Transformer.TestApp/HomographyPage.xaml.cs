@@ -26,16 +26,14 @@ namespace FanKit.Transformer.TestApp
 {
     public abstract partial class HomographyPage : Page
     {
-        // Source
         public readonly static Color LeftStrokeColor = Colors.OrangeRed;
         public readonly static Color LeftFillColor = Color.FromArgb(51, Colors.OrangeRed.R, Colors.OrangeRed.G, Colors.OrangeRed.B);
 
-        // Destination
         public readonly static Color RightStrokeColor = Colors.DeepSkyBlue;
         public readonly static Color RightFillColor = Color.FromArgb(51, Colors.DeepSkyBlue.R, Colors.DeepSkyBlue.G, Colors.DeepSkyBlue.B);
 
-        // Homography
         Vector2 Position;
+        CanvasBitmap Bitmap;
 
         public HomographyPage()
         {
@@ -53,7 +51,7 @@ namespace FanKit.Transformer.TestApp
             };
             this.CanvasControl.Draw += (s, e) =>
             {
-                this.Draw(s, e.DrawingSession);
+                this.Draw(s, e.DrawingSession, this.Bitmap);
 
                 e.DrawingSession.FillCircle(this.Position, 6f, LeftStrokeColor);
                 e.DrawingSession.FillCircle(this.TransformPoint(this.Position), 6f, RightStrokeColor);
@@ -88,53 +86,49 @@ namespace FanKit.Transformer.TestApp
 
                 float width = (float)e.NewSize.Width;
                 float height = (float)e.NewSize.Height;
-                this.InitializeDestination(width, height);
+
+                float x0 = width / 4;
+                float x1 = width - x0;
+                float centerY = height / 2;
+                this.InitializeDestination(x0, x1, centerY);
                 this.InitializeMatrix();
             };
         }
 
         private async Task CreateResourcesAsync(ICanvasResourceCreator resourceCreator)
         {
-            this.InitializeSource(await CanvasBitmap.LoadAsync(resourceCreator, "Images/avatar.jpg"));
+            CanvasBitmap bitmap = (await CanvasBitmap.LoadAsync(resourceCreator, "Images/avatar.jpg"));
+            float width = (float)bitmap.Size.Width;
+            float height = (float)bitmap.Size.Height;
+
+            this.Bitmap = bitmap;
+            this.InitializeSource(width, height);
             this.InitializeMatrix();
         }
 
-        public abstract void InitializeDestination(float width, float height);
-        public abstract void InitializeSource(CanvasBitmap bitmap);
+        public abstract void InitializeDestination(float x0, float x1, float centerY);
+        public abstract void InitializeSource(float width, float height);
         public abstract void InitializeMatrix();
-        public abstract void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession);
+        public abstract void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap);
         public abstract Vector2 TransformPoint(Vector2 point);
     }
 
     public sealed class DirectAffinePage : HomographyPage
     {
-        //@Const
-        const float W = 256;
-        const float H = 256;
-        SizeMatrix SourceNormalize = new SizeMatrix(W, H);
-
-        // Source
         Rectangle LeftDest;
         RectMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
 
-        // Destination
         Triangle RightDest;
         Matrix3x2 RightNorm;
         Matrix3x2 RightMatrix;
         readonly Vector2[] RightPoints = new Vector2[3];
 
-        // Homography
+        SizeMatrix SourceNormalize;
         Matrix3x2 Matrix;
-        CanvasBitmap Bitmap;
 
-        public override void InitializeDestination(float width, float height)
+        public override void InitializeDestination(float x0, float x1, float centerY)
         {
-            float x0 = width / 4;
-            float x1 = width - x0;
-            float centerY = height / 2;
-
-            // Source
             this.LeftDest = new Rectangle
             {
                 X = x0 - 100,
@@ -144,7 +138,6 @@ namespace FanKit.Transformer.TestApp
             };
             this.LeftNorm = new RectMatrix(this.LeftDest);
 
-            // Destination
             this.RightDest = new Triangle
             {
                 LeftTop = new Vector2(x1 - 100, centerY - 120),
@@ -156,40 +149,32 @@ namespace FanKit.Transformer.TestApp
             this.RightPoints[2] = this.RightDest.LeftBottom;
         }
 
-        public override void InitializeSource(CanvasBitmap bitmap)
+        public override void InitializeSource(float width, float height)
         {
-            this.Bitmap = bitmap;
-
-            float width = (float)this.Bitmap.Size.Width;
-            float height = (float)this.Bitmap.Size.Height;
-
             this.SourceNormalize = new SizeMatrix(width, height);
         }
 
         public override void InitializeMatrix()
         {
-            // Source
             this.LeftMatrix = this.SourceNormalize.Map(this.LeftDest).ToMatrix3x2();
 
-            // Destination
             this.RightNorm = this.RightDest.Normalize();
             this.RightMatrix = this.SourceNormalize.Affine(this.RightNorm);
 
-            // Homography
             this.Matrix = this.LeftNorm.Affine(this.RightNorm);
         }
 
-        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
         {
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.LeftMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.RightMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
 
             drawingSession.FillRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftFillColor);
@@ -208,34 +193,21 @@ namespace FanKit.Transformer.TestApp
 
     public sealed class BidirectionalAffinePage : HomographyPage
     {
-        //@Const
-        const float W = 256;
-        const float H = 256;
-        SizeMatrix SourceNormalize = new SizeMatrix(W, H);
-
-        // Source
         Triangle LeftDest;
         TriangleMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[3];
 
-        // Destination
         Triangle RightDest;
         Matrix3x2 RightNorm;
         Matrix3x2 RightMatrix;
         readonly Vector2[] RightPoints = new Vector2[3];
 
-        // Homography
+        SizeMatrix SourceNormalize;
         Matrix3x2 Matrix;
-        CanvasBitmap Bitmap;
 
-        public override void InitializeDestination(float width, float height)
+        public override void InitializeDestination(float x0, float x1, float centerY)
         {
-            float x0 = width / 4;
-            float x1 = width - x0;
-            float centerY = height / 2;
-
-            // Source
             this.LeftDest = new Triangle
             {
                 LeftTop = new Vector2(x0 - 100, centerY - 120),
@@ -246,7 +218,6 @@ namespace FanKit.Transformer.TestApp
             this.LeftPoints[1] = this.LeftDest.RightTop;
             this.LeftPoints[2] = this.LeftDest.LeftBottom;
 
-            // Destination
             this.RightDest = new Triangle
             {
                 LeftTop = new Vector2(x1 - 100, centerY - 100),
@@ -258,41 +229,33 @@ namespace FanKit.Transformer.TestApp
             this.RightPoints[2] = this.RightDest.LeftBottom;
         }
 
-        public override void InitializeSource(CanvasBitmap bitmap)
+        public override void InitializeSource(float width, float height)
         {
-            this.Bitmap = bitmap;
-
-            float width = (float)this.Bitmap.Size.Width;
-            float height = (float)this.Bitmap.Size.Height;
-
             this.SourceNormalize = new SizeMatrix(width, height);
         }
 
         public override void InitializeMatrix()
         {
-            // Source
             this.LeftNorm = new TriangleMatrix(this.LeftDest);
             this.LeftMatrix = this.SourceNormalize.Affine(this.LeftDest.Normalize());
 
-            // Destination
             this.RightNorm = this.RightDest.Normalize();
             this.RightMatrix = this.SourceNormalize.Affine(this.RightNorm);
 
-            // Homography
             this.Matrix = this.LeftNorm.BidiAffine(this.RightNorm);
         }
 
-        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
         {
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.LeftMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.RightMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
 
             CanvasGeometry geometry0 = CanvasGeometry.CreatePolygon(resourceCreator, this.LeftPoints);
@@ -312,32 +275,19 @@ namespace FanKit.Transformer.TestApp
 
     public sealed class InverseAffinePage : HomographyPage
     {
-        //@Const
-        const float W = 256;
-        const float H = 256;
-        SizeMatrix SourceNormalize = new SizeMatrix(W, H);
-
-        // Source
         Triangle LeftDest;
         TriangleMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[3];
 
-        // Destination
         Rectangle RightDest;
         Matrix3x2 RightMatrix;
 
-        // Homography
+        SizeMatrix SourceNormalize;
         Matrix3x2 Matrix;
-        CanvasBitmap Bitmap;
 
-        public override void InitializeDestination(float width, float height)
+        public override void InitializeDestination(float x0, float x1, float centerY)
         {
-            float x0 = width / 4;
-            float x1 = width - x0;
-            float centerY = height / 2;
-
-            // Source
             this.LeftDest = new Triangle
             {
                 LeftTop = new Vector2(x0 - 100, centerY - 120),
@@ -348,7 +298,6 @@ namespace FanKit.Transformer.TestApp
             this.LeftPoints[1] = this.LeftDest.RightTop;
             this.LeftPoints[2] = this.LeftDest.LeftBottom;
 
-            // Destination
             this.RightDest = new Rectangle
             {
                 X = x1 - 100,
@@ -358,40 +307,32 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
-        public override void InitializeSource(CanvasBitmap bitmap)
+        public override void InitializeSource(float width, float height)
         {
-            this.Bitmap = bitmap;
-
-            float width = (float)this.Bitmap.Size.Width;
-            float height = (float)this.Bitmap.Size.Height;
-
             this.SourceNormalize = new SizeMatrix(width, height);
         }
 
         public override void InitializeMatrix()
         {
-            // Source
             this.LeftNorm = new TriangleMatrix(this.LeftDest);
             this.LeftMatrix = this.SourceNormalize.Affine(this.LeftDest.Normalize());
 
-            // Destination
             this.RightMatrix = this.SourceNormalize.Map(this.RightDest).ToMatrix3x2();
 
-            // Homography
             this.Matrix = this.LeftNorm.InvAffine(this.RightDest);
         }
 
-        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
         {
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.LeftMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.RightMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
 
             CanvasGeometry geometry = CanvasGeometry.CreatePolygon(resourceCreator, this.LeftPoints);
@@ -410,33 +351,20 @@ namespace FanKit.Transformer.TestApp
 
     public sealed class DirectPerspectivePage : HomographyPage
     {
-        //@Const
-        const float W = 256;
-        const float H = 256;
-        SizeMatrix SourceNormalize = new SizeMatrix(W, H);
-
-        // Source
         Rectangle LeftDest;
         RectMatrix LeftNorm;
         Matrix3x2 LeftMatrix;
 
-        // Destination
         Quadrilateral RightDest;
         Matrix4x4 RightNorm;
         Matrix4x4 RightMatrix;
         readonly Vector2[] RightPoints = new Vector2[4];
 
-        // Homography
+        SizeMatrix SourceNormalize;
         Matrix4x4 Matrix;
-        CanvasBitmap Bitmap;
 
-        public override void InitializeDestination(float width, float height)
+        public override void InitializeDestination(float x0, float x1, float centerY)
         {
-            float x0 = width / 4;
-            float x1 = width - x0;
-            float centerY = height / 2;
-
-            // Source
             this.LeftDest = new Rectangle
             {
                 X = x0 - 100,
@@ -446,7 +374,6 @@ namespace FanKit.Transformer.TestApp
             };
             this.LeftNorm = new RectMatrix(this.LeftDest);
 
-            // Destination
             this.RightDest = new Quadrilateral
             {
                 LeftTop = new Vector2(x1 - 100, centerY - 80),
@@ -460,40 +387,32 @@ namespace FanKit.Transformer.TestApp
             this.RightPoints[3] = this.RightDest.LeftBottom;
         }
 
-        public override void InitializeSource(CanvasBitmap bitmap)
+        public override void InitializeSource(float width, float height)
         {
-            this.Bitmap = bitmap;
-
-            float width = (float)this.Bitmap.Size.Width;
-            float height = (float)this.Bitmap.Size.Height;
-
             this.SourceNormalize = new SizeMatrix(width, height);
         }
 
         public override void InitializeMatrix()
         {
-            // Source
             this.LeftMatrix = this.SourceNormalize.Map(this.LeftDest).ToMatrix3x2();
 
-            // Destination
             this.RightNorm = this.RightDest.Normalize();
             this.RightMatrix = this.SourceNormalize.Persp(this.RightNorm);
 
-            // Homography
             this.Matrix = this.LeftNorm.Persp(this.RightNorm);
         }
 
-        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
         {
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.LeftMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
             drawingSession.DrawImage(new Transform3DEffect
             {
                 TransformMatrix = this.RightMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
 
             drawingSession.FillRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftFillColor);
@@ -512,34 +431,21 @@ namespace FanKit.Transformer.TestApp
 
     public sealed class BidirectionalPerspectivePage : HomographyPage
     {
-        //@Const
-        const float W = 256;
-        const float H = 256;
-        SizeMatrix SourceNormalize = new SizeMatrix(W, H);
-
-        // Source
         Quadrilateral LeftDest;
         Matrix4x4 LeftNorm;
         Matrix4x4 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[4];
 
-        // Destination
         Quadrilateral RightDest;
         Matrix4x4 RightNorm;
         Matrix4x4 RightMatrix;
         readonly Vector2[] RightPoints = new Vector2[4];
 
-        // Homography
+        SizeMatrix SourceNormalize;
         Matrix4x4 Matrix;
-        CanvasBitmap Bitmap;
 
-        public override void InitializeDestination(float width, float height)
+        public override void InitializeDestination(float x0, float x1, float centerY)
         {
-            float x0 = width / 4;
-            float x1 = width - x0;
-            float centerY = height / 2;
-
-            // Source
             this.LeftDest = new Quadrilateral
             {
                 LeftTop = new Vector2(x0 - 100, centerY - 80),
@@ -552,7 +458,6 @@ namespace FanKit.Transformer.TestApp
             this.LeftPoints[2] = this.LeftDest.RightBottom;
             this.LeftPoints[3] = this.LeftDest.LeftBottom;
 
-            // Destination
             this.RightDest = new Quadrilateral
             {
                 LeftTop = new Vector2(x1 - 100, centerY - 120),
@@ -566,41 +471,33 @@ namespace FanKit.Transformer.TestApp
             this.RightPoints[3] = this.RightDest.LeftBottom;
         }
 
-        public override void InitializeSource(CanvasBitmap bitmap)
+        public override void InitializeSource(float width, float height)
         {
-            this.Bitmap = bitmap;
-
-            float width = (float)this.Bitmap.Size.Width;
-            float height = (float)this.Bitmap.Size.Height;
-
             this.SourceNormalize = new SizeMatrix(width, height);
         }
 
         public override void InitializeMatrix()
         {
-            // Source
             this.LeftNorm = (this.LeftDest).Normalize();
             this.LeftMatrix = this.SourceNormalize.Persp(this.LeftNorm);
 
-            // Destination
             this.RightNorm = this.RightDest.Normalize();
             this.RightMatrix = this.SourceNormalize.Persp(this.RightNorm);
 
-            // Homography
             this.Matrix = new QuadrilateralMatrix(this.LeftDest).InvPersp(this.RightNorm);
         }
 
-        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
         {
             drawingSession.DrawImage(new Transform3DEffect
             {
                 TransformMatrix = this.LeftMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
             drawingSession.DrawImage(new Transform3DEffect
             {
                 TransformMatrix = this.RightMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
 
             CanvasGeometry geometry0 = CanvasGeometry.CreatePolygon(resourceCreator, this.LeftPoints);
@@ -620,32 +517,19 @@ namespace FanKit.Transformer.TestApp
 
     public sealed class InversePerspectivePage : HomographyPage
     {
-        //@Const
-        const float W = 256;
-        const float H = 256;
-        SizeMatrix SourceNormalize = new SizeMatrix(W, H);
-
-        // Source
         Quadrilateral LeftDest;
         Matrix4x4 LeftNorm;
         Matrix4x4 LeftMatrix;
         readonly Vector2[] LeftPoints = new Vector2[4];
 
-        // Destination
         Rectangle RightDest;
         Matrix3x2 RightMatrix;
 
-        // Homography
+        SizeMatrix SourceNormalize;
         Matrix4x4 Matrix;
-        CanvasBitmap Bitmap;
 
-        public override void InitializeDestination(float width, float height)
+        public override void InitializeDestination(float x0, float x1, float centerY)
         {
-            float x0 = width / 4;
-            float x1 = width - x0;
-            float centerY = height / 2;
-
-            // Source
             this.LeftDest = new Quadrilateral
             {
                 LeftTop = new Vector2(x0 - 100, centerY - 80),
@@ -658,7 +542,6 @@ namespace FanKit.Transformer.TestApp
             this.LeftPoints[2] = this.LeftDest.RightBottom;
             this.LeftPoints[3] = this.LeftDest.LeftBottom;
 
-            // Destination
             this.RightDest = new Rectangle
             {
                 X = x1 - 100,
@@ -668,40 +551,32 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
-        public override void InitializeSource(CanvasBitmap bitmap)
+        public override void InitializeSource(float width, float height)
         {
-            this.Bitmap = bitmap;
-
-            float width = (float)this.Bitmap.Size.Width;
-            float height = (float)this.Bitmap.Size.Height;
-
             this.SourceNormalize = new SizeMatrix(width, height);
         }
 
         public override void InitializeMatrix()
         {
-            // Source
             this.LeftNorm = this.LeftDest.Normalize();
             this.LeftMatrix = this.SourceNormalize.Persp(this.LeftNorm);
 
-            // Destination
             this.RightMatrix = this.SourceNormalize.Map(this.RightDest).ToMatrix3x2();
 
-            // Homography
             this.Matrix = new QuadrilateralMatrix(this.LeftDest).InvPersp(this.RightDest);
         }
 
-        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession)
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
         {
             drawingSession.DrawImage(new Transform3DEffect
             {
                 TransformMatrix = this.LeftMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
             drawingSession.DrawImage(new Transform2DEffect
             {
                 TransformMatrix = this.RightMatrix,
-                Source = this.Bitmap,
+                Source = bitmap,
             });
 
             CanvasGeometry geometry = CanvasGeometry.CreatePolygon(resourceCreator, this.LeftPoints);
