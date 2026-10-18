@@ -113,6 +113,146 @@ namespace FanKit.Transformer.TestApp
         public abstract Vector2 TransformPoint(Vector2 point);
     }
 
+    public sealed class BidirectionalPinchPage : HomographyPage
+    {
+        Vector2 LeftDest0, LeftDest1;
+        LineMatrix LeftNorm;
+        Matrix3x2 LeftMatrix;
+
+        Vector2 RightDest0, RightDest1;
+        LineMatrix RightNorm;
+        Matrix3x2 RightMatrix;
+
+        LineMatrix SourceNormalize;
+        Matrix3x2 Matrix;
+
+        public override void InitializeDestination(float x0, float x1, float centerY)
+        {
+            this.LeftDest0 = new Vector2(x0 - 100, centerY - 120 - 20);
+            this.LeftDest1 = new Vector2(x0 + 100, centerY + 80 + 20);
+
+            this.RightDest0 = new Vector2(x1 - 100 - 20, centerY - 120);
+            this.RightDest1 = new Vector2(x1 + 100 + 20, centerY + 80);
+        }
+
+        public override void InitializeSource(float width, float height)
+        {
+            this.SourceNormalize = new LineMatrix(Vector2.Zero, new Vector2(width, height));
+        }
+
+        public override void InitializeMatrix()
+        {
+            this.LeftNorm = new LineMatrix(this.LeftDest0, this.LeftDest1);
+            this.LeftMatrix = this.SourceNormalize.Pinch(this.LeftNorm);
+
+            this.RightNorm = new LineMatrix(this.RightDest0, this.RightDest1);
+            this.RightMatrix = this.SourceNormalize.Pinch(this.RightNorm);
+
+            this.Matrix = this.LeftNorm.Pinch(this.RightNorm);
+        }
+
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
+        {
+            drawingSession.DrawImage(new Transform2DEffect
+            {
+                TransformMatrix = this.LeftMatrix,
+                Source = bitmap,
+            });
+            drawingSession.DrawImage(new Transform2DEffect
+            {
+                TransformMatrix = this.RightMatrix,
+                Source = bitmap,
+            });
+
+            drawingSession.DrawLine(this.LeftDest0, this.LeftDest1, LeftStrokeColor, 3f);
+            drawingSession.FillCircle(this.LeftDest0, 6f, LeftStrokeColor);
+            drawingSession.FillCircle(this.LeftDest1, 6f, LeftStrokeColor);
+
+            drawingSession.DrawLine(this.RightDest0, this.RightDest1, RightStrokeColor, 3f);
+            drawingSession.FillCircle(this.RightDest0, 6f, RightStrokeColor);
+            drawingSession.FillCircle(this.RightDest1, 6f, RightStrokeColor);
+        }
+
+        public override Vector2 TransformPoint(Vector2 point)
+        {
+            return Vector2.Transform(point, this.Matrix);
+        }
+    }
+
+    public sealed class BidirectionalMapPage : HomographyPage
+    {
+        Rectangle LeftDest;
+        Matrix2x2 LeftNorm;
+        Matrix3x2 LeftMatrix;
+
+        Rectangle RightDest;
+        Matrix2x2 RightNorm;
+        Matrix3x2 RightMatrix;
+
+        SizeMatrix SourceNormalize;
+        Matrix3x2 Matrix;
+
+        public override void InitializeDestination(float x0, float x1, float centerY)
+        {
+            this.LeftDest = new Rectangle
+            {
+                X = x0 - 100,
+                Y = centerY - 120 - 20,
+                Width = 200,
+                Height = 240,
+            };
+
+            this.RightDest = new Rectangle
+            {
+                X = x1 - 100 - 20,
+                Y = centerY - 120,
+                Width = 240,
+                Height = 200,
+            };
+        }
+
+        public override void InitializeSource(float width, float height)
+        {
+            this.SourceNormalize = new SizeMatrix(width, height);
+        }
+
+        public override void InitializeMatrix()
+        {
+            this.LeftNorm = this.LeftDest.Normalize();
+            this.LeftMatrix = this.SourceNormalize.Map(this.LeftNorm).ToMatrix3x2();
+
+            this.RightNorm = this.RightDest.Normalize();
+            this.RightMatrix = this.SourceNormalize.Map(this.RightNorm).ToMatrix3x2();
+
+            this.Matrix = this.LeftNorm.Map(this.RightNorm).ToMatrix3x2();
+        }
+
+        public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
+        {
+            drawingSession.DrawImage(new Transform2DEffect
+            {
+                TransformMatrix = this.LeftMatrix,
+                Source = bitmap,
+            });
+            drawingSession.DrawImage(new Transform2DEffect
+            {
+                TransformMatrix = this.RightMatrix,
+                Source = bitmap,
+            });
+
+            drawingSession.FillRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftFillColor);
+            drawingSession.DrawRectangle(this.LeftDest.X, this.LeftDest.Y, this.LeftDest.Width, this.LeftDest.Height, LeftStrokeColor, 3f);
+
+            drawingSession.FillRectangle(this.RightDest.X, this.RightDest.Y, this.RightDest.Width, this.RightDest.Height, RightFillColor);
+            drawingSession.DrawRectangle(this.RightDest.X, this.RightDest.Y, this.RightDest.Width, this.RightDest.Height, RightStrokeColor, 3f);
+        }
+
+        public override Vector2 TransformPoint(Vector2 point)
+        {
+            return Vector2.Transform(point, this.Matrix);
+        }
+    }
+
     public sealed class DirectAffinePage : HomographyPage
     {
         Rectangle LeftDest;

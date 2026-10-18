@@ -2031,6 +2031,74 @@
                 <StackPanel Margin="8">
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
+                        Pinch &amp; Map
+                    </TextBlock>
+
+                    <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                BidirectionalPinch
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Polygon IsHitTestVisible="False">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.2" Color="OrangeRed"/>
+                                        </Shape.Fill>
+                                        <Polygon.Points>
+                                            18,19
+                                            58,23
+                                            54,63
+                                            14,59
+                                        </Polygon.Points>
+                                    </Polygon>
+                                    <Line X1="18" Y1="19" X2="54" Y2="63" IsHitTestVisible="False" StrokeThickness="2" Stroke="OrangeRed"/>
+                                    <Ellipse Canvas.Left="15" Canvas.Top="16" Width="6" Height="6" IsHitTestVisible="False" Fill="OrangeRed"/>
+                                    <Ellipse Canvas.Left="51" Canvas.Top="60" Width="6" Height="6" IsHitTestVisible="False" Fill="OrangeRed"/>
+                                    <Polygon IsHitTestVisible="False">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.2" Color="DeepSkyBlue"/>
+                                        </Shape.Fill>
+                                        <Polygon.Points>
+                                            73,22
+                                            113,18
+                                            117,58
+                                            77,62
+                                        </Polygon.Points>
+                                    </Polygon>
+                                    <Line X1="73" Y1="22" X2="117" Y2="58" IsHitTestVisible="False" StrokeThickness="2" Stroke="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="70" Canvas.Top="19" Width="6" Height="6" IsHitTestVisible="False" Fill="DeepSkyBlue"/>
+                                    <Ellipse Canvas.Left="114" Canvas.Top="55" Width="6" Height="6" IsHitTestVisible="False" Fill="DeepSkyBlue"/>
+                                </Canvas>
+                                <TextBlock Text="Bidirectional Pinch" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                BidirectionalMap
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Rectangle IsHitTestVisible="False" Canvas.Left="12" Canvas.Top="21" Width="40" Height="44" StrokeThickness="2" Stroke="OrangeRed">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.2" Color="OrangeRed"/>
+                                        </Shape.Fill>
+                                    </Rectangle>
+                                    <Rectangle IsHitTestVisible="False" Canvas.Left="72" Canvas.Top="21" Width="44" Height="40" StrokeThickness="2" Stroke="DeepSkyBlue">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.2" Color="DeepSkyBlue"/>
+                                        </Shape.Fill>
+                                    </Rectangle>
+                                </Canvas>
+                                <TextBlock Text="Bidirectional Map" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                    </VariableSizedWrapGrid>
+
+                    <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
                         Affine
                     </TextBlock>
 

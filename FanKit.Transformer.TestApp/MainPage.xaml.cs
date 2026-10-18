@@ -323,6 +323,9 @@ namespace FanKit.Transformer.TestApp
             },
             ["Homography"] = new Kvp[]
             {
+                new Kvp("BidirectionalPinch", "Bidirectional Pinch", typeof(BidirectionalPinchPage)),
+                new Kvp("BidirectionalMap", "Bidirectional Map", typeof(BidirectionalMapPage)),
+                default,
                 new Kvp("DirectAffine", "Affine", typeof(DirectAffinePage)),
                 new Kvp("BidirectionalAffine", "Bidirectional Affine", typeof(BidirectionalAffinePage)),
                 new Kvp("InverseAffine", "Inverse Affine", typeof(InverseAffinePage)),
@@ -349,6 +352,7 @@ namespace FanKit.Transformer.TestApp
             ["Cache"] = new Kvp[]
             {
                 new Kvp("Box", "Box", typeof(BoxPage)),
+                default,
                 new Kvp("BoundsBox0", "Bounds & Box 0", typeof(BoundsBox0Page)),
                 new Kvp("BoundsBox1", "Bounds & Box 1", typeof(BoundsBox1Page)),
                 default,
@@ -366,8 +370,8 @@ namespace FanKit.Transformer.TestApp
             {
                 new Kvp("Carousel", "Carousel", typeof(CarouselPage)),
                 new Kvp("Carousels", "Carousels", typeof(CarouselsPage)),
-                new Kvp("Scroller", "Scroller", typeof(ScrollerPage)),
                 default,
+                new Kvp("Scroller", "Scroller", typeof(ScrollerPage)),
                 new Kvp("Cube", "Cube", typeof(CubePage)),
                 new Kvp("Graticule", "Graticule", typeof(GraticulePage)),
                 new Kvp("Earth", "Earth", typeof(EarthPage)),
