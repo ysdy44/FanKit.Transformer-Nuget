@@ -170,6 +170,13 @@ namespace FanKit.Transformer
             Right = this.X + this.Width,
             Bottom = this.Y + this.Height,
         };
+        public Matrix2x2 Normalize() => new Matrix2x2
+        {
+            TranslateX = this.X,
+            TranslateY = this.Y,
+            ScaleX = this.Width,
+            ScaleY = this.Height,
+        };
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix3x2 ToMatrix3x2() => new Matrix3x2
         {
