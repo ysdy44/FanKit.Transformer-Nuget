@@ -136,12 +136,19 @@ namespace FanKit.Transformer
             Right = System.Math.Max(this.Right, this.Left),
             Bottom = System.Math.Max(this.Bottom, this.Top),
         };
-        public Rectangle ToRectangle() => new Rectangle
+        public Rectangle ToBoundsRectangle() => new Rectangle
         {
             X = System.Math.Min(this.Right, this.Left),
             Y = System.Math.Min(this.Bottom, this.Top),
             Width = System.Math.Abs(this.Right - this.Left),
             Height = System.Math.Abs(this.Bottom - this.Top),
+        };
+        public Rectangle ToRectangle() => new Rectangle
+        {
+            X = this.Left,
+            Y = this.Top,
+            Width = this.Right - this.Left,
+            Height = this.Bottom - this.Top,
         };
         public Matrix2x2 Normalize() => new Matrix2x2
         {
