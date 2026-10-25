@@ -624,7 +624,7 @@ namespace FanKit.Transformer.TestApp
             this.RightNorm = this.RightDest.Normalize();
             this.RightMatrix = this.SourceNormalize.Persp(this.RightNorm);
 
-            this.Matrix = new QuadrilateralMatrix(this.LeftDest).InvPersp(this.RightNorm);
+            this.Matrix = new QuadrilateralMatrix(this.LeftDest).BidiPersp(this.RightNorm);
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)

@@ -133,15 +133,14 @@ namespace FanKit.Transformer.Mathematics
                 }
             }
 
-            for (int i = n - 1; i >= 0; i--)
-            {
-                float sum = 0;
-                for (int j = i + 1; j < n; j++)
-                {
-                    sum += A[i, j] * x[j];
-                }
-                x[i] = (b[i] - sum) / A[i, i];
-            }
+            x.M7 = b.M7 / A.M77;
+            x.M6 = (b.M6 - A.M67 * x.M7) / A.M66;
+            x.M5 = (b.M5 - A.M56 * x.M6 - A.M57 * x.M7) / A.M55;
+            x.M4 = (b.M4 - A.M45 * x.M5 - A.M46 * x.M6 - A.M47 * x.M7) / A.M44;
+            x.M3 = (b.M3 - A.M34 * x.M4 - A.M35 * x.M5 - A.M36 * x.M6 - A.M37 * x.M7) / A.M33;
+            x.M2 = (b.M2 - A.M23 * x.M3 - A.M24 * x.M4 - A.M25 * x.M5 - A.M26 * x.M6 - A.M27 * x.M7) / A.M22;
+            x.M1 = (b.M1 - A.M12 * x.M2 - A.M13 * x.M3 - A.M14 * x.M4 - A.M15 * x.M5 - A.M16 * x.M6 - A.M17 * x.M7) / A.M11;
+            x.M0 = (b.M0 - A.M01 * x.M1 - A.M02 * x.M2 - A.M03 * x.M3 - A.M04 * x.M4 - A.M05 * x.M5 - A.M06 * x.M6 - A.M07 * x.M7) / A.M00;
         }
 
         // -------------------- 3x3_1x2 -------------------- // 
@@ -232,7 +231,7 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 3x3_3x2 -------------------- // 
 
-        public Matrix4x4 InvPersp(Matrix4x4 destinationNormalize)
+        public Matrix4x4 BidiPersp(Matrix4x4 destinationNormalize)
         {
             float m11 = this.x.M0;
             float m12 = this.x.M3;
@@ -310,6 +309,6 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        public Matrix4x4 InvPersp(Quadrilateral destination) => InvPersp(destination.Normalize());
+        public Matrix4x4 BidiPersp(Quadrilateral destination) => BidiPersp(destination.Normalize());
     }
 }
