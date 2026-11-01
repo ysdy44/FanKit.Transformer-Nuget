@@ -52,7 +52,7 @@ namespace FanKit.Transformer.TestApp
         {
             this.StartingPoint = this.Point = new Vector2((float)startingX, (float)startingY);
 
-            this.Mode = this.Rect.Contains(this.Point);
+            this.Mode = this.Rect.ContainsPoint(this.Point);
 
             this.StartingRect = this.Rect;
 
@@ -75,7 +75,7 @@ namespace FanKit.Transformer.TestApp
         {
             this.Point = new Vector2((float)x, (float)y);
 
-            this.Mode = this.Rect.Contains(this.Point);
+            this.Mode = this.Rect.ContainsPoint(this.Point);
 
             this.CanvasControl.Invalidate();
         }

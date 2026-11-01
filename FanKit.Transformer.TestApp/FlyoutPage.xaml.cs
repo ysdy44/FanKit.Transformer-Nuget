@@ -106,7 +106,7 @@ namespace FanKit.Transformer.TestApp
             {
                 Point point = e.GetPosition(this.Canvas);
 
-                if (this.Metrics.Body.Contains(point.ToVector2()))
+                if (this.Metrics.Body.ContainsPoint(point.ToVector2()))
                     return;
 
                 this.HIde();

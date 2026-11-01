@@ -188,7 +188,7 @@ namespace FanKit.Transformer
             M32 = this.Y,
         };
 
-        public bool Contains(Vector2 point)
+        public bool ContainsPoint(Vector2 point)
             => point.X > this.X
             && point.Y > this.Y
             && point.X < this.X + this.Width
