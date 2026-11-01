@@ -340,6 +340,9 @@
     <Compile Include="EarthPage.xaml.cs">
       <DependentUpon>EarthPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtendPage.xaml.cs">
+      <DependentUpon>ExtendPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\CanvasDrawingSessionExtensions.cs" />
     <Compile Include="Extensions\DemoGeometry.cs" />
     <Compile Include="Extensions\DemoPath.cs" />
@@ -726,6 +729,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="EarthPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExtendPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

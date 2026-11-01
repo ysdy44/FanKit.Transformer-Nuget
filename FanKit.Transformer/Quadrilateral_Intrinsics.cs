@@ -281,44 +281,187 @@ namespace FanKit.Transformer
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Quadrilateral MovePoint(QuadrilateralPointKind kind, Vector2 point)
+        public Quadrilateral MovePoint(QuadrilateralPointKind kind, Vector2 point, bool isExtend = false)
         {
-            switch (kind)
+            if (isExtend)
+            { 
+                switch (kind)
+                {
+                    case QuadrilateralPointKind.LeftTop:
+                        {
+                            float x0 = point.X - this.RightBottom.X;
+                            float x1 = this.LeftBottom.X - this.RightBottom.X;
+                            float x2 = this.RightTop.X - this.RightBottom.X;
+
+                            float y0 = point.Y - this.RightBottom.Y;
+                            float y1 = this.LeftBottom.Y - this.RightBottom.Y;
+                            float y2 = this.RightTop.Y - this.RightBottom.Y;
+
+                            float x = x0 * y2 - y0 * x2;
+                            float y = y0 * x1 - x0 * y1;
+                            float z = x1 * y2 - y1 * x2;
+
+                            float v = x / z;
+                            float u = y / z;
+
+                            return new Quadrilateral
+                            {
+                                LeftTop = point,
+                                RightBottom = this.RightBottom,
+                                LeftBottom = new Vector2
+                                {
+                                    X = this.RightBottom.X + x1 * v,
+                                    Y = this.RightBottom.Y + y1 * v,
+                                },
+                                RightTop = new Vector2
+                                {
+                                    X = this.RightBottom.X + x2 * u,
+                                    Y = this.RightBottom.Y + y2 * u,
+                                },
+                            };
+                        }
+                    case QuadrilateralPointKind.RightTop:
+                        {
+                            float x0 = point.X - this.LeftBottom.X;
+                            float x1 = this.LeftTop.X - this.LeftBottom.X;
+                            float x2 = this.RightBottom.X - this.LeftBottom.X;
+
+                            float y0 = point.Y - this.LeftBottom.Y;
+                            float y1 = this.LeftTop.Y - this.LeftBottom.Y;
+                            float y2 = this.RightBottom.Y - this.LeftBottom.Y;
+
+                            float x = x0 * y2 - y0 * x2;
+                            float y = y0 * x1 - x0 * y1;
+                            float z = x1 * y2 - y1 * x2;
+
+                            float v = x / z;
+                            float u = y / z;
+
+                            return new Quadrilateral
+                            {
+                                RightTop = point,
+                                LeftBottom = this.LeftBottom,
+                                LeftTop = new Vector2
+                                {
+                                    X = this.LeftBottom.X + x1 * v,
+                                    Y = this.LeftBottom.Y + y1 * v,
+                                },
+                                RightBottom = new Vector2
+                                {
+                                    X = this.LeftBottom.X + x2 * u,
+                                    Y = this.LeftBottom.Y + y2 * u,
+                                },
+                            };
+                        }
+                    case QuadrilateralPointKind.LeftBottom:
+                        {
+                            float x0 = point.X - this.RightTop.X;
+                            float x1 = this.RightBottom.X - this.RightTop.X;
+                            float x2 = this.LeftTop.X - this.RightTop.X;
+
+                            float y0 = point.Y - this.RightTop.Y;
+                            float y1 = this.RightBottom.Y - this.RightTop.Y;
+                            float y2 = this.LeftTop.Y - this.RightTop.Y;
+
+                            float x = x0 * y2 - y0 * x2;
+                            float y = y0 * x1 - x0 * y1;
+                            float z = x1 * y2 - y1 * x2;
+
+                            float v = x / z;
+                            float u = y / z;
+
+                            return new Quadrilateral
+                            {
+                                LeftBottom = point,
+                                RightTop = this.RightTop,
+                                RightBottom = new Vector2
+                                {
+                                    X = this.RightTop.X + x1 * v,
+                                    Y = this.RightTop.Y + y1 * v,
+                                },
+                                LeftTop = new Vector2
+                                {
+                                    X = this.RightTop.X + x2 * u,
+                                    Y = this.RightTop.Y + y2 * u,
+                                },
+                            };
+                        }
+                    case QuadrilateralPointKind.RightBottom:
+                        {
+                            float x0 = point.X - this.LeftTop.X;
+                            float x1 = this.RightTop.X - this.LeftTop.X;
+                            float x2 = this.LeftBottom.X - this.LeftTop.X;
+
+                            float y0 = point.Y - this.LeftTop.Y;
+                            float y1 = this.RightTop.Y - this.LeftTop.Y;
+                            float y2 = this.LeftBottom.Y - this.LeftTop.Y;
+
+                            float x = x0 * y2 - y0 * x2;
+                            float y = y0 * x1 - x0 * y1;
+                            float z = x1 * y2 - y1 * x2;
+
+                            float v = x / z;
+                            float u = y / z;
+
+                            return new Quadrilateral
+                            {
+                                RightBottom = point,
+                                LeftTop = this.LeftTop,
+                                RightTop = new Vector2
+                                {
+                                    X = this.LeftTop.X + x1 * v,
+                                    Y = this.LeftTop.Y + y1 * v,
+                                },
+                                LeftBottom = new Vector2
+                                {
+                                    X = this.LeftTop.X + x2 * u,
+                                    Y = this.LeftTop.Y + y2 * u,
+                                },
+                            };
+                        }
+                    default:
+                        return this;
+                }
+            }
+            else
             {
-                case QuadrilateralPointKind.LeftTop:
-                    return new Quadrilateral
-                    {
-                        LeftTop = point,
-                        RightTop = this.RightTop,
-                        LeftBottom = this.LeftBottom,
-                        RightBottom = this.RightBottom,
-                    };
-                case QuadrilateralPointKind.RightTop:
-                    return new Quadrilateral
-                    {
-                        LeftTop = this.LeftTop,
-                        RightTop = point,
-                        LeftBottom = this.LeftBottom,
-                        RightBottom = this.RightBottom,
-                    };
-                case QuadrilateralPointKind.LeftBottom:
-                    return new Quadrilateral
-                    {
-                        LeftTop = this.LeftTop,
-                        RightTop = this.RightTop,
-                        LeftBottom = point,
-                        RightBottom = this.RightBottom,
-                    };
-                case QuadrilateralPointKind.RightBottom:
-                    return new Quadrilateral
-                    {
-                        LeftTop = this.LeftTop,
-                        RightTop = this.RightTop,
-                        LeftBottom = this.LeftBottom,
-                        RightBottom = point,
-                    };
-                default:
-                    return this;
+                switch (kind)
+                {
+                    case QuadrilateralPointKind.LeftTop:
+                        return new Quadrilateral
+                        {
+                            LeftTop = point,
+                            RightTop = this.RightTop,
+                            LeftBottom = this.LeftBottom,
+                            RightBottom = this.RightBottom,
+                        };
+                    case QuadrilateralPointKind.RightTop:
+                        return new Quadrilateral
+                        {
+                            LeftTop = this.LeftTop,
+                            RightTop = point,
+                            LeftBottom = this.LeftBottom,
+                            RightBottom = this.RightBottom,
+                        };
+                    case QuadrilateralPointKind.LeftBottom:
+                        return new Quadrilateral
+                        {
+                            LeftTop = this.LeftTop,
+                            RightTop = this.RightTop,
+                            LeftBottom = point,
+                            RightBottom = this.RightBottom,
+                        };
+                    case QuadrilateralPointKind.RightBottom:
+                        return new Quadrilateral
+                        {
+                            LeftTop = this.LeftTop,
+                            RightTop = this.RightTop,
+                            LeftBottom = this.LeftBottom,
+                            RightBottom = point,
+                        };
+                    default:
+                        return this;
+                }
             }
         }
 

@@ -347,6 +347,7 @@ namespace FanKit.Transformer.TestApp
                 new Kvp("Quadrilateral", "Quadrilateral", typeof(QuadrilateralPage)),
                 default,
                 new Kvp("Contains", "Contains", typeof(ContainsPage)),
+                new Kvp("Extend", "Extend", typeof(ExtendPage)),
                 new Kvp("CombineBounds", "Combine Bounds", typeof(CombineBoundsPage)),
                 new Kvp("ContainsBounds", "Contains Bounds", typeof(ContainsBoundsPage)),
             },

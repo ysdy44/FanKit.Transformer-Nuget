@@ -2516,6 +2516,23 @@
 
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
                             <ButtonBase.CommandParameter>
+                                Extend
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Rectangle IsHitTestVisible="False" Canvas.Left="46" Canvas.Top="23" Width="46" Height="46" StrokeThickness="2" Stroke="OrangeRed">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.1" Color="OrangeRed"/>
+                                        </Shape.Fill>
+                                    </Rectangle>
+                                    <Rectangle IsHitTestVisible="False" Canvas.Left="36" Canvas.Top="13" Width="56" Height="56" StrokeThickness="2" Stroke="DeepSkyBlue"/>
+                                </Canvas>
+                                <TextBlock Text="Extend" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
                                 CombineBounds
                             </ButtonBase.CommandParameter>
                             <StackPanel>

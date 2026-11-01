@@ -207,33 +207,161 @@ namespace FanKit.Transformer
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Triangle MovePoint(TrianglePointKind kind, Vector2 point)
+        public Triangle MovePoint(TrianglePointKind kind, Vector2 point, bool isExtend = false)
         {
-            switch (kind)
+            if (isExtend)
             {
-                case TrianglePointKind.LeftTop:
-                    return new Triangle
-                    {
-                        LeftTop = point,
-                        RightTop = this.RightTop,
-                        LeftBottom = this.LeftBottom,
-                    };
-                case TrianglePointKind.RightTop:
-                    return new Triangle
-                    {
-                        LeftTop = this.LeftTop,
-                        RightTop = point,
-                        LeftBottom = this.LeftBottom,
-                    };
-                case TrianglePointKind.LeftBottom:
-                    return new Triangle
-                    {
-                        LeftTop = this.LeftTop,
-                        RightTop = this.RightTop,
-                        LeftBottom = point,
-                    };
-                default:
-                    return this;
+                switch (kind)
+                {
+                    case TrianglePointKind.LeftTop:
+                        {
+                            float x0 = this.RightTop.X - point.X;
+                            float x1 = this.RightTop.X - this.LeftTop.X;
+                            float x2 = this.RightTop.X - this.LeftBottom.X;
+
+                            float y0 = this.RightTop.Y - point.Y;
+                            float y1 = this.RightTop.Y - this.LeftTop.Y;
+                            float y2 = this.RightTop.Y - this.LeftBottom.Y;
+
+                            float x = x1 * x2 + y1 * y2;
+                            float y = x0 * x2 + y0 * y2;
+                            float z = x2 * x2 + y2 * y2;
+
+                            float v = x / z;
+                            float u = y / z;
+
+                            Vector2 vf = new Vector2(x1 - x2 * v, y1 - y2 * v);
+                            Vector2 uf = new Vector2(x0 - x2 * u, y0 - y2 * u);
+
+                            float scale = ((vf.X < 0f) == (uf.X < 0f) && (uf.Y < 0f) == (uf.Y < 0f)) ?
+                                (uf.Length() / vf.Length()) :
+                                -(uf.Length() / vf.Length());
+
+                            return new Triangle
+                            {
+                                LeftTop = point,
+                                RightTop = new Vector2
+                                {
+                                    X = point.X + x1 * scale,
+                                    Y = point.Y + y1 * scale,
+                                },
+                                LeftBottom = new Vector2
+                                {
+                                    X = point.X + (this.LeftBottom.X - this.LeftTop.X) * scale,
+                                    Y = point.Y + (this.LeftBottom.Y - this.LeftTop.Y) * scale,
+                                },
+                            };
+                        }
+                    case TrianglePointKind.RightTop:
+                        {
+                            float x0 = this.LeftBottom.X - point.X;
+                            float x1 = this.LeftBottom.X - this.RightTop.X;
+                            float x2 = this.LeftBottom.X - this.LeftTop.X;
+
+                            float y0 = this.LeftBottom.Y - point.Y;
+                            float y1 = this.LeftBottom.Y - this.RightTop.Y;
+                            float y2 = this.LeftBottom.Y - this.LeftTop.Y;
+
+                            float x = x1 * x2 + y1 * y2;
+                            float y = x0 * x2 + y0 * y2;
+                            float z = x2 * x2 + y2 * y2;
+
+                            float v = x / z;
+                            float u = y / z;
+
+                            Vector2 vf = new Vector2(x1 - x2 * v, y1 - y2 * v);
+                            Vector2 uf = new Vector2(x0 - x2 * u, y0 - y2 * u);
+
+                            float scale = ((vf.X < 0f) == (uf.X < 0f) && (uf.Y < 0f) == (uf.Y < 0f)) ?
+                                (uf.Length() / vf.Length()) :
+                                -(uf.Length() / vf.Length());
+
+                            return new Triangle
+                            {
+                                RightTop = point,
+                                LeftBottom = new Vector2
+                                {
+                                    X = point.X + x1 * scale,
+                                    Y = point.Y + y1 * scale,
+                                },
+                                LeftTop = new Vector2
+                                {
+                                    X = point.X + (this.LeftTop.X - this.RightTop.X) * scale,
+                                    Y = point.Y + (this.LeftTop.Y - this.RightTop.Y) * scale,
+                                },
+                            };
+                        }
+                    case TrianglePointKind.LeftBottom:
+                        {
+                            float x0 = this.LeftTop.X - point.X;
+                            float x1 = this.LeftTop.X - this.LeftBottom.X;
+                            float x2 = this.LeftTop.X - this.RightTop.X;
+
+                            float y0 = this.LeftTop.Y - point.Y;
+                            float y1 = this.LeftTop.Y - this.LeftBottom.Y;
+                            float y2 = this.LeftTop.Y - this.RightTop.Y;
+
+                            float x = x1 * x2 + y1 * y2;
+                            float y = x0 * x2 + y0 * y2;
+                            float z = x2 * x2 + y2 * y2;
+
+                            float v = x / z;
+                            float u = y / z;
+
+                            Vector2 vf = new Vector2(x1 - x2 * v, y1 - y2 * v);
+                            Vector2 uf = new Vector2(x0 - x2 * u, y0 - y2 * u);
+
+                            float scale = ((vf.X < 0f) == (uf.X < 0f) && (uf.Y < 0f) == (uf.Y < 0f)) ?
+                                (uf.Length() / vf.Length()) :
+                                -(uf.Length() / vf.Length());
+
+                            return new Triangle
+                            {
+                                LeftBottom = point,
+                                LeftTop = new Vector2
+                                {
+                                    X = point.X + x1 * scale,
+                                    Y = point.Y + y1 * scale,
+                                },
+                                RightTop = new Vector2
+                                {
+                                    X = point.X + (this.RightTop.X - this.LeftBottom.X) * scale,
+                                    Y = point.Y + (this.RightTop.Y - this.LeftBottom.Y) * scale,
+                                },
+                            };
+                        }
+                    default:
+                        return this;
+                }
+            }
+            else
+            {
+                switch (kind)
+                {
+                    case TrianglePointKind.LeftTop:
+                        return new Triangle
+                        {
+                            LeftTop = point,
+                            RightTop = this.RightTop,
+                            LeftBottom = this.LeftBottom,
+                        };
+                    case TrianglePointKind.RightTop:
+                        return new Triangle
+                        {
+                            LeftTop = this.LeftTop,
+                            RightTop = point,
+                            LeftBottom = this.LeftBottom,
+                        };
+                    case TrianglePointKind.LeftBottom:
+                        return new Triangle
+                        {
+                            LeftTop = this.LeftTop,
+                            RightTop = this.RightTop,
+                            LeftBottom = point,
+                        };
+                    default:
+                        return this;
+                }
             }
         }
 
