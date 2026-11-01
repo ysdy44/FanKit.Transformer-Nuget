@@ -234,6 +234,9 @@
     <Compile Include="ContainsBoundsPage.xaml.cs">
       <DependentUpon>ContainsBoundsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContainsPage.xaml.cs">
+      <DependentUpon>ContainsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AnimatePad.xaml.cs">
       <DependentUpon>AnimatePad.xaml</DependentUpon>
     </Compile>
@@ -595,6 +598,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ContainsBoundsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContainsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

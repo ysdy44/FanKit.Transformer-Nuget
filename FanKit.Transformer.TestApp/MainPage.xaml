@@ -2492,10 +2492,27 @@
                     </VariableSizedWrapGrid>
 
                     <TextBlock Margin="14,4" Transitions="{StaticResource Entrance}">
-                        Bounds
+                        Geometry
                     </TextBlock>
 
                     <VariableSizedWrapGrid Orientation="Horizontal" ItemWidth="156" ItemHeight="134" ChildrenTransitions="{StaticResource Entrance}">
+
+                        <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
+                            <ButtonBase.CommandParameter>
+                                Contains
+                            </ButtonBase.CommandParameter>
+                            <StackPanel>
+                                <Canvas IsHitTestVisible="False" Width="128" Height="82" Background="#D2D2D2">
+                                    <Rectangle IsHitTestVisible="False" Canvas.Left="36" Canvas.Top="13" Width="56" Height="56" StrokeThickness="2" Stroke="OrangeRed">
+                                        <Shape.Fill>
+                                            <SolidColorBrush Opacity="0.1" Color="OrangeRed"/>
+                                        </Shape.Fill>
+                                    </Rectangle>
+                                    <Ellipse IsHitTestVisible="False" Canvas.Left="61" Canvas.Top="38" Width="6" Height="6" Fill="OrangeRed"/>
+                                </Canvas>
+                                <TextBlock Text="Contains" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
 
                         <Button Width="156" Height="134" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Command="{x:Bind Command}">
                             <ButtonBase.CommandParameter>
