@@ -53,6 +53,7 @@ namespace FanKit.Transformer.TestApp
 
         Vector2 EarthCenter;
         float EarthRadius;
+        float EarthRadiusSquared;
         Camera Camera = new Camera(Vector3.Zero, 1f, Vector2.Zero);
 
         EarthTextureSize EarthTextureSize;
@@ -218,6 +219,7 @@ namespace FanKit.Transformer.TestApp
                 float viewportHeight = (float)e.NewSize.Height;
 
                 this.EarthRadius = 0.45f * System.Math.Min(viewportWidth, viewportHeight);
+                this.EarthRadiusSquared = this.EarthRadius * this.EarthRadius;
                 this.EarthCenter = new Vector2
                 {
                     X = 0.5f * viewportWidth,
@@ -260,11 +262,12 @@ namespace FanKit.Transformer.TestApp
                 {
                     if (System.Math.Abs(this.StartingPoint.Y - this.Point.Y) < 4d)
                     {
-                        Vector2? amount = this.Earth.GetAmount(this.Point, this.EarthRadius * this.EarthRadius, this.EarthCenter);
-                        if (amount.HasValue)
+                        Vector3? unitVector = GetUnitVector(this.Point);
+                        if (unitVector.HasValue)
                         {
-                            float uAmount = amount.Value.X;
-                            float vAmount = amount.Value.Y;
+                            Vector3 unitVectorInv = this.Camera.RotateInverse(unitVector.Value);
+                            float uAmount = GraticuleUV.GetUAmount(unitVectorInv);
+                            float vAmount = GraticuleUV.GetVAmount(unitVectorInv);
 
                             this.Stellites.Add(this.GetStellite(uAmount, vAmount));
                             this.CanvasControl.Invalidate();
@@ -276,11 +279,12 @@ namespace FanKit.Transformer.TestApp
             {
                 this.Point = new Vector2((float)x, (float)y);
 
-                Vector2? amount = this.Earth.GetAmount(this.Point, this.EarthRadius * this.EarthRadius, this.EarthCenter);
-                if (amount.HasValue)
+                Vector3? unitVector = GetUnitVector(this.Point);
+                if (unitVector.HasValue)
                 {
-                    float uAmount = amount.Value.X;
-                    float vAmount = amount.Value.Y;
+                    Vector3 unitVectorInv = this.Camera.RotateInverse(unitVector.Value);
+                    float uAmount = GraticuleUV.GetUAmount(unitVectorInv);
+                    float vAmount = GraticuleUV.GetVAmount(unitVectorInv);
 
                     this.Mouse = this.GetStellite(uAmount, vAmount);
                     this.CanvasControl.Invalidate();
@@ -294,6 +298,7 @@ namespace FanKit.Transformer.TestApp
             this.CanvasOperator.Wheel_Changed += (x, y, d) =>
             {
                 this.EarthRadius = d > 0 ? this.EarthRadius * 1.04f : this.EarthRadius / 1.04f;
+                this.EarthRadiusSquared = this.EarthRadius * this.EarthRadius;
 
                 this.Camera = new Camera(this.Radians, this.EarthRadius, this.EarthCenter);
                 this.Earth.Update(this.EarthTextureSize, this.Camera);
@@ -333,12 +338,13 @@ namespace FanKit.Transformer.TestApp
             };
         }
 
+        public Vector3? GetUnitVector(Vector2 point) => GraticuleUV.GetUnitVector(point, this.EarthRadius, this.EarthRadiusSquared, this.EarthCenter);
         public Vector3 GetUnitVector(float uAmount, float vAmount) => GraticuleUV.GetUnitVector(uAmount, vAmount);
         public Vector3 Transform(Vector3 point) => this.Camera.Transform(point);
 
-        private Stellite GetStellite(float uAmount, float vAmount) => GetStellite(GetUnitVector(uAmount, vAmount));
-        private Stellite GetStellite(Stellite stellite) => GetStellite(stellite.Vector);
-        private Stellite GetStellite(Vector3 v)
+        private Stellite GetStellite(float uAmount, float vAmount) => GetStelliteCore(GetUnitVector(uAmount, vAmount));
+        private Stellite GetStellite(Stellite stellite) => GetStelliteCore(stellite.Vector);
+        private Stellite GetStelliteCore(Vector3 v)
         {
             Vector3 t = Transform(v);
             Vector2 p = new Vector2(t.X, t.Y);

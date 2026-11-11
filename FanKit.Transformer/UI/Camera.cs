@@ -7,6 +7,13 @@ namespace FanKit.Transformer.UI
         readonly Matrix4x4 Y;
         readonly Matrix4x4 X;
         readonly Matrix4x4 Z;
+        readonly Matrix4x4 N;
+
+        readonly Matrix4x4 YI;
+        readonly Matrix4x4 XI;
+        readonly Matrix4x4 ZI;
+        readonly Matrix4x4 NI;
+
         readonly Matrix4x4 S;
         readonly Matrix4x4 T;
         readonly Matrix4x4 M;
@@ -16,9 +23,15 @@ namespace FanKit.Transformer.UI
             this.Y = Matrix4x4.CreateRotationY(radians.Y);
             this.X = Matrix4x4.CreateRotationX(radians.X);
             this.Z = Matrix4x4.CreateRotationZ(radians.Z);
+
+            this.YI = Matrix4x4.CreateRotationY(-radians.Y);
+            this.XI = Matrix4x4.CreateRotationX(-radians.X);
+            this.ZI = Matrix4x4.CreateRotationZ(-radians.Z);
+            this.NI = this.ZI * this.XI * this.YI;
+
             this.S = Matrix4x4.Identity;
             this.T = Matrix4x4.Identity;
-            this.M = this.Y * this.X * this.Z;
+            this.N = this.M = this.Y * this.X * this.Z;
         }
 
         public Camera(Vector3 radians, float scale, Vector2 position)
@@ -26,9 +39,26 @@ namespace FanKit.Transformer.UI
             this.Y = Matrix4x4.CreateRotationY(radians.Y);
             this.X = Matrix4x4.CreateRotationX(radians.X);
             this.Z = Matrix4x4.CreateRotationZ(radians.Z);
+            this.N = this.Y * this.X * this.Z;
+
+            this.YI = Matrix4x4.CreateRotationY(-radians.Y);
+            this.XI = Matrix4x4.CreateRotationX(-radians.X);
+            this.ZI = Matrix4x4.CreateRotationZ(-radians.Z);
+            this.NI = this.ZI * this.XI * this.YI;
+
             this.S = Matrix4x4.CreateScale(scale);
             this.T = Matrix4x4.CreateTranslation(position.X, position.Y, 0);
             this.M = this.Y * this.X * this.Z * this.S * this.T;
+        }
+
+        public Vector3 Rotate(Vector3 point)
+        {
+            return Vector3.Transform(point, this.N);
+        }
+
+        public Vector3 RotateInverse(Vector3 point)
+        {
+            return Vector3.Transform(point, this.NI);
         }
 
         public Vector3 Transform(Vector3 point)

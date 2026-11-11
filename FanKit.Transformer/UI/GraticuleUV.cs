@@ -114,30 +114,55 @@ namespace FanKit.Transformer.UI
             };
         }
 
+        public static Vector3? GetUnitVector(Vector2 point, float radius, float radiusSquared, Vector2 center)
+        {
+            float dx = point.X - center.X;
+            float dy = point.Y - center.Y;
+
+            float ds = dx * dx + dy * dy;
+            if (ds > radiusSquared)
+                return null;
+
+            float x = dx / radius;
+            float y = dy / radius;
+
+            double v = System.Math.Cos(System.Math.Asin(-y));
+            double u = System.Math.Cos(System.Math.Asin(x / v));
+            float z = (float)(v * u);
+
+            return new Vector3
+            {
+                X = x,
+                Y = y,
+                Z = z,
+            };
+        }
+
         public static float GetUAmount(Vector3 unitVector)
         {
             float x = unitVector.X;
             float z = unitVector.Z;
 
+            const double PITwice = System.Math.PI * 2d;
             const float V0 = 0f;
             const float V1 = 0.25f;
             const float V2 = 0.5f;
             const float V3 = 0.75f;
-            const float V4 = 1f;
+            const double D4 = 1d;
 
             if (x < 0f)
             {
                 if (z == 0f)
                     return V3;
                 else
-                    return (float)System.Math.Atan2(x, z) / Mathematics.Math.PITwice + V4;
+                    return (float)(System.Math.Atan2(x, z) / PITwice + D4);
             }
             else if (x > 0f)
             {
                 if (z == 0f)
                     return V1;
                 else
-                    return (float)System.Math.Atan2(x, z) / Mathematics.Math.PITwice;
+                    return (float)(System.Math.Atan2(x, z) / PITwice);
             }
             else
             {
@@ -153,11 +178,12 @@ namespace FanKit.Transformer.UI
             float y = unitVector.Y;
 
             const float V2 = 0.5f;
+            const double D2 = 0.5d;
 
             if (y == 0f)
                 return V2;
             else
-                return V2 - (float)System.Math.Asin(-y) / Mathematics.Math.PI;
+                return (float)(D2 - System.Math.Asin(-y) / System.Math.PI);
         }
 
         public static float GetVAmount(Vector3 vector, float vectorLength)
@@ -165,11 +191,12 @@ namespace FanKit.Transformer.UI
             float y = vector.Y;
 
             const float V2 = 0.5f;
+            const double D2 = 0.5d;
 
             if (y == 0f)
                 return V2;
             else
-                return V2 - (float)System.Math.Asin(-y / vectorLength) / Mathematics.Math.PI;
+                return (float)(D2 - System.Math.Asin(-y / vectorLength) / System.Math.PI);
         }
     }
 }
