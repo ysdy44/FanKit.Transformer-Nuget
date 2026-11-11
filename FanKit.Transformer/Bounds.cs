@@ -207,11 +207,6 @@ namespace FanKit.Transformer
             Bottom = System.Math.Min(System.Math.Max(this.Top, bounds.Top), bounds.Bottom),
         };
 
-        public bool Contains(Vector2 point)
-        {
-            return point.X > this.Left == point.X < this.Right && point.Y > this.Top == point.Y < this.Bottom;
-        }
-
         public bool Contains(Bounds bounds)
         {
             return CH(bounds.Left, bounds.Right) && CV(bounds.Top, bounds.Bottom);
