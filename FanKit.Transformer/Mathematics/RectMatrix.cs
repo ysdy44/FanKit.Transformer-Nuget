@@ -11,7 +11,6 @@ namespace FanKit.Transformer.Mathematics
         public float Z;
         public float W;
 
-        #region Constructors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public RectMatrix(float x, float y, float width, float height)
         {
@@ -29,9 +28,6 @@ namespace FanKit.Transformer.Mathematics
             Z = -rect.X / rect.Width;
             W = -rect.Y / rect.Height;
         }
-        #endregion Constructors
-
-        #region Public instance methods
 
         private Matrix4x4 P(Matrix4x4 dst)
         {
@@ -159,13 +155,5 @@ namespace FanKit.Transformer.Mathematics
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4 Persp(Quadrilateral destination) => P(destination.Normalize());
-
-        #endregion Public instance methods
-
-        #region Public Static Methods
-        #endregion Public Static Methods
-
-        #region Public Static Operators
-        #endregion Public Static Operators
     }
 }

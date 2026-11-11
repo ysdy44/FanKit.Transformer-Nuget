@@ -9,7 +9,6 @@ namespace FanKit.Transformer.Mathematics
         internal readonly bool can; // Invertible
         internal readonly Matrix3x2 inv; // InverseMatrix
 
-        #region Constructors
         public TriangleMatrix(Matrix3x2 matrix)
         {
             mat = matrix;
@@ -27,16 +26,6 @@ namespace FanKit.Transformer.Mathematics
             mat = quad.Norm();
             can = Matrix3x2.Invert(mat, out inv);
         }
-        #endregion Constructors
-
-        #region Public Static Methods
-        #endregion Public Static Methods
-
-        #region Public Static Operators
-        #endregion Public Static Operators
-
-        #region Public operator methods
-        #endregion Public operator methods
 
         // -------------------- 3x2_1x2 -------------------- // 
 
