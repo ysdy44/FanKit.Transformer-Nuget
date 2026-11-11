@@ -304,6 +304,7 @@ namespace FanKit.Transformer.Indicators
                 default: return CropParameterKind.None;
             }
         }
+
         public static ColumnLineParameterKind ToColumnLineParameterKind(ParameterKind kind)
         {
             switch (kind)

@@ -24,7 +24,7 @@ namespace FanKit.Transformer.Input
             this.ViewportX + this.ViewportWidth,
             this.ViewportY + this.ViewportHeight);
 
-        internal Vector2 ToFitScales() => new Vector2
+        public Vector2 ToFitScales() => new Vector2
         {
             X = this.ViewportWidth / this.ExtentWidth,
             Y = this.ViewportHeight / this.ExtentHeight,

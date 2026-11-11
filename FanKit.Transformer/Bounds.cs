@@ -253,19 +253,19 @@ namespace FanKit.Transformer
             }
         }
 
-        public bool Contains(Triangle quad)
+        public bool Contains(Triangle triangle)
         {
-            float x0 = quad.LeftTop.X;
-            float y0 = quad.LeftTop.Y;
+            float x0 = triangle.LeftTop.X;
+            float y0 = triangle.LeftTop.Y;
 
-            float x1 = quad.RightTop.X;
-            float y1 = quad.RightTop.Y;
+            float x1 = triangle.RightTop.X;
+            float y1 = triangle.RightTop.Y;
 
-            float x2 = quad.LeftBottom.X;
-            float y2 = quad.LeftBottom.Y;
+            float x2 = triangle.LeftBottom.X;
+            float y2 = triangle.LeftBottom.Y;
 
-            float x3 = quad.RightTop.X + quad.LeftBottom.X - quad.LeftTop.X; // Triangle -> Transformer
-            float y3 = quad.RightTop.Y + quad.LeftBottom.Y - quad.LeftTop.Y; // Triangle -> Transformer
+            float x3 = triangle.RightTop.X + triangle.LeftBottom.X - triangle.LeftTop.X; // Triangle -> Transformer
+            float y3 = triangle.RightTop.Y + triangle.LeftBottom.Y - triangle.LeftTop.Y; // Triangle -> Transformer
 
             switch (Comparer<float>.Default.Compare(this.Right, this.Left))
             {

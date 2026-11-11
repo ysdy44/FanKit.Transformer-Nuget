@@ -207,11 +207,11 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box2(Bounds bounds, ICanvasInverseMatrix inverseMatrix, float handleLength = 32f)
-            : this(inverseMatrix.InverseTransform(bounds.Left, bounds.Top),
-                  inverseMatrix.InverseTransform(bounds.Right, bounds.Top),
-                  inverseMatrix.InverseTransform(bounds.Left, bounds.Bottom),
-                  inverseMatrix.InverseTransform(bounds.Right, bounds.Bottom),
+        public Box2(Bounds bounds, ICanvasInverseMatrix canvasInverseMatrix, float handleLength = 32f)
+            : this(canvasInverseMatrix.InverseTransform(bounds.Left, bounds.Top),
+                  canvasInverseMatrix.InverseTransform(bounds.Right, bounds.Top),
+                  canvasInverseMatrix.InverseTransform(bounds.Left, bounds.Bottom),
+                  canvasInverseMatrix.InverseTransform(bounds.Right, bounds.Bottom),
                   handleLength)
         {
         }
@@ -240,10 +240,10 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box2(Triangle triangle, ICanvasInverseMatrix inverseMatrix, float handleLength = 32f)
-            : this(inverseMatrix.InverseTransform(triangle.LeftTop),
-                  inverseMatrix.InverseTransform(triangle.RightTop),
-                  inverseMatrix.InverseTransform(triangle.LeftBottom),
+        public Box2(Triangle triangle, ICanvasInverseMatrix canvasInverseMatrix, float handleLength = 32f)
+            : this(canvasInverseMatrix.InverseTransform(triangle.LeftTop),
+                  canvasInverseMatrix.InverseTransform(triangle.RightTop),
+                  canvasInverseMatrix.InverseTransform(triangle.LeftBottom),
                   handleLength)
         {
         }
@@ -275,11 +275,11 @@ namespace FanKit.Transformer.Cache
         {
         }
 
-        public Box2(Quadrilateral quad, ICanvasInverseMatrix inverseMatrix, float handleLength = 32f)
-            : this(inverseMatrix.InverseTransform(quad.LeftTop),
-                  inverseMatrix.InverseTransform(quad.RightTop),
-                  inverseMatrix.InverseTransform(quad.LeftBottom),
-                  inverseMatrix.InverseTransform(quad.RightBottom),
+        public Box2(Quadrilateral quad, ICanvasInverseMatrix canvasInverseMatrix, float handleLength = 32f)
+            : this(canvasInverseMatrix.InverseTransform(quad.LeftTop),
+                  canvasInverseMatrix.InverseTransform(quad.RightTop),
+                  canvasInverseMatrix.InverseTransform(quad.LeftBottom),
+                  canvasInverseMatrix.InverseTransform(quad.RightBottom),
                   handleLength)
         {
         }
