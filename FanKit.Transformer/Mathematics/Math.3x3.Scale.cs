@@ -18,11 +18,11 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        public static Vector2 TransformNormal(float x, float y, Matrix4x4 matrix)
+        public static Vector2 TransformNormal(float positionX, float positionY, Matrix4x4 matrix)
         {
-            float tx = matrix.M11 * x + matrix.M21 * y + matrix.M41;
-            float ty = matrix.M12 * x + matrix.M22 * y + matrix.M42;
-            float tz = matrix.M14 * x + matrix.M24 * y + matrix.M44;
+            float tx = matrix.M11 * positionX + matrix.M21 * positionY + matrix.M41;
+            float ty = matrix.M12 * positionX + matrix.M22 * positionY + matrix.M42;
+            float tz = matrix.M14 * positionX + matrix.M24 * positionY + matrix.M44;
 
             return new Vector2
             {
@@ -39,11 +39,11 @@ namespace FanKit.Transformer.Mathematics
             return new Vector2(tx / tz, ty / tz);
         }
 
-        public static Vector2 Transform(float x, float y, Matrix4x4 matrix)
+        public static Vector2 Transform(float positionX, float positionY, Matrix4x4 matrix)
         {
-            float tx = matrix.M11 * x + matrix.M21 * y + matrix.M41;
-            float ty = matrix.M12 * x + matrix.M22 * y + matrix.M42;
-            float tz = matrix.M14 * x + matrix.M24 * y + matrix.M44;
+            float tx = matrix.M11 * positionX + matrix.M21 * positionY + matrix.M41;
+            float ty = matrix.M12 * positionX + matrix.M22 * positionY + matrix.M42;
+            float tz = matrix.M14 * positionX + matrix.M24 * positionY + matrix.M44;
             return new Vector2(tx / tz, ty / tz);
         }
 

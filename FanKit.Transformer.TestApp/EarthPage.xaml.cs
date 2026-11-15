@@ -265,7 +265,7 @@ namespace FanKit.Transformer.TestApp
                         Vector3? unitVector = GetUnitVector(this.Point);
                         if (unitVector.HasValue)
                         {
-                            Vector3 unitVectorInv = this.Camera.RotateInverse(unitVector.Value);
+                            Vector3 unitVectorInv = this.Camera.InverseRotate(unitVector.Value);
                             float uAmount = GraticuleUV.GetUAmount(unitVectorInv);
                             float vAmount = GraticuleUV.GetVAmount(unitVectorInv);
 
@@ -282,7 +282,7 @@ namespace FanKit.Transformer.TestApp
                 Vector3? unitVector = GetUnitVector(this.Point);
                 if (unitVector.HasValue)
                 {
-                    Vector3 unitVectorInv = this.Camera.RotateInverse(unitVector.Value);
+                    Vector3 unitVectorInv = this.Camera.InverseRotate(unitVector.Value);
                     float uAmount = GraticuleUV.GetUAmount(unitVectorInv);
                     float vAmount = GraticuleUV.GetVAmount(unitVectorInv);
 

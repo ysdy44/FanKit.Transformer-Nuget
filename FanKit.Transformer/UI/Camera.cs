@@ -56,7 +56,7 @@ namespace FanKit.Transformer.UI
             return Vector3.Transform(point, this.N);
         }
 
-        public Vector3 RotateInverse(Vector3 point)
+        public Vector3 InverseRotate(Vector3 point)
         {
             return Vector3.Transform(point, this.NI);
         }

@@ -65,11 +65,11 @@ namespace FanKit.Transformer.Mathematics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2 Transform(float x, float y)
+        public Vector2 Transform(float positionX, float positionY)
         {
             return new Vector2(
-                x * ScaleFactor + Translate.X,
-                y * ScaleFactor + Translate.Y);
+                positionX * ScaleFactor + Translate.X,
+                positionY * ScaleFactor + Translate.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -10,10 +10,10 @@ namespace FanKit.Transformer.Mathematics
             Y = matrix.M12 * position.X + matrix.M22 * position.Y + matrix.M32,
         };
 
-        public static Vector2 Transform(float x, float y, Matrix3x2 matrix) => new Vector2
+        public static Vector2 Transform(float positionX, float positionY, Matrix3x2 matrix) => new Vector2
         {
-            X = matrix.M11 * x + matrix.M21 * y + matrix.M31,
-            Y = matrix.M12 * x + matrix.M22 * y + matrix.M32,
+            X = matrix.M11 * positionX + matrix.M21 * positionY + matrix.M31,
+            Y = matrix.M12 * positionX + matrix.M22 * positionY + matrix.M32,
         };
 
         //public static Matrix2x2 Transform(Matrix2x2 value1, Matrix3x2 value2) => value1 * value2;

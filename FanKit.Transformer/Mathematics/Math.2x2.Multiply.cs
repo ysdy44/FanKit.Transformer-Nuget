@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using System.Security.Principal;
 
 namespace FanKit.Transformer.Mathematics
 {
@@ -11,10 +10,10 @@ namespace FanKit.Transformer.Mathematics
             Y = matrix.ScaleY * position.Y + matrix.TranslateY,
         };
 
-        public static Vector2 Transform(float x, float y, Matrix2x2 matrix) => new Vector2
+        public static Vector2 Transform(float positionX, float positionY, Matrix2x2 matrix) => new Vector2
         {
-            X = matrix.ScaleX * x + matrix.TranslateX,
-            Y = matrix.ScaleY * y + matrix.TranslateY,
+            X = matrix.ScaleX * positionX + matrix.TranslateX,
+            Y = matrix.ScaleY * positionY + matrix.TranslateY,
         };
 
         // -------------------- 1x2_3x2 -------------------- // 
