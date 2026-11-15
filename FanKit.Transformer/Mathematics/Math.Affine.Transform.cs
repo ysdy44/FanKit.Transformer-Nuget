@@ -27,34 +27,30 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_2x2 -------------------- // 
 
-        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix3x2
+        public static Matrix2x2 Map(float sourceWidth, float sourceHeight, Rectangle destination) => new Matrix2x2
         {
             // First row
-            M11 = destinationWidth / sourceWidth,
-            M12 = 0f,
+            ScaleX = destination.Width / sourceWidth,
 
             // Second row
-            M21 = 0f,
-            M22 = destinationHeight / sourceHeight,
+            ScaleY = destination.Height / sourceHeight,
 
             // Third row
-            M31 = destinationX,
-            M32 = destinationY
+            TranslateX = destination.X,
+            TranslateY = destination.Y,
         };
 
-        public static Matrix3x2 Map(float sourceWidth, float sourceHeight, Rectangle destination) => new Matrix3x2
+        public static Matrix2x2 Map(float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix2x2
         {
             // First row
-            M11 = destination.Width / sourceWidth,
-            M12 = 0f,
+            ScaleX = destinationWidth / sourceWidth,
 
             // Second row
-            M21 = 0f,
-            M22 = destination.Height / sourceHeight,
+            ScaleY = destinationHeight / sourceHeight,
 
             // Third row
-            M31 = destination.X,
-            M32 = destination.Y
+            TranslateX = destinationX,
+            TranslateY = destinationY,
         };
 
         // -------------------- 1x2_3x2 -------------------- // 
@@ -76,20 +72,6 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 2x2_2x2 -------------------- // 
 
-        public static Matrix2x2 Map(float sourceX, float sourceY, float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight)
-        {
-            float sx = destinationWidth / sourceWidth;
-            float sy = destinationHeight / sourceHeight;
-
-            return new Matrix2x2
-            {
-                ScaleX = sx,
-                ScaleY = sy,
-                TranslateX = destinationX - sourceX * sx,
-                TranslateY = destinationY - sourceY * sy,
-            };
-        }
-
         public static Matrix2x2 Map(this Matrix2x2 source, Matrix2x2 destination)
         {
             float sx = destination.ScaleX / source.ScaleX;
@@ -101,6 +83,20 @@ namespace FanKit.Transformer.Mathematics
                 ScaleY = sy,
                 TranslateX = destination.TranslateX - source.TranslateX * sx,
                 TranslateY = destination.TranslateY - source.TranslateY * sy,
+            };
+        }
+
+        public static Matrix2x2 Map(float sourceX, float sourceY, float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight)
+        {
+            float sx = destinationWidth / sourceWidth;
+            float sy = destinationHeight / sourceHeight;
+
+            return new Matrix2x2
+            {
+                ScaleX = sx,
+                ScaleY = sy,
+                TranslateX = destinationX - sourceX * sx,
+                TranslateY = destinationY - sourceY * sy,
             };
         }
 

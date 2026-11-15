@@ -57,19 +57,19 @@ namespace FanKit.Transformer.Mathematics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2 Transform(float x, float y)
-        {
-            return new Vector2(
-                x * ScaleFactor + Translate.X,
-                y * ScaleFactor + Translate.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2 Transform(Vector2 position)
         {
             return new Vector2(
                 position.X * ScaleFactor + Translate.X,
                 position.Y * ScaleFactor + Translate.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2 Transform(float x, float y)
+        {
+            return new Vector2(
+                x * ScaleFactor + Translate.X,
+                y * ScaleFactor + Translate.Y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

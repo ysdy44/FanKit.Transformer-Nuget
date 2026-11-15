@@ -28,6 +28,17 @@ namespace FanKit.Transformer.Mathematics
         {
             return new Vector2(position.X * scale, position.Y * scale);
         }
+
+        public static Vector2 Scale(Vector2 position, Vector2 scales)
+        {
+            return new Vector2(position.X * scales.X, position.Y * scales.Y);
+        }
+
+        public static Vector2 Scale(Vector2 position, float xScale, float yScale)
+        {
+            return new Vector2(position.X * xScale, position.Y * yScale);
+        }
+
         public static Vector2 Scale(Vector2 position, float scale, Vector2 centerPoint)
         {
             return new Vector2(
@@ -35,10 +46,6 @@ namespace FanKit.Transformer.Mathematics
                 (position.Y - centerPoint.Y) * scale + centerPoint.Y);
         }
 
-        public static Vector2 Scale(Vector2 position, Vector2 scales)
-        {
-            return new Vector2(position.X * scales.X, position.Y * scales.Y);
-        }
         public static Vector2 Scale(Vector2 position, Vector2 scales, Vector2 centerPoint)
         {
             return new Vector2(
@@ -46,10 +53,6 @@ namespace FanKit.Transformer.Mathematics
                 (position.Y - centerPoint.Y) * scales.Y + centerPoint.Y);
         }
 
-        public static Vector2 Scale(Vector2 position, float xScale, float yScale)
-        {
-            return new Vector2(position.X * xScale, position.Y * yScale);
-        }
         public static Vector2 Scale(Vector2 position, float xScale, float yScale, Vector2 centerPoint)
         {
             return new Vector2(
