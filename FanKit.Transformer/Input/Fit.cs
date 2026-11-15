@@ -8,9 +8,9 @@ namespace FanKit.Transformer.Input
 
         public Rectangle Bounds;
 
-        public float TranslateX => Coord.Translate.X;
+        public float TranslateX => Coord.TranslateX;
 
-        public float TranslateY => Coord.Translate.Y;
+        public float TranslateY => Coord.TranslateY;
 
         public float ScaleFactor => Coord.ScaleFactor;
 
@@ -43,8 +43,8 @@ namespace FanKit.Transformer.Input
             }
 
             // 3. X & Y
-            Bounds.X = Coord.Translate.X = viewport.ViewportX + (viewport.ViewportWidth - Bounds.Width) / 2f;
-            Bounds.Y = Coord.Translate.Y = viewport.ViewportY + (viewport.ViewportHeight - Bounds.Height) / 2f;
+            Bounds.X = Coord.TranslateX = viewport.ViewportX + (viewport.ViewportWidth - Bounds.Width) / 2f;
+            Bounds.Y = Coord.TranslateY = viewport.ViewportY + (viewport.ViewportHeight - Bounds.Height) / 2f;
         }
     }
 }

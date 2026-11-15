@@ -111,7 +111,7 @@ namespace FanKit.Transformer.Input
         {
             r = new Rotation();
             s = Scales(coord.ScaleFactor, coord.InverseScaleFactor);
-            t = Translate(coord.Translate.X, coord.Translate.Y);
+            t = Translate(coord.TranslateX, coord.TranslateY);
 
             p1 = new MatrixPair(r, c);
             p2 = Pair(t, s, c);

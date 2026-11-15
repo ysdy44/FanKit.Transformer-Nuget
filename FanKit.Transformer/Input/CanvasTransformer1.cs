@@ -66,7 +66,7 @@ namespace FanKit.Transformer.Input
         public void Fit(Coordinate coord)
         {
             s = Scales(coord.ScaleFactor, coord.InverseScaleFactor);
-            t = Translate(coord.Translate.X, coord.Translate.Y);
+            t = Translate(coord.TranslateX, coord.TranslateY);
 
             p2 = Pair(t, s);
         }

@@ -5,7 +5,9 @@ namespace FanKit.Transformer.Mathematics
 {
     public struct Coordinate
     {
-        public Vector2 Translate;
+        public float TranslateX;
+
+        public float TranslateY;
 
         public float ScaleFactor;
 
@@ -16,21 +18,22 @@ namespace FanKit.Transformer.Mathematics
             get
             {
                 return new Matrix3x2(ScaleFactor, 0f, 0f, ScaleFactor, // Scale
-                    Translate.X, Translate.Y); // Translate
+                    TranslateX, TranslateY); // Translate
             }
         }
 
         public Coordinate(Vector2 translate, float scaleFactor)
         {
-            Translate = translate;
+            TranslateX = translate.X;
+            TranslateY = translate.Y;
             ScaleFactor = scaleFactor;
             InverseScaleFactor = 1f / ScaleFactor;
         }
 
         public Coordinate(float translateX, float translateY, float scaleFactor)
         {
-            Translate.X = translateX;
-            Translate.Y = translateY;
+            TranslateX = translateX;
+            TranslateY = translateY;
             ScaleFactor = scaleFactor;
             InverseScaleFactor = 1f / ScaleFactor;
         }
@@ -40,24 +43,24 @@ namespace FanKit.Transformer.Mathematics
         {
             if (amount <= 0f)
             {
-                Translate.X = form.Translate.X;
-                Translate.Y = form.Translate.Y;
+                TranslateX = form.TranslateX;
+                TranslateY = form.TranslateY;
                 ScaleFactor = form.ScaleFactor;
                 InverseScaleFactor = form.InverseScaleFactor;
             }
             else if (amount >= 1f)
             {
-                Translate.X = to.Translate.X;
-                Translate.Y = to.Translate.Y;
+                TranslateX = to.TranslateX;
+                TranslateY = to.TranslateY;
                 ScaleFactor = to.ScaleFactor;
                 InverseScaleFactor = to.InverseScaleFactor;
             }
             else
             {
-                var r = 1f - amount;
+                float r = 1f - amount;
 
-                Translate.X = form.Translate.X * r + to.Translate.X * amount;
-                Translate.Y = form.Translate.Y * r + to.Translate.Y * amount;
+                TranslateX = form.TranslateX * r + to.TranslateX * amount;
+                TranslateY = form.TranslateY * r + to.TranslateY * amount;
                 ScaleFactor = form.ScaleFactor * r + to.ScaleFactor * amount;
                 InverseScaleFactor = form.InverseScaleFactor * r + to.InverseScaleFactor * amount;
             }
@@ -67,16 +70,16 @@ namespace FanKit.Transformer.Mathematics
         public Vector2 Transform(Vector2 position)
         {
             return new Vector2(
-                position.X * ScaleFactor + Translate.X,
-                position.Y * ScaleFactor + Translate.Y);
+                position.X * ScaleFactor + TranslateX,
+                position.Y * ScaleFactor + TranslateY);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2 Transform(float positionX, float positionY)
         {
             return new Vector2(
-                positionX * ScaleFactor + Translate.X,
-                positionY * ScaleFactor + Translate.Y);
+                positionX * ScaleFactor + TranslateX,
+                positionY * ScaleFactor + TranslateY);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -99,16 +102,16 @@ namespace FanKit.Transformer.Mathematics
         public Vector2 InverseTransform(Vector2 position)
         {
             return new Vector2(
-                (position.X - Translate.X) * InverseScaleFactor,
-                (position.Y - Translate.Y) * InverseScaleFactor);
+                (position.X - TranslateX) * InverseScaleFactor,
+                (position.Y - TranslateY) * InverseScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2 InverseTransform(float positionX, float positionY)
         {
             return new Vector2(
-                (positionX - Translate.X) * InverseScaleFactor,
-                (positionY - Translate.Y) * InverseScaleFactor);
+                (positionX - TranslateX) * InverseScaleFactor,
+                (positionY - TranslateY) * InverseScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -133,14 +136,14 @@ namespace FanKit.Transformer.Mathematics
             return new Node
             {
                 Point = new Vector2(
-                    node.Point.X * ScaleFactor + Translate.X,
-                    node.Point.Y * ScaleFactor + Translate.Y),
+                    node.Point.X * ScaleFactor + TranslateX,
+                    node.Point.Y * ScaleFactor + TranslateY),
                 LeftControlPoint = new Vector2(
-                    node.LeftControlPoint.X * ScaleFactor + Translate.X,
-                    node.LeftControlPoint.Y * ScaleFactor + Translate.Y),
+                    node.LeftControlPoint.X * ScaleFactor + TranslateX,
+                    node.LeftControlPoint.Y * ScaleFactor + TranslateY),
                 RightControlPoint = new Vector2(
-                    node.RightControlPoint.X * ScaleFactor + Translate.X,
-                    node.RightControlPoint.Y * ScaleFactor + Translate.Y),
+                    node.RightControlPoint.X * ScaleFactor + TranslateX,
+                    node.RightControlPoint.Y * ScaleFactor + TranslateY),
             };
         }
 
@@ -150,14 +153,14 @@ namespace FanKit.Transformer.Mathematics
             return new Triangle
             {
                 LeftTop = new Vector2(
-                    triangle.LeftTop.X * ScaleFactor + Translate.X,
-                    triangle.LeftTop.Y * ScaleFactor + Translate.Y),
+                    triangle.LeftTop.X * ScaleFactor + TranslateX,
+                    triangle.LeftTop.Y * ScaleFactor + TranslateY),
                 RightTop = new Vector2(
-                    triangle.RightTop.X * ScaleFactor + Translate.X,
-                    triangle.RightTop.Y * ScaleFactor + Translate.Y),
+                    triangle.RightTop.X * ScaleFactor + TranslateX,
+                    triangle.RightTop.Y * ScaleFactor + TranslateY),
                 LeftBottom = new Vector2(
-                    triangle.LeftBottom.X * ScaleFactor + Translate.X,
-                    triangle.LeftBottom.Y * ScaleFactor + Translate.Y),
+                    triangle.LeftBottom.X * ScaleFactor + TranslateX,
+                    triangle.LeftBottom.Y * ScaleFactor + TranslateY),
             };
         }
 
@@ -167,30 +170,30 @@ namespace FanKit.Transformer.Mathematics
             return new Quadrilateral
             {
                 LeftTop = new Vector2(
-                    quad.LeftTop.X * ScaleFactor + Translate.X,
-                    quad.LeftTop.Y * ScaleFactor + Translate.Y),
+                    quad.LeftTop.X * ScaleFactor + TranslateX,
+                    quad.LeftTop.Y * ScaleFactor + TranslateY),
                 RightTop = new Vector2(
-                    quad.RightTop.X * ScaleFactor + Translate.X,
-                    quad.RightTop.Y * ScaleFactor + Translate.Y),
+                    quad.RightTop.X * ScaleFactor + TranslateX,
+                    quad.RightTop.Y * ScaleFactor + TranslateY),
                 LeftBottom = new Vector2(
-                    quad.LeftBottom.X * ScaleFactor + Translate.X,
-                    quad.LeftBottom.Y * ScaleFactor + Translate.Y),
+                    quad.LeftBottom.X * ScaleFactor + TranslateX,
+                    quad.LeftBottom.Y * ScaleFactor + TranslateY),
                 RightBottom = new Vector2(
-                    quad.RightBottom.X * ScaleFactor + Translate.X,
-                    quad.RightBottom.Y * ScaleFactor + Translate.Y),
+                    quad.RightBottom.X * ScaleFactor + TranslateX,
+                    quad.RightBottom.Y * ScaleFactor + TranslateY),
             };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix3x2 Transform(Matrix3x2 matrix)
         {
-            return Math.Transform(matrix, Translate.X, Translate.Y, ScaleFactor);
+            return Math.Transform(matrix, TranslateX, TranslateY, ScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4 Transform(Matrix4x4 matrix)
         {
-            return Math.Transform(matrix, Translate.X, Translate.Y, ScaleFactor);
+            return Math.Transform(matrix, TranslateX, TranslateY, ScaleFactor);
         }
     }
 }
