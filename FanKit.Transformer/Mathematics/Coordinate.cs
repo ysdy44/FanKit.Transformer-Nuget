@@ -129,13 +129,13 @@ namespace FanKit.Transformer.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix3x2 Transform(Matrix3x2 matrix)
         {
-            return Math.Transform(matrix, Translate, ScaleFactor);
+            return Math.Transform(matrix, Translate.X, Translate.Y, ScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4 Transform(Matrix4x4 matrix)
         {
-            return Math.Transform(matrix, Translate, ScaleFactor);
+            return Math.Transform(matrix, Translate.X, Translate.Y, ScaleFactor);
         }
     }
 }

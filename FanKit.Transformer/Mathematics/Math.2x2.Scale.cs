@@ -44,11 +44,25 @@ namespace FanKit.Transformer.Mathematics
                 position.Y * scale + translate.Y);
         }
 
+        public static Vector2 Transform(Vector2 position, float translateX, float translateY, float scale)
+        {
+            return new Vector2(
+                position.X * scale + translateX,
+                position.Y * scale + translateY);
+        }
+
         public static Vector2 Transform(Vector2 position, Vector2 translate, Vector2 scales)
         {
             return new Vector2(
                 position.X * scales.X + translate.X,
                 position.Y * scales.Y + translate.Y);
+        }
+
+        public static Vector2 Transform(Vector2 position, float translateX, float translateY, Vector2 scales)
+        {
+            return new Vector2(
+                position.X * scales.X + translateX,
+                position.Y * scales.Y + translateY);
         }
 
         public static Vector2 Transform(Vector2 position, Vector2 translate, float scale, Vector2 centerPoint)
@@ -58,11 +72,25 @@ namespace FanKit.Transformer.Mathematics
                 (position.Y - centerPoint.Y) * scale + centerPoint.Y + translate.Y);
         }
 
+        public static Vector2 Transform(Vector2 position, float translateX, float translateY, float scale, Vector2 centerPoint)
+        {
+            return new Vector2(
+                (position.X - centerPoint.X) * scale + centerPoint.X + translateX,
+                (position.Y - centerPoint.Y) * scale + centerPoint.Y + translateY);
+        }
+
         public static Vector2 Transform(Vector2 position, Vector2 translate, Vector2 scales, Vector2 centerPoint)
         {
             return new Vector2(
                 (position.X - centerPoint.X) * scales.X + centerPoint.X + translate.X,
                 (position.Y - centerPoint.Y) * scales.Y + centerPoint.Y + translate.Y);
+        }
+
+        public static Vector2 Transform(Vector2 position, float translateX, float translateY, Vector2 scales, Vector2 centerPoint)
+        {
+            return new Vector2(
+                (position.X - centerPoint.X) * scales.X + centerPoint.X + translateX,
+                (position.Y - centerPoint.Y) * scales.Y + centerPoint.Y + translateY);
         }
 
         // -------------------- 2x2_2x2 -------------------- // 
@@ -78,6 +106,17 @@ namespace FanKit.Transformer.Mathematics
             TranslateY = matrix.TranslateY * scale + translate.Y,
         };
 
+        public static Matrix2x2 Transform(Matrix2x2 matrix, float translateX, float translateY, float scale) => new Matrix2x2
+        {
+            // First row
+            ScaleX = matrix.ScaleX * scale,
+            ScaleY = matrix.ScaleY * scale,
+
+            // Second row
+            TranslateX = matrix.TranslateX * scale + translateX,
+            TranslateY = matrix.TranslateY * scale + translateY,
+        };
+
         public static Matrix2x2 Transform(Matrix2x2 matrix, Vector2 translate, Vector2 scales) => new Matrix2x2
         {
             // First row
@@ -87,6 +126,17 @@ namespace FanKit.Transformer.Mathematics
             // Second row
             TranslateX = matrix.TranslateX * scales.X + translate.X,
             TranslateY = matrix.TranslateY * scales.Y + translate.Y,
+        };
+
+        public static Matrix2x2 Transform(Matrix2x2 matrix, float translateX, float translateY, Vector2 scales) => new Matrix2x2
+        {
+            // First row
+            ScaleX = matrix.ScaleX * scales.X,
+            ScaleY = matrix.ScaleY * scales.Y,
+
+            // Second row
+            TranslateX = matrix.TranslateX * scales.X + translateX,
+            TranslateY = matrix.TranslateY * scales.Y + translateY,
         };
 
         public static Matrix2x2 Transform(Matrix2x2 matrix, Rectangle transform) => new Matrix2x2
@@ -119,6 +169,21 @@ namespace FanKit.Transformer.Mathematics
             M32 = matrix.M32 * scale + translate.Y,
         };
 
+        public static Matrix3x2 Transform(Matrix3x2 matrix, float translateX, float translateY, float scale) => new Matrix3x2
+        {
+            // First row
+            M11 = matrix.M11 * scale,
+            M12 = matrix.M12 * scale,
+
+            // Second row
+            M21 = matrix.M21 * scale,
+            M22 = matrix.M22 * scale,
+
+            // Third row
+            M31 = matrix.M31 * scale + translateX,
+            M32 = matrix.M32 * scale + translateY,
+        };
+
         public static Matrix3x2 Transform(Matrix3x2 matrix, Vector2 translate, Vector2 scales) => new Matrix3x2
         {
             // First row
@@ -132,6 +197,21 @@ namespace FanKit.Transformer.Mathematics
             // Third row
             M31 = matrix.M31 * scales.X + translate.X,
             M32 = matrix.M32 * scales.Y + translate.Y,
+        };
+
+        public static Matrix3x2 Transform(Matrix3x2 matrix, float translateX, float translateY, Vector2 scales) => new Matrix3x2
+        {
+            // First row
+            M11 = matrix.M11 * scales.X,
+            M12 = matrix.M12 * scales.Y,
+
+            // Second row
+            M21 = matrix.M21 * scales.X,
+            M22 = matrix.M22 * scales.Y,
+
+            // Third row
+            M31 = matrix.M31 * scales.X + translateX,
+            M32 = matrix.M32 * scales.Y + translateY,
         };
 
         public static Matrix3x2 Transform(Matrix3x2 matrix, Rectangle transform) => new Matrix3x2
@@ -164,7 +244,7 @@ namespace FanKit.Transformer.Mathematics
             M32 = matrix.M32 * transform.ScaleY + transform.TranslateY,
         };
 
-        // -------------------- 3x3_2x2 -------------------- // 
+        // -------------------- 3x3_2x2 -------------------- //
 
         public static Matrix4x4 Transform(Matrix4x4 matrix, Vector2 translate, float scale) => new Matrix4x4(
             // First row
@@ -191,6 +271,31 @@ namespace FanKit.Transformer.Mathematics
             matrix.M43,
             matrix.M44);
 
+        public static Matrix4x4 Transform(Matrix4x4 matrix, float translateX, float translateY, float scale) => new Matrix4x4(
+            // First row
+            matrix.M11 * scale + matrix.M14 * translateX,
+            matrix.M12 * scale + matrix.M14 * translateY,
+            matrix.M13,
+            matrix.M14,
+
+            // Second row
+            matrix.M21 * scale + matrix.M24 * translateX,
+            matrix.M22 * scale + matrix.M24 * translateY,
+            matrix.M23,
+            matrix.M24,
+
+            // Third row
+            matrix.M31,
+            matrix.M32,
+            matrix.M33,
+            matrix.M34,
+
+            // Fourth row
+            matrix.M41 * scale + matrix.M44 * translateX,
+            matrix.M42 * scale + matrix.M44 * translateY,
+            matrix.M43,
+            matrix.M44);
+
         public static Matrix4x4 Transform(Matrix4x4 matrix, Vector2 translate, Vector2 scales) => new Matrix4x4(
             // First row
             matrix.M11 * scales.X + matrix.M14 * translate.X,
@@ -213,6 +318,31 @@ namespace FanKit.Transformer.Mathematics
             // Fourth row
             matrix.M41 * scales.X + matrix.M44 * translate.X,
             matrix.M42 * scales.Y + matrix.M44 * translate.Y,
+            matrix.M43,
+            matrix.M44);
+
+        public static Matrix4x4 Transform(Matrix4x4 matrix, float translateX, float translateY, Vector2 scales) => new Matrix4x4(
+            // First row
+            matrix.M11 * scales.X + matrix.M14 * translateX,
+            matrix.M12 * scales.Y + matrix.M14 * translateY,
+            matrix.M13,
+            matrix.M14,
+
+            // Second row
+            matrix.M21 * scales.X + matrix.M24 * translateX,
+            matrix.M22 * scales.Y + matrix.M24 * translateY,
+            matrix.M23,
+            matrix.M24,
+
+            // Third row
+            matrix.M31,
+            matrix.M32,
+            matrix.M33,
+            matrix.M34,
+
+            // Fourth row
+            matrix.M41 * scales.X + matrix.M44 * translateX,
+            matrix.M42 * scales.Y + matrix.M44 * translateY,
             matrix.M43,
             matrix.M44);
     }
