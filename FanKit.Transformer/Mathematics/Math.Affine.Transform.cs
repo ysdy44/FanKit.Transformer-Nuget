@@ -27,28 +27,26 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 1x2_2x2 -------------------- // 
 
+        public static Matrix2x2 Map(float sourceWidth, float sourceHeight, Matrix2x2 destination) => new Matrix2x2
+        {
+            ScaleX = destination.ScaleX / sourceWidth,
+            ScaleY = destination.ScaleY / sourceHeight,
+            TranslateX = destination.TranslateX,
+            TranslateY = destination.TranslateY,
+        };
+
         public static Matrix2x2 Map(float sourceWidth, float sourceHeight, Rectangle destination) => new Matrix2x2
         {
-            // First row
             ScaleX = destination.Width / sourceWidth,
-
-            // Second row
             ScaleY = destination.Height / sourceHeight,
-
-            // Third row
             TranslateX = destination.X,
             TranslateY = destination.Y,
         };
 
         public static Matrix2x2 Map(float sourceWidth, float sourceHeight, float destinationX, float destinationY, float destinationWidth, float destinationHeight) => new Matrix2x2
         {
-            // First row
             ScaleX = destinationWidth / sourceWidth,
-
-            // Second row
             ScaleY = destinationHeight / sourceHeight,
-
-            // Third row
             TranslateX = destinationX,
             TranslateY = destinationY,
         };
@@ -83,6 +81,20 @@ namespace FanKit.Transformer.Mathematics
                 ScaleY = sy,
                 TranslateX = destination.TranslateX - source.TranslateX * sx,
                 TranslateY = destination.TranslateY - source.TranslateY * sy,
+            };
+        }
+
+        public static Matrix2x2 Map(this Rectangle source, Rectangle destination)
+        {
+            float sx = destination.Width / source.Width;
+            float sy = destination.Height / source.Height;
+
+            return new Matrix2x2
+            {
+                ScaleX = sx,
+                ScaleY = sy,
+                TranslateX = destination.X - source.X * sx,
+                TranslateY = destination.Y - source.Y * sy,
             };
         }
 

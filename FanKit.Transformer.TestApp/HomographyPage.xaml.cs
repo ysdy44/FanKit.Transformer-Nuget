@@ -182,11 +182,9 @@ namespace FanKit.Transformer.TestApp
     public sealed class BidirectionalMapPage : HomographyPage
     {
         Rectangle LeftDest;
-        Matrix2x2 LeftNorm;
         Matrix3x2 LeftMatrix;
 
         Rectangle RightDest;
-        Matrix2x2 RightNorm;
         Matrix3x2 RightMatrix;
 
         SizeMatrix SourceNormalize;
@@ -218,13 +216,11 @@ namespace FanKit.Transformer.TestApp
 
         public override void InitializeMatrix()
         {
-            this.LeftNorm = this.LeftDest.Normalize();
-            this.LeftMatrix = this.SourceNormalize.Map(this.LeftNorm).ToMatrix3x2();
+            this.LeftMatrix = this.SourceNormalize.Map(this.LeftDest).ToMatrix3x2();
 
-            this.RightNorm = this.RightDest.Normalize();
-            this.RightMatrix = this.SourceNormalize.Map(this.RightNorm).ToMatrix3x2();
+            this.RightMatrix = this.SourceNormalize.Map(this.RightDest).ToMatrix3x2();
 
-            this.Matrix = this.LeftNorm.Map(this.RightNorm).ToMatrix3x2();
+            this.Matrix = this.LeftDest.Map(this.RightDest).ToMatrix3x2();
         }
 
         public override void Draw(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, CanvasBitmap bitmap)
