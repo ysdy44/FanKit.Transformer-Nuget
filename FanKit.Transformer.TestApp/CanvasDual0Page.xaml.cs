@@ -23,7 +23,7 @@ namespace FanKit.Transformer.TestApp
     /// <see cref="SettingsDialog0"/>
     /// <see cref="CanvasOperator2"/>
     ///
-    /// <see cref="Vector2"/>
+    /// <see cref="FitUnits.CanvasTransformer0"/>
     /// <see cref="CanvasTransformer0"/>
     /// </summary>
     public abstract partial class CanvasDual0Page : Page
@@ -39,7 +39,7 @@ namespace FanKit.Transformer.TestApp
         public Vector2 Position;
 
         Viewport ThumbView;
-        Fit1 ThumbFit;
+        Fit ThumbFit;
         ViewportThumbnail ViewThumb;
         readonly CanvasOperator1 ThumbCanvasOperator;
 
@@ -49,7 +49,7 @@ namespace FanKit.Transformer.TestApp
         readonly CanvasOperator2 CanvasOperatorDestination;
 
         Viewport View;
-        Vector2 Fit;
+        Fit Fit;
         Bounds TransformedBounds = new Bounds(CW, CH);
         readonly Bounds Bounds = new Bounds(CW, CH);
         public readonly CanvasTransformer0 Canvas = new CanvasTransformer0();
@@ -126,7 +126,7 @@ namespace FanKit.Transformer.TestApp
                     ViewportWidth = (float)e.NewSize.Width,
                     ViewportHeight = (float)e.NewSize.Height,
                 };
-                this.Fit = this.View.ToFitTranslation();
+                this.Fit = this.View.ToFit(FitUnits.CanvasTransformer0);
 
                 if (this.CanvasControlSource.ReadyToDraw)
                 {
@@ -146,7 +146,7 @@ namespace FanKit.Transformer.TestApp
                     ViewportWidth = (float)e.NewSize.Width,
                     ViewportHeight = (float)e.NewSize.Height,
                 };
-                this.Fit = this.View.ToFitTranslation();
+                this.Fit = this.View.ToFit(FitUnits.CanvasTransformer0);
 
                 if (this.CanvasControlDestination.ReadyToDraw)
                 {
@@ -282,7 +282,7 @@ namespace FanKit.Transformer.TestApp
                     ViewportWidth = (float)e.NewSize.Width,
                     ViewportHeight = (float)e.NewSize.Height,
                 };
-                this.ThumbFit = this.ThumbView.ToFit1();
+                this.ThumbFit = this.ThumbView.ToFit(FitUnits.Thumbnail);
 
                 if (this.CanvasControlSource.ReadyToDraw)
                 //if (this.CanvasControlDestination.ReadyToDraw)
@@ -294,7 +294,7 @@ namespace FanKit.Transformer.TestApp
             this.ThumbCanvasOperator.Single_Start += (startingX, startingY, p) =>
             {
                 this.StartingPoint = this.Point = new Vector2((float)startingX, (float)startingY);
-                this.StartingPosition = this.Position = this.StartingPoint * this.ThumbFit.Coord.InverseScaleFactor;
+                this.StartingPosition = this.Position = this.ThumbFit.Coord.InverseTransform(this.StartingPoint);
 
                 this.Canvas.CacheMove(CanvasMoveUnits.Thumbnail);
 
@@ -303,7 +303,7 @@ namespace FanKit.Transformer.TestApp
             this.ThumbCanvasOperator.Single_Delta += (x, y, p) =>
             {
                 this.Point = new Vector2((float)x, (float)y);
-                this.Position = this.Point * this.ThumbFit.Coord.InverseScaleFactor;
+                this.Position = this.ThumbFit.Coord.InverseTransform(this.Point);
 
                 this.Canvas.Move(this.StartingPosition, this.Position, CanvasMoveUnits.Thumbnail);
 
@@ -350,7 +350,7 @@ namespace FanKit.Transformer.TestApp
 
         public void InitCanvas()
         {
-            this.Canvas.Fit(this.Fit);
+            this.Canvas.Fit(this.Fit.TranslateX, this.Fit.TranslateY);
             this.CanvasHub.Update(this.Canvas);
             this.TransformedBounds = this.Canvas.TransformSize(CW, CH);
             this.ViewThumb = new ViewportThumbnail(this.View, this.Canvas, this.ThumbFit.Coord);

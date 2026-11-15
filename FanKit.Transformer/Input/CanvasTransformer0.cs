@@ -32,9 +32,9 @@ namespace FanKit.Transformer.Input
         public float OriginX => p2.mat.M31;
         public float OriginY => p2.mat.M32;
 
-        public void Fit(Vector2 translation)
+        public void Fit(float translateX, float translateY)
         {
-            t = Translate(translation.X, translation.Y);
+            t = Translate(translateX, translateY);
 
             p2 = Pair(t);
         }

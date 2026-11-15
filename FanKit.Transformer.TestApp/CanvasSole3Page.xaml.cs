@@ -24,7 +24,7 @@ namespace FanKit.Transformer.TestApp
     /// <see cref="SettingsDialog3"/>
     /// <see cref="CanvasOperator3"/>
     ///
-    /// <see cref="Fit2"/>
+    /// <see cref="FitUnits.CanvasTransformer3"/>
     /// <see cref="CanvasTransformer3"/>
     /// </summary>
     public abstract partial class CanvasSole3Page : Page
@@ -47,10 +47,10 @@ namespace FanKit.Transformer.TestApp
             ViewportWidth = 200,
             ViewportHeight = 200,
         };
-        Fit2 FormFit;
+        Fit FormFit;
 
         Viewport ThumbView;
-        Fit1 ThumbFit;
+        Fit ThumbFit;
         ViewportThumbnail ViewThumb;
         readonly CanvasOperator1 ThumbCanvasOperator;
 
@@ -59,7 +59,7 @@ namespace FanKit.Transformer.TestApp
         readonly CanvasOperator3 CanvasOperator;
 
         Viewport View;
-        Fit2 Fit;
+        Fit Fit;
         Quadrilateral TransformedBounds = new Quadrilateral(CW, CH);
         readonly Quadrilateral Bounds = new Quadrilateral(CW, CH);
         public readonly CanvasTransformer3 Canvas = new CanvasTransformer3(CW / 2f, CH / 2f);
@@ -119,7 +119,7 @@ namespace FanKit.Transformer.TestApp
                     ViewportWidth = (float)e.NewSize.Width,
                     ViewportHeight = (float)e.NewSize.Height,
                 };
-                this.Fit = this.View.ToFit2();
+                this.Fit = this.View.ToFit(FitUnits.CanvasTransformer3);
 
                 if (this.CanvasControl.ReadyToDraw)
                 {
@@ -295,7 +295,7 @@ namespace FanKit.Transformer.TestApp
                 this.UpdateCanvasControl2();
             };
 
-            this.FormFit = this.FormView.ToFit2(1f);
+            this.FormFit = this.FormView.ToFit(FitUnits.CanvasTransformer3, 1f);
             this.AnimatePad.ValueChanged += (s, e) =>
             {
                 float amount = (float)(e.NewValue / 100);
@@ -309,7 +309,7 @@ namespace FanKit.Transformer.TestApp
             {
                 this.FormView.ViewportX = e.X;
                 this.FormView.ViewportY = e.Y;
-                this.FormFit = this.FormView.ToFit2(1f);
+                this.FormFit = this.FormView.ToFit(FitUnits.CanvasTransformer3, 1f);
 
                 float amount = (float)(this.AnimatePad.Value / 100);
 
@@ -348,7 +348,7 @@ namespace FanKit.Transformer.TestApp
                     ViewportWidth = (float)e.NewSize.Width,
                     ViewportHeight = (float)e.NewSize.Height,
                 };
-                this.ThumbFit = this.ThumbView.ToFit1();
+                this.ThumbFit = this.ThumbView.ToFit(FitUnits.Thumbnail);
 
                 if (this.CanvasControl.ReadyToDraw)
                 {
@@ -359,7 +359,7 @@ namespace FanKit.Transformer.TestApp
             this.ThumbCanvasOperator.Single_Start += (startingX, startingY, p) =>
             {
                 this.StartingPoint = this.Point = new Vector2((float)startingX, (float)startingY);
-                this.StartingPosition = this.Position = this.StartingPoint * this.ThumbFit.Coord.InverseScaleFactor;
+                this.StartingPosition = this.Position = this.ThumbFit.Coord.InverseTransform(this.StartingPoint);
 
                 this.Canvas.CacheMove(CanvasMoveUnits.Thumbnail);
 
@@ -368,7 +368,7 @@ namespace FanKit.Transformer.TestApp
             this.ThumbCanvasOperator.Single_Delta += (x, y, p) =>
             {
                 this.Point = new Vector2((float)x, (float)y);
-                this.Position = this.Point * this.ThumbFit.Coord.InverseScaleFactor;
+                this.Position = this.ThumbFit.Coord.InverseTransform(this.Point);
 
                 this.Canvas.Move(this.StartingPosition, this.Position, CanvasMoveUnits.Thumbnail);
 
@@ -421,7 +421,7 @@ namespace FanKit.Transformer.TestApp
 
             this.CanvasHub.RotateChanged += (s, e) =>
             {
-                this.Canvas.Rotation = (float)e.NewValue / 180f * System.MathF.PI;
+                this.Canvas.Rotation = (float)e.NewValue * Mathematics.Math.PI / 180f;
 
                 this.UpdateCanvasControl2();
             };

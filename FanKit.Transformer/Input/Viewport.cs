@@ -15,6 +15,11 @@ namespace FanKit.Transformer.Input
         public float ViewportWidth;
         public float ViewportHeight;
 
+        public Fit ToFit(FitUnits unit, float scale = 0.9f)
+        {
+            return new Fit(this, unit, scale);
+        }
+
         public Fit1 ToFit1(float padding = 0.9f) => new Fit1(this, padding);
         public Fit2 ToFit2(float padding = 0.9f) => new Fit2(this, padding);
 

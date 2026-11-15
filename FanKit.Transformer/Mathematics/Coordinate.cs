@@ -27,18 +27,28 @@ namespace FanKit.Transformer.Mathematics
             InverseScaleFactor = 1f / ScaleFactor;
         }
 
+        public Coordinate(float translateX, float translateY, float scaleFactor)
+        {
+            Translate.X = translateX;
+            Translate.Y = translateY;
+            ScaleFactor = scaleFactor;
+            InverseScaleFactor = 1f / ScaleFactor;
+        }
+
         //public static Coordinate Animation(Coordinate form, Coordinate to, float amount)
         public Coordinate(Coordinate form, Coordinate to, float amount)
         {
             if (amount <= 0f)
             {
-                Translate = form.Translate;
+                Translate.X = form.Translate.X;
+                Translate.Y = form.Translate.Y;
                 ScaleFactor = form.ScaleFactor;
                 InverseScaleFactor = form.InverseScaleFactor;
             }
             else if (amount >= 1f)
             {
-                Translate = to.Translate;
+                Translate.X = to.Translate.X;
+                Translate.Y = to.Translate.Y;
                 ScaleFactor = to.ScaleFactor;
                 InverseScaleFactor = to.InverseScaleFactor;
             }
@@ -46,11 +56,8 @@ namespace FanKit.Transformer.Mathematics
             {
                 var r = 1f - amount;
 
-                Translate = new Vector2
-                {
-                    X = form.Translate.X * r + to.Translate.X * amount,
-                    Y = form.Translate.Y * r + to.Translate.Y * amount,
-                };
+                Translate.X = form.Translate.X * r + to.Translate.X * amount;
+                Translate.Y = form.Translate.Y * r + to.Translate.Y * amount;
                 ScaleFactor = form.ScaleFactor * r + to.ScaleFactor * amount;
                 InverseScaleFactor = form.InverseScaleFactor * r + to.InverseScaleFactor * amount;
             }
@@ -70,6 +77,54 @@ namespace FanKit.Transformer.Mathematics
             return new Vector2(
                 positionX * ScaleFactor + Translate.X,
                 positionY * ScaleFactor + Translate.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2 Scale(Vector2 position)
+        {
+            return new Vector2(
+                position.X * ScaleFactor,
+                position.Y * ScaleFactor);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2 Scale(float positionX, float positionY)
+        {
+            return new Vector2(
+                positionX * ScaleFactor,
+                positionY * ScaleFactor);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2 InverseTransform(Vector2 position)
+        {
+            return new Vector2(
+                (position.X - Translate.X) * InverseScaleFactor,
+                (position.Y - Translate.Y) * InverseScaleFactor);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2 InverseTransform(float positionX, float positionY)
+        {
+            return new Vector2(
+                (positionX - Translate.X) * InverseScaleFactor,
+                (positionY - Translate.Y) * InverseScaleFactor);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2 InverseScale(Vector2 position)
+        {
+            return new Vector2(
+                position.X * InverseScaleFactor,
+                position.Y * InverseScaleFactor);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2 InverseScale(float positionX, float positionY)
+        {
+            return new Vector2(
+                positionX * InverseScaleFactor,
+                positionY * InverseScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
