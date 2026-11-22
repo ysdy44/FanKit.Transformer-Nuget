@@ -10,10 +10,10 @@ namespace FanKit.Transformer.Mathematics
             Y = matrix.M12 * position.X + matrix.M22 * position.Y + matrix.M32,
         };
 
-        public static Vector2 Transform(float positionX, float positionY, Matrix3x2 matrix) => new Vector2
+        public static Vector2 Transform(float xPosition, float yPosition, Matrix3x2 matrix) => new Vector2
         {
-            X = matrix.M11 * positionX + matrix.M21 * positionY + matrix.M31,
-            Y = matrix.M12 * positionX + matrix.M22 * positionY + matrix.M32,
+            X = matrix.M11 * xPosition + matrix.M21 * yPosition + matrix.M31,
+            Y = matrix.M12 * xPosition + matrix.M22 * yPosition + matrix.M32,
         };
 
         //public static Matrix2x2 Transform(Matrix2x2 value1, Matrix3x2 value2) => value1 * value2;
@@ -29,12 +29,12 @@ namespace FanKit.Transformer.Mathematics
 
             // Third row
             M31 = value1.TranslateX * value2.M11 + value1.TranslateY * value2.M21 + value2.M31,
-            M32 = value1.TranslateX * value2.M12 + value1.TranslateY * value2.M22 + value2.M32
+            M32 = value1.TranslateX * value2.M12 + value1.TranslateY * value2.M22 + value2.M32,
         };
 
         public static Matrix3x2 Transform(Matrix3x2 value1, Matrix3x2 value2) => value1 * value2;
 
-        // -------------------- 1x2_3x2 -------------------- // 
+        // -------------------- 1x2_3x2 -------------------- //
 
         public static Matrix3x2 TransformTranslation(Vector2 translate, Matrix3x2 matrix) => new Matrix3x2
         {
@@ -66,15 +66,8 @@ namespace FanKit.Transformer.Mathematics
             M32 = matrix.M12 * translateX + matrix.M22 * translateY + matrix.M32,
         };
 
-        // -------------------- 3x3_3x2 -------------------- // 
+        // -------------------- 3x3_3x2 -------------------- //
 
-        // float m11 = dst.M11;
-        // float m13 = dst.M21;
-        // float m15 = dst.M31;
-
-        // float m12 = dst.M12;
-        // float m14 = dst.M22;
-        // float m16 = dst.M32;
         public static Matrix4x4 Transform(Matrix4x4 value1, Matrix3x2 value2) => new Matrix4x4
         {
             // X 123
@@ -97,7 +90,7 @@ namespace FanKit.Transformer.Mathematics
             M14 = value1.M14,
             M24 = value1.M24,
             M34 = value1.M34,
-            M44 = value1.M44
+            M44 = value1.M44,
         };
 
         public static Matrix4x4 Multiply(Matrix4x4 value1, Matrix3x2 value2) => new Matrix4x4
@@ -122,7 +115,7 @@ namespace FanKit.Transformer.Mathematics
             M41 = value1.M41 * value2.M11 + value1.M42 * value2.M21 + value1.M44 * value2.M31,
             M42 = value1.M41 * value2.M12 + value1.M42 * value2.M22 + value1.M44 * value2.M32,
             M43 = value1.M43,
-            M44 = value1.M44
+            M44 = value1.M44,
         };
     }
 }

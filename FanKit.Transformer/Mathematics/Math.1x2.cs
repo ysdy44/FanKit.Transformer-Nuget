@@ -60,7 +60,7 @@ namespace FanKit.Transformer.Mathematics
                 (position.Y - centerPoint.Y) * yScale + centerPoint.Y);
         }
 
-        // -------------------- 2x2_1x2 -------------------- // 
+        // -------------------- 2x2_1x2 -------------------- //
 
         public static Matrix2x2 Translate(Matrix2x2 matrix, Vector2 translate) => new Matrix2x2
         {
@@ -141,7 +141,7 @@ namespace FanKit.Transformer.Mathematics
             TranslateY = matrix.TranslateY * yScale,
         };
 
-        // -------------------- 3x2_1x2 -------------------- // 
+        // -------------------- 3x2_1x2 -------------------- //
 
         public static Matrix3x2 Translate(Matrix3x2 matrix, Vector2 translate) => new Matrix3x2
         {
@@ -250,185 +250,181 @@ namespace FanKit.Transformer.Mathematics
             M32 = matrix.M32 * yScale,
         };
 
-        // -------------------- 3x3_1x2 -------------------- // 
+        // -------------------- 3x3_1x2 -------------------- //
 
         public static Matrix4x4 Translate(Matrix4x4 matrix, Vector2 translate) => new Matrix4x4(
-            // First row
-            matrix.M11 + matrix.M14 * translate.X,
-            matrix.M12 + matrix.M14 * translate.Y,
-            matrix.M13,
-            matrix.M14,
+                // First row
+                matrix.M11 + matrix.M14 * translate.X,
+                matrix.M12 + matrix.M14 * translate.Y,
+                matrix.M13,
+                matrix.M14,
 
-            // Second row
-            matrix.M21 + matrix.M24 * translate.X,
-            matrix.M22 + matrix.M24 * translate.Y,
-            matrix.M23,
-            matrix.M24,
+                // Second row
+                matrix.M21 + matrix.M24 * translate.X,
+                matrix.M22 + matrix.M24 * translate.Y,
+                matrix.M23,
+                matrix.M24,
 
-            // Third row
-            matrix.M31,
-            matrix.M32,
-            matrix.M33,
-            matrix.M34,
+                // Third row
+                matrix.M31,
+                matrix.M32,
+                matrix.M33,
+                matrix.M34,
 
-            // Fourth row
-            matrix.M41 + matrix.M44 * translate.X,
-            matrix.M42 + matrix.M44 * translate.Y,
-            matrix.M43,
-            matrix.M44
-        );
+                // Fourth row
+                matrix.M41 + matrix.M44 * translate.X,
+                matrix.M42 + matrix.M44 * translate.Y,
+                matrix.M43,
+                matrix.M44);
 
         public static Matrix4x4 Translate(Matrix4x4 matrix, float translateX, float translateY) => new Matrix4x4(
-            // First row
-            matrix.M11 + matrix.M14 * translateX,
-            matrix.M12 + matrix.M14 * translateY,
-            matrix.M13,
-            matrix.M14,
+                // First row
+                matrix.M11 + matrix.M14 * translateX,
+                matrix.M12 + matrix.M14 * translateY,
+                matrix.M13,
+                matrix.M14,
 
-            // Second row
-            matrix.M21 + matrix.M24 * translateX,
-            matrix.M22 + matrix.M24 * translateY,
-            matrix.M23,
-            matrix.M24,
+                // Second row
+                matrix.M21 + matrix.M24 * translateX,
+                matrix.M22 + matrix.M24 * translateY,
+                matrix.M23,
+                matrix.M24,
 
-            // Third row
-            matrix.M31,
-            matrix.M32,
-            matrix.M33,
-            matrix.M34,
+                // Third row
+                matrix.M31,
+                matrix.M32,
+                matrix.M33,
+                matrix.M34,
 
-            // Fourth row
-            matrix.M41 + matrix.M44 * translateX,
-            matrix.M42 + matrix.M44 * translateY,
-            matrix.M43,
-            matrix.M44
-        );
+                // Fourth row
+                matrix.M41 + matrix.M44 * translateX,
+                matrix.M42 + matrix.M44 * translateY,
+                matrix.M43,
+                matrix.M44);
 
         public static Matrix4x4 TranslateX(Matrix4x4 matrix, float translateX) => new Matrix4x4(
-            // First row
-            matrix.M11 + matrix.M14 * translateX,
-            matrix.M12,
-            matrix.M13,
-            matrix.M14,
+                // First row
+                matrix.M11 + matrix.M14 * translateX,
+                matrix.M12,
+                matrix.M13,
+                matrix.M14,
 
-            // Second row
-            matrix.M21 + matrix.M24 * translateX,
-            matrix.M22,
-            matrix.M23,
-            matrix.M24,
+                // Second row
+                matrix.M21 + matrix.M24 * translateX,
+                matrix.M22,
+                matrix.M23,
+                matrix.M24,
 
-            // Third row
-            matrix.M31,
-            matrix.M32,
-            matrix.M33,
-            matrix.M34,
+                // Third row
+                matrix.M31,
+                matrix.M32,
+                matrix.M33,
+                matrix.M34,
 
-            // Fourth row
-            matrix.M41 + matrix.M44 * translateX,
-            matrix.M42,
-            matrix.M43,
-            matrix.M44
-        );
+                // Fourth row
+                matrix.M41 + matrix.M44 * translateX,
+                matrix.M42,
+                matrix.M43,
+                matrix.M44);
 
         public static Matrix4x4 TranslateY(Matrix4x4 matrix, float translateY) => new Matrix4x4(
-            // First row
-            matrix.M11,
-            matrix.M12 + matrix.M14 * translateY,
-            matrix.M13,
-            matrix.M14,
+                // First row
+                matrix.M11,
+                matrix.M12 + matrix.M14 * translateY,
+                matrix.M13,
+                matrix.M14,
 
-            // Second row
-            matrix.M21,
-            matrix.M22 + matrix.M24 * translateY,
-            matrix.M23,
-            matrix.M24,
+                // Second row
+                matrix.M21,
+                matrix.M22 + matrix.M24 * translateY,
+                matrix.M23,
+                matrix.M24,
 
-            // Third row
-            matrix.M31,
-            matrix.M32,
-            matrix.M33,
-            matrix.M34,
+                // Third row
+                matrix.M31,
+                matrix.M32,
+                matrix.M33,
+                matrix.M34,
 
-            // Fourth row
-            matrix.M41,
-            matrix.M42 + matrix.M44 * translateY,
-            matrix.M43,
-            matrix.M44
-        );
+                // Fourth row
+                matrix.M41,
+                matrix.M42 + matrix.M44 * translateY,
+                matrix.M43,
+                matrix.M44);
 
         public static Matrix4x4 Scale(Matrix4x4 matrix, float scale) => new Matrix4x4(
-            // First row
-            matrix.M11 * scale,
-            matrix.M12 * scale,
-            matrix.M13,
-            matrix.M14,
+                // First row
+                matrix.M11 * scale,
+                matrix.M12 * scale,
+                matrix.M13,
+                matrix.M14,
 
-            // Second row
-            matrix.M21 * scale,
-            matrix.M22 * scale,
-            matrix.M23,
-            matrix.M24,
+                // Second row
+                matrix.M21 * scale,
+                matrix.M22 * scale,
+                matrix.M23,
+                matrix.M24,
 
-            // Third row
-            matrix.M31,
-            matrix.M32,
-            matrix.M33,
-            matrix.M34,
+                // Third row
+                matrix.M31,
+                matrix.M32,
+                matrix.M33,
+                matrix.M34,
 
-            // Fourth row
-            matrix.M41 * scale,
-            matrix.M42 * scale,
-            matrix.M43,
-            matrix.M44);
+                // Fourth row
+                matrix.M41 * scale,
+                matrix.M42 * scale,
+                matrix.M43,
+                matrix.M44);
 
         public static Matrix4x4 Scale(Matrix4x4 matrix, Vector2 scales) => new Matrix4x4(
-            // First row
-            matrix.M11 * scales.X,
-            matrix.M12 * scales.Y,
-            matrix.M13,
-            matrix.M14,
+                // First row
+                matrix.M11 * scales.X,
+                matrix.M12 * scales.Y,
+                matrix.M13,
+                matrix.M14,
 
-            // Second row
-            matrix.M21 * scales.X,
-            matrix.M22 * scales.Y,
-            matrix.M23,
-            matrix.M24,
+                // Second row
+                matrix.M21 * scales.X,
+                matrix.M22 * scales.Y,
+                matrix.M23,
+                matrix.M24,
 
-            // Third row
-            matrix.M31,
-            matrix.M32,
-            matrix.M33,
-            matrix.M34,
+                // Third row
+                matrix.M31,
+                matrix.M32,
+                matrix.M33,
+                matrix.M34,
 
-            // Fourth row
-            matrix.M41 * scales.X,
-            matrix.M42 * scales.Y,
-            matrix.M43,
-            matrix.M44);
+                // Fourth row
+                matrix.M41 * scales.X,
+                matrix.M42 * scales.Y,
+                matrix.M43,
+                matrix.M44);
 
         public static Matrix4x4 Scale(Matrix4x4 matrix, float xScale, float yScale) => new Matrix4x4(
-            // First row
-            matrix.M11 * xScale,
-            matrix.M12 * yScale,
-            matrix.M13,
-            matrix.M14,
+                // First row
+                matrix.M11 * xScale,
+                matrix.M12 * yScale,
+                matrix.M13,
+                matrix.M14,
 
-            // Second row
-            matrix.M21 * xScale,
-            matrix.M22 * yScale,
-            matrix.M23,
-            matrix.M24,
+                // Second row
+                matrix.M21 * xScale,
+                matrix.M22 * yScale,
+                matrix.M23,
+                matrix.M24,
 
-            // Third row
-            matrix.M31,
-            matrix.M32,
-            matrix.M33,
-            matrix.M34,
+                // Third row
+                matrix.M31,
+                matrix.M32,
+                matrix.M33,
+                matrix.M34,
 
-            // Fourth row
-            matrix.M41 * xScale,
-            matrix.M42 * yScale,
-            matrix.M43,
-            matrix.M44);
+                // Fourth row
+                matrix.M41 * xScale,
+                matrix.M42 * yScale,
+                matrix.M43,
+                matrix.M44);
     }
 }

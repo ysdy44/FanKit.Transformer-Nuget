@@ -22,11 +22,11 @@ namespace FanKit.Transformer
                 position.X * this.S + position.Y * this.C);
         }
 
-        public Vector2 Transform(float x, float y)
+        public Vector2 Transform(float xPosition, float yPosition)
         {
             return new Vector2(
-                x * this.C - y * this.S,
-                x * this.S + y * this.C);
+                xPosition * this.C - yPosition * this.S,
+                xPosition * this.S + yPosition * this.C);
         }
 
         internal Vector2 Normalize()

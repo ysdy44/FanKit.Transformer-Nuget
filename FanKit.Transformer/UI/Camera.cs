@@ -51,19 +51,19 @@ namespace FanKit.Transformer.UI
             this.M = this.Y * this.X * this.Z * this.S * this.T;
         }
 
-        public Vector3 Rotate(Vector3 point)
+        public Vector3 Rotate(Vector3 position)
         {
-            return Vector3.Transform(point, this.N);
+            return Vector3.Transform(position, this.N);
         }
 
-        public Vector3 InverseRotate(Vector3 point)
+        public Vector3 InverseRotate(Vector3 position)
         {
-            return Vector3.Transform(point, this.NI);
+            return Vector3.Transform(position, this.NI);
         }
 
-        public Vector3 Transform(Vector3 point)
+        public Vector3 Transform(Vector3 position)
         {
-            return Vector3.Transform(point, this.M);
+            return Vector3.Transform(position, this.M);
         }
 
         public Plane Transform(Plane plane)

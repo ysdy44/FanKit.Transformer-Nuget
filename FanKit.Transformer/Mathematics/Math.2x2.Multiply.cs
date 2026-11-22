@@ -10,13 +10,13 @@ namespace FanKit.Transformer.Mathematics
             Y = matrix.ScaleY * position.Y + matrix.TranslateY,
         };
 
-        public static Vector2 Transform(float positionX, float positionY, Matrix2x2 matrix) => new Vector2
+        public static Vector2 Transform(float xPosition, float yPosition, Matrix2x2 matrix) => new Vector2
         {
-            X = matrix.ScaleX * positionX + matrix.TranslateX,
-            Y = matrix.ScaleY * positionY + matrix.TranslateY,
+            X = matrix.ScaleX * xPosition + matrix.TranslateX,
+            Y = matrix.ScaleY * yPosition + matrix.TranslateY,
         };
 
-        // -------------------- 1x2_3x2 -------------------- // 
+        // -------------------- 1x2_3x2 -------------------- //
 
         public static Matrix2x2 TransformTranslation(Vector2 translate, Matrix2x2 matrix) => new Matrix2x2
         {

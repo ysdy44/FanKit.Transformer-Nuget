@@ -18,11 +18,11 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        public static Vector2 TransformNormal(float positionX, float positionY, Matrix4x4 matrix)
+        public static Vector2 TransformNormal(float xPosition, float yPosition, Matrix4x4 matrix)
         {
-            float tx = matrix.M11 * positionX + matrix.M21 * positionY + matrix.M41;
-            float ty = matrix.M12 * positionX + matrix.M22 * positionY + matrix.M42;
-            float tz = matrix.M14 * positionX + matrix.M24 * positionY + matrix.M44;
+            float tx = matrix.M11 * xPosition + matrix.M21 * yPosition + matrix.M41;
+            float ty = matrix.M12 * xPosition + matrix.M22 * yPosition + matrix.M42;
+            float tz = matrix.M14 * xPosition + matrix.M24 * yPosition + matrix.M44;
 
             return new Vector2
             {
@@ -39,11 +39,11 @@ namespace FanKit.Transformer.Mathematics
             return new Vector2(tx / tz, ty / tz);
         }
 
-        public static Vector2 Transform(float positionX, float positionY, Matrix4x4 matrix)
+        public static Vector2 Transform(float xPosition, float yPosition, Matrix4x4 matrix)
         {
-            float tx = matrix.M11 * positionX + matrix.M21 * positionY + matrix.M41;
-            float ty = matrix.M12 * positionX + matrix.M22 * positionY + matrix.M42;
-            float tz = matrix.M14 * positionX + matrix.M24 * positionY + matrix.M44;
+            float tx = matrix.M11 * xPosition + matrix.M21 * yPosition + matrix.M41;
+            float ty = matrix.M12 * xPosition + matrix.M22 * yPosition + matrix.M42;
+            float tz = matrix.M14 * xPosition + matrix.M24 * yPosition + matrix.M44;
             return new Vector2(tx / tz, ty / tz);
         }
 
@@ -64,7 +64,7 @@ namespace FanKit.Transformer.Mathematics
             // XYZ 2
             M12 = value2.M11 * value1.M12 + value2.M21 * value1.M22 + value2.M41 * value1.M32,
             M22 = value2.M12 * value1.M12 + value2.M22 * value1.M22 + value2.M42 * value1.M32,
-            M32 = value2.M14 * value1.M12 + value2.M24 * value1.M22 + value2.M44 * value1.M32
+            M32 = value2.M14 * value1.M12 + value2.M24 * value1.M22 + value2.M44 * value1.M32,
         };
     }
 }

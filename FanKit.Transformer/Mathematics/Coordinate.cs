@@ -75,11 +75,11 @@ namespace FanKit.Transformer.Mathematics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2 Transform(float positionX, float positionY)
+        public Vector2 Transform(float xPosition, float yPosition)
         {
             return new Vector2(
-                positionX * ScaleFactor + TranslateX,
-                positionY * ScaleFactor + TranslateY);
+                xPosition * ScaleFactor + TranslateX,
+                yPosition * ScaleFactor + TranslateY);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,11 +91,11 @@ namespace FanKit.Transformer.Mathematics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2 Scale(float positionX, float positionY)
+        public Vector2 Scale(float xPosition, float yPosition)
         {
             return new Vector2(
-                positionX * ScaleFactor,
-                positionY * ScaleFactor);
+                xPosition * ScaleFactor,
+                yPosition * ScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -107,11 +107,11 @@ namespace FanKit.Transformer.Mathematics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2 InverseTransform(float positionX, float positionY)
+        public Vector2 InverseTransform(float xPosition, float yPosition)
         {
             return new Vector2(
-                (positionX - TranslateX) * InverseScaleFactor,
-                (positionY - TranslateY) * InverseScaleFactor);
+                (xPosition - TranslateX) * InverseScaleFactor,
+                (yPosition - TranslateY) * InverseScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -123,11 +123,11 @@ namespace FanKit.Transformer.Mathematics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector2 InverseScale(float positionX, float positionY)
+        public Vector2 InverseScale(float xPosition, float yPosition)
         {
             return new Vector2(
-                positionX * InverseScaleFactor,
-                positionY * InverseScaleFactor);
+                xPosition * InverseScaleFactor,
+                yPosition * InverseScaleFactor);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
