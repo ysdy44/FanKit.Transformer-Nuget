@@ -231,6 +231,19 @@ namespace FanKit.Transformer.Input
             };
         }
 
+        private void Align(Vector2 pos, float cx, float cy)
+        {
+            t = Translate(cx - pos.X, cy - pos.Y);
+
+            p2 = Pair(t);
+        }
+
+        public void Align(Vector2 position, Vector2 point) => Align(position, point.X, point.Y);
+
+        public void Align(Vector2 position, Viewport viewport) => Align(position,
+            viewport.ViewportX + viewport.ViewportWidth / 2f,
+            viewport.ViewportY + viewport.ViewportHeight / 2f);
+
         public void CacheMove(CanvasMoveUnits unit)
         {
             tx = 0f;

@@ -141,6 +141,27 @@ namespace FanKit.Transformer.Input
         public Quadrilateral InverseTransform(Quadrilateral quad) => quad * p3.inv;
         public Quadrilateral InverseTransformSize(float width, float height) => new Quadrilateral(width, height, p3.inv);
 
+        private void Align(Vector2 pos, float cx, float cy)
+        {
+            var m = Matrix3x2.CreateRotation(r.X);
+            m.M31 = c.Z * m.M11 + c.W * m.M21;
+            m.M32 = c.Z * m.M12 + c.W * m.M22;
+
+            var p = Math.Transform(pos, m);
+            var x = cx - p.X * s.X - c.X;
+            var y = cy - p.Y * s.X - c.Y;
+            t = Translate(x, y);
+
+            p2 = Pair(t, s, c);
+            p3 = Pair(p1, p2);
+        }
+
+        public void Align(Vector2 position, Vector2 point) => Align(position, point.X, point.Y);
+
+        public void Align(Vector2 position, Viewport viewport) => Align(position,
+            viewport.ViewportX + viewport.ViewportWidth / 2f,
+            viewport.ViewportY + viewport.ViewportHeight / 2f);
+
         public void CacheMove(CanvasMoveUnits unit)
         {
             tx = 0f;

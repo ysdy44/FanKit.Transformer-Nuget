@@ -374,7 +374,21 @@ namespace FanKit.Transformer.TestApp
 
                 this.UpdateCanvasControl2();
             };
-            this.ThumbCanvasOperator.Single_Complete += (x, y, p) => { };
+            this.ThumbCanvasOperator.Single_Complete += (x, y, p) =>
+            {
+                this.Point = new Vector2((float)x, (float)y);
+                this.Position = this.ThumbFit.Coord.InverseTransform(this.Point);
+
+                if (System.Math.Abs(this.StartingPoint.X - this.Point.X) < 4d)
+                {
+                    if (System.Math.Abs(this.StartingPoint.Y - this.Point.Y) < 4d)
+                    {
+                        this.Canvas.Align(this.Position, this.View);
+                    }
+                }
+
+                this.UpdateCanvasControl2();
+            };
 
             this.SettingsDialog.TouchModeChanged += delegate
             {
