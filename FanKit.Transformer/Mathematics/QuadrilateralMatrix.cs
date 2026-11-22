@@ -143,7 +143,7 @@ namespace FanKit.Transformer.Mathematics
             x.M0 = (b.M0 - A.M01 * x.M1 - A.M02 * x.M2 - A.M03 * x.M3 - A.M04 * x.M4 - A.M05 * x.M5 - A.M06 * x.M6 - A.M07 * x.M7) / A.M00;
         }
 
-        // -------------------- 3x3_1x2 -------------------- // 
+        // -------------------- 3x3_1x2 -------------------- //
 
         public Matrix4x4 InvPersp(float destinationWidth, float destinationHeight)
         {
@@ -229,7 +229,7 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        // -------------------- 3x3_3x2 -------------------- // 
+        // -------------------- 3x3_3x2 -------------------- //
 
         public Matrix4x4 BidiPersp(Matrix4x4 destinationNormalize)
         {

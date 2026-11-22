@@ -466,7 +466,7 @@ namespace FanKit.Transformer.Polylines
                 }
             }
         }
-
+        
         internal override void CacheMap()
         {
             foreach (Figure figure in this.Figures)
@@ -491,7 +491,7 @@ namespace FanKit.Transformer.Polylines
                 }
             }
         }
-
+        
         internal override void TranslateStarting()
         {
             this.BeginExtend();
@@ -521,7 +521,7 @@ namespace FanKit.Transformer.Polylines
             }
             this.EndExtend();
         }
-
+        
         internal override void TransformStarting()
         {
             this.BeginExtend();

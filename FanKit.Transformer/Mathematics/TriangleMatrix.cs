@@ -27,7 +27,7 @@ namespace FanKit.Transformer.Mathematics
             can = Matrix3x2.Invert(mat, out inv);
         }
 
-        // -------------------- 3x2_1x2 -------------------- // 
+        // -------------------- 3x2_1x2 -------------------- //
 
         public Matrix3x2 InvAffine(float destinationWidth, float destinationHeight)
             => can ? Math.Scale(inv, destinationWidth, destinationHeight) : Math.Affine(destinationWidth, destinationHeight);
@@ -40,7 +40,7 @@ namespace FanKit.Transformer.Mathematics
         public Matrix3x2 InvAffine(Rectangle destination)
             => can ? Math.Transform(inv, destination) : destination.ToMatrix3x2();
 
-        // -------------------- 3x2_3x2 -------------------- // 
+        // -------------------- 3x2_3x2 -------------------- //
 
         public Matrix3x2 BidiAffine(Matrix3x2 destinationNormalize)
             => can ? inv * destinationNormalize : destinationNormalize;

@@ -23,7 +23,7 @@ namespace FanKit.Transformer.UI
         readonly Vector4 yl;
         readonly Vector4 yr;
 
-         readonly Quadrilateral ql;
+        readonly Quadrilateral ql;
         readonly Quadrilateral qr;
 
         // 0.0 ~ 1.0

@@ -86,7 +86,7 @@ namespace FanKit.Transformer.Mathematics
             };
         }
 
-        // -------------------- 2x2_2x2 -------------------- // 
+        // -------------------- 2x2_2x2 -------------------- //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix2x2 Map(Matrix2x2 destinationNormalize) => new Matrix2x2
@@ -124,7 +124,7 @@ namespace FanKit.Transformer.Mathematics
             TranslateY = destinationY + destinationHeight * W,
         };
 
-        // -------------------- 2x2_3x2 -------------------- // 
+        // -------------------- 2x2_3x2 -------------------- //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix3x2 Affine(Matrix3x2 destinationNormalize) => new Matrix3x2
@@ -148,7 +148,7 @@ namespace FanKit.Transformer.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix3x2 Affine(Quadrilateral destination) => Affine(destination.Norm());
 
-        // -------------------- 2x2_3x3 -------------------- // 
+        // -------------------- 2x2_3x3 -------------------- //
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4 Persp(Matrix4x4 destinationNormalize) => P(destinationNormalize);
