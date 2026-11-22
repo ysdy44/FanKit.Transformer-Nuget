@@ -1,44 +1,53 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace FanKit.Transformer.Mathematics
 {
     partial class Math
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Translate(Vector2 position, Vector2 translate)
         {
             return new Vector2(position.X + translate.X, position.Y + translate.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Translate(Vector2 position, float translateX, float translateY)
         {
             return new Vector2(position.X + translateX, position.Y + translateY);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 TranslateX(Vector2 position, float translateX)
         {
             return new Vector2(position.X + translateX, position.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 TranslateY(Vector2 position, float translateY)
         {
             return new Vector2(position.X, position.Y + translateY);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Scale(Vector2 position, float scale)
         {
             return new Vector2(position.X * scale, position.Y * scale);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Scale(Vector2 position, Vector2 scales)
         {
             return new Vector2(position.X * scales.X, position.Y * scales.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Scale(Vector2 position, float xScale, float yScale)
         {
             return new Vector2(position.X * xScale, position.Y * yScale);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Scale(Vector2 position, float scale, Vector2 centerPoint)
         {
             return new Vector2(
@@ -46,6 +55,7 @@ namespace FanKit.Transformer.Mathematics
                 (position.Y - centerPoint.Y) * scale + centerPoint.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Scale(Vector2 position, Vector2 scales, Vector2 centerPoint)
         {
             return new Vector2(
@@ -53,6 +63,7 @@ namespace FanKit.Transformer.Mathematics
                 (position.Y - centerPoint.Y) * scales.Y + centerPoint.Y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Scale(Vector2 position, float xScale, float yScale, Vector2 centerPoint)
         {
             return new Vector2(
@@ -62,197 +73,256 @@ namespace FanKit.Transformer.Mathematics
 
         // -------------------- 2x2_1x2 -------------------- //
 
-        public static Matrix2x2 Translate(Matrix2x2 matrix, Vector2 translate) => new Matrix2x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2 Translate(Matrix2x2 matrix, Vector2 translate)
         {
-            // First row
-            ScaleX = matrix.ScaleX,
-            ScaleY = matrix.ScaleY,
+            return new Matrix2x2
+            {
+                // First row
+                ScaleX = matrix.ScaleX,
+                ScaleY = matrix.ScaleY,
 
-            // Second row
-            TranslateX = matrix.TranslateX + translate.X,
-            TranslateY = matrix.TranslateY + translate.Y,
-        };
+                // Second row
+                TranslateX = matrix.TranslateX + translate.X,
+                TranslateY = matrix.TranslateY + translate.Y,
+            };
+        }
 
-        public static Matrix2x2 Translate(Matrix2x2 matrix, float translateX, float translateY) => new Matrix2x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2 Translate(Matrix2x2 matrix, float translateX, float translateY)
         {
-            // First row
-            ScaleX = matrix.ScaleX,
-            ScaleY = matrix.ScaleY,
+            return new Matrix2x2
+            {
+                // First row
+                ScaleX = matrix.ScaleX,
+                ScaleY = matrix.ScaleY,
 
-            // Second row
-            TranslateX = matrix.TranslateX + translateX,
-            TranslateY = matrix.TranslateY + translateY,
-        };
+                // Second row
+                TranslateX = matrix.TranslateX + translateX,
+                TranslateY = matrix.TranslateY + translateY,
+            };
+        }
 
-        public static Matrix2x2 TranslateX(Matrix2x2 matrix, float translateX) => new Matrix2x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2 TranslateX(Matrix2x2 matrix, float translateX)
         {
-            // First row
-            ScaleX = matrix.ScaleX,
-            ScaleY = matrix.ScaleY,
+            return new Matrix2x2
+            {
+                // First row
+                ScaleX = matrix.ScaleX,
+                ScaleY = matrix.ScaleY,
 
-            // Second row
-            TranslateX = matrix.TranslateX + translateX,
-            TranslateY = matrix.TranslateY,
-        };
+                // Second row
+                TranslateX = matrix.TranslateX + translateX,
+                TranslateY = matrix.TranslateY,
+            };
+        }
 
-        public static Matrix2x2 TranslateY(Matrix2x2 matrix, float translateY) => new Matrix2x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2 TranslateY(Matrix2x2 matrix, float translateY)
         {
-            // First row
-            ScaleX = matrix.ScaleX,
-            ScaleY = matrix.ScaleY,
+            return new Matrix2x2
+            {
+                // First row
+                ScaleX = matrix.ScaleX,
+                ScaleY = matrix.ScaleY,
 
-            // Second row
-            TranslateX = matrix.TranslateX,
-            TranslateY = matrix.TranslateY + translateY,
-        };
+                // Second row
+                TranslateX = matrix.TranslateX,
+                TranslateY = matrix.TranslateY + translateY,
+            };
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static Matrix2x2 Scale(Matrix2x2 matrix, float scale) => matrix * scale;
-        public static Matrix2x2 Scale(Matrix2x2 matrix, float scale) => new Matrix2x2
+        public static Matrix2x2 Scale(Matrix2x2 matrix, float scale)
         {
-            // First row
-            ScaleX = matrix.ScaleX * scale,
-            ScaleY = matrix.ScaleY * scale,
+            return new Matrix2x2
+            {
+                // First row
+                ScaleX = matrix.ScaleX * scale,
+                ScaleY = matrix.ScaleY * scale,
 
-            // Second row
-            TranslateX = matrix.TranslateX * scale,
-            TranslateY = matrix.TranslateY * scale,
-        };
+                // Second row
+                TranslateX = matrix.TranslateX * scale,
+                TranslateY = matrix.TranslateY * scale,
+            };
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static Matrix3x2 Scale(Matrix3x2 matrix, Vector2 scales) => matrix * scales;
-        public static Matrix2x2 Scale(Matrix2x2 matrix, Vector2 scales) => new Matrix2x2
+        public static Matrix2x2 Scale(Matrix2x2 matrix, Vector2 scales)
         {
-            // First row
-            ScaleX = matrix.ScaleX * scales.X,
-            ScaleY = matrix.ScaleY * scales.Y,
+            return new Matrix2x2
+            {
+                // First row
+                ScaleX = matrix.ScaleX * scales.X,
+                ScaleY = matrix.ScaleY * scales.Y,
 
-            // Second row
-            TranslateX = matrix.TranslateX * scales.X,
-            TranslateY = matrix.TranslateY * scales.Y,
-        };
+                // Second row
+                TranslateX = matrix.TranslateX * scales.X,
+                TranslateY = matrix.TranslateY * scales.Y,
+            };
+        }
 
-        public static Matrix2x2 Scale(Matrix2x2 matrix, float xScale, float yScale) => new Matrix2x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix2x2 Scale(Matrix2x2 matrix, float xScale, float yScale)
         {
-            // First row
-            ScaleX = matrix.ScaleX * xScale,
-            ScaleY = matrix.ScaleY * yScale,
+            return new Matrix2x2
+            {
+                // First row
+                ScaleX = matrix.ScaleX * xScale,
+                ScaleY = matrix.ScaleY * yScale,
 
-            // Second row
-            TranslateX = matrix.TranslateX * xScale,
-            TranslateY = matrix.TranslateY * yScale,
-        };
+                // Second row
+                TranslateX = matrix.TranslateX * xScale,
+                TranslateY = matrix.TranslateY * yScale,
+            };
+        }
 
         // -------------------- 3x2_1x2 -------------------- //
 
-        public static Matrix3x2 Translate(Matrix3x2 matrix, Vector2 translate) => new Matrix3x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x2 Translate(Matrix3x2 matrix, Vector2 translate)
         {
-            // First row
-            M11 = matrix.M11,
-            M12 = matrix.M12,
+            return new Matrix3x2
+            {
+                // First row
+                M11 = matrix.M11,
+                M12 = matrix.M12,
 
-            // Second row
-            M21 = matrix.M21,
-            M22 = matrix.M22,
+                // Second row
+                M21 = matrix.M21,
+                M22 = matrix.M22,
 
-            // Third row
-            M31 = matrix.M31 + translate.X,
-            M32 = matrix.M32 + translate.Y,
-        };
+                // Third row
+                M31 = matrix.M31 + translate.X,
+                M32 = matrix.M32 + translate.Y,
+            };
+        }
 
-        public static Matrix3x2 Translate(Matrix3x2 matrix, float translateX, float translateY) => new Matrix3x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x2 Translate(Matrix3x2 matrix, float translateX, float translateY)
         {
-            // First row
-            M11 = matrix.M11,
-            M12 = matrix.M12,
+            return new Matrix3x2
+            {
+                // First row
+                M11 = matrix.M11,
+                M12 = matrix.M12,
 
-            // Second row
-            M21 = matrix.M21,
-            M22 = matrix.M22,
+                // Second row
+                M21 = matrix.M21,
+                M22 = matrix.M22,
 
-            // Third row
-            M31 = matrix.M31 + translateX,
-            M32 = matrix.M32 + translateY,
-        };
+                // Third row
+                M31 = matrix.M31 + translateX,
+                M32 = matrix.M32 + translateY,
+            };
+        }
 
-        public static Matrix3x2 TranslateX(Matrix3x2 matrix, float translateX) => new Matrix3x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x2 TranslateX(Matrix3x2 matrix, float translateX)
         {
-            // First row
-            M11 = matrix.M11,
-            M12 = matrix.M12,
+            return new Matrix3x2
+            {
+                // First row
+                M11 = matrix.M11,
+                M12 = matrix.M12,
 
-            // Second row
-            M21 = matrix.M21,
-            M22 = matrix.M22,
+                // Second row
+                M21 = matrix.M21,
+                M22 = matrix.M22,
 
-            // Third row
-            M31 = matrix.M31 + translateX,
-            M32 = matrix.M32,
-        };
+                // Third row
+                M31 = matrix.M31 + translateX,
+                M32 = matrix.M32,
+            };
+        }
 
-        public static Matrix3x2 TranslateY(Matrix3x2 matrix, float translateY) => new Matrix3x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x2 TranslateY(Matrix3x2 matrix, float translateY)
         {
-            // First row
-            M11 = matrix.M11,
-            M12 = matrix.M12,
+            return new Matrix3x2
+            {
+                // First row
+                M11 = matrix.M11,
+                M12 = matrix.M12,
 
-            // Second row
-            M21 = matrix.M21,
-            M22 = matrix.M22,
+                // Second row
+                M21 = matrix.M21,
+                M22 = matrix.M22,
 
-            // Third row
-            M31 = matrix.M31,
-            M32 = matrix.M32 + translateY,
-        };
+                // Third row
+                M31 = matrix.M31,
+                M32 = matrix.M32 + translateY,
+            };
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static Matrix3x2 Scale(Matrix3x2 matrix, float scale) => matrix * scale;
-        public static Matrix3x2 Scale(Matrix3x2 matrix, float scale) => new Matrix3x2
+        public static Matrix3x2 Scale(Matrix3x2 matrix, float scale)
         {
-            // First row
-            M11 = matrix.M11 * scale,
-            M12 = matrix.M12 * scale,
+            return new Matrix3x2
+            {
+                // First row
+                M11 = matrix.M11 * scale,
+                M12 = matrix.M12 * scale,
 
-            // Second row
-            M21 = matrix.M21 * scale,
-            M22 = matrix.M22 * scale,
+                // Second row
+                M21 = matrix.M21 * scale,
+                M22 = matrix.M22 * scale,
 
-            // Third row
-            M31 = matrix.M31 * scale,
-            M32 = matrix.M32 * scale,
-        };
+                // Third row
+                M31 = matrix.M31 * scale,
+                M32 = matrix.M32 * scale,
+            };
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         //public static Matrix3x2 Scale(Matrix3x2 matrix, Vector2 scales) => matrix * scales;
-        public static Matrix3x2 Scale(Matrix3x2 matrix, Vector2 scales) => new Matrix3x2
+        public static Matrix3x2 Scale(Matrix3x2 matrix, Vector2 scales)
         {
-            // First row
-            M11 = matrix.M11 * scales.X,
-            M12 = matrix.M12 * scales.Y,
+            return new Matrix3x2
+            {
+                // First row
+                M11 = matrix.M11 * scales.X,
+                M12 = matrix.M12 * scales.Y,
 
-            // Second row
-            M21 = matrix.M21 * scales.X,
-            M22 = matrix.M22 * scales.Y,
+                // Second row
+                M21 = matrix.M21 * scales.X,
+                M22 = matrix.M22 * scales.Y,
 
-            // Third row
-            M31 = matrix.M31 * scales.X,
-            M32 = matrix.M32 * scales.Y,
-        };
+                // Third row
+                M31 = matrix.M31 * scales.X,
+                M32 = matrix.M32 * scales.Y,
+            };
+        }
 
-        public static Matrix3x2 Scale(Matrix3x2 matrix, float xScale, float yScale) => new Matrix3x2
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix3x2 Scale(Matrix3x2 matrix, float xScale, float yScale)
         {
-            // First row
-            M11 = matrix.M11 * xScale,
-            M12 = matrix.M12 * yScale,
+            return new Matrix3x2
+            {
+                // First row
+                M11 = matrix.M11 * xScale,
+                M12 = matrix.M12 * yScale,
 
-            // Second row
-            M21 = matrix.M21 * xScale,
-            M22 = matrix.M22 * yScale,
+                // Second row
+                M21 = matrix.M21 * xScale,
+                M22 = matrix.M22 * yScale,
 
-            // Third row
-            M31 = matrix.M31 * xScale,
-            M32 = matrix.M32 * yScale,
-        };
+                // Third row
+                M31 = matrix.M31 * xScale,
+                M32 = matrix.M32 * yScale,
+            };
+        }
 
         // -------------------- 3x3_1x2 -------------------- //
 
-        public static Matrix4x4 Translate(Matrix4x4 matrix, Vector2 translate) => new Matrix4x4(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 Translate(Matrix4x4 matrix, Vector2 translate)
+        {
+            return new Matrix4x4(
                 // First row
                 matrix.M11 + matrix.M14 * translate.X,
                 matrix.M12 + matrix.M14 * translate.Y,
@@ -276,8 +346,12 @@ namespace FanKit.Transformer.Mathematics
                 matrix.M42 + matrix.M44 * translate.Y,
                 matrix.M43,
                 matrix.M44);
+        }
 
-        public static Matrix4x4 Translate(Matrix4x4 matrix, float translateX, float translateY) => new Matrix4x4(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 Translate(Matrix4x4 matrix, float translateX, float translateY)
+        {
+            return new Matrix4x4(
                 // First row
                 matrix.M11 + matrix.M14 * translateX,
                 matrix.M12 + matrix.M14 * translateY,
@@ -301,8 +375,12 @@ namespace FanKit.Transformer.Mathematics
                 matrix.M42 + matrix.M44 * translateY,
                 matrix.M43,
                 matrix.M44);
+        }
 
-        public static Matrix4x4 TranslateX(Matrix4x4 matrix, float translateX) => new Matrix4x4(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 TranslateX(Matrix4x4 matrix, float translateX)
+        {
+            return new Matrix4x4(
                 // First row
                 matrix.M11 + matrix.M14 * translateX,
                 matrix.M12,
@@ -326,8 +404,12 @@ namespace FanKit.Transformer.Mathematics
                 matrix.M42,
                 matrix.M43,
                 matrix.M44);
+        }
 
-        public static Matrix4x4 TranslateY(Matrix4x4 matrix, float translateY) => new Matrix4x4(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 TranslateY(Matrix4x4 matrix, float translateY)
+        {
+            return new Matrix4x4(
                 // First row
                 matrix.M11,
                 matrix.M12 + matrix.M14 * translateY,
@@ -351,8 +433,12 @@ namespace FanKit.Transformer.Mathematics
                 matrix.M42 + matrix.M44 * translateY,
                 matrix.M43,
                 matrix.M44);
+        }
 
-        public static Matrix4x4 Scale(Matrix4x4 matrix, float scale) => new Matrix4x4(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 Scale(Matrix4x4 matrix, float scale)
+        {
+            return new Matrix4x4(
                 // First row
                 matrix.M11 * scale,
                 matrix.M12 * scale,
@@ -376,8 +462,12 @@ namespace FanKit.Transformer.Mathematics
                 matrix.M42 * scale,
                 matrix.M43,
                 matrix.M44);
+        }
 
-        public static Matrix4x4 Scale(Matrix4x4 matrix, Vector2 scales) => new Matrix4x4(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 Scale(Matrix4x4 matrix, Vector2 scales)
+        {
+            return new Matrix4x4(
                 // First row
                 matrix.M11 * scales.X,
                 matrix.M12 * scales.Y,
@@ -401,8 +491,12 @@ namespace FanKit.Transformer.Mathematics
                 matrix.M42 * scales.Y,
                 matrix.M43,
                 matrix.M44);
+        }
 
-        public static Matrix4x4 Scale(Matrix4x4 matrix, float xScale, float yScale) => new Matrix4x4(
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 Scale(Matrix4x4 matrix, float xScale, float yScale)
+        {
+            return new Matrix4x4(
                 // First row
                 matrix.M11 * xScale,
                 matrix.M12 * yScale,
@@ -426,5 +520,6 @@ namespace FanKit.Transformer.Mathematics
                 matrix.M42 * yScale,
                 matrix.M43,
                 matrix.M44);
+        }
     }
 }
